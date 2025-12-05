@@ -1,0 +1,2 @@
+# KappaCupWinter_GalaxyHopper
+カッパ杯Winterに向けて制作したゲームです。
