@@ -7,6 +7,12 @@
     <Filter Include="Core">
       <UniqueIdentifier>{7eb9b1bb-a246-4a60-9bf6-50ae604b346d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{bb948d9a-10ab-4988-b3fe-3bb5adb484c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor">
+      <UniqueIdentifier>{887e6387-ef7a-40e2-8a16-13982c0c1f6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -18,6 +24,9 @@
     <ClCompile Include="Core\ParameterManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\PlayerStatus.cpp">
+      <Filter>Source\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -27,6 +36,9 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Core\ParameterManager.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\PlayerStatus.h">
+      <Filter>Source\Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
