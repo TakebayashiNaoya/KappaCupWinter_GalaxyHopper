@@ -10,13 +10,3 @@ FirstPlanet::FirstPlanet()
 {
 	InitModel("FirstPlanet/FirstPlanet");
 }
-
-
-FirstPlanet::~FirstPlanet()
-{
-}
-
-
-void FirstPlanet::Update()
-{
-}

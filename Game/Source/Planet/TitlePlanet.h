@@ -10,7 +10,7 @@ class TitlePlanet : public PlanetBase
 {
 public:
 	TitlePlanet();
-	~TitlePlanet();
+	~TitlePlanet() {};
 
 
 private:

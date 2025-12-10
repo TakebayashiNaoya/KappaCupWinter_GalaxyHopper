@@ -12,11 +12,6 @@ TitlePlanet::TitlePlanet()
 }
 
 
-TitlePlanet::~TitlePlanet()
-{
-}
-
-
 void TitlePlanet::Update()
 {
 	m_transform.m_localRotation.AddRotationX(-0.005f);

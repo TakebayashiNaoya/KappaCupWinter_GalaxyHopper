@@ -17,16 +17,6 @@ void PlanetBase::InitModel(const std::string filePath)
 }
 
 
-PlanetBase::PlanetBase()
-{
-}
-
-
-PlanetBase::~PlanetBase()
-{
-}
-
-
 void PlanetBase::Render(RenderContext& rc)
 {
 	m_modelRender.Draw(rc);

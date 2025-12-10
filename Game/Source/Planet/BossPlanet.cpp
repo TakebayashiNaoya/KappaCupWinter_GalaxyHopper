@@ -10,13 +10,3 @@ BossPlanet::BossPlanet()
 {
 	InitModel("BossPlanet/BossPlanet");
 }
-
-
-BossPlanet::~BossPlanet()
-{
-}
-
-
-void BossPlanet::Update()
-{
-}

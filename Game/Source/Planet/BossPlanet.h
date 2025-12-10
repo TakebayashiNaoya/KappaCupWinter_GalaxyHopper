@@ -10,9 +10,9 @@ class BossPlanet : public PlanetBase
 {
 public:
 	BossPlanet();
-	~BossPlanet();
+	~BossPlanet() {};
 
 
 private:
-	void Update() override final;
+	void Update() override final {};
 };

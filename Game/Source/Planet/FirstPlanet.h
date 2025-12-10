@@ -10,9 +10,9 @@ class FirstPlanet : public PlanetBase
 {
 public:
 	FirstPlanet();
-	~FirstPlanet();
+	~FirstPlanet() {};
 
 
 private:
-	void Update() override final;
+	void Update() override final {};
 };
