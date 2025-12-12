@@ -1,5 +1,10 @@
-{
-  "walkSpeed": 10.0,
-  "runSpeed": 20.0,
-  "jumpPower": 30.0
-}
+[
+  {
+    "comment": "プレイヤーのステータス",
+    "maxHp": 3,
+    "walkSpeed": 10.0,
+    "dashSpeed": 15.0,
+    "radius": 30.0,
+    "jumpPower": 30.0
+  }
+]
