@@ -1,11 +1,9 @@
-/**
- * PlayerIState.h
- * プレイヤーの各ステート
+﻿/**
+ * BasicEnemyIState.h
+ * ベーシックエネミーの各ステート
  */
 #pragma once
 #include "StateMachine.h"
-
-class StateMachine;
 
 
 namespace app
@@ -18,27 +16,8 @@ namespace app
 		class IdleState : public IState
 		{
 		public:
-			IdleState(StateMachine* owner);
+			IdleState(StateMachineBase* owner);
 			~IdleState();
-
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
-		};
-
-
-
-
-		/********************************/
-
-		/**
-		 * 歩く
-		 */
-		class WalkState : public IState
-		{
-		public:
-			WalkState(StateMachine* owner);
-			~WalkState();
 
 			void Enter() override;
 			void Update() override;
@@ -57,7 +36,7 @@ namespace app
 		class DashState : public IState
 		{
 		public:
-			DashState(StateMachine* owner);
+			DashState(StateMachineBase* owner);
 			~DashState();
 
 			void Enter() override;
@@ -72,53 +51,13 @@ namespace app
 
 
 		/**
-		 * ジャンプ
+		 * 待機
 		 */
-		class JumpState : public IState
+		class WaitState : public IState
 		{
 		public:
-			JumpState(StateMachine* owner);
-			~JumpState();
-
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
-		};
-
-
-
-
-		/********************************/
-
-
-		/**
-		 * ダメージを受ける
-		 */
-		class DamageState : public IState
-		{
-		public:
-			DamageState(StateMachine* owner);
-			~DamageState();
-
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
-		};
-
-
-
-
-		/********************************/
-
-
-		/**
-		 * 死に始める
-		 */
-		class DieState : public IState
-		{
-		public:
-			DieState(StateMachine* owner);
-			~DieState();
+			WaitState(StateMachineBase* owner);
+			~WaitState();
 
 			void Enter() override;
 			void Update() override;
@@ -137,7 +76,7 @@ namespace app
 		class DeadState : public IState
 		{
 		public:
-			DeadState(StateMachine* owner);
+			DeadState(StateMachineBase* owner);
 			~DeadState();
 
 			void Enter() override;
