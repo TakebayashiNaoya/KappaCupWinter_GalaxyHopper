@@ -22,6 +22,57 @@ public:\
   /** 全てのパラメータの親玉 */
 struct IMasterParameter {};
 
+/** プレイヤーのステータス */
+struct MasterPlayerStatusParameter : public IMasterParameter
+{
+	appParameter(MasterPlayerStatusParameter);
+	//
+	uint8_t maxHp;
+	float walkSpeed;
+	float dashSpeed;
+	float radius;
+	float jumpPower;
+};
+
+struct MasterBasicEnemyStatusParameter : public IMasterParameter
+{
+	appParameter(MasterBasicEnemyStatusParameter);
+	//
+	uint8_t maxHp;
+	float walkSpeed;
+	float dashSpeed;
+	float radius;
+	float hitRadius;
+};
+
+struct MasterDeformEnemyStatusParameter : public IMasterParameter
+{
+	appParameter(MasterDeformEnemyStatusParameter);
+	//
+	uint8_t maxHp;
+	float walkSpeed;
+	float dashSpeed;
+	float radius;
+	float hitRadius;
+	float slideSpeed;
+};
+
+struct MasterBossEnemyStatusParameter : public IMasterParameter
+{
+	appParameter(MasterBossEnemyStatusParameter);
+	//
+	uint8_t maxHp;
+	float walkSpeed;
+	float dashSpeed;
+	float radius;
+	float hitRadius;
+};
+
+
+/** defineの使用終了 */
+#undef appParameter
+
+
 /** パラメータ管理クラス */
 class ParameterManager
 {
@@ -66,6 +117,22 @@ public:
 			T* param = new T();
 			callback(jsonObject, *param);
 			list.push_back(param);
+		}
+	}
+
+	/**
+	 * パラメーター解放
+	 */
+	template <typename T>
+	void UnloadParameter()
+	{
+		auto it = m_parameterMap.find(T::ID());
+		if (it != m_parameterMap.end()) {
+			auto& parameters = it->second;
+			for (auto* p : parameters) {
+				delete p;
+			}
+			m_parameterMap.erase(it);
 		}
 	}
 
@@ -116,7 +183,7 @@ public:
 	{
 		return m_instance != nullptr;
 	}
-	/** 簡略アクセス用（参考コードのGet()に合わせる場合）*/
+	/** 簡略アクセス用 */
 	static ParameterManager& Get()
 	{
 		return *m_instance;
