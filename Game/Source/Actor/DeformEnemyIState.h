@@ -1,11 +1,9 @@
-/**
- * PlayerIState.h
- * プレイヤーの各ステート
+﻿/**
+ * DeformEnemyIState.h
+ * デフォームエネミーの各ステート
  */
 #pragma once
 #include "StateMachine.h"
-
-class StateMachine;
 
 
 namespace app
@@ -18,27 +16,8 @@ namespace app
 		class IdleState : public IState
 		{
 		public:
-			IdleState(StateMachine* owner);
+			IdleState(StateMachineBase* owner);
 			~IdleState();
-
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
-		};
-
-
-
-
-		/********************************/
-
-		/**
-		 * 歩く
-		 */
-		class WalkState : public IState
-		{
-		public:
-			WalkState(StateMachine* owner);
-			~WalkState();
 
 			void Enter() override;
 			void Update() override;
@@ -57,7 +36,7 @@ namespace app
 		class DashState : public IState
 		{
 		public:
-			DashState(StateMachine* owner);
+			DashState(StateMachineBase* owner);
 			~DashState();
 
 			void Enter() override;
@@ -72,13 +51,13 @@ namespace app
 
 
 		/**
-		 * ジャンプ
+		 * ひっくり返る
 		 */
-		class JumpState : public IState
+		class FlippingState : public IState
 		{
 		public:
-			JumpState(StateMachine* owner);
-			~JumpState();
+			FlippingState(StateMachineBase* owner);
+			~FlippingState();
 
 			void Enter() override;
 			void Update() override;
@@ -92,13 +71,13 @@ namespace app
 
 
 		/**
-		 * ダメージを受ける
+		 * ひっくり返った
 		 */
-		class DamageState : public IState
+		class FlippedState : public IState
 		{
 		public:
-			DamageState(StateMachine* owner);
-			~DamageState();
+			FlippedState(StateMachineBase* owner);
+			~FlippedState();
 
 			void Enter() override;
 			void Update() override;
@@ -112,13 +91,13 @@ namespace app
 
 
 		/**
-		 * 死に始める
+		 * 滑走
 		 */
-		class DieState : public IState
+		class SlidingState : public IState
 		{
 		public:
-			DieState(StateMachine* owner);
-			~DieState();
+			SlidingState(StateMachineBase* owner);
+			~SlidingState();
 
 			void Enter() override;
 			void Update() override;
@@ -137,7 +116,7 @@ namespace app
 		class DeadState : public IState
 		{
 		public:
-			DeadState(StateMachine* owner);
+			DeadState(StateMachineBase* owner);
 			~DeadState();
 
 			void Enter() override;
