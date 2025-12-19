@@ -1,0 +1,11 @@
+﻿[
+  {
+    "comment": "ボスエネミーのステータス",
+    "maxHp": 10,
+    "walkSpeed": 8.0,
+    "dashSpeed": 17.0,
+    "radius": 300.0,
+    "modelScale": 200.0,
+    "hitRadius": 100.0
+  }
+]

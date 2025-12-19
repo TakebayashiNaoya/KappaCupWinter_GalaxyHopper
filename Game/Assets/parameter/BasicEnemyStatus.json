@@ -1,0 +1,11 @@
+﻿[
+  {
+    "comment": "ベーシックエネミーのステータス",
+    "maxHp": 1,
+    "walkSpeed": 8.0,
+    "dashSpeed": 8.0,
+    "radius": 100.0,
+    "modelScale": 70.0,
+    "hitRadius": 50.0
+  }
+]
