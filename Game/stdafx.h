@@ -4,3 +4,10 @@
 #include "k2EnginePreCompile.h"
 using namespace nsK2EngineLow;
 using namespace nsK2Engine;
+
+//#include "Types.h"
+#include "json/json.hpp"
+
+#include "Transform.h"
+
+//#include "core/Fade.h"
