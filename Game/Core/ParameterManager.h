@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * ParameterManager.h
- * ƒpƒ‰ƒ[ƒ^ŠÇ—ƒNƒ‰ƒX‚Ì’è‹`
+ * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ç®¡ç†ã‚¯ãƒ©ã‚¹ã®å®šç¾©
  */
 #pragma once
 #include <map>
@@ -12,17 +12,17 @@
 #include "../Util/CRC32.h" 
 
  /**
-  * ƒpƒ‰ƒ[ƒ^’è‹`—pƒ}ƒNƒiQlƒR[ƒh‚Æ“¯‚¶‚à‚Ìj
-  * ‚±‚ê‚ğg‚¤‚ÆAƒNƒ‰ƒX–¼‚©‚ç©“®“I‚ÉID‚ğì‚Á‚Ä‚­‚ê‚Ü‚·
+  * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿å®šç¾©ç”¨ãƒã‚¯ãƒ­ï¼ˆå‚è€ƒã‚³ãƒ¼ãƒ‰ã¨åŒã˜ã‚‚ã®ï¼‰
+  * ã“ã‚Œã‚’ä½¿ã†ã¨ã€ã‚¯ãƒ©ã‚¹åã‹ã‚‰è‡ªå‹•çš„ã«IDã‚’ä½œã£ã¦ãã‚Œã¾ã™
   */
 #define appParameter(name)\
 public:\
  static constexpr uint32_t ID() { return Hash32(#name); }
 
-  /** ‘S‚Ä‚Ìƒpƒ‰ƒ[ƒ^‚Ìe‹Ê */
+  /** å…¨ã¦ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¦ªç‰ */
 struct IMasterParameter {};
 
-/** ƒvƒŒƒCƒ„[‚ÌƒXƒe[ƒ^ƒX */
+/** ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
 struct MasterPlayerStatusParameter : public IMasterParameter
 {
 	appParameter(MasterPlayerStatusParameter);
@@ -31,6 +31,7 @@ struct MasterPlayerStatusParameter : public IMasterParameter
 	float walkSpeed;
 	float dashSpeed;
 	float radius;
+	float modelScale;
 	float jumpPower;
 };
 
@@ -42,6 +43,7 @@ struct MasterBasicEnemyStatusParameter : public IMasterParameter
 	float walkSpeed;
 	float dashSpeed;
 	float radius;
+	float modelScale;
 	float hitRadius;
 };
 
@@ -53,6 +55,7 @@ struct MasterDeformEnemyStatusParameter : public IMasterParameter
 	float walkSpeed;
 	float dashSpeed;
 	float radius;
+	float modelScale;
 	float hitRadius;
 	float slideSpeed;
 };
@@ -65,46 +68,47 @@ struct MasterBossEnemyStatusParameter : public IMasterParameter
 	float walkSpeed;
 	float dashSpeed;
 	float radius;
+	float modelScale;
 	float hitRadius;
 };
 
 
-/** define‚Ìg—pI—¹ */
+/** defineã®ä½¿ç”¨çµ‚äº† */
 #undef appParameter
 
 
-/** ƒpƒ‰ƒ[ƒ^ŠÇ—ƒNƒ‰ƒX */
+/** ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ç®¡ç†ã‚¯ãƒ©ã‚¹ */
 class ParameterManager
 {
 private:
-	/** ƒf[ƒ^‚ğ•Û‘¶‚·‚éêŠF{ID: [ƒf[ƒ^ƒŠƒXƒg] } */
+	/** ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹å ´æ‰€ï¼š{ID: [ãƒ‡ãƒ¼ã‚¿ãƒªã‚¹ãƒˆ] } */
 	std::map<uint32_t, std::vector<IMasterParameter*>> m_parameterMap;
 
 private:
-	/** ƒRƒ“ƒXƒgƒ‰ƒNƒ^iŠO•”‚©‚ç‚Ì¶¬‹Ö~j */
+	/** ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ï¼ˆå¤–éƒ¨ã‹ã‚‰ã®ç”Ÿæˆç¦æ­¢ï¼‰ */
 	ParameterManager();
-	/** ƒfƒXƒgƒ‰ƒNƒ^iŠO•”‚©‚ç‚Ì”jŠü‹Ö~j */
+	/** ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ï¼ˆå¤–éƒ¨ã‹ã‚‰ã®ç ´æ£„ç¦æ­¢ï¼‰ */
 	~ParameterManager();
 
 public:
 	/**
-	 * JSON‚ğ“Ç‚İ‚ŞŠÖ”
-	 * ƒeƒ“ƒvƒŒ[ƒgŠÖ”‚È‚Ì‚Åƒwƒbƒ_[‚ÉÀ‘•‚ğ‘‚«‚Ü‚·
+	 * JSONã‚’èª­ã¿è¾¼ã‚€é–¢æ•°
+	 * ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆé–¢æ•°ãªã®ã§ãƒ˜ãƒƒãƒ€ãƒ¼ã«å®Ÿè£…ã‚’æ›¸ãã¾ã™
 	 */
 	template <typename T>
 	void LoadParameter(const std::string& filePath, std::function<void(const nlohmann::json&, T&)> callback)
 	{
-		/** ƒtƒ@ƒCƒ‹“Ç‚İ‚İ */
+		/** ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ */
 		std::ifstream file(filePath);
 		if (!file.is_open()) return;
 
 		nlohmann::json jsonObject;
 		file >> jsonObject;
 
-		/** ƒf[ƒ^‚ğŠi”[‚·‚éƒŠƒXƒg‚ğŠm•Û */
+		/** ãƒ‡ãƒ¼ã‚¿ã‚’æ ¼ç´ã™ã‚‹ãƒªã‚¹ãƒˆã‚’ç¢ºä¿ */
 		auto& list = m_parameterMap[T::ID()];
 
-		/** JSON”z—ñ‚ğ‰ñ‚µ‚Äƒf[ƒ^‚ğ¶¬ */
+		/** JSONé…åˆ—ã‚’å›ã—ã¦ãƒ‡ãƒ¼ã‚¿ã‚’ç”Ÿæˆ */
 		if (jsonObject.is_array()) {
 			for (const auto& j : jsonObject) {
 				T* param = new T();
@@ -113,7 +117,7 @@ public:
 			}
 		}
 		else {
-			/** ”z—ñ‚¶‚á‚È‚¢ê‡i’P‘Ìƒf[ƒ^‚Ìê‡j‚àƒPƒA‚µ‚Ä‚¨‚­ */
+			/** é…åˆ—ã˜ã‚ƒãªã„å ´åˆï¼ˆå˜ä½“ãƒ‡ãƒ¼ã‚¿ã®å ´åˆï¼‰ã‚‚ã‚±ã‚¢ã—ã¦ãŠã */
 			T* param = new T();
 			callback(jsonObject, *param);
 			list.push_back(param);
@@ -121,7 +125,7 @@ public:
 	}
 
 	/**
-	 * ƒpƒ‰ƒ[ƒ^[‰ğ•ú
+	 * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼è§£æ”¾
 	 */
 	template <typename T>
 	void UnloadParameter()
@@ -137,7 +141,7 @@ public:
 	}
 
 	/**
-	 * ƒf[ƒ^‚ğæ“¾‚·‚éŠÖ”
+	 * ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã™ã‚‹é–¢æ•°
 	 */
 	template <typename T>
 	const T* GetParameter(int index = 0) const
@@ -152,25 +156,25 @@ public:
 	}
 
 	/**
-	 * ƒVƒ“ƒOƒ‹ƒgƒ“ŠÖ˜AiQlƒR[ƒh‚Ìì–@‚É€‹’j
+	 * ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³é–¢é€£ï¼ˆå‚è€ƒã‚³ãƒ¼ãƒ‰ã®ä½œæ³•ã«æº–æ‹ ï¼‰
 	 */
 private:
 	static ParameterManager* m_instance;
 
 public:
-	/** ƒCƒ“ƒXƒ^ƒ“ƒX¶¬ */
+	/** ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ */
 	static void CreateInstance()
 	{
 		if (m_instance == nullptr) {
 			m_instance = new ParameterManager();
 		}
 	}
-	/** ƒCƒ“ƒXƒ^ƒ“ƒXæ“¾ */
+	/** ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å–å¾— */
 	static ParameterManager* GetInstance()
 	{
 		return m_instance;
 	}
-	/** ƒCƒ“ƒXƒ^ƒ“ƒX”jŠü */
+	/** ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç ´æ£„ */
 	static void DeleteInstance()
 	{
 		if (m_instance != nullptr) {
@@ -178,12 +182,12 @@ public:
 			m_instance = nullptr;
 		}
 	}
-	/** —LŒøŠm”F */
+	/** æœ‰åŠ¹ç¢ºèª */
 	static bool IsAvailable()
 	{
 		return m_instance != nullptr;
 	}
-	/** ŠÈ—ªƒAƒNƒZƒX—p */
+	/** ç°¡ç•¥ã‚¢ã‚¯ã‚»ã‚¹ç”¨ */
 	static ParameterManager& Get()
 	{
 		return *m_instance;
