@@ -1,86 +1,86 @@
-#include "stdafx.h"
+Ôªø#include "stdafx.h"
 #include "Title.h"
-#include "Source/UI/UITitle.h"
-#include "Source/Actor/Character/Player/TitlePlayer.h"
-#include "Source/Camera/TitleCamera.h"
-#include "Source/Actor/Planet/TitlePlanet.h"
-#include "LoadingScreen.h"
-
-
-Title::Title()
-{
-	m_titlePlayer = NewGO<TitlePlayer>(0, "TitlePlayer");
-	m_titleCamera = NewGO<TitleCamera>(0, "TitleCamera");
-	m_titleStage = NewGO<TitlePlanet>(0, "TitlePlanet");
-	m_uiTitle = NewGO<UITitle>(0, "UITitle");
-}
-
-
-Title::~Title()
-{
-	SoundManager::StopBGM(enSoundList_TitleBGM, 1.0f);
-	DeleteGO(m_titlePlayer);
-	DeleteGO(m_titleCamera);
-	DeleteGO(m_titleStage);
-	DeleteGO(m_uiTitle);
-	DeleteGO(m_skyCube);
-}
-
-
-bool Title::Start()
-{
-	InitSky();
-	m_waitTimer = 0.0f;
-	m_isLoadingFinished = false;
-
-	return true;
-}
-
-
-void Title::Update()
-{
-	// ÉçÅ[ÉhâÊñ Ç„YóÌÇ…å©ÇπÇÈÇΩÇﬂÅAè≠Çµë“ã@ÅB
-	if (m_isLoadingFinished == false) {
-		m_waitTimer += g_gameTime->GetFrameDeltaTime();
-
-		if (m_waitTimer > 0.1f) {
-			LoadingScreen::FinishLoading();
-			m_isLoadingFinished = true;
-			SoundManager::Play(enSoundList_TitleBGM, true);
-			SoundManager::SetVolume(enSoundList_FirstStageBGM, 0.0f);
-		}
-		return;
-	}
-
-
-
-	// AÉ{É^ÉìÇ™âüÇ≥ÇÍÇΩÇÁÉCÉìÉQÅ[ÉÄÇ÷à⁄çsÅB
-	if (g_pad[0]->IsTrigger(enButtonA)) {
-		SoundManager::Play(enSoundList_PushSE);
-		// ÉçÅ[ÉhÉIÅ[ÉvÉìíÜÇ…É{É^ÉìÇâüÇµÇΩÇÁÅAÉçÅ[ÉhäÆóπÇ÷ÅB
-		if (LoadingScreen::GetState() == LoadingScreen::enState_Open) {
-			LoadingScreen::ChangeState(LoadingScreen::enState_Opened);
-		}
-		// ÉçÅ[ÉhäÆóπéûÇ…É{É^ÉìÇâüÇµÇΩÇÁÅAÉçÅ[ÉhäJénÇ÷ÅB
-		else if (LoadingScreen::GetState() == LoadingScreen::enState_Opened) {
-			LoadingScreen::StartLoading();
-		}
-	}
-
-	// LoadingÇ…Ç»Ç¡ÇΩÇÁÉVÅ[ÉìêÿÇËë÷Ç¶ÇÉäÉNÉGÉXÉgÅB
-	if (LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
-		SceneManager::GetInstance()->ChangeScene(SceneID::FirstStage);
-	}
-}
-
-void Title::InitSky()
-{
-	// åªç›ÇÃãÛÇîjä¸ÅB
-	DeleteGO(m_skyCube);
-
-	m_skyCube = NewGO<SkyCube>(0, "skycube");
-	m_skyCube->SetType((EnSkyCubeType)m_skyCubeType);
-
-	// ä¬ã´åıÇÃåvéZÇÃÇΩÇﬂÇÃIBLÉeÉNÉXÉ`ÉÉÇÉZÉbÉgÇ∑ÇÈÅB
-	g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 0.1f);
-}
+//#include "Source/UI/UITitle.h"
+//#include "Source/Actor/Character/Player/TitlePlayer.h"
+//#include "Source/Camera/TitleCamera.h"
+//#include "Source/Actor/Planet/TitlePlanet.h"
+//#include "LoadingScreen.h"
+//
+//
+//Title::Title()
+//{
+//	m_titlePlayer = NewGO<TitlePlayer>(0, "TitlePlayer");
+//	m_titleCamera = NewGO<TitleCamera>(0, "TitleCamera");
+//	m_titleStage = NewGO<TitlePlanet>(0, "TitlePlanet");
+//	m_uiTitle = NewGO<UITitle>(0, "UITitle");
+//}
+//
+//
+//Title::~Title()
+//{
+//	SoundManager::StopBGM(enSoundList_TitleBGM, 1.0f);
+//	DeleteGO(m_titlePlayer);
+//	DeleteGO(m_titleCamera);
+//	DeleteGO(m_titleStage);
+//	DeleteGO(m_uiTitle);
+//	DeleteGO(m_skyCube);
+//}
+//
+//
+//bool Title::Start()
+//{
+//	InitSky();
+//	m_waitTimer = 0.0f;
+//	m_isLoadingFinished = false;
+//
+//	return true;
+//}
+//
+//
+//void Title::Update()
+//{
+//	// „É≠„Éº„ÉâÁîªÈù¢„ÇíÁ∂∫È∫ó„Å´Ë¶ã„Åõ„Çã„Åü„ÇÅ„ÄÅÂ∞ë„ÅóÂæÖÊ©ü„ÄÇ
+//	if (m_isLoadingFinished == false) {
+//		m_waitTimer += g_gameTime->GetFrameDeltaTime();
+//
+//		if (m_waitTimer > 0.1f) {
+//			LoadingScreen::FinishLoading();
+//			m_isLoadingFinished = true;
+//			SoundManager::Play(enSoundList_TitleBGM, true);
+//			SoundManager::SetVolume(enSoundList_FirstStageBGM, 0.0f);
+//		}
+//		return;
+//	}
+//
+//
+//
+//	// A„Éú„Çø„É≥„ÅåÊäº„Åï„Çå„Åü„Çâ„Ç§„É≥„Ç≤„Éº„É†„Å∏ÁßªË°å„ÄÇ
+//	if (g_pad[0]->IsTrigger(enButtonA)) {
+//		SoundManager::Play(enSoundList_PushSE);
+//		// „É≠„Éº„Éâ„Ç™„Éº„Éó„É≥‰∏≠„Å´„Éú„Çø„É≥„ÇíÊäº„Åó„Åü„Çâ„ÄÅ„É≠„Éº„ÉâÂÆå‰∫Ü„Å∏„ÄÇ
+//		if (LoadingScreen::GetState() == LoadingScreen::enState_Open) {
+//			LoadingScreen::ChangeState(LoadingScreen::enState_Opened);
+//		}
+//		// „É≠„Éº„ÉâÂÆå‰∫ÜÊôÇ„Å´„Éú„Çø„É≥„ÇíÊäº„Åó„Åü„Çâ„ÄÅ„É≠„Éº„ÉâÈñãÂßã„Å∏„ÄÇ
+//		else if (LoadingScreen::GetState() == LoadingScreen::enState_Opened) {
+//			LoadingScreen::StartLoading();
+//		}
+//	}
+//
+//	// Loading„Å´„Å™„Å£„Åü„Çâ„Ç∑„Éº„É≥Âàá„ÇäÊõø„Åà„Çí„É™„ÇØ„Ç®„Çπ„Éà„ÄÇ
+//	if (LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
+//		SceneManager::GetInstance()->ChangeScene(SceneID::FirstStage);
+//	}
+//}
+//
+//void Title::InitSky()
+//{
+//	// ÁèæÂú®„ÅÆÁ©∫„ÇíÁ†¥Ê£Ñ„ÄÇ
+//	DeleteGO(m_skyCube);
+//
+//	m_skyCube = NewGO<SkyCube>(0, "skycube");
+//	m_skyCube->SetType((EnSkyCubeType)m_skyCubeType);
+//
+//	// Áí∞Â¢ÉÂÖâ„ÅÆË®àÁÆó„ÅÆ„Åü„ÇÅ„ÅÆIBL„ÉÜ„ÇØ„Çπ„ÉÅ„É£„Çí„Çª„ÉÉ„Éà„Åô„Çã„ÄÇ
+//	g_renderingEngine->SetAmbientByIBLTexture(m_skyCube->GetTextureFilePath(), 0.1f);
+//}
