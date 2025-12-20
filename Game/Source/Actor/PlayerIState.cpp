@@ -24,6 +24,8 @@ namespace app
 
 		void IdleState::Enter()
 		{
+			/** 待機アニメーション */
+			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Idle);
 		}
 
 
@@ -55,6 +57,8 @@ namespace app
 
 		void WalkState::Enter()
 		{
+			/** 歩きアニメーション */
+			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Walk);
 		}
 
 
@@ -86,6 +90,8 @@ namespace app
 
 		void DashState::Enter()
 		{
+			/** 走りアニメーション */
+			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Dash);
 		}
 
 
@@ -117,6 +123,8 @@ namespace app
 
 		void JumpState::Enter()
 		{
+			/** ジャンプアニメーション */
+			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Jump);
 		}
 
 
@@ -148,6 +156,9 @@ namespace app
 
 		void DamageState::Enter()
 		{
+			/** 被弾アニメーション */
+			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Damage);
+			/** ダメージ処理 */
 			GetOwner<Player>()->GetStatus<PlayerStatus>()->Damage();
 		}
 
@@ -180,6 +191,8 @@ namespace app
 
 		void DyingState::Enter()
 		{
+			/** 死亡アニメーション */
+			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Die);
 		}
 
 

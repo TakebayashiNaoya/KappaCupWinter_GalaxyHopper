@@ -29,13 +29,11 @@ namespace app
 			virtual ~IState() {}
 
 			/** 開始時に1回だけ呼ばれます。 */
-			virtual void Enter() {}
-
+			virtual void Enter() = 0;
 			/** 毎フレーム呼ばれます（メイン処理）。 */
-			virtual void Update() {}
-
+			virtual void Update() = 0;
 			/** 終了時に1回だけ呼ばれます。 */
-			virtual void Exit() {}
+			virtual void Exit() = 0;
 
 			/** 持ち主を型キャストして取得する便利関数 */
 			template <typename T>
@@ -127,7 +125,7 @@ namespace app
 
 		protected:
 			/** 全てのステートをID付きで保存する辞書 */
-			std::map<int, IState*> m_stateMap;
+			std::unordered_map<int, IState*> m_stateMap;
 			/** 現在実行中のステート */
 			IState* m_currentState = nullptr;
 			/** 次に変更するステート */
@@ -171,6 +169,12 @@ namespace app
 
 			/** ステート変更 */
 			void ChangeState();
+
+			/**
+			 * アニメーション再生
+			 * 継承先のステートマシンでキャラクターを指定して実装してください。
+			 */
+			virtual void PlayAnimation(const int animationIndex) = 0;
 
 
 		protected:

@@ -38,6 +38,9 @@ namespace app
 			PlayerStateMachine(Player* owner);
 			virtual ~PlayerStateMachine();
 
+			/** アニメーション再生 */
+			void PlayAnimation(const int animationIndex) override final;
+
 
 		private:
 			/** 変更するステートを取得します。 */

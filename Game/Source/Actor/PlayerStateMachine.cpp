@@ -33,6 +33,12 @@ namespace app
 		}
 
 
+		void PlayerStateMachine::PlayAnimation(const int animationIndex)
+		{
+			GetOwner<Player>()->GetModelRender()->PlayAnimation(static_cast<Player::EnAnimationClip>(animationIndex));
+		}
+
+
 		IState* PlayerStateMachine::GetChangeState()
 		{
 			/** ダメージ状態に変更できるか */
