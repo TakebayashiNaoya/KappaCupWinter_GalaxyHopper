@@ -1,9 +1,14 @@
 ﻿#pragma once
 
-class Character;
 
 namespace app
 {
+	namespace actor
+	{
+		class Character;
+	}
+
+
 	namespace collision
 	{
 		enum EnCollisionType : uint8_t
@@ -136,7 +141,7 @@ namespace app
 			/// <param name="type"> 作成するコライダーの種類を指定する列挙型（EnCollisionType）。</param>
 			/// <param name="size"> 箱のサイズ（幅・高さ・奥行き）。</param>
 			/// <returns> コライダーのポインタ。</returns>
-			CollisionObject* CreateCollider(Character* ins, const EnCollisionType type, const Vector3 size, const bool isTrigger);
+			CollisionObject* CreateCollider(app::actor::Character* ins, const EnCollisionType type, const Vector3 size, const bool isTrigger);
 			/// <summary>
 			/// 球型のコライダーを生成し、コリジョンヒットマネージャーに登録します。
 			/// </summary>
@@ -144,7 +149,7 @@ namespace app
 			/// <param name="type"> 作成するコライダーの種類を指定する列挙型（EnCollisionType）。</param>
 			/// <param name="size"> 球の半径。</param>
 			/// <returns> コライダーのポインタ。</returns>
-			CollisionObject* CreateCollider(Character* ins, const EnCollisionType type, const float radius, const int index);
+			CollisionObject* CreateCollider(app::actor::Character* ins, const EnCollisionType type, const float radius, const EnCollisionAttr index);
 			/// <summary>
 			/// カプセル型のコライダーを生成し、コリジョンヒットマネージャーに登録します。
 			/// </summary>
@@ -152,7 +157,7 @@ namespace app
 			/// <param name="type"> 作成するコライダーの種類を指定する列挙型（EnCollisionType）。</param>
 			/// <param name="size"> カプセルのサイズ。（半径・高さ）。</param>
 			/// <returns> コライダーのポインタ。</returns>
-			CollisionObject* CreateCollider(Character* ins, const EnCollisionType type, const float radius, const float height, const bool isTrigger);
+			CollisionObject* CreateCollider(app::actor::Character* ins, const EnCollisionType type, const float radius, const float height, const bool isTrigger);
 			/// <summary>
 			/// コライダーの座標と回転を更新します。
 			/// NOTE:モデルの基準が足元、コライダーの基準が中心のため、up方向に位置補正を行う必要があります。
@@ -161,7 +166,7 @@ namespace app
 			/// <param name="ins"> コライダーを更新するキャラクターのポインタ。</param>
 			/// <param name="collider"> 更新するコライダーのポインタ。</param>
 			/// <param name="offset"> up方向の位置補正の値。</param>
-			void UpdateCollider(const Character* ins, CollisionObject* collider, const float offset = 0.0f);
+			void UpdateCollider(const app::actor::Character* ins, CollisionObject* collider, const float offset = 0.0f);
 			/// <summary>
 			/// コリジョンヒットマネージャーの登録解除を行い、コライダーをdelete、nullptrします。
 			/// </summary>
