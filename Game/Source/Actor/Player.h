@@ -14,12 +14,9 @@ namespace app
 		class Player : public Character
 		{
 		public:
-			Player();
-			~Player();
-
-
 			/**
 			 * アニメーションクリップ
+			 * 初期化時とIStateでアニメ再生に使用するのでpublicにしています。
 			 */
 			enum EnAnimationClip : uint8_t
 			{
@@ -93,6 +90,12 @@ namespace app
 		protected:
 			Quaternion	m_xzAdditionalRot;	// 毎フレームのXZ軸回転角度
 
+
+		public:
+			Player();
+			~Player();
+
+
 		private:
 			bool Start() override;
 			void Update() override;
@@ -108,6 +111,9 @@ namespace app
 			// ★追加: コントローラーから渡される移動ベクトル
 			Vector3 m_velocity = Vector3::Zero;
 
+			/** ステータス */
+			std::unique_ptr<PlayerStatus> m_status;
+
 			// ステートマシン
 			std::unique_ptr<PlayerStateMachine> m_stateMachine;
 
@@ -119,7 +125,7 @@ namespace app
 			float   m_invincibleTimer = 0.0f;
 
 			// アニメーション設定
-			static const Character::AnimationOption PLAYER_ANIMATION_OPTIONS[];
+			static const AnimationOption PLAYER_ANIMATION_OPTIONS[enAnimationClip_Num];
 		};
 	}
 }

@@ -44,22 +44,10 @@ namespace app
 			 */
 			inline void SetScale(const Vector3& scale) { m_transform.m_scale = scale; }
 
-			/**
-			 * トランスフォームを設定
-			 */
-			inline void SetTransform(const Transform& transform)
-			{
-				m_transform.m_position = transform.m_position;
-				m_transform.m_rotation = transform.m_rotation;
-				m_transform.m_scale = transform.m_scale;
-			}
-
 
 		protected:
 			/** モデル描画 */
 			ModelRender m_modelRender;
-			/** ステータス */
-			ActorStatus* m_status;
 			/** トランスフォーム */
 			Transform m_transform;
 

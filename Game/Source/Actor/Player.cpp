@@ -30,9 +30,7 @@ namespace app
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
 			/** ステータス生成 */
-			/** TODO: newとmake_uniqueの使い分けについて確認。 */
-			m_status = new PlayerStatus();
-			m_status->Setup();
+			m_status = std::make_unique<PlayerStatus>();
 
 			/** ステートマシン生成 */
 			m_stateMachine = std::make_unique<PlayerStateMachine>();
@@ -41,9 +39,6 @@ namespace app
 
 		Player::~Player()
 		{
-			/** ステータス削除 */
-			delete m_status;
-			m_status = nullptr;
 		}
 
 
