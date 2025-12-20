@@ -1,9 +1,9 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "CollisionManager.h"
-#include "Source/Actor/Character/Player/Player.h"
-#include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
-#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
-#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
+#include "Source/Actor/Player.h"
+#include "Source/Actor/BasicEnemy.h"
+#include "Source/Actor/DeformEnemy.h"
+#include "Source/Actor/BossEnemy.h"
 #include "Source/Scene/SceneManager.h"
 
 
@@ -11,7 +11,7 @@ CollisionHitManager* CollisionHitManager::m_instance = nullptr;
 
 namespace
 {
-	// ƒvƒŒƒCƒ„[‚ª–³“G’†‚©AƒvƒŒƒCƒ„[‚ÌUŒ‚‚ªæ‚É“–‚½‚Á‚Ä‚¢‚éê‡Atrue‚ğ•Ô‚·B
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç„¡æ•µä¸­ã‹ã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ”»æ’ƒãŒå…ˆã«å½“ãŸã£ã¦ã„ã‚‹å ´åˆã€trueã‚’è¿”ã™ã€‚
 	const bool IsAttackBlocked(Player* player, const bool isStomp)
 	{
 		if (player->GetIsInvincible()) {
@@ -40,21 +40,21 @@ CollisionHitManager::~CollisionHitManager()
 
 void CollisionHitManager::Update()
 {
-	// ƒV[ƒ“Ø‚è‘Ö‚¦‚ªƒŠƒNƒGƒXƒg‚³‚ê‚Ä‚¢‚éê‡‚ÍAŒ»İ‚ÌƒtƒŒ[ƒ€‚ÌÕ“Ë”»’èˆ—‚ğƒXƒLƒbƒv‚·‚éB
-	// ‚±‚ê‚É‚æ‚èAíœ‚ªn‚Ü‚Á‚½ƒIƒuƒWƒFƒNƒg‚Ö‚Ì•s³ƒAƒNƒZƒX‚ğ–h‚®B
+	// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆãŒãƒªã‚¯ã‚¨ã‚¹ãƒˆã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ç¾åœ¨ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®è¡çªåˆ¤å®šå‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹ã€‚
+	// ã“ã‚Œã«ã‚ˆã‚Šã€å‰Šé™¤ãŒå§‹ã¾ã£ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ä¸æ­£ã‚¢ã‚¯ã‚»ã‚¹ã‚’é˜²ãã€‚
 	if (SceneManager::GetInstance()->GetIsSceneChangeRequested()) {
-		m_collisionPairList.clear(); // ”O‚Ì‚½‚ßƒŠƒXƒg‚ÍƒNƒŠƒA
+		m_collisionPairList.clear(); // å¿µã®ãŸã‚ãƒªã‚¹ãƒˆã¯ã‚¯ãƒªã‚¢
 		return;
 	}
 
 	if (BattleManager::GetIsStopCollisionManager()) {
-		m_collisionPairList.clear(); // ”O‚Ì‚½‚ßƒŠƒXƒg‚ÍƒNƒŠƒA
+		m_collisionPairList.clear(); // å¿µã®ãŸã‚ãƒªã‚¹ãƒˆã¯ã‚¯ãƒªã‚¢
 		return;
 	}
 
 	m_collisionPairList.clear();
 
-	// ƒqƒbƒg‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒyƒA‚ğì‚é
+	// ãƒ’ãƒƒãƒˆã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒšã‚¢ã‚’ä½œã‚‹
 	const uint32_t colSize = static_cast<uint32_t>(m_collisionInformationList.size());
 	for (uint32_t i = 0; i < colSize; ++i) {
 		for (uint32_t j = i + 1; j < colSize; ++j) {
@@ -63,7 +63,7 @@ void CollisionHitManager::Update()
 
 			if (infoA->m_collision->IsHit(infoB->m_collision) || infoB->m_collision->IsHit(infoA->m_collision))
 			{
-				// CollisionPair‚Ì’†‚É“¯‚¶‘g‚İ‡‚í‚¹‚ª‚È‚¢‚©ƒ`ƒFƒbƒN
+				// CollisionPairã®ä¸­ã«åŒã˜çµ„ã¿åˆã‚ã›ãŒãªã„ã‹ãƒã‚§ãƒƒã‚¯
 				bool exists = false;
 				for (const auto& pair : m_collisionPairList) {
 					if ((pair.m_left == infoA && pair.m_right == infoB) || (pair.m_left == infoB && pair.m_right == infoA)) {
@@ -71,7 +71,7 @@ void CollisionHitManager::Update()
 						break;
 					}
 				}
-				// ‚·‚Å‚É“o˜^Ï‚İ‚Å‚Í‚È‚¢‚È‚ç’Ç‰Á‚·‚é
+				// ã™ã§ã«ç™»éŒ²æ¸ˆã¿ã§ã¯ãªã„ãªã‚‰è¿½åŠ ã™ã‚‹
 				if (!exists) {
 					m_collisionPairList.push_back(CollisionPair(infoA, infoB));
 				}
@@ -79,31 +79,31 @@ void CollisionHitManager::Update()
 		}
 	}
 
-	// ƒqƒbƒg‚µ‚½ƒyƒA‚ÅÕ“Ë‚µ‚½‚Ìˆ—‚ğ‚·‚é
-	// ¡‰ñ‚ÌƒQ[ƒ€‚Å‚Í‚È‚¢‚ªƒvƒŒƒCƒ„[‚ÌUŒ‚‚ªƒGƒlƒ~[‚É‚ ‚½‚Á‚½‚Ì‚ÅHP‚ğŒ¸‚ç‚·‚İ‚½‚¢‚È‚±‚Æ‚ğ‚·‚é
+	// ãƒ’ãƒƒãƒˆã—ãŸãƒšã‚¢ã§è¡çªã—ãŸæ™‚ã®å‡¦ç†ã‚’ã™ã‚‹
+	// ä»Šå›ã®ã‚²ãƒ¼ãƒ ã§ã¯ãªã„ãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ”»æ’ƒãŒã‚¨ãƒãƒŸãƒ¼ã«ã‚ãŸã£ãŸã®ã§HPã‚’æ¸›ã‚‰ã™ã¿ãŸã„ãªã“ã¨ã‚’ã™ã‚‹
 	for (auto& pair : m_collisionPairList) {
 
-		// ƒvƒŒƒCƒ„[ vs Šî–{ƒGƒlƒ~[
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ vs åŸºæœ¬ã‚¨ãƒãƒŸãƒ¼
 		if (UpdateHitPlayerBasicEnemy(pair)) {
 			continue;
 		}
 
-		// ƒvƒŒƒCƒ„[ vs •ÏŒ`ƒGƒlƒ~[
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ vs å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼
 		if (UpdateHitPlayerDeformEnemy(pair)) {
 			continue;
 		}
 
-		// ƒvƒŒƒCƒ„[ vs ƒ{ƒXƒGƒlƒ~[
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ vs ãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼
 		if (UpdateHitPlayerBossEnemy(pair)) {
 			continue;
 		}
 
-		// Šî–{ƒGƒlƒ~[ vs •ÏŒ`ƒGƒlƒ~[
+		// åŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ vs å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼
 		if (UpdateHitBasicEnemyDeformEnemy(pair)) {
 			continue;
 		}
 
-		// •ÏŒ`ƒGƒlƒ~[ vs ƒ{ƒXƒGƒlƒ~[
+		// å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ vs ãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼
 		if (UpdateHitDeformEnemyBossEnemy(pair)) {
 			continue;
 		}
@@ -141,7 +141,7 @@ void CollisionHitManager::Unregister(CollisionObject* collisionObject)
 
 
 /// <summary>
-/// uƒvƒŒƒCƒ„[v‚ÆuŠî–{ƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
+/// ã€Œãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€ã¨ã€ŒåŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ã€ã®è¡çªå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
 /// </summary>
 bool CollisionHitManager::UpdateHitPlayerBasicEnemy(CollisionPair& pair)
 {
@@ -156,7 +156,7 @@ bool CollisionHitManager::UpdateHitPlayerBasicEnemy(CollisionPair& pair)
 	}
 
 
-	// ƒvƒŒƒCƒ„[‚ÌUŒ‚B
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ”»æ’ƒã€‚
 	if (player->GetAttackCollider()->IsHit(basicEnemy->GetHurtCollider())) {
 		player->StompJump();
 		basicEnemy->SetIsDying(true);
@@ -164,12 +164,12 @@ bool CollisionHitManager::UpdateHitPlayerBasicEnemy(CollisionPair& pair)
 		return true;
 	}
 
-	// ƒvƒŒƒCƒ„[‚ª–³“G’†‚Ìê‡AƒGƒlƒ~[‚ÌUŒ‚‚Í–³Œø‚É‚·‚éB
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç„¡æ•µä¸­ã®å ´åˆã€ã‚¨ãƒãƒŸãƒ¼ã®æ”»æ’ƒã¯ç„¡åŠ¹ã«ã™ã‚‹ã€‚
 	if (player->GetIsInvincible()) {
 		return true;
 	}
 
-	// ƒGƒlƒ~[‚ÌUŒ‚B
+	// ã‚¨ãƒãƒŸãƒ¼ã®æ”»æ’ƒã€‚
 	if (basicEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
 		player->SetIsAttacked(true);
 		player->ComputeKnockBackDirection(basicEnemy->GetPosition());
@@ -182,7 +182,7 @@ bool CollisionHitManager::UpdateHitPlayerBasicEnemy(CollisionPair& pair)
 }
 
 /// <summary>
-/// uƒvƒŒƒCƒ„[v‚Æu•ÏŒ`ƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
+/// ã€Œãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€ã¨ã€Œå¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã€ã®è¡çªå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
 /// </summary>
 bool CollisionHitManager::UpdateHitPlayerDeformEnemy(CollisionPair& pair)
 {
@@ -197,10 +197,10 @@ bool CollisionHitManager::UpdateHitPlayerDeformEnemy(CollisionPair& pair)
 	}
 
 
-	// ƒGƒlƒ~[‚ª•ÏŒ`‚µ‚Ä‚¢‚È‚¢ê‡B
+	// ã‚¨ãƒãƒŸãƒ¼ãŒå¤‰å½¢ã—ã¦ã„ãªã„å ´åˆã€‚
 	if (!deformEnemy->GetIsDeformed())
 	{
-		// ƒvƒŒƒCƒ„[‚ÌUŒ‚B
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ”»æ’ƒã€‚
 		if (player->GetAttackCollider()->IsHit(deformEnemy->GetHurtCollider())) {
 			player->StompJump();
 			deformEnemy->SetIsDeformed(true);
@@ -208,12 +208,12 @@ bool CollisionHitManager::UpdateHitPlayerDeformEnemy(CollisionPair& pair)
 			return true;
 		}
 
-		// ƒvƒŒƒCƒ„[‚ª–³“G’†‚Ìê‡A‚Ü‚½‚ÍƒvƒŒƒCƒ„[‚ÌUŒ‚‚ªæ‚É“–‚½‚Á‚Ä‚¢‚éê‡AƒGƒlƒ~[‚ÌUŒ‚‚Í–³Œø‚É‚·‚éB
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç„¡æ•µä¸­ã®å ´åˆã€ã¾ãŸã¯ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ”»æ’ƒãŒå…ˆã«å½“ãŸã£ã¦ã„ã‚‹å ´åˆã€ã‚¨ãƒãƒŸãƒ¼ã®æ”»æ’ƒã¯ç„¡åŠ¹ã«ã™ã‚‹ã€‚
 		if (player->GetIsInvincible()) {
 			return true;
 		}
 
-		// ƒGƒlƒ~[‚ÌUŒ‚B
+		// ã‚¨ãƒãƒŸãƒ¼ã®æ”»æ’ƒã€‚
 		if (deformEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
 			player->SetIsAttacked(true);
 			player->ComputeKnockBackDirection(deformEnemy->GetPosition());
@@ -224,10 +224,10 @@ bool CollisionHitManager::UpdateHitPlayerDeformEnemy(CollisionPair& pair)
 		return true;
 	}
 
-	// ƒGƒlƒ~[‚ª•ÏŒ`‚µ‚Ä‚¢‚ÄAŠŠ‘–‚µ‚Ä‚¢‚È‚¢ê‡B
+	// ã‚¨ãƒãƒŸãƒ¼ãŒå¤‰å½¢ã—ã¦ã„ã¦ã€æ»‘èµ°ã—ã¦ã„ãªã„å ´åˆã€‚
 	else if (deformEnemy->GetIsDeformed() && !deformEnemy->GetIsSliding())
 	{
-		// ƒvƒŒƒCƒ„[‚ªƒGƒlƒ~[‚É“–‚½‚Á‚½ê‡B
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚¨ãƒãƒŸãƒ¼ã«å½“ãŸã£ãŸå ´åˆã€‚
 		if (player->GetHurtCollider()->IsHit(deformEnemy->GetHurtCollider())) {
 			deformEnemy->SetIsSliding(true);
 			deformEnemy->CalcInitialSlideDirection(player->GetPosition());
@@ -237,10 +237,10 @@ bool CollisionHitManager::UpdateHitPlayerDeformEnemy(CollisionPair& pair)
 		return true;
 	}
 
-	// ƒGƒlƒ~[‚ª•ÏŒ`‚µ‚Ä‚¢‚ÄAŠŠ‘–‚µ‚Ä‚¢‚éê‡B
+	// ã‚¨ãƒãƒŸãƒ¼ãŒå¤‰å½¢ã—ã¦ã„ã¦ã€æ»‘èµ°ã—ã¦ã„ã‚‹å ´åˆã€‚
 	else if (deformEnemy->GetIsDeformed() && deformEnemy->GetIsSliding())
 	{
-		// ŠŠ‘–’†‚ÉƒvƒŒƒCƒ„[‚ª“¥‚ñ‚¾‚çAƒGƒlƒ~[‚ğ~‚ß‚éB
+		// æ»‘èµ°ä¸­ã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒè¸ã‚“ã ã‚‰ã€ã‚¨ãƒãƒŸãƒ¼ã‚’æ­¢ã‚ã‚‹ã€‚
 		if (player->GetAttackCollider()->IsHit(deformEnemy->GetHurtCollider())) {
 			player->StompJump();
 			deformEnemy->SetIsSliding(false);
@@ -248,12 +248,12 @@ bool CollisionHitManager::UpdateHitPlayerDeformEnemy(CollisionPair& pair)
 			return true;
 		}
 
-		// ƒvƒŒƒCƒ„[‚ª–³“G’†‚Ìê‡AƒGƒlƒ~[‚ÌUŒ‚‚Í–³Œø‚É‚·‚éB
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç„¡æ•µä¸­ã®å ´åˆã€ã‚¨ãƒãƒŸãƒ¼ã®æ”»æ’ƒã¯ç„¡åŠ¹ã«ã™ã‚‹ã€‚
 		if (player->GetIsInvincible()) {
 			return true;
 		}
 
-		// ƒGƒlƒ~[‚ÌUŒ‚B
+		// ã‚¨ãƒãƒŸãƒ¼ã®æ”»æ’ƒã€‚
 		if (deformEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
 			player->SetIsAttacked(true);
 			player->ComputeKnockBackDirection(deformEnemy->GetPosition());
@@ -268,7 +268,7 @@ bool CollisionHitManager::UpdateHitPlayerDeformEnemy(CollisionPair& pair)
 }
 
 /// <summary>
-/// uƒvƒŒƒCƒ„[v‚Æuƒ{ƒXƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
+/// ã€Œãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€ã¨ã€Œãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼ã€ã®è¡çªå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
 /// </summary>
 bool CollisionHitManager::UpdateHitPlayerBossEnemy(CollisionPair& pair)
 {
@@ -283,13 +283,13 @@ bool CollisionHitManager::UpdateHitPlayerBossEnemy(CollisionPair& pair)
 	}
 
 
-	// ƒvƒŒƒCƒ„[‚ª–³“G’†‚Ìê‡AƒGƒlƒ~[‚ÌUŒ‚‚Í–³Œø‚É‚·‚éB
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç„¡æ•µä¸­ã®å ´åˆã€ã‚¨ãƒãƒŸãƒ¼ã®æ”»æ’ƒã¯ç„¡åŠ¹ã«ã™ã‚‹ã€‚
 	if (player->GetIsInvincible()) {
 		return true;
 	}
 
 
-	// ƒ{ƒX‚Ì‘Ì“–‚½‚èB
+	// ãƒœã‚¹ã®ä½“å½“ãŸã‚Šã€‚
 	if (bossEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
 		player->SetIsAttacked(true);
 		player->ComputeKnockBackDirection(bossEnemy->GetPosition());
@@ -297,7 +297,7 @@ bool CollisionHitManager::UpdateHitPlayerBossEnemy(CollisionPair& pair)
 		return true;
 	}
 
-	// ƒ{ƒX‚ÌUŒ‚B
+	// ãƒœã‚¹ã®æ”»æ’ƒã€‚
 	if (bossEnemy->GetAttackCollider()->IsHit(player->GetHurtCollider())) {
 		player->SetIsAttacked(true);
 		player->ComputeKnockBackDirection(bossEnemy->GetPosition());
@@ -309,7 +309,7 @@ bool CollisionHitManager::UpdateHitPlayerBossEnemy(CollisionPair& pair)
 }
 
 /// <summary>
-/// uŠî–{ƒGƒlƒ~[v‚Æu•ÏŒ`ƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
+/// ã€ŒåŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ã€ã¨ã€Œå¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã€ã®è¡çªå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
 /// </summary>
 bool CollisionHitManager::UpdateHitBasicEnemyDeformEnemy(CollisionPair& pair)
 {
@@ -324,10 +324,10 @@ bool CollisionHitManager::UpdateHitBasicEnemyDeformEnemy(CollisionPair& pair)
 	}
 
 
-	// •ÏŒ`ƒGƒlƒ~[‚ª•ÏŒ`‚µ‚Ä‚¢‚ÄAŠŠ‘–‚µ‚Ä‚¢‚éê‡B
+	// å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ãŒå¤‰å½¢ã—ã¦ã„ã¦ã€æ»‘èµ°ã—ã¦ã„ã‚‹å ´åˆã€‚
 	if (deformEnemy->GetIsDeformed() && deformEnemy->GetIsSliding())
 	{
-		// •ÏŒ`ƒGƒlƒ~[‚ÌUŒ‚B
+		// å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã®æ”»æ’ƒã€‚
 		if (deformEnemy->GetHitCollider()->IsHit(basicEnemy->GetHurtCollider())) {
 			basicEnemy->SetIsDying(true);
 			deformEnemy->SetIsDying(true);
@@ -340,7 +340,7 @@ bool CollisionHitManager::UpdateHitBasicEnemyDeformEnemy(CollisionPair& pair)
 }
 
 /// <summary>
-/// u•ÏŒ`ƒGƒlƒ~[v‚Æuƒ{ƒXƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
+/// ã€Œå¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã€ã¨ã€Œãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼ã€ã®è¡çªå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
 /// </summary>
 bool CollisionHitManager::UpdateHitDeformEnemyBossEnemy(CollisionPair& pair)
 {
@@ -354,10 +354,10 @@ bool CollisionHitManager::UpdateHitDeformEnemyBossEnemy(CollisionPair& pair)
 		return false;
 	}
 
-	// •ÏŒ`ƒGƒlƒ~[‚ª•ÏŒ`‚µ‚Ä‚¢‚ÄAŠŠ‘–‚µ‚Ä‚¢‚éê‡B
+	// å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ãŒå¤‰å½¢ã—ã¦ã„ã¦ã€æ»‘èµ°ã—ã¦ã„ã‚‹å ´åˆã€‚
 	if (deformEnemy->GetIsDeformed() && deformEnemy->GetIsSliding())
 	{
-		// •ÏŒ`ƒGƒlƒ~[‚ÌUŒ‚B
+		// å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã®æ”»æ’ƒã€‚
 		if (deformEnemy->GetHitCollider()->IsHit(bossEnemy->GetHurtCollider())) {
 			bossEnemy->SetIsAttacked(true);
 			deformEnemy->SetIsDying(true);
@@ -379,7 +379,7 @@ bool CollisionHitManager::UpdateHitDeformEnemyBossEnemy(CollisionPair& pair)
 CollisionObject* CollisionHitManager::CreateCollider(
 	Character* ins, const EnCollisionType type, const Vector3 size, const bool isTrigger)
 {
-	// ƒS[ƒXƒgƒIƒuƒWƒFƒNƒg‚ğì¬B
+	// ã‚´ãƒ¼ã‚¹ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã€‚
 	CollisionObject* collider = new CollisionObject();
 	collider->CreateBox(
 		ins->GetPosition(),
@@ -387,10 +387,10 @@ CollisionObject* CollisionHitManager::CreateCollider(
 		size
 	);
 
-	// ƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚É“o˜^B
+	// ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ç™»éŒ²ã€‚
 	m_instance->Register(type, collider, ins);
 
-	// RayTest‚Å–³‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’èB
+	// RayTestã§ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã€‚
 	m_instance->SetIsTrigger(collider, isTrigger);
 
 	return collider;
@@ -400,7 +400,7 @@ CollisionObject* CollisionHitManager::CreateCollider(
 CollisionObject* CollisionHitManager::CreateCollider(
 	Character* ins, const EnCollisionType type, const float radius, const int index)
 {
-	// ƒS[ƒXƒgƒIƒuƒWƒFƒNƒg‚ğì¬B
+	// ã‚´ãƒ¼ã‚¹ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã€‚
 	CollisionObject* collider = new CollisionObject();
 	collider->CreateSphere(
 		ins->GetPosition(),
@@ -408,10 +408,10 @@ CollisionObject* CollisionHitManager::CreateCollider(
 		radius
 	);
 
-	// ƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚É“o˜^B
+	// ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ç™»éŒ²ã€‚
 	m_instance->Register(type, collider, ins);
 
-	// RayTest‚Å–³‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’èB
+	// RayTestã§ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã€‚
 	m_instance->SetIsTrigger(collider, index);
 
 	return collider;
@@ -421,7 +421,7 @@ CollisionObject* CollisionHitManager::CreateCollider(
 CollisionObject* CollisionHitManager::CreateCollider(
 	Character* ins, const EnCollisionType type, const float radius, const float height, const bool isTrigger)
 {
-	// ƒS[ƒXƒgƒIƒuƒWƒFƒNƒg‚ğì¬B
+	// ã‚´ãƒ¼ã‚¹ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã€‚
 	CollisionObject* collider = new CollisionObject();
 	collider->CreateCapsule(
 		ins->GetPosition(),
@@ -430,10 +430,10 @@ CollisionObject* CollisionHitManager::CreateCollider(
 		height
 	);
 
-	// ƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚É“o˜^B
+	// ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ç™»éŒ²ã€‚
 	m_instance->Register(type, collider, ins);
 
-	// RayTest‚Å–³‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’èB
+	// RayTestã§ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®šã€‚
 	m_instance->SetIsTrigger(collider, isTrigger);
 
 	return collider;
@@ -446,19 +446,19 @@ void CollisionHitManager::UpdateCollider(const Character* ins, CollisionObject* 
 		return;
 	}
 
-	// ƒRƒ‰ƒCƒ_[‚ÌÀ•W‚ğŒvZ‚·‚éB
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åº§æ¨™ã‚’è¨ˆç®—ã™ã‚‹ã€‚
 	Vector3 ghostPos = ins->GetPosition() + ins->GetUpDirection() * offset;
 
-	// ƒRƒ‰ƒCƒ_[‚ÌÀ•W‚ğƒ‚ƒfƒ‹‚ÌÀ•W‚É‡‚í‚¹‚éB
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åº§æ¨™ã‚’ãƒ¢ãƒ‡ãƒ«ã®åº§æ¨™ã«åˆã‚ã›ã‚‹ã€‚
 	collider->SetPosition(ghostPos);
 
-	// ƒRƒ‰ƒCƒ_[‚Ì‰ñ“]‚ğƒ‚ƒfƒ‹‚Ì‰ñ“]‚É‡‚í‚¹‚éB
+	// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å›è»¢ã‚’ãƒ¢ãƒ‡ãƒ«ã®å›è»¢ã«åˆã‚ã›ã‚‹ã€‚
 	collider->SetRotation(ins->GetRotation());
 }
 
 
 /// <summary>
-/// ‚â‚ç‚ê”»’è‚ğdeleteAnullptr‚µ‚Ü‚·B
+/// ã‚„ã‚‰ã‚Œåˆ¤å®šã‚’deleteã€nullptrã—ã¾ã™ã€‚
 /// </summary>
 CollisionObject* CollisionHitManager::DeleteCollider(CollisionObject* collider)
 {
@@ -466,7 +466,7 @@ CollisionObject* CollisionHitManager::DeleteCollider(CollisionObject* collider)
 		return nullptr;
 	}
 
-	// ƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚©‚ç“o˜^‰ğœB
+	// ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‹ã‚‰ç™»éŒ²è§£é™¤ã€‚
 	if (GetIsAvailable()) {
 		GetInstance()->Unregister(collider);
 	}
@@ -478,7 +478,7 @@ CollisionObject* CollisionHitManager::DeleteCollider(CollisionObject* collider)
 void CollisionHitManager::SetIsTrigger(CollisionObject* collider, int index)
 {
 	if (collider) {
-		// true(ƒgƒŠƒK[)‚È‚ç 1Afalse(’Êí)‚È‚ç 0 ‚ğƒZƒbƒg
+		// true(ãƒˆãƒªã‚¬ãƒ¼)ãªã‚‰ 1ã€false(é€šå¸¸)ãªã‚‰ 0 ã‚’ã‚»ãƒƒãƒˆ
 		collider->GetbtCollisionObject().setUserIndex(index);
 	}
 }
