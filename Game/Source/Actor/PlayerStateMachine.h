@@ -5,13 +5,13 @@
 #include "StateMachine.h"
 
 
-class Player;
-
-
 namespace app
 {
 	namespace actor
 	{
+		class Player;
+
+
 		class PlayerStateMachine : public StateMachineBase
 		{
 		private:

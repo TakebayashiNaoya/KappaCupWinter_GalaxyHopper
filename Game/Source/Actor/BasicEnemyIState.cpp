@@ -10,28 +10,28 @@ namespace app
 {
 	namespace actor
 	{
-		IdleState::IdleState(StateMachineBase* owner)
+		BasicEnemyIdleState::BasicEnemyIdleState(StateMachineBase* owner)
 			: IState(owner)
 		{
 		}
 
 
-		IdleState::~IdleState()
+		BasicEnemyIdleState::~BasicEnemyIdleState()
 		{
 		}
 
 
-		void IdleState::Enter()
+		void BasicEnemyIdleState::Enter()
 		{
 		}
 
 
-		void IdleState::Update()
+		void BasicEnemyIdleState::Update()
 		{
 		}
 
 
-		void IdleState::Exit()
+		void BasicEnemyIdleState::Exit()
 		{
 		}
 
@@ -41,28 +41,28 @@ namespace app
 		/********************************/
 
 
-		DashState::DashState(StateMachineBase* owner)
+		BasicEnemyDashState::BasicEnemyDashState(StateMachineBase* owner)
 			: IState(owner)
 		{
 		}
 
 
-		DashState::~DashState()
+		BasicEnemyDashState::~BasicEnemyDashState()
 		{
 		}
 
 
-		void DashState::Enter()
+		void BasicEnemyDashState::Enter()
 		{
 		}
 
 
-		void DashState::Update()
+		void BasicEnemyDashState::Update()
 		{
 		}
 
 
-		void DashState::Exit()
+		void BasicEnemyDashState::Exit()
 		{
 		}
 
@@ -72,28 +72,28 @@ namespace app
 		/********************************/
 
 
-		WaitState::WaitState(StateMachineBase* owner)
+		BasicEnemyWaitState::BasicEnemyWaitState(StateMachineBase* owner)
 			: IState(owner)
 		{
 		}
 
 
-		WaitState::~WaitState()
+		BasicEnemyWaitState::~BasicEnemyWaitState()
 		{
 		}
 
 
-		void WaitState::Enter()
+		void BasicEnemyWaitState::Enter()
 		{
 		}
 
 
-		void WaitState::Update()
+		void BasicEnemyWaitState::Update()
 		{
 		}
 
 
-		void WaitState::Exit()
+		void BasicEnemyWaitState::Exit()
 		{
 		}
 
@@ -103,28 +103,28 @@ namespace app
 		/********************************/
 
 
-		DeadState::DeadState(StateMachineBase* owner)
+		BasicEnemyDeadState::BasicEnemyDeadState(StateMachineBase* owner)
 			: IState(owner)
 		{
 		}
 
 
-		DeadState::~DeadState()
+		BasicEnemyDeadState::~BasicEnemyDeadState()
 		{
 		}
 
 
-		void DeadState::Enter()
+		void BasicEnemyDeadState::Enter()
 		{
 		}
 
 
-		void DeadState::Update()
+		void BasicEnemyDeadState::Update()
 		{
 		}
 
 
-		void DeadState::Exit()
+		void BasicEnemyDeadState::Exit()
 		{
 		}
 	}

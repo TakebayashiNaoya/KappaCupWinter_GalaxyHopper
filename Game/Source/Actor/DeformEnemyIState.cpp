@@ -10,28 +10,28 @@ namespace app
 {
 	namespace actor
 	{
-		IdleState::IdleState(StateMachineBase* owner)
+		DeformEnemyIdleState::DeformEnemyIdleState(StateMachineBase* owner)
 			: IState(owner)
 		{
 		}
 
 
-		IdleState::~IdleState()
+		DeformEnemyIdleState::~DeformEnemyIdleState()
 		{
 		}
 
 
-		void IdleState::Enter()
+		void DeformEnemyIdleState::Enter()
 		{
 		}
 
 
-		void IdleState::Update()
+		void DeformEnemyIdleState::Update()
 		{
 		}
 
 
-		void IdleState::Exit()
+		void DeformEnemyIdleState::Exit()
 		{
 		}
 
@@ -41,28 +41,28 @@ namespace app
 		/********************************/
 
 
-		DashState::DashState(StateMachineBase* owner)
+		DeformEnemyDashState::DeformEnemyDashState(StateMachineBase* owner)
 			: IState(owner)
 		{
 		}
 
 
-		DashState::~DashState()
+		DeformEnemyDashState::~DeformEnemyDashState()
 		{
 		}
 
 
-		void DashState::Enter()
+		void DeformEnemyDashState::Enter()
 		{
 		}
 
 
-		void DashState::Update()
+		void DeformEnemyDashState::Update()
 		{
 		}
 
 
-		void DashState::Exit()
+		void DeformEnemyDashState::Exit()
 		{
 		}
 
@@ -72,28 +72,28 @@ namespace app
 		/********************************/
 
 
-		FlippingState::FlippingState(StateMachineBase* owner)
+		DeformEnemyFlippingState::DeformEnemyFlippingState(StateMachineBase* owner)
 			: IState(owner)
 		{
 		}
 
 
-		FlippingState::~FlippingState()
+		DeformEnemyFlippingState::~DeformEnemyFlippingState()
 		{
 		}
 
 
-		void FlippingState::Enter()
+		void DeformEnemyFlippingState::Enter()
 		{
 		}
 
 
-		void FlippingState::Update()
+		void DeformEnemyFlippingState::Update()
 		{
 		}
 
 
-		void FlippingState::Exit()
+		void DeformEnemyFlippingState::Exit()
 		{
 		}
 
@@ -103,28 +103,28 @@ namespace app
 		/********************************/
 
 
-		FlippedState::FlippedState(StateMachineBase* owner)
+		DeformEnemyFlippedState::DeformEnemyFlippedState(StateMachineBase* owner)
 			: IState(owner)
 		{
 		}
 
 
-		FlippedState::~FlippedState()
+		DeformEnemyFlippedState::~DeformEnemyFlippedState()
 		{
 		}
 
 
-		void FlippedState::Enter()
+		void DeformEnemyFlippedState::Enter()
 		{
 		}
 
 
-		void FlippedState::Update()
+		void DeformEnemyFlippedState::Update()
 		{
 		}
 
 
-		void FlippedState::Exit()
+		void DeformEnemyFlippedState::Exit()
 		{
 		}
 
@@ -134,28 +134,28 @@ namespace app
 		/********************************/
 
 
-		SlidingState::SlidingState(StateMachineBase* owner)
+		DeformEnemySlidingState::DeformEnemySlidingState(StateMachineBase* owner)
 			: IState(owner)
 		{
 		}
 
 
-		SlidingState::~SlidingState()
+		DeformEnemySlidingState::~DeformEnemySlidingState()
 		{
 		}
 
 
-		void SlidingState::Enter()
+		void DeformEnemySlidingState::Enter()
 		{
 		}
 
 
-		void SlidingState::Update()
+		void DeformEnemySlidingState::Update()
 		{
 		}
 
 
-		void SlidingState::Exit()
+		void DeformEnemySlidingState::Exit()
 		{
 		}
 
@@ -165,28 +165,28 @@ namespace app
 		/********************************/
 
 
-		DeadState::DeadState(StateMachineBase* owner)
+		DeformEnemyDeadState::DeformEnemyDeadState(StateMachineBase* owner)
 			: IState(owner)
 		{
 		}
 
 
-		DeadState::~DeadState()
+		DeformEnemyDeadState::~DeformEnemyDeadState()
 		{
 		}
 
 
-		void DeadState::Enter()
+		void DeformEnemyDeadState::Enter()
 		{
 		}
 
 
-		void DeadState::Update()
+		void DeformEnemyDeadState::Update()
 		{
 		}
 
 
-		void DeadState::Exit()
+		void DeformEnemyDeadState::Exit()
 		{
 		}
 	}

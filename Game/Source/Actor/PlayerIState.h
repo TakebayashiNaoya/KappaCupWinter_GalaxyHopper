@@ -13,11 +13,11 @@ namespace app
 		/**
 		 * 止まってる
 		 */
-		class IdleState : public IState
+		class PlayerIdleState : public IState
 		{
 		public:
-			IdleState(StateMachineBase* owner);
-			~IdleState();
+			PlayerIdleState(StateMachineBase* owner) : IState(owner) {};
+			~PlayerIdleState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -33,11 +33,11 @@ namespace app
 		/**
 		 * 歩く
 		 */
-		class WalkState : public app::actor::IState
+		class PlayerWalkState : public app::actor::IState
 		{
 		public:
-			WalkState(StateMachineBase* owner);
-			~WalkState();
+			PlayerWalkState(StateMachineBase* owner) : IState(owner) {};
+			~PlayerWalkState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -53,11 +53,11 @@ namespace app
 		/**
 		 * 走る
 		 */
-		class DashState : public app::actor::IState
+		class PlayerDashState : public app::actor::IState
 		{
 		public:
-			DashState(StateMachineBase* owner);
-			~DashState();
+			PlayerDashState(StateMachineBase* owner) : IState(owner) {};
+			~PlayerDashState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -73,11 +73,11 @@ namespace app
 		/**
 		 * ジャンプ
 		 */
-		class JumpState : public app::actor::IState
+		class PlayerJumpState : public app::actor::IState
 		{
 		public:
-			JumpState(StateMachineBase* owner);
-			~JumpState();
+			PlayerJumpState(StateMachineBase* owner) : IState(owner) {};
+			~PlayerJumpState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -93,11 +93,11 @@ namespace app
 		/**
 		 * ダメージを受ける
 		 */
-		class DamageState : public app::actor::IState
+		class PlayerDamageState : public app::actor::IState
 		{
 		public:
-			DamageState(StateMachineBase* owner);
-			~DamageState();
+			PlayerDamageState(StateMachineBase* owner) : IState(owner) {};
+			~PlayerDamageState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -113,11 +113,11 @@ namespace app
 		/**
 		 * 死んでいる最中
 		 */
-		class DyingState : public app::actor::IState
+		class PlayerDyingState : public app::actor::IState
 		{
 		public:
-			DyingState(StateMachineBase* owner);
-			~DyingState();
+			PlayerDyingState(StateMachineBase* owner) : IState(owner) {};
+			~PlayerDyingState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -133,11 +133,11 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class DeadState : public app::actor::IState
+		class PlayerDeadState : public app::actor::IState
 		{
 		public:
-			DeadState(StateMachineBase* owner);
-			~DeadState();
+			PlayerDeadState(StateMachineBase* owner) : IState(owner) {};
+			~PlayerDeadState() {};
 
 			void Enter() override;
 			void Update() override;

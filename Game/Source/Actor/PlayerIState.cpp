@@ -11,30 +11,19 @@ namespace app
 {
 	namespace actor
 	{
-		IdleState::IdleState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		IdleState::~IdleState()
-		{
-		}
-
-
-		void IdleState::Enter()
+		void PlayerIdleState::Enter()
 		{
 			/** 待機アニメーション */
 			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Idle);
 		}
 
 
-		void IdleState::Update()
+		void PlayerIdleState::Update()
 		{
 		}
 
 
-		void IdleState::Exit()
+		void PlayerIdleState::Exit()
 		{
 		}
 
@@ -44,30 +33,19 @@ namespace app
 		/********************************/
 
 
-		WalkState::WalkState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		WalkState::~WalkState()
-		{
-		}
-
-
-		void WalkState::Enter()
+		void PlayerWalkState::Enter()
 		{
 			/** 歩きアニメーション */
 			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Walk);
 		}
 
 
-		void WalkState::Update()
+		void PlayerWalkState::Update()
 		{
 		}
 
 
-		void WalkState::Exit()
+		void PlayerWalkState::Exit()
 		{
 		}
 
@@ -77,30 +55,19 @@ namespace app
 		/********************************/
 
 
-		DashState::DashState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		DashState::~DashState()
-		{
-		}
-
-
-		void DashState::Enter()
+		void PlayerDashState::Enter()
 		{
 			/** 走りアニメーション */
 			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Dash);
 		}
 
 
-		void DashState::Update()
+		void PlayerDashState::Update()
 		{
 		}
 
 
-		void DashState::Exit()
+		void PlayerDashState::Exit()
 		{
 		}
 
@@ -110,30 +77,19 @@ namespace app
 		/********************************/
 
 
-		JumpState::JumpState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		JumpState::~JumpState()
-		{
-		}
-
-
-		void JumpState::Enter()
+		void PlayerJumpState::Enter()
 		{
 			/** ジャンプアニメーション */
 			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Jump);
 		}
 
 
-		void JumpState::Update()
+		void PlayerJumpState::Update()
 		{
 		}
 
 
-		void JumpState::Exit()
+		void PlayerJumpState::Exit()
 		{
 		}
 
@@ -143,32 +99,21 @@ namespace app
 		/********************************/
 
 
-		DamageState::DamageState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		DamageState::~DamageState()
-		{
-		}
-
-
-		void DamageState::Enter()
+		void PlayerDamageState::Enter()
 		{
 			/** 被弾アニメーション */
 			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Damage);
 			/** ダメージ処理 */
-			GetOwner<Player>()->GetStatus<PlayerStatus>()->Damage();
+			GetOwner<PlayerStateMachine>()->GetOwner<Player>()->GetStatus<PlayerStatus>()->Damage();
 		}
 
 
-		void DamageState::Update()
+		void PlayerDamageState::Update()
 		{
 		}
 
 
-		void DamageState::Exit()
+		void PlayerDamageState::Exit()
 		{
 		}
 
@@ -178,30 +123,19 @@ namespace app
 		/********************************/
 
 
-		DyingState::DyingState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		DyingState::~DyingState()
-		{
-		}
-
-
-		void DyingState::Enter()
+		void PlayerDyingState::Enter()
 		{
 			/** 死亡アニメーション */
 			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Die);
 		}
 
 
-		void DyingState::Update()
+		void PlayerDyingState::Update()
 		{
 		}
 
 
-		void DyingState::Exit()
+		void PlayerDyingState::Exit()
 		{
 		}
 
@@ -211,28 +145,17 @@ namespace app
 		/********************************/
 
 
-		DeadState::DeadState(StateMachineBase* owner)
-			: IState(owner)
+		void PlayerDeadState::Enter()
 		{
 		}
 
 
-		DeadState::~DeadState()
+		void PlayerDeadState::Update()
 		{
 		}
 
 
-		void DeadState::Enter()
-		{
-		}
-
-
-		void DeadState::Update()
-		{
-		}
-
-
-		void DeadState::Exit()
+		void PlayerDeadState::Exit()
 		{
 		}
 	}

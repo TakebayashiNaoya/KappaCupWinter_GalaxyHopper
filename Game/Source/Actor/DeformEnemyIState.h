@@ -13,11 +13,11 @@ namespace app
 		/**
 		 * 止まってる
 		 */
-		class IdleState : public IState
+		class DeformEnemyIdleState : public IState
 		{
 		public:
-			IdleState(StateMachineBase* owner);
-			~IdleState();
+			DeformEnemyIdleState(StateMachineBase* owner);
+			~DeformEnemyIdleState();
 
 			void Enter() override;
 			void Update() override;
@@ -33,11 +33,11 @@ namespace app
 		/**
 		 * 走る
 		 */
-		class DashState : public IState
+		class DeformEnemyDashState : public IState
 		{
 		public:
-			DashState(StateMachineBase* owner);
-			~DashState();
+			DeformEnemyDashState(StateMachineBase* owner);
+			~DeformEnemyDashState();
 
 			void Enter() override;
 			void Update() override;
@@ -53,11 +53,11 @@ namespace app
 		/**
 		 * ひっくり返る
 		 */
-		class FlippingState : public IState
+		class DeformEnemyFlippingState : public IState
 		{
 		public:
-			FlippingState(StateMachineBase* owner);
-			~FlippingState();
+			DeformEnemyFlippingState(StateMachineBase* owner);
+			~DeformEnemyFlippingState();
 
 			void Enter() override;
 			void Update() override;
@@ -73,11 +73,11 @@ namespace app
 		/**
 		 * ひっくり返った
 		 */
-		class FlippedState : public IState
+		class DeformEnemyFlippedState : public IState
 		{
 		public:
-			FlippedState(StateMachineBase* owner);
-			~FlippedState();
+			DeformEnemyFlippedState(StateMachineBase* owner);
+			~DeformEnemyFlippedState();
 
 			void Enter() override;
 			void Update() override;
@@ -93,11 +93,11 @@ namespace app
 		/**
 		 * 滑走
 		 */
-		class SlidingState : public IState
+		class DeformEnemySlidingState : public IState
 		{
 		public:
-			SlidingState(StateMachineBase* owner);
-			~SlidingState();
+			DeformEnemySlidingState(StateMachineBase* owner);
+			~DeformEnemySlidingState();
 
 			void Enter() override;
 			void Update() override;
@@ -113,11 +113,11 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class DeadState : public IState
+		class DeformEnemyDeadState : public IState
 		{
 		public:
-			DeadState(StateMachineBase* owner);
-			~DeadState();
+			DeformEnemyDeadState(StateMachineBase* owner);
+			~DeformEnemyDeadState();
 
 			void Enter() override;
 			void Update() override;

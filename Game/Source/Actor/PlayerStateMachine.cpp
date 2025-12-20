@@ -13,13 +13,13 @@ namespace app
 			: StateMachineBase(owner)
 		{
 			/** ステートの生成 */
-			AddState<IdleState>(enPlayerState_Idle);
-			AddState<WalkState>(enPlayerState_Walk);
-			AddState<DashState>(enPlayerState_Dash);
-			AddState<JumpState>(enPlayerState_Jump);
-			AddState<DamageState>(enPlayerState_Damage);
-			AddState<DyingState>(enPlayerState_Dying);
-			AddState<DeadState>(enPlayerState_Dead);
+			AddState<PlayerIdleState>(enPlayerState_Idle);
+			AddState<PlayerWalkState>(enPlayerState_Walk);
+			AddState<PlayerDashState>(enPlayerState_Dash);
+			AddState<PlayerJumpState>(enPlayerState_Jump);
+			AddState<PlayerDamageState>(enPlayerState_Damage);
+			AddState<PlayerDyingState>(enPlayerState_Dying);
+			AddState<PlayerDeadState>(enPlayerState_Dead);
 			K2_ASSERT(m_stateMap.size() == enPlayerState_Num, "AddStateを呼んでください");
 
 			/** 初期ステート */

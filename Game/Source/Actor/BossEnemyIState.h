@@ -13,11 +13,11 @@ namespace app
 		/**
 		 * 止まってる
 		 */
-		class IdleState : public IState
+		class BossEnemyIdleState : public IState
 		{
 		public:
-			IdleState(StateMachineBase* owner);
-			~IdleState();
+			BossEnemyIdleState(StateMachineBase* owner);
+			~BossEnemyIdleState();
 
 			void Enter() override;
 			void Update() override;
@@ -32,11 +32,11 @@ namespace app
 		/**
 		 * 歩く
 		 */
-		class WalkState : public IState
+		class BossEnemyWalkState : public IState
 		{
 		public:
-			WalkState(StateMachineBase* owner);
-			~WalkState();
+			BossEnemyWalkState(StateMachineBase* owner);
+			~BossEnemyWalkState();
 
 			void Enter() override;
 			void Update() override;
@@ -52,11 +52,11 @@ namespace app
 		/**
 		 * 走る
 		 */
-		class DashState : public IState
+		class BossEnemyDashState : public IState
 		{
 		public:
-			DashState(StateMachineBase* owner);
-			~DashState();
+			BossEnemyDashState(StateMachineBase* owner);
+			~BossEnemyDashState();
 
 			void Enter() override;
 			void Update() override;
@@ -72,11 +72,11 @@ namespace app
 		/**
 		 * 攻撃
 		 */
-		class AttackState : public IState
+		class BossEnemyAttackState : public IState
 		{
 		public:
-			AttackState(StateMachineBase* owner);
-			~AttackState();
+			BossEnemyAttackState(StateMachineBase* owner);
+			~BossEnemyAttackState();
 
 			void Enter() override;
 			void Update() override;
@@ -92,11 +92,11 @@ namespace app
 		/**
 		 * クールダウン
 		 */
-		class CoolDownState : public IState
+		class BossEnemyCoolDownState : public IState
 		{
 		public:
-			CoolDownState(StateMachineBase* owner);
-			~CoolDownState();
+			BossEnemyCoolDownState(StateMachineBase* owner);
+			~BossEnemyCoolDownState();
 
 			void Enter() override;
 			void Update() override;
@@ -112,11 +112,11 @@ namespace app
 		/**
 		 * ダメージを受ける
 		 */
-		class DamageState : public IState
+		class BossEnemyDamageState : public IState
 		{
 		public:
-			DamageState(StateMachineBase* owner);
-			~DamageState();
+			BossEnemyDamageState(StateMachineBase* owner);
+			~BossEnemyDamageState();
 
 			void Enter() override;
 			void Update() override;
@@ -132,11 +132,11 @@ namespace app
 		/**
 		 * 死んでいる最中
 		 */
-		class DyingState : public IState
+		class BossEnemyDyingState : public IState
 		{
 		public:
-			DyingState(StateMachineBase* owner);
-			~DyingState();
+			BossEnemyDyingState(StateMachineBase* owner);
+			~BossEnemyDyingState();
 
 			void Enter() override;
 			void Update() override;
@@ -152,11 +152,11 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class DeadState : public IState
+		class BossEnemyDeadState : public IState
 		{
 		public:
-			DeadState(StateMachineBase* owner);
-			~DeadState();
+			BossEnemyDeadState(StateMachineBase* owner);
+			~BossEnemyDeadState();
 
 			void Enter() override;
 			void Update() override;
