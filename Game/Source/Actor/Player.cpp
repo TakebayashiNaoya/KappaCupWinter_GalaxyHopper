@@ -4,6 +4,7 @@
  */
 #include "stdafx.h"
 #include "Player.h"
+#include "Collision/CollisionManager.h"
 
 
 namespace app
@@ -49,7 +50,15 @@ namespace app
 		bool Player::Start()
 		{
 			/** モデルとアニメーションの初期化 */
-			InitModel(enAnimationClip_Num, PLAYER_ANIMATION_OPTIONS, "Player/player", m_status->GetModelScale());
+			InitModel(enAnimationClip_Num, PLAYER_ANIMATION_OPTIONS, "Player/player", GetStatus<PlayerStatus>()->GetModelScale());
+
+			/** やられ判定のコライダーを作成 */
+			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
+				this,
+				collision::EnCollisionType::enCollisionType_Player,
+				GetStatus<PlayerStatus>()->GetHurtRadius(),
+				app::EnCollisionAttr::enCollisionAttr_Player
+			);
 			return true;
 		}
 

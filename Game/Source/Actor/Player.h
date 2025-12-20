@@ -36,8 +36,6 @@ namespace app
 			/** コントローラーから渡される移動ベクトルのセッター */
 			void SetVelocity(const Vector3& velocity) { m_velocity = velocity; }
 
-			/** プレイヤーステータスのゲッター */
-			PlayerStatus* GetPlayerStatus() const { return m_status; }
 			/** プレイヤーステートマシンのゲッター */
 			PlayerStateMachine* GetStateMachine() const { return m_stateMachine.get(); }
 
@@ -105,10 +103,8 @@ namespace app
 			/// </summary>
 			void InvincibleTimer();
 
-		private:
-			// ★追加: パラメータ管理クラス
-			PlayerStatus* m_status = nullptr;
 
+		private:
 			// ★追加: コントローラーから渡される移動ベクトル
 			Vector3 m_velocity = Vector3::Zero;
 
