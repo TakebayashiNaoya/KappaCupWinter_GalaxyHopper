@@ -33,7 +33,7 @@ namespace app
 			m_status = std::make_unique<PlayerStatus>();
 
 			/** ステートマシン生成 */
-			m_stateMachine = std::make_unique<PlayerStateMachine>();
+			m_stateMachine = std::make_unique<PlayerStateMachine>(this);
 		}
 
 
@@ -65,6 +65,11 @@ namespace app
 
 			/** 無敵タイマー更新 */
 			InvincibleTimer();
+		}
+
+		void Player::Render(RenderContext& rc)
+		{
+			Character::Render(rc);
 		}
 	}
 }

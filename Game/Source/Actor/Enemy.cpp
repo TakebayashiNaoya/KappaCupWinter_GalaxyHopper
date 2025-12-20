@@ -1,36 +1,36 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Enemy.h"
-#include "Source/Collision/CollisionManager.h"
-
-Enemy::~Enemy()
-{
-	m_hurtCollider = CollisionHitManager::DeleteCollider(m_hurtCollider);
-	m_hitCollider = CollisionHitManager::DeleteCollider(m_hitCollider);
-	m_attackCollider = CollisionHitManager::DeleteCollider(m_attackCollider);
-}
-
-void Enemy::SetAttackDirection(const Vector3& direction)
-{
-	if (direction.Length() < 0.01) {
-		return;
-	}
-	m_attackDirection = direction;
-	m_attackDirection.Normalize();
-}
-
-/// <summary>
-/// ƒvƒŒƒCƒ„[‚ğ’Ç‚¢‚©‚¯‚é•ûŒü‚ğŒvZ‚µ‚Ä•Ô‚µ‚Ü‚·B
-/// </summary>
-/// <returns> ’ÇÕ•ûŒüB</returns>
-const Vector3 Enemy::ComputeMoveDirection() const
-{
-	// ƒvƒŒƒCƒ„[‚Ö‚Ì•ûŒüƒxƒNƒgƒ‹‚ğŒvZB
-	Vector3 directionToPlayer = m_playerFoundPos - m_position;
-	directionToPlayer.Normalize();
-
-	// ƒvƒŒƒCƒ„[‚Ö‚Ì•ûŒüƒxƒNƒgƒ‹‚©‚çAÚü•ûŒü‚ğæ“¾B
-	Vector3 moveDirection = ProjectOnPlane(directionToPlayer, m_upDirection);
-	moveDirection.Normalize();
-
-	return moveDirection;
-}
+//#include "Source/Collision/CollisionManager.h"
+//
+//Enemy::~Enemy()
+//{
+//	m_hurtCollider = CollisionHitManager::DeleteCollider(m_hurtCollider);
+//	m_hitCollider = CollisionHitManager::DeleteCollider(m_hitCollider);
+//	m_attackCollider = CollisionHitManager::DeleteCollider(m_attackCollider);
+//}
+//
+//void Enemy::SetAttackDirection(const Vector3& direction)
+//{
+//	if (direction.Length() < 0.01) {
+//		return;
+//	}
+//	m_attackDirection = direction;
+//	m_attackDirection.Normalize();
+//}
+//
+///// <summary>
+///// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½ã„ã‹ã‘ã‚‹æ–¹å‘ã‚’è¨ˆç®—ã—ã¦è¿”ã—ã¾ã™ã€‚
+///// </summary>
+///// <returns> è¿½è·¡æ–¹å‘ã€‚</returns>
+//const Vector3 Enemy::ComputeMoveDirection() const
+//{
+//	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸ã®æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—ã€‚
+//	Vector3 directionToPlayer = m_playerFoundPos - m_position;
+//	directionToPlayer.Normalize();
+//
+//	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸ã®æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰ã€æ¥ç·šæ–¹å‘ã‚’å–å¾—ã€‚
+//	Vector3 moveDirection = ProjectOnPlane(directionToPlayer, m_upDirection);
+//	moveDirection.Normalize();
+//
+//	return moveDirection;
+//}

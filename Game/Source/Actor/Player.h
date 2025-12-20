@@ -79,11 +79,6 @@ namespace app
 			/// </summary>
 			void StompJump();
 
-			/// <summary>
-			/// アニメーションイベント
-			/// </summary>
-			void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName) override final;
-
 		protected:
 			// ★削除: 入力処理（ComputeMoveDirection）はControllerに移譲したため不要
 

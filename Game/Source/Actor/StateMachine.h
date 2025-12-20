@@ -198,6 +198,8 @@ namespace app
 			/** 指定したIDのステートを取得します。 */
 			IState* FindState(const int stateId);
 
+
+		public:
 			/** 持ち主を型キャストして取得する便利関数 */
 			template <typename T>
 			T* GetOwner()

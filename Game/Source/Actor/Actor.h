@@ -50,6 +50,8 @@ namespace app
 			ModelRender m_modelRender;
 			/** トランスフォーム */
 			Transform m_transform;
+			/** ステータス */
+			ActorStatus* m_status = nullptr;
 
 
 		public:

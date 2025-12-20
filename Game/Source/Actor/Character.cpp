@@ -57,7 +57,7 @@ namespace app
 		void Character::UpdateUpDirection()
 		{
 			Vector3 planetCenter = Vector3::Zero;
-			m_upDirection = m_transform.m_localPosition - planetCenter;
+			m_upDirection = m_transform.m_position - planetCenter;
 			m_upDirection.Normalize();
 		}
 
@@ -86,10 +86,10 @@ namespace app
 			m_modelRender.Init(fullModelPath.c_str(), *m_animationClipList.data(), count, enModelUpAxisY);
 
 			/** モデルの初期化 */
-			m_transform.m_localScale = Vector3(scale, scale, scale);
-			m_modelRender.SetPosition(m_transform.m_localPosition);
-			m_modelRender.SetScale(m_transform.m_localScale);
-			m_modelRender.SetRotation(m_transform.m_localRotation);
+			m_transform.m_scale = Vector3(scale, scale, scale);
+			m_modelRender.SetPosition(m_transform.m_position);
+			m_modelRender.SetScale(m_transform.m_scale);
+			m_modelRender.SetRotation(m_transform.m_rotation);
 		}
 	}
 }

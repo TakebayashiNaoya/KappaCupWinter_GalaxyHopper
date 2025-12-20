@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * TitlePlanet.cpp
- * ƒ^ƒCƒgƒ‹—p‚Ì˜f¯ƒNƒ‰ƒX
+ * ã‚¿ã‚¤ãƒˆãƒ«ç”¨ã®æƒ‘æ˜Ÿã‚¯ãƒ©ã‚¹
  */
 #include "stdafx.h"
 #include "TitlePlanet.h"
@@ -18,8 +18,8 @@ namespace app
 
 		void TitlePlanet::Update()
 		{
-			m_transform.m_localRotation.AddRotationX(-0.005f);
-			m_modelRender.SetRotation(m_transform.m_localRotation);
+			m_transform.m_rotation.AddRotationX(-0.005f);
+			m_modelRender.SetRotation(m_transform.m_rotation);
 			m_modelRender.Update();
 		}
 	}

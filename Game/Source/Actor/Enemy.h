@@ -53,13 +53,6 @@ namespace app
 			bool m_isDead = false;						// 死亡状態かどうか。
 			Vector3 m_attackDirection = Vector3::Zero;	// 攻撃方向。
 			bool m_isAttack = false;					// 攻撃中かどうか。
-
-		protected:
-			/// <summary>
-			/// プレイヤーを追いかける方向を計算して返します。
-			/// </summary>
-			/// <returns> 追跡方向。</returns>
-			const Vector3 ComputeMoveDirection()const override;
 		};
 	}
 }
