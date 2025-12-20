@@ -105,7 +105,7 @@ namespace app
 			/** ダッシュスピードのゲッター */
 			float GetDashSpeed() const { return m_dashSpeed; }
 			/** 半径のゲッター */
-			float GetHitRadius() const { return m_radius; }
+			float GetHurtRadius() const { return m_radius; }
 			/** モデルの拡大率のゲッター */
 			float GetModelScale() const { return m_modelScale; }
 			/** ダメージを受けたかどうかのゲッター */
