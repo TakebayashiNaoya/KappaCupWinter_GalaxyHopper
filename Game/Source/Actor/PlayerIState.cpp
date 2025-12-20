@@ -148,7 +148,7 @@ namespace app
 
 		void DamageState::Enter()
 		{
-			GetOwner<Player>()->GetPlayerStatus()->Damage();
+			GetOwner<Player>()->GetStatus<PlayerStatus>()->Damage();
 		}
 
 
