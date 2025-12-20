@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * Actor.h
- * Œ©‚½–Ú‚ª‘¶İ‚·‚éƒQ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌŠî’êƒNƒ‰ƒX
+ * è¦‹ãŸç›®ãŒå­˜åœ¨ã™ã‚‹ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åŸºåº•ã‚¯ãƒ©ã‚¹
  */
 #pragma once
 #include "ActorStatus.h"
@@ -14,32 +14,62 @@ namespace app
 		{
 		public:
 			/**
-			 * ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€(À•W(position)AŠgk(scale)A‰ñ“](rotation))
-			 * NOTE:—áŠO“I‚Épublic‚É‚µ‚Ä‚¢‚é
+			 * ãƒ¢ãƒ‡ãƒ«æç”»æ©Ÿèƒ½ã‚’å–å¾—
 			 */
-			Transform m_transform;
+			ModelRender* GetModelRender() { return &m_modelRender; }
 
+			/**
+			 * ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å–å¾—ã™ã‚‹
+			 */
+			template<typename TStatus>
+			TStatus* GetStatus() { return dynamic_cast<TStatus*>(m_status); }
 
+			/**
+			 * ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’å–å¾—
+			 */
+			inline Transform& GetTransform() { return m_transform; }
 
-		public:
-			/** ƒ‚ƒfƒ‹•`‰æ‹@”\‚ğæ“¾ */
-			ModelRender* GetModelRender()
+			/**
+			 * åº§æ¨™ã‚’è¨­å®š
+			 */
+			inline void SetPosition(const Vector3& position) { m_transform.m_position = position; }
+
+			/**
+			 * å›è»¢ã‚’è¨­å®š
+			 */
+			inline void SetRotation(const Quaternion& rotation) { m_transform.m_rotation = rotation; }
+
+			/**
+			 * æ‹¡ç¸®ã‚’è¨­å®š
+			 */
+			inline void SetScale(const Vector3& scale) { m_transform.m_scale = scale; }
+
+			/**
+			 * ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’è¨­å®š
+			 */
+			inline void SetTransform(const Transform& transform)
 			{
-				return &m_modelRender;
+				m_transform.m_position = transform.m_position;
+				m_transform.m_rotation = transform.m_rotation;
+				m_transform.m_scale = transform.m_scale;
 			}
 
 
 		protected:
-			/** ƒ‚ƒfƒ‹•`‰æ */
+			/** ãƒ¢ãƒ‡ãƒ«æç”» */
 			ModelRender m_modelRender;
-			/** ƒXƒe[ƒ^ƒX */
+			/** ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
 			ActorStatus* m_status;
+			/** ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ  */
+			Transform m_transform;
 
 
 		public:
 			Actor();
 			~Actor();
 
+
+		protected:
 			virtual bool Start() override;
 			virtual void Update() override;
 			virtual void Render(RenderContext& renderContect) override;
