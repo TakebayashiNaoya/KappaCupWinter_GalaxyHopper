@@ -58,6 +58,79 @@ namespace app
 		 */
 		class StateMachineBase
 		{
+		public:
+			/**
+			 * トランスフォームを取得
+			 */
+			inline Transform& GetTransform() { return m_transform; }
+			/**
+			 * 座標を設定
+			 */
+			inline void SetPosition(const Vector3& position) { m_transform.m_position = position; }
+			/**
+			 * 回転を設定
+			 */
+			inline void SetRotation(const Quaternion& rotation) { m_transform.m_rotation = rotation; }
+			/**
+			 * 拡縮を設定
+			 */
+			inline void SetScale(const Vector3& scale) { m_transform.m_scale = scale; }
+
+			/**
+			 * 上方向ベクトルの取得
+			 */
+			inline const Vector3& GetUpDirection() const { return m_upDirection; }
+			/**
+			 * 上方向ベクトルの設定
+			 */
+			inline void SetUpDirection(const Vector3& upDir) { m_upDirection = upDir; }
+
+			/**
+			 * 移動方向の取得
+			 */
+			inline const Vector3& GetMoveDirection() const { return m_moveDirection; }
+			/**
+			 * 移動方向の設定
+			 */
+			inline void SetMoveDirection(const Vector3& moveDir) { m_moveDirection = moveDir; }
+
+			/**
+			 * 移動速度の取得
+			 */
+			inline float GetMoveSpeed() const { return m_moveSpeed; }
+			/**
+			 * 移動速度の設定
+			 */
+			inline void SetMoveSpeed(const float moveSpeed) { m_moveSpeed = moveSpeed; }
+
+			/**
+			 * 初速ジャンプ速度の取得
+			 */
+			inline float GetInitialJumpSpeed() const { return m_initialJumpSpeed; }
+			/**
+			 * 初速ジャンプ速度の設定
+			 */
+			inline void SetInitialJumpSpeed(const float initialJumpSpeed) { m_initialJumpSpeed = initialJumpSpeed; }
+
+			/**
+			 * ダッシュできるかの取得
+			 */
+			inline bool IsDash() const { return m_isDash; }
+			/**
+			 * ダッシュできるかの設定
+			 */
+			inline void SetDash(const bool isDash) { m_isDash = isDash; }
+
+			/**
+			 * 攻撃できるかの取得
+			 */
+			inline bool IsAttack() const { return m_isAttack; }
+			/**
+			 * 攻撃できるかの設定
+			 */
+			inline void SetAttack(const bool isAttack) { m_isAttack = isAttack; }
+
+
 		protected:
 			/** 全てのステートをID付きで保存する辞書 */
 			std::map<int, IState*> m_stateMap;
@@ -66,12 +139,8 @@ namespace app
 			/** 次に変更するステート */
 			IState* m_nextState = nullptr;
 
-			/** 座標 */
-			Vector3 m_position = Vector3::Zero;
-			/** 拡縮 */
-			Vector3 m_scale = Vector3::One;
-			/** 回転 */
-			Quaternion m_rotation = Quaternion::Identity;
+			/** トランスフォーム */
+			Transform m_transform;
 
 			/** 上方向ベクトル */
 			Vector3 m_upDirection = Vector3::Up;
@@ -204,89 +273,6 @@ namespace app
 			{
 				return v - n * Dot(v, n);
 			}
-
-
-		public:
-			/**
-			 * 座標の取得
-			 */
-			inline const Vector3& GetPosition() const { return m_position; }
-			/**
-			 * 座標の設定
-			 */
-			inline void SetPosition(const Vector3& pos) { m_position = pos; }
-
-			/**
-			 * 拡縮の取得
-			 */
-			inline const Vector3& GetScale() const { return m_scale; }
-			/**
-			 * 拡縮の設定
-			 */
-			inline void SetScale(const Vector3& scale) { m_scale = scale; }
-
-			/**
-			 * 回転の取得
-			 */
-			inline const Quaternion& GetRotation() const { return m_rotation; }
-			/**
-			 * 回転の設定
-			 */
-			inline void SetRotation(const Quaternion& rot) { m_rotation = rot; }
-
-			/**
-			 * 上方向ベクトルの取得
-			 */
-			inline const Vector3& GetUpDirection() const { return m_upDirection; }
-			/**
-			 * 上方向ベクトルの設定
-			 */
-			inline void SetUpDirection(const Vector3& upDir) { m_upDirection = upDir; }
-
-			/**
-			 * 移動方向の取得
-			 */
-			inline const Vector3& GetMoveDirection() const { return m_moveDirection; }
-			/**
-			 * 移動方向の設定
-			 */
-			inline void SetMoveDirection(const Vector3& moveDir) { m_moveDirection = moveDir; }
-
-			/**
-			 * 移動速度の取得
-			 */
-			inline float GetMoveSpeed() const { return m_moveSpeed; }
-			/**
-			 * 移動速度の設定
-			 */
-			inline void SetMoveSpeed(const float moveSpeed) { m_moveSpeed = moveSpeed; }
-
-			/**
-			 * 初速ジャンプ速度の取得
-			 */
-			inline float GetInitialJumpSpeed() const { return m_initialJumpSpeed; }
-			/**
-			 * 初速ジャンプ速度の設定
-			 */
-			inline void SetInitialJumpSpeed(const float initialJumpSpeed) { m_initialJumpSpeed = initialJumpSpeed; }
-
-			/**
-			 * ダッシュできるかの取得
-			 */
-			inline bool IsDash() const { return m_isDash; }
-			/**
-			 * ダッシュできるかの設定
-			 */
-			inline void SetDash(const bool isDash) { m_isDash = isDash; }
-
-			/**
-			 * 攻撃できるかの取得
-			 */
-			inline bool IsAttack() const { return m_isAttack; }
-			/**
-			 * 攻撃できるかの設定
-			 */
-			inline void SetAttack(const bool isAttack) { m_isAttack = isAttack; }
 		};
 	}
 }

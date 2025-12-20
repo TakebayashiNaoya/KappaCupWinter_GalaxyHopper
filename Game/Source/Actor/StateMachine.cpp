@@ -216,7 +216,7 @@ namespace app
 		bool StateMachineBase::CanChangeDamage()
 		{
 			Character* character = GetOwner<Character>();
-			bool isDamage = character->GetStatus()->IsDamage();
+			bool isDamage = character->GetStatus<CharacterStatus>()->IsDamage();
 			if (isDamage) {
 				return true;
 			}
@@ -227,8 +227,8 @@ namespace app
 		{
 			/** HPが0ならtrueを返します。 */
 			Character* character = GetOwner<Character>();
-			const uint8_t m_currentHp = character->GetStatus()->GetHp();
-			if (m_currentHp == 0) {
+			const uint8_t m_currentHp = character->GetStatus<CharacterStatus>()->GetHp();
+			if (m_currentHp <= 0) {
 				return true;
 			}
 			return false;
@@ -238,9 +238,9 @@ namespace app
 		{
 			/** HPが0かつ、アニメーションが終了している場合にtrueを返します。 */
 			Character* character = GetOwner<Character>();
-			const uint8_t m_currentHp = character->GetStatus()->GetHp();
+			const uint8_t m_currentHp = character->GetStatus<CharacterStatus>()->GetHp();
 			const bool isPlayingAnimation = character->GetModelRender()->IsPlayingAnimation();
-			if (m_currentHp == 0 && isPlayingAnimation == false) {
+			if (m_currentHp <= 0 && isPlayingAnimation == false) {
 				return true;
 			}
 			return false;
@@ -253,12 +253,12 @@ namespace app
 			 * 移動処理でhitPositionをm_positionに代入しており、レイの判定が不安定になるため、
 			 * rayStartをm_positionより少し上にする。
 			 */
-			Vector3 rayStart = m_position + m_upDirection * GROUND_CHECK_START_OFFSET;
+			Vector3 rayStart = m_transform.m_position + m_upDirection * GROUND_CHECK_START_OFFSET;
 			Vector3 rayEnd = Vector3::Zero;
 			Vector3 hitPosition = Vector3::Zero;
 
 			if (PhysicsWorld::GetInstance()->RayTest(rayStart, rayEnd, hitPosition)) {
-				Vector3 DistanceToGround = m_position - hitPosition;
+				Vector3 DistanceToGround = m_transform.m_position - hitPosition;
 				if (DistanceToGround.Length() < GROUND_CONTACT_THRESHOLD) {
 					return true;
 				}
@@ -287,7 +287,7 @@ namespace app
 				/**
 				 * 壁にぶつからずに移動できるかを試みます
 				 */
-				Vector3 currentPos = m_position;				/** 現在の座標を保存しておきます */
+				Vector3 currentPos = m_transform.m_position;	/** 現在の座標を保存しておきます */
 				Vector3 attemptVelocity = horizontalVelocity;	/** 壁にぶつかった場合に、壁までのベクトルを格納する変数 */
 				bool needSlide = false;							/** 横滑りが必要かどうかのフラグ */
 				float moveDist = attemptVelocity.Length();
@@ -430,15 +430,15 @@ namespace app
 					}
 				}
 				/** 最終位置を確定 */
-				m_position = currentPos;
+				m_transform.m_position = currentPos;
 			}
 
 
 			/**
 			 * 垂直移動処理
 			 */
-			Vector3 rayStartPos = m_position + m_upDirection * VERTICAL_RAY_START_HEIGHT;
-			Vector3 rayEndPos = m_position + verticalVelocity - (m_upDirection * VERTICAL_RAY_END_BUFFER);
+			Vector3 rayStartPos = m_transform.m_position + m_upDirection * VERTICAL_RAY_START_HEIGHT;
+			Vector3 rayEndPos = m_transform.m_position + verticalVelocity - (m_upDirection * VERTICAL_RAY_END_BUFFER);
 			Vector3 hitPos, hitNormal;
 
 			if (RayTest(rayStartPos, rayEndPos, hitPos, hitNormal, m_upDirection, Math::PI))
@@ -448,20 +448,20 @@ namespace app
 				float angle = acosf(dot);
 
 				if (angle <= WALKABLE_SLOPE_LIMIT) {
-					m_position = hitPos;
+					m_transform.m_position = hitPos;
 					/** 着地したので、ジャンプ関連の変数をリセット */
 					m_initialJumpSpeed = 0.0f;
 					m_fallTimer = 0.0f;
 					verticalVelocity = Vector3::Zero;
 				}
 				else {
-					m_position = hitPos;
+					m_transform.m_position = hitPos;
 					Vector3 slideVector = verticalVelocity - hitNormal * verticalVelocity.Dot(hitNormal);
 					verticalVelocity = slideVector;
 				}
 			}
 			else {
-				m_position += verticalVelocity;
+				m_transform.m_position += verticalVelocity;
 			}
 
 			/** 微小な移動量なら、強制的にゼロにする */
