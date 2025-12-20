@@ -49,14 +49,6 @@ namespace app
 			void UpdateUpDirection();
 
 
-		public:
-			/** キャラクターステータスの取得 */
-			CharacterStatus* GetStatus()
-			{
-				return dynamic_cast<CharacterStatus*>(m_status);
-			}
-
-
 		protected:
 			/// <summary>
 			/// アニメーションファイルのオプションを管理する構造体。
