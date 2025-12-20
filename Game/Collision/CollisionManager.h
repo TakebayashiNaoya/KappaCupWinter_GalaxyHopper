@@ -1,205 +1,211 @@
-#pragma once
+ï»¿#pragma once
 
 class Character;
 
-enum EnCollisionType
+namespace app
 {
-	enCollisionType_None = 0,
-	enCollisionType_Player,
-	enCollisionType_BasicEnemy,
-	enCollisionType_DeformEnemy,
-	enCollisionType_BossEnemy,
-	//
-	enCollisionType_Num,
-};
-
-
-struct CollisionInformation
-{
-	EnCollisionType m_type = enCollisionType_None;
-	CollisionObject* m_collision = nullptr;
-	IGameObject* m_object = nullptr;
-	//
-	CollisionInformation(const EnCollisionType type, CollisionObject* collision, IGameObject* object) : m_type(type), m_collision(collision), m_object(object) {}
-};
-
-
-struct CollisionPair
-{
-	CollisionInformation* m_left = nullptr;
-	CollisionInformation* m_right = nullptr;
-	//
-	CollisionPair(CollisionInformation* left, CollisionInformation* right) : m_left(left), m_right(right) {}
-};
-
-
-
-
-
-// “–‚½‚è”»’è‚ğŠÇ—‚·‚éƒNƒ‰ƒX
-// “–‚½‚Á‚½‚Æ‚¢‚¤ˆ—‚ğ‚Ü‚Æ‚ß‚½‚¢
-class CollisionHitManager
-{
-private:
-	/** “–‚½‚è”»’èƒIƒuƒWƒFƒNƒg‚ÌƒŠƒXƒg */
-	std::vector<CollisionInformation> m_collisionInformationList;
-	/** “–‚½‚è”»’è‚ÌƒyƒA */
-	std::vector<CollisionPair> m_collisionPairList;
-
-
-private:
-	CollisionHitManager();
-	~CollisionHitManager();
-
-
-public:
-	void Update();
-
-
-public:
-	void Register(const EnCollisionType type, CollisionObject* collisionObject, IGameObject* gameObject);
-	void Unregister(CollisionObject* collisionObject);
-
-
-private:
-	// NOTE: Õ“Ëˆ—ŠÖ”‚Ì‹¤’Ê‚Ìˆø”‚Æ–ß‚è’l‚ÉŠÖ‚·‚éà–¾
-	// 
-	// <param name="pair">
-	//     Õ“Ë‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒyƒAiCollisionPairj‚ğ“ü‚ê‚Ü‚·B
-	//     ‚±‚ÌƒyƒA‚ÍAm_collisionInformationList‚©‚ç‚Ì—v‘f‚Ì‘g‚İ‡‚í‚¹‚Å‚·B
-	// </param>
-	// <returns>
-	//     ƒyƒA‚ªŠY“–‚·‚é‘g‚İ‡‚í‚¹i—á: ƒvƒŒƒCƒ„[•Šî–{ƒGƒlƒ~[j‚Ìê‡‚Íˆ—‚ğÀs‚µAtrue‚ğ•Ô‚µ‚Ü‚·B
-	//     ‚»‚êˆÈŠO‚Ífalse‚ğ•Ô‚µAUpdateŠÖ”“à‚ÌŸ‚Ì”»’è‚ÉˆÚ‚è‚Ü‚·B
-	// </returns>
-
-
-	/// <summary>
-	/// uƒvƒŒƒCƒ„[v‚ÆuŠî–{ƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
-	/// </summary>
-	bool UpdateHitPlayerBasicEnemy(CollisionPair& pair);
-
-	/// <summary>
-	/// uƒvƒŒƒCƒ„[v‚Æu•ÏŒ`ƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
-	/// </summary>
-	bool UpdateHitPlayerDeformEnemy(CollisionPair& pair);
-
-	/// <summary>
-	/// uƒvƒŒƒCƒ„[v‚Æuƒ{ƒXƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
-	/// </summary>
-	bool UpdateHitPlayerBossEnemy(CollisionPair& pair);
-
-	/// <summary>
-	/// uŠî–{ƒGƒlƒ~[v‚Æu•ÏŒ`ƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
-	/// </summary>
-	bool UpdateHitBasicEnemyDeformEnemy(CollisionPair& pair);
-
-	/// <summary>
-	/// u•ÏŒ`ƒGƒlƒ~[v‚Æuƒ{ƒXƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
-	/// </summary>
-	bool UpdateHitDeformEnemyBossEnemy(CollisionPair& pair);
-
-
-private:
-	/**
-	 * w’è‚µ‚½ƒNƒ‰ƒX‚ğæ“¾‚·‚é
-	 * NOTE: w’è‚µ‚½ƒNƒ‰ƒX‚ª‘¶İ‚µ‚È‚¢ê‡‚Ínullptr‚ğ•Ô‚·
-	 */
-	template <typename T>
-	T* GetTargetObject(CollisionPair& pair, const EnCollisionType type)
+	namespace collision
 	{
-		if (pair.m_left->m_type == type)
+		enum EnCollisionType : uint8_t
 		{
-			return static_cast<T*>(pair.m_left->m_object);
-		}
-		else if (pair.m_right->m_type == type)
+			enCollisionType_None = 0,
+			enCollisionType_Player,
+			enCollisionType_BasicEnemy,
+			enCollisionType_DeformEnemy,
+			enCollisionType_BossEnemy,
+			//
+			enCollisionType_Num,
+		};
+
+
+		struct CollisionInformation
 		{
-			return static_cast<T*>(pair.m_right->m_object);
-		}
-		return nullptr;
+			EnCollisionType m_type = enCollisionType_None;
+			CollisionObject* m_collision = nullptr;
+			IGameObject* m_object = nullptr;
+			//
+			CollisionInformation(const EnCollisionType type, CollisionObject* collision, IGameObject* object) : m_type(type), m_collision(collision), m_object(object) {}
+		};
+
+
+		struct CollisionPair
+		{
+			CollisionInformation* m_left = nullptr;
+			CollisionInformation* m_right = nullptr;
+			//
+			CollisionPair(CollisionInformation* left, CollisionInformation* right) : m_left(left), m_right(right) {}
+		};
+
+
+
+
+
+		// å½“ãŸã‚Šåˆ¤å®šã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
+		// å½“ãŸã£ãŸã¨ã„ã†å‡¦ç†ã‚’ã¾ã¨ã‚ãŸã„
+		class CollisionHitManager
+		{
+		private:
+			/** å½“ãŸã‚Šåˆ¤å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒªã‚¹ãƒˆ */
+			std::vector<CollisionInformation> m_collisionInformationList;
+			/** å½“ãŸã‚Šåˆ¤å®šã®ãƒšã‚¢ */
+			std::vector<CollisionPair> m_collisionPairList;
+
+
+		private:
+			CollisionHitManager();
+			~CollisionHitManager();
+
+
+		public:
+			void Update();
+
+
+		public:
+			void Register(const EnCollisionType type, CollisionObject* collisionObject, IGameObject* gameObject);
+			void Unregister(CollisionObject* collisionObject);
+
+
+		private:
+			// NOTE: è¡çªå‡¦ç†é–¢æ•°ã®å…±é€šã®å¼•æ•°ã¨æˆ»ã‚Šå€¤ã«é–¢ã™ã‚‹èª¬æ˜
+			// 
+			// <param name="pair">
+			//     è¡çªã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒšã‚¢ï¼ˆCollisionPairï¼‰ã‚’å…¥ã‚Œã¾ã™ã€‚
+			//     ã“ã®ãƒšã‚¢ã¯ã€m_collisionInformationListã‹ã‚‰ã®è¦ç´ ã®çµ„ã¿åˆã‚ã›ã§ã™ã€‚
+			// </param>
+			// <returns>
+			//     ãƒšã‚¢ãŒè©²å½“ã™ã‚‹çµ„ã¿åˆã‚ã›ï¼ˆä¾‹: ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ï¼†åŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ï¼‰ã®å ´åˆã¯å‡¦ç†ã‚’å®Ÿè¡Œã—ã€trueã‚’è¿”ã—ã¾ã™ã€‚
+			//     ãã‚Œä»¥å¤–ã¯falseã‚’è¿”ã—ã€Updateé–¢æ•°å†…ã®æ¬¡ã®åˆ¤å®šã«ç§»ã‚Šã¾ã™ã€‚
+			// </returns>
+
+
+			/// <summary>
+			/// ã€Œãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€ã¨ã€ŒåŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ã€ã®è¡çªå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
+			/// </summary>
+			bool UpdateHitPlayerBasicEnemy(CollisionPair& pair);
+
+			/// <summary>
+			/// ã€Œãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€ã¨ã€Œå¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã€ã®è¡çªå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
+			/// </summary>
+			bool UpdateHitPlayerDeformEnemy(CollisionPair& pair);
+
+			/// <summary>
+			/// ã€Œãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€ã¨ã€Œãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼ã€ã®è¡çªå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
+			/// </summary>
+			bool UpdateHitPlayerBossEnemy(CollisionPair& pair);
+
+			/// <summary>
+			/// ã€ŒåŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ã€ã¨ã€Œå¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã€ã®è¡çªå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
+			/// </summary>
+			bool UpdateHitBasicEnemyDeformEnemy(CollisionPair& pair);
+
+			/// <summary>
+			/// ã€Œå¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã€ã¨ã€Œãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼ã€ã®è¡çªå‡¦ç†ã‚’è¡Œã„ã¾ã™ã€‚
+			/// </summary>
+			bool UpdateHitDeformEnemyBossEnemy(CollisionPair& pair);
+
+
+		private:
+			/**
+			 * æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ã‚’å–å¾—ã™ã‚‹
+			 * NOTE: æŒ‡å®šã—ãŸã‚¯ãƒ©ã‚¹ãŒå­˜åœ¨ã—ãªã„å ´åˆã¯nullptrã‚’è¿”ã™
+			 */
+			template <typename T>
+			T* GetTargetObject(CollisionPair& pair, const EnCollisionType type)
+			{
+				if (pair.m_left->m_type == type)
+				{
+					return static_cast<T*>(pair.m_left->m_object);
+				}
+				else if (pair.m_right->m_type == type)
+				{
+					return static_cast<T*>(pair.m_right->m_object);
+				}
+				return nullptr;
+			}
+
+
+		private:
+			// ã“ã“ã«é–¢æ•°ã‚’è¿½åŠ ã—ã¦ã„ãã€‚
+
+
+		public:
+			/// <summary>
+			/// ç®±å‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç”Ÿæˆã—ã€ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ç™»éŒ²ã—ã¾ã™ã€‚
+			/// </summary>
+			/// <param name="ins"> ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ä½œæˆã™ã‚‹ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã€‚</param>
+			/// <param name="type"> ä½œæˆã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç¨®é¡ã‚’æŒ‡å®šã™ã‚‹åˆ—æŒ™å‹ï¼ˆEnCollisionTypeï¼‰ã€‚</param>
+			/// <param name="size"> ç®±ã®ã‚µã‚¤ã‚ºï¼ˆå¹…ãƒ»é«˜ã•ãƒ»å¥¥è¡Œãï¼‰ã€‚</param>
+			/// <returns> ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã€‚</returns>
+			CollisionObject* CreateCollider(Character* ins, const EnCollisionType type, const Vector3 size, const bool isTrigger);
+			/// <summary>
+			/// çƒå‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç”Ÿæˆã—ã€ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ç™»éŒ²ã—ã¾ã™ã€‚
+			/// </summary>
+			/// <param name="ins"> ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ä½œæˆã™ã‚‹ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã€‚</param>
+			/// <param name="type"> ä½œæˆã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç¨®é¡ã‚’æŒ‡å®šã™ã‚‹åˆ—æŒ™å‹ï¼ˆEnCollisionTypeï¼‰ã€‚</param>
+			/// <param name="size"> çƒã®åŠå¾„ã€‚</param>
+			/// <returns> ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã€‚</returns>
+			CollisionObject* CreateCollider(Character* ins, const EnCollisionType type, const float radius, const int index);
+			/// <summary>
+			/// ã‚«ãƒ—ã‚»ãƒ«å‹ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ç”Ÿæˆã—ã€ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ç™»éŒ²ã—ã¾ã™ã€‚
+			/// </summary>
+			/// <param name="ins"> ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ä½œæˆã™ã‚‹ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã€‚</param>
+			/// <param name="type"> ä½œæˆã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç¨®é¡ã‚’æŒ‡å®šã™ã‚‹åˆ—æŒ™å‹ï¼ˆEnCollisionTypeï¼‰ã€‚</param>
+			/// <param name="size"> ã‚«ãƒ—ã‚»ãƒ«ã®ã‚µã‚¤ã‚ºã€‚ï¼ˆåŠå¾„ãƒ»é«˜ã•ï¼‰ã€‚</param>
+			/// <returns> ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã€‚</returns>
+			CollisionObject* CreateCollider(Character* ins, const EnCollisionType type, const float radius, const float height, const bool isTrigger);
+			/// <summary>
+			/// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åº§æ¨™ã¨å›è»¢ã‚’æ›´æ–°ã—ã¾ã™ã€‚
+			/// NOTE:ãƒ¢ãƒ‡ãƒ«ã®åŸºæº–ãŒè¶³å…ƒã€ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åŸºæº–ãŒä¸­å¿ƒã®ãŸã‚ã€upæ–¹å‘ã«ä½ç½®è£œæ­£ã‚’è¡Œã†å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+			/// MEMO:ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å®Ÿä½“è‡ªä½“ã‚’ç”Ÿæˆãƒ»å‰Šé™¤ã™ã‚‹ã‚ã‘ã§ã¯ãªã„ã®ã§ã€*ï¼ˆå€¤æ¸¡ã—ï¼‰ã§OKã€‚
+			/// </summary>
+			/// <param name="ins"> ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’æ›´æ–°ã™ã‚‹ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã€‚</param>
+			/// <param name="collider"> æ›´æ–°ã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã€‚</param>
+			/// <param name="offset"> upæ–¹å‘ã®ä½ç½®è£œæ­£ã®å€¤ã€‚</param>
+			void UpdateCollider(const Character* ins, CollisionObject* collider, const float offset = 0.0f);
+			/// <summary>
+			/// ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®ç™»éŒ²è§£é™¤ã‚’è¡Œã„ã€ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’deleteã€nullptrã—ã¾ã™ã€‚
+			/// </summary>
+			/// <param name="collision"> å‰Šé™¤ã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã®å‚ç…§ã€‚</param>
+			static CollisionObject* DeleteCollider(CollisionObject* collision);
+
+
+			/// <summary>
+			/// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã«å±æ€§IDã‚’è¨­å®šã—ã¾ã™ã€‚ï¼ˆRayTestã§ç„¡è¦–ã•ã›ã‚‹ãŸã‚ã«ä½¿ç”¨ï¼‰
+			/// </summary>
+			/// <param name="collider"> å±æ€§IDã‚’è¨­å®šã™ã‚‹ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒã‚¤ãƒ³ã‚¿ã€‚</param>
+			/// <param name="isTrigger"> trueãªã‚‰ãƒˆãƒªã‚¬ãƒ¼ã€falseãªã‚‰é€šå¸¸ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã€‚</param>
+			void SetIsTrigger(CollisionObject* collider, int index);
+
+			/**
+			 * ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³é–¢é€£
+			 */
+		private:
+			static CollisionHitManager* m_instance;
+
+
+		public:
+			static CollisionHitManager* CreateInstance()
+			{
+				if (m_instance == nullptr) {
+					m_instance = new CollisionHitManager();
+				}
+				return m_instance;
+			}
+			static CollisionHitManager* GetInstance()
+			{
+				return m_instance;
+			}
+			static bool GetIsAvailable()
+			{
+				return m_instance != nullptr;
+			}
+			static void Delete()
+			{
+				if (m_instance != nullptr) {
+					delete m_instance;
+					m_instance = nullptr;
+				}
+			}
+		};
 	}
-
-
-private:
-	// ‚±‚±‚ÉŠÖ”‚ğ’Ç‰Á‚µ‚Ä‚¢‚­B
-
-
-public:
-	/// <summary>
-	/// ” Œ^‚ÌƒRƒ‰ƒCƒ_[‚ğ¶¬‚µAƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚É“o˜^‚µ‚Ü‚·B
-	/// </summary>
-	/// <param name="ins"> ƒRƒ‰ƒCƒ_[‚ğì¬‚·‚éƒLƒƒƒ‰ƒNƒ^[‚Ìƒ|ƒCƒ“ƒ^B</param>
-	/// <param name="type"> ì¬‚·‚éƒRƒ‰ƒCƒ_[‚Ìí—Ş‚ğw’è‚·‚é—ñ‹“Œ^iEnCollisionTypejB</param>
-	/// <param name="size"> ” ‚ÌƒTƒCƒYi•E‚‚³E‰œs‚«jB</param>
-	/// <returns> ƒRƒ‰ƒCƒ_[‚Ìƒ|ƒCƒ“ƒ^B</returns>
-	CollisionObject* CreateCollider(Character* ins, const EnCollisionType type, const Vector3 size, const bool isTrigger);
-	/// <summary>
-	/// ‹…Œ^‚ÌƒRƒ‰ƒCƒ_[‚ğ¶¬‚µAƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚É“o˜^‚µ‚Ü‚·B
-	/// </summary>
-	/// <param name="ins"> ƒRƒ‰ƒCƒ_[‚ğì¬‚·‚éƒLƒƒƒ‰ƒNƒ^[‚Ìƒ|ƒCƒ“ƒ^B</param>
-	/// <param name="type"> ì¬‚·‚éƒRƒ‰ƒCƒ_[‚Ìí—Ş‚ğw’è‚·‚é—ñ‹“Œ^iEnCollisionTypejB</param>
-	/// <param name="size"> ‹…‚Ì”¼ŒaB</param>
-	/// <returns> ƒRƒ‰ƒCƒ_[‚Ìƒ|ƒCƒ“ƒ^B</returns>
-	CollisionObject* CreateCollider(Character* ins, const EnCollisionType type, const float radius, const int index);
-	/// <summary>
-	/// ƒJƒvƒZƒ‹Œ^‚ÌƒRƒ‰ƒCƒ_[‚ğ¶¬‚µAƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚É“o˜^‚µ‚Ü‚·B
-	/// </summary>
-	/// <param name="ins"> ƒRƒ‰ƒCƒ_[‚ğì¬‚·‚éƒLƒƒƒ‰ƒNƒ^[‚Ìƒ|ƒCƒ“ƒ^B</param>
-	/// <param name="type"> ì¬‚·‚éƒRƒ‰ƒCƒ_[‚Ìí—Ş‚ğw’è‚·‚é—ñ‹“Œ^iEnCollisionTypejB</param>
-	/// <param name="size"> ƒJƒvƒZƒ‹‚ÌƒTƒCƒYBi”¼ŒaE‚‚³jB</param>
-	/// <returns> ƒRƒ‰ƒCƒ_[‚Ìƒ|ƒCƒ“ƒ^B</returns>
-	CollisionObject* CreateCollider(Character* ins, const EnCollisionType type, const float radius, const float height, const bool isTrigger);
-	/// <summary>
-	/// ƒRƒ‰ƒCƒ_[‚ÌÀ•W‚Æ‰ñ“]‚ğXV‚µ‚Ü‚·B
-	/// NOTE:ƒ‚ƒfƒ‹‚ÌŠî€‚ª‘«Œ³AƒRƒ‰ƒCƒ_[‚ÌŠî€‚ª’†S‚Ì‚½‚ßAup•ûŒü‚ÉˆÊ’u•â³‚ğs‚¤•K—v‚ª‚ ‚è‚Ü‚·B
-	/// MEMO:ƒRƒ‰ƒCƒ_[‚ÌÀ‘Ì©‘Ì‚ğ¶¬Eíœ‚·‚é‚í‚¯‚Å‚Í‚È‚¢‚Ì‚ÅA*i’l“n‚µj‚ÅOKB
-	/// </summary>
-	/// <param name="ins"> ƒRƒ‰ƒCƒ_[‚ğXV‚·‚éƒLƒƒƒ‰ƒNƒ^[‚Ìƒ|ƒCƒ“ƒ^B</param>
-	/// <param name="collider"> XV‚·‚éƒRƒ‰ƒCƒ_[‚Ìƒ|ƒCƒ“ƒ^B</param>
-	/// <param name="offset"> up•ûŒü‚ÌˆÊ’u•â³‚Ì’lB</param>
-	void UpdateCollider(const Character* ins, CollisionObject* collider, const float offset = 0.0f);
-	/// <summary>
-	/// ƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚Ì“o˜^‰ğœ‚ğs‚¢AƒRƒ‰ƒCƒ_[‚ğdeleteAnullptr‚µ‚Ü‚·B
-	/// </summary>
-	/// <param name="collision"> íœ‚·‚éƒRƒ‰ƒCƒ_[‚Ìƒ|ƒCƒ“ƒ^‚ÌQÆB</param>
-	static CollisionObject* DeleteCollider(CollisionObject* collision);
-
-
-	/// <summary>
-	/// ƒRƒ‰ƒCƒ_[‚É‘®«ID‚ğİ’è‚µ‚Ü‚·BiRayTest‚Å–³‹‚³‚¹‚é‚½‚ß‚Ég—pj
-	/// </summary>
-	/// <param name="collider"> ‘®«ID‚ğİ’è‚·‚éƒRƒ‰ƒCƒ_[‚Ìƒ|ƒCƒ“ƒ^B</param>
-	/// <param name="isTrigger"> true‚È‚çƒgƒŠƒK[Afalse‚È‚ç’Êí‚ÌƒRƒ‰ƒCƒ_[B</param>
-	void SetIsTrigger(CollisionObject* collider, int index);
-
-	/**
-	 * ƒVƒ“ƒOƒ‹ƒgƒ“ŠÖ˜A
-	 */
-private:
-	static CollisionHitManager* m_instance;
-
-
-public:
-	static CollisionHitManager* CreateInstance()
-	{
-		if (m_instance == nullptr) {
-			m_instance = new CollisionHitManager();
-		}
-		return m_instance;
-	}
-	static CollisionHitManager* GetInstance()
-	{
-		return m_instance;
-	}
-	static bool GetIsAvailable()
-	{
-		return m_instance != nullptr;
-	}
-	static void Delete()
-	{
-		if (m_instance != nullptr) {
-			delete m_instance;
-			m_instance = nullptr;
-		}
-	}
-};
+}
