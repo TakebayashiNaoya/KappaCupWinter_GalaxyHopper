@@ -37,12 +37,6 @@ namespace app
 			/** 終了時に1回だけ呼ばれます。 */
 			virtual void Exit() {}
 
-			/**
-			 * 現在のステートのRequestState内で、requestStateIdに次のIDを入れ、
-			 * return trueすることで、ステート遷移を試みる。
-			 */
-			virtual bool RequestState(int& requestStateId) { return false; }
-
 			/** 持ち主を型キャストして取得する便利関数 */
 			template <typename T>
 			T* GetOwner()
@@ -207,6 +201,8 @@ namespace app
 				return dynamic_cast<T*>(m_owner);
 			}
 
+
+		protected:
 			/**
 			 * 現在ステートが指定したステートならtrueを返します。
 			 * 現在のステートが何かによって処理を分岐したい場合に使用します。
@@ -216,8 +212,6 @@ namespace app
 			{
 				return m_currentState == m_stateMap[state];
 			}
-
-
 		public:
 			/**
 			 * 次のステートが指定したステートならtrueを返します。
