@@ -10,17 +10,6 @@ namespace app
 {
 	namespace actor
 	{
-		BossEnemyIdleState::BossEnemyIdleState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BossEnemyIdleState::~BossEnemyIdleState()
-		{
-		}
-
-
 		void BossEnemyIdleState::Enter()
 		{
 		}
@@ -39,17 +28,6 @@ namespace app
 
 
 		/********************************/
-
-
-		BossEnemyWalkState::BossEnemyWalkState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BossEnemyWalkState::~BossEnemyWalkState()
-		{
-		}
 
 
 		void BossEnemyWalkState::Enter()
@@ -72,17 +50,6 @@ namespace app
 		/********************************/
 
 
-		BossEnemyDashState::BossEnemyDashState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BossEnemyDashState::~BossEnemyDashState()
-		{
-		}
-
-
 		void BossEnemyDashState::Enter()
 		{
 		}
@@ -101,17 +68,6 @@ namespace app
 
 
 		/********************************/
-
-
-		BossEnemyAttackState::BossEnemyAttackState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BossEnemyAttackState::~BossEnemyAttackState()
-		{
-		}
 
 
 		void BossEnemyAttackState::Enter()
@@ -134,17 +90,6 @@ namespace app
 		/********************************/
 
 
-		BossEnemyCoolDownState::BossEnemyCoolDownState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BossEnemyCoolDownState::~BossEnemyCoolDownState()
-		{
-		}
-
-
 		void BossEnemyCoolDownState::Enter()
 		{
 		}
@@ -163,17 +108,6 @@ namespace app
 
 
 		/********************************/
-
-
-		BossEnemyDamageState::BossEnemyDamageState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BossEnemyDamageState::~BossEnemyDamageState()
-		{
-		}
 
 
 		void BossEnemyDamageState::Enter()
@@ -196,17 +130,6 @@ namespace app
 		/********************************/
 
 
-		BossEnemyDyingState::BossEnemyDyingState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BossEnemyDyingState::~BossEnemyDyingState()
-		{
-		}
-
-
 		void BossEnemyDyingState::Enter()
 		{
 		}
@@ -225,17 +148,6 @@ namespace app
 
 
 		/********************************/
-
-
-		BossEnemyDeadState::BossEnemyDeadState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BossEnemyDeadState::~BossEnemyDeadState()
-		{
-		}
 
 
 		void BossEnemyDeadState::Enter()

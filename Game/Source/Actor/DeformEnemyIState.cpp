@@ -10,17 +10,6 @@ namespace app
 {
 	namespace actor
 	{
-		DeformEnemyIdleState::DeformEnemyIdleState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		DeformEnemyIdleState::~DeformEnemyIdleState()
-		{
-		}
-
-
 		void DeformEnemyIdleState::Enter()
 		{
 		}
@@ -39,17 +28,6 @@ namespace app
 
 
 		/********************************/
-
-
-		DeformEnemyDashState::DeformEnemyDashState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		DeformEnemyDashState::~DeformEnemyDashState()
-		{
-		}
 
 
 		void DeformEnemyDashState::Enter()
@@ -72,17 +50,6 @@ namespace app
 		/********************************/
 
 
-		DeformEnemyFlippingState::DeformEnemyFlippingState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		DeformEnemyFlippingState::~DeformEnemyFlippingState()
-		{
-		}
-
-
 		void DeformEnemyFlippingState::Enter()
 		{
 		}
@@ -101,17 +68,6 @@ namespace app
 
 
 		/********************************/
-
-
-		DeformEnemyFlippedState::DeformEnemyFlippedState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		DeformEnemyFlippedState::~DeformEnemyFlippedState()
-		{
-		}
 
 
 		void DeformEnemyFlippedState::Enter()
@@ -134,17 +90,6 @@ namespace app
 		/********************************/
 
 
-		DeformEnemySlidingState::DeformEnemySlidingState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		DeformEnemySlidingState::~DeformEnemySlidingState()
-		{
-		}
-
-
 		void DeformEnemySlidingState::Enter()
 		{
 		}
@@ -163,17 +108,6 @@ namespace app
 
 
 		/********************************/
-
-
-		DeformEnemyDeadState::DeformEnemyDeadState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		DeformEnemyDeadState::~DeformEnemyDeadState()
-		{
-		}
 
 
 		void DeformEnemyDeadState::Enter()

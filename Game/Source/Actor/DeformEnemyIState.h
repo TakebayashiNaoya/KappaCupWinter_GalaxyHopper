@@ -16,8 +16,8 @@ namespace app
 		class DeformEnemyIdleState : public IState
 		{
 		public:
-			DeformEnemyIdleState(StateMachineBase* owner);
-			~DeformEnemyIdleState();
+			DeformEnemyIdleState(StateMachineBase* owner) : IState(owner) {};
+			~DeformEnemyIdleState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -36,8 +36,8 @@ namespace app
 		class DeformEnemyDashState : public IState
 		{
 		public:
-			DeformEnemyDashState(StateMachineBase* owner);
-			~DeformEnemyDashState();
+			DeformEnemyDashState(StateMachineBase* owner) : IState(owner) {};
+			~DeformEnemyDashState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -56,8 +56,8 @@ namespace app
 		class DeformEnemyFlippingState : public IState
 		{
 		public:
-			DeformEnemyFlippingState(StateMachineBase* owner);
-			~DeformEnemyFlippingState();
+			DeformEnemyFlippingState(StateMachineBase* owner) : IState(owner) {};
+			~DeformEnemyFlippingState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -76,8 +76,8 @@ namespace app
 		class DeformEnemyFlippedState : public IState
 		{
 		public:
-			DeformEnemyFlippedState(StateMachineBase* owner);
-			~DeformEnemyFlippedState();
+			DeformEnemyFlippedState(StateMachineBase* owner) : IState(owner) {};
+			~DeformEnemyFlippedState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -96,8 +96,8 @@ namespace app
 		class DeformEnemySlidingState : public IState
 		{
 		public:
-			DeformEnemySlidingState(StateMachineBase* owner);
-			~DeformEnemySlidingState();
+			DeformEnemySlidingState(StateMachineBase* owner) : IState(owner) {};
+			~DeformEnemySlidingState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -116,8 +116,8 @@ namespace app
 		class DeformEnemyDeadState : public IState
 		{
 		public:
-			DeformEnemyDeadState(StateMachineBase* owner);
-			~DeformEnemyDeadState();
+			DeformEnemyDeadState(StateMachineBase* owner) : IState(owner) {};
+			~DeformEnemyDeadState() {};
 
 			void Enter() override;
 			void Update() override;

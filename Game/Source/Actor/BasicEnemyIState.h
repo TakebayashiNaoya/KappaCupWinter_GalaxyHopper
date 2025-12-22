@@ -16,8 +16,8 @@ namespace app
 		class BasicEnemyIdleState : public IState
 		{
 		public:
-			BasicEnemyIdleState(StateMachineBase* owner);
-			~BasicEnemyIdleState();
+			BasicEnemyIdleState(StateMachineBase* owner) : IState(owner) {};
+			~BasicEnemyIdleState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -36,8 +36,8 @@ namespace app
 		class BasicEnemyDashState : public IState
 		{
 		public:
-			BasicEnemyDashState(StateMachineBase* owner);
-			~BasicEnemyDashState();
+			BasicEnemyDashState(StateMachineBase* owner) : IState(owner) {};
+			~BasicEnemyDashState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -56,8 +56,8 @@ namespace app
 		class BasicEnemyWaitState : public IState
 		{
 		public:
-			BasicEnemyWaitState(StateMachineBase* owner);
-			~BasicEnemyWaitState();
+			BasicEnemyWaitState(StateMachineBase* owner) : IState(owner) {};
+			~BasicEnemyWaitState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -76,8 +76,8 @@ namespace app
 		class BasicEnemyDeadState : public IState
 		{
 		public:
-			BasicEnemyDeadState(StateMachineBase* owner);
-			~BasicEnemyDeadState();
+			BasicEnemyDeadState(StateMachineBase* owner) : IState(owner) {};
+			~BasicEnemyDeadState() {};
 
 			void Enter() override;
 			void Update() override;

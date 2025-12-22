@@ -10,17 +10,6 @@ namespace app
 {
 	namespace actor
 	{
-		BasicEnemyIdleState::BasicEnemyIdleState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BasicEnemyIdleState::~BasicEnemyIdleState()
-		{
-		}
-
-
 		void BasicEnemyIdleState::Enter()
 		{
 		}
@@ -39,17 +28,6 @@ namespace app
 
 
 		/********************************/
-
-
-		BasicEnemyDashState::BasicEnemyDashState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BasicEnemyDashState::~BasicEnemyDashState()
-		{
-		}
 
 
 		void BasicEnemyDashState::Enter()
@@ -72,17 +50,6 @@ namespace app
 		/********************************/
 
 
-		BasicEnemyWaitState::BasicEnemyWaitState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BasicEnemyWaitState::~BasicEnemyWaitState()
-		{
-		}
-
-
 		void BasicEnemyWaitState::Enter()
 		{
 		}
@@ -101,17 +68,6 @@ namespace app
 
 
 		/********************************/
-
-
-		BasicEnemyDeadState::BasicEnemyDeadState(StateMachineBase* owner)
-			: IState(owner)
-		{
-		}
-
-
-		BasicEnemyDeadState::~BasicEnemyDeadState()
-		{
-		}
 
 
 		void BasicEnemyDeadState::Enter()

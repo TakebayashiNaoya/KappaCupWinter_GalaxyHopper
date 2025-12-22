@@ -16,8 +16,8 @@ namespace app
 		class BossEnemyIdleState : public IState
 		{
 		public:
-			BossEnemyIdleState(StateMachineBase* owner);
-			~BossEnemyIdleState();
+			BossEnemyIdleState(StateMachineBase* owner) : IState(owner) {};
+			~BossEnemyIdleState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -35,8 +35,8 @@ namespace app
 		class BossEnemyWalkState : public IState
 		{
 		public:
-			BossEnemyWalkState(StateMachineBase* owner);
-			~BossEnemyWalkState();
+			BossEnemyWalkState(StateMachineBase* owner) : IState(owner) {};
+			~BossEnemyWalkState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -55,8 +55,8 @@ namespace app
 		class BossEnemyDashState : public IState
 		{
 		public:
-			BossEnemyDashState(StateMachineBase* owner);
-			~BossEnemyDashState();
+			BossEnemyDashState(StateMachineBase* owner) : IState(owner) {};
+			~BossEnemyDashState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -75,8 +75,8 @@ namespace app
 		class BossEnemyAttackState : public IState
 		{
 		public:
-			BossEnemyAttackState(StateMachineBase* owner);
-			~BossEnemyAttackState();
+			BossEnemyAttackState(StateMachineBase* owner) : IState(owner) {};
+			~BossEnemyAttackState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -95,8 +95,8 @@ namespace app
 		class BossEnemyCoolDownState : public IState
 		{
 		public:
-			BossEnemyCoolDownState(StateMachineBase* owner);
-			~BossEnemyCoolDownState();
+			BossEnemyCoolDownState(StateMachineBase* owner) : IState(owner) {};
+			~BossEnemyCoolDownState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -115,8 +115,8 @@ namespace app
 		class BossEnemyDamageState : public IState
 		{
 		public:
-			BossEnemyDamageState(StateMachineBase* owner);
-			~BossEnemyDamageState();
+			BossEnemyDamageState(StateMachineBase* owner) : IState(owner) {};
+			~BossEnemyDamageState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -135,8 +135,8 @@ namespace app
 		class BossEnemyDyingState : public IState
 		{
 		public:
-			BossEnemyDyingState(StateMachineBase* owner);
-			~BossEnemyDyingState();
+			BossEnemyDyingState(StateMachineBase* owner) : IState(owner) {};
+			~BossEnemyDyingState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -155,8 +155,8 @@ namespace app
 		class BossEnemyDeadState : public IState
 		{
 		public:
-			BossEnemyDeadState(StateMachineBase* owner);
-			~BossEnemyDeadState();
+			BossEnemyDeadState(StateMachineBase* owner) : IState(owner) {};
+			~BossEnemyDeadState() {};
 
 			void Enter() override;
 			void Update() override;
