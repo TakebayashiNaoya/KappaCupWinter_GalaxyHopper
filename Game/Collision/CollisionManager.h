@@ -11,6 +11,9 @@ namespace app
 
 	namespace collision
 	{
+		/**
+		 * 判定を検証するペアの中身を区別するための列挙型
+		 */
 		enum EnCollisionType : uint8_t
 		{
 			enCollisionType_None = 0,
@@ -23,6 +26,9 @@ namespace app
 		};
 
 
+		/**
+		 * 当たり判定情報をまとめる構造体
+		 */
 		struct CollisionInformation
 		{
 			EnCollisionType m_type = enCollisionType_None;
@@ -33,6 +39,9 @@ namespace app
 		};
 
 
+		/**
+		 * 当たり判定ペアをまとめる構造体
+		 */
 		struct CollisionPair
 		{
 			CollisionInformation* m_left = nullptr;
@@ -44,11 +53,55 @@ namespace app
 
 
 
+		/********************************/
 
-		// 当たり判定を管理するクラス
-		// 当たったという処理をまとめたい
+
+		/**
+		 * 当たり判定管理クラス
+		 */
 		class CollisionHitManager
 		{
+			/**
+			 * コライダーを生成し、コリジョンヒットマネージャーに登録する
+			 */
+		public:
+			/** 箱型 */
+			CollisionObject* CreateCollider(
+				app::actor::Character* ins,		/** コライダーの持ち主		*/
+				const EnCollisionType type,		/** 当たり判定の種類		*/
+				const Vector3 size,				/** Vector3(幅,高さ,奥行)	*/
+				const EnCollisionAttr index		/** コリジョン属性			*/
+			);
+			/** 球型 */
+			CollisionObject* CreateCollider(
+				app::actor::Character* ins,		/** コライダーの持ち主		*/
+				const EnCollisionType type,		/** 当たり判定の種類		*/
+				const float radius,				/** 半径					*/
+				const EnCollisionAttr index		/** コリジョン属性			*/
+			);
+			/** カプセル型 */
+			CollisionObject* CreateCollider(
+				app::actor::Character* ins,		/** コライダーの持ち主		*/
+				const EnCollisionType type,		/** 当たり判定の種類		*/
+				const float radius,				/** 半径					*/
+				const float height,				/** 高さ					*/
+				const EnCollisionAttr index		/** コリジョン属性			*/
+			);
+
+			/** コライダーの座標と回転を更新する */
+			void UpdateCollider(
+				app::actor::Character* ins,		/** コライダーの持ち主		*/
+				CollisionObject* collider,		/** 行進するコライダー		*/
+				const float offset = 0.0f		/** Up方向の補正値			*/
+			);
+
+			/** 登録解除を行い、コライダーをdelete、nullptrする */
+			static CollisionObject* DeleteCollider(CollisionObject* collision);
+
+			/** コライダーに属性IDを設定します。（RayTestで無視させるために使用） */
+			void SetIsTrigger(CollisionObject* collider, EnCollisionAttr index);
+
+
 		private:
 			/** 当たり判定オブジェクトのリスト */
 			std::vector<CollisionInformation> m_collisionInformationList;
@@ -66,63 +119,42 @@ namespace app
 
 
 		public:
+			/** 当たり判定オブジェクトを登録する */
 			void Register(const EnCollisionType type, CollisionObject* collisionObject, IGameObject* gameObject);
+			/** 当たり判定オブジェクトの登録を解除する */
 			void Unregister(CollisionObject* collisionObject);
 
 
 		private:
-			// NOTE: 衝突処理関数の共通の引数と戻り値に関する説明
-			// 
-			// <param name="pair">
-			//     衝突したオブジェクトのペア（CollisionPair）を入れます。
-			//     このペアは、m_collisionInformationListからの要素の組み合わせです。
-			// </param>
-			// <returns>
-			//     ペアが該当する組み合わせ（例: プレイヤー＆基本エネミー）の場合は処理を実行し、trueを返します。
-			//     それ以外はfalseを返し、Update関数内の次の判定に移ります。
-			// </returns>
+			/**
+			 * NOTE:
+			 * 　ペアが該当する組み合わせ（例: プレイヤー＆基本エネミー）の場合は処理を実行し、trueを返す
+			 * 　それ以外はfalseを返し、Update関数内の次の判定に移る
+			 */
 
-
-			/// <summary>
-			/// 「プレイヤー」と「基本エネミー」の衝突処理を行います。
-			/// </summary>
+			 /** Player & BasicEnemy の衝突処理 */
 			bool UpdateHitPlayerBasicEnemy(CollisionPair& pair);
 
-			/// <summary>
-			/// 「プレイヤー」と「変形エネミー」の衝突処理を行います。
-			/// </summary>
+			/** Player & DeformEnemy の衝突処理 */
 			bool UpdateHitPlayerDeformEnemy(CollisionPair& pair);
 
-			/// <summary>
-			/// 「プレイヤー」と「ボスエネミー」の衝突処理を行います。
-			/// </summary>
+			/** Player & BossEnemy の衝突処理 */
 			bool UpdateHitPlayerBossEnemy(CollisionPair& pair);
 
-			/// <summary>
-			/// 「基本エネミー」と「変形エネミー」の衝突処理を行います。
-			/// </summary>
+			/** BasicEnemy & DeformEnemy の衝突処理 */
 			bool UpdateHitBasicEnemyDeformEnemy(CollisionPair& pair);
 
-			/// <summary>
-			/// 「変形エネミー」と「ボスエネミー」の衝突処理を行います。
-			/// </summary>
+			/** DeformEnemy & BossEnemy の衝突処理 */
 			bool UpdateHitDeformEnemyBossEnemy(CollisionPair& pair);
 
-
-		private:
-			/**
-			 * 指定したクラスを取得する
-			 * NOTE: 指定したクラスが存在しない場合はnullptrを返す
-			 */
+			/** 指定したクラスを取得する */
 			template <typename T>
 			T* GetTargetObject(CollisionPair& pair, const EnCollisionType type)
 			{
-				if (pair.m_left->m_type == type)
-				{
+				if (pair.m_left->m_type == type) {
 					return static_cast<T*>(pair.m_left->m_object);
 				}
-				else if (pair.m_right->m_type == type)
-				{
+				else if (pair.m_right->m_type == type) {
 					return static_cast<T*>(pair.m_right->m_object);
 				}
 				return nullptr;
@@ -132,54 +164,6 @@ namespace app
 		private:
 			// ここに関数を追加していく。
 
-
-		public:
-			/// <summary>
-			/// 箱型のコライダーを生成し、コリジョンヒットマネージャーに登録します。
-			/// </summary>
-			/// <param name="ins"> コライダーを作成するキャラクターのポインタ。</param>
-			/// <param name="type"> 作成するコライダーの種類を指定する列挙型（EnCollisionType）。</param>
-			/// <param name="size"> 箱のサイズ（幅・高さ・奥行き）。</param>
-			/// <returns> コライダーのポインタ。</returns>
-			CollisionObject* CreateCollider(app::actor::Character* ins, const EnCollisionType type, const Vector3 size, const bool isTrigger);
-			/// <summary>
-			/// 球型のコライダーを生成し、コリジョンヒットマネージャーに登録します。
-			/// </summary>
-			/// <param name="ins"> コライダーを作成するキャラクターのポインタ。</param>
-			/// <param name="type"> 作成するコライダーの種類を指定する列挙型（EnCollisionType）。</param>
-			/// <param name="size"> 球の半径。</param>
-			/// <returns> コライダーのポインタ。</returns>
-			CollisionObject* CreateCollider(app::actor::Character* ins, const EnCollisionType type, const float radius, const EnCollisionAttr index);
-			/// <summary>
-			/// カプセル型のコライダーを生成し、コリジョンヒットマネージャーに登録します。
-			/// </summary>
-			/// <param name="ins"> コライダーを作成するキャラクターのポインタ。</param>
-			/// <param name="type"> 作成するコライダーの種類を指定する列挙型（EnCollisionType）。</param>
-			/// <param name="size"> カプセルのサイズ。（半径・高さ）。</param>
-			/// <returns> コライダーのポインタ。</returns>
-			CollisionObject* CreateCollider(app::actor::Character* ins, const EnCollisionType type, const float radius, const float height, const bool isTrigger);
-			/// <summary>
-			/// コライダーの座標と回転を更新します。
-			/// NOTE:モデルの基準が足元、コライダーの基準が中心のため、up方向に位置補正を行う必要があります。
-			/// MEMO:コライダーの実体自体を生成・削除するわけではないので、*（値渡し）でOK。
-			/// </summary>
-			/// <param name="ins"> コライダーを更新するキャラクターのポインタ。</param>
-			/// <param name="collider"> 更新するコライダーのポインタ。</param>
-			/// <param name="offset"> up方向の位置補正の値。</param>
-			void UpdateCollider(const app::actor::Character* ins, CollisionObject* collider, const float offset = 0.0f);
-			/// <summary>
-			/// コリジョンヒットマネージャーの登録解除を行い、コライダーをdelete、nullptrします。
-			/// </summary>
-			/// <param name="collision"> 削除するコライダーのポインタの参照。</param>
-			static CollisionObject* DeleteCollider(CollisionObject* collision);
-
-
-			/// <summary>
-			/// コライダーに属性IDを設定します。（RayTestで無視させるために使用）
-			/// </summary>
-			/// <param name="collider"> 属性IDを設定するコライダーのポインタ。</param>
-			/// <param name="isTrigger"> trueならトリガー、falseなら通常のコライダー。</param>
-			void SetIsTrigger(CollisionObject* collider, int index);
 
 			/**
 			 * シングルトン関連
