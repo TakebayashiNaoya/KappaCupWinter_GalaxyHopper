@@ -44,14 +44,29 @@ namespace app
 			 */
 			inline void SetScale(const Vector3& scale) { m_transform.m_scale = scale; }
 
+			/**
+			 * 上方向ベクトルを取得
+			 */
+			inline const Vector3& GetUpDirection() const { return m_upDirection; }
+
 
 		protected:
 			/** モデル描画 */
 			ModelRender m_modelRender;
 			/** トランスフォーム */
 			Transform m_transform;
+			/** 上方向ベクトル */
+			Vector3 m_upDirection = Vector3::Up;
 			/** ステータス */
 			ActorStatus* m_status = nullptr;
+
+
+		protected:
+			/**
+			 * 「惑星の中心→キャラ」のベクトルを計算し、正規化します。
+			 * ※派生先クラスのUpdate関数内で、StateMachineのUpdate関数を呼ぶ前に実行してください。
+			 */
+			void UpdateUpDirection();
 
 
 		public:

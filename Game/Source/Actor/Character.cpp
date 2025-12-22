@@ -54,14 +54,6 @@ namespace app
 		}
 
 
-		void Character::UpdateUpDirection()
-		{
-			Vector3 planetCenter = Vector3::Zero;
-			m_upDirection = m_transform.m_position - planetCenter;
-			m_upDirection.Normalize();
-		}
-
-
 		void Character::InitModel(
 			const uint8_t count,			/** アニメーションクリップの数 */
 			const AnimationOption* option,	/** アニメーションクリップのオプション配列 */

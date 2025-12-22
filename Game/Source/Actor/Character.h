@@ -26,9 +26,6 @@ namespace app
 			/** 一時的な攻撃判定 */
 			CollisionObject* m_attackHitCollider = nullptr;
 
-			/** 上方向ベクトル */
-			Vector3 m_upDirection = Vector3::Up;
-
 
 		public:
 			Character();
@@ -39,14 +36,6 @@ namespace app
 			virtual bool Start() override;
 			virtual void Update() override;
 			virtual void Render(RenderContext& renderContect) override;
-
-
-		private:
-			/**
-			 * 「惑星の中心→キャラ」のベクトルを計算し、正規化します。
-			 * ※派生先クラスのUpdate関数内で、StateMachineのUpdate関数を呼ぶ前に実行してください。
-			 */
-			void UpdateUpDirection();
 
 
 		protected:

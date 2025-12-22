@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * Actor.h
- * Œ©‚½–Ú‚ª‘¶İ‚·‚éƒQ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÌŠî’êƒNƒ‰ƒX
+ * è¦‹ãŸç›®ãŒå­˜åœ¨ã™ã‚‹ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åŸºåº•ã‚¯ãƒ©ã‚¹
  */
 #include "stdafx.h"
 #include "Actor.h"
@@ -10,6 +10,14 @@ namespace app
 {
 	namespace actor
 	{
+		void Actor::UpdateUpDirection()
+		{
+			Vector3 planetCenter = Vector3::Zero;
+			m_upDirection = m_transform.m_position - planetCenter;
+			m_upDirection.Normalize();
+		}
+
+
 		Actor::Actor()
 		{
 		}
