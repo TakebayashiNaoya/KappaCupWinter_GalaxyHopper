@@ -64,7 +64,7 @@ namespace app
 			m_stateMachine->Update();
 
 			/** 無敵タイマー更新 */
-			InvincibleTimer();
+			//InvincibleTimer();
 		}
 
 		void Player::Render(RenderContext& rc)

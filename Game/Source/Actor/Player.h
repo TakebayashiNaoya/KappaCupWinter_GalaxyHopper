@@ -53,31 +53,6 @@ namespace app
 			/// </summary>
 			void ResetKnockBackTimer() { m_knockBackTimer = 0.0f; }
 
-			/// <summary>
-			/// カメラの回転角度を計算
-			/// </summary>
-			void CalcCameraRotation();
-
-			/// <summary>
-			/// 移動更新（速度はJSONから、方向はControllerから受け取る）
-			/// </summary>
-			/// <param name="speed">移動速度</param>
-			void MoveUpdate(const float speed);
-
-			/// <summary>
-			/// ノックバック方向を計算
-			/// </summary>
-			void ComputeKnockBackDirection(const Vector3& enemyPos);
-
-			/// <summary>
-			/// ノックバック処理
-			/// </summary>
-			void KnockedBack();
-
-			/// <summary>
-			/// 踏みつけジャンプ
-			/// </summary>
-			void StompJump();
 
 		protected:
 			// ★削除: 入力処理（ComputeMoveDirection）はControllerに移譲したため不要
@@ -95,11 +70,6 @@ namespace app
 			bool Start() override;
 			void Update() override;
 			void Render(RenderContext& rc) override;
-
-			/// <summary>
-			/// 無敵タイマー更新
-			/// </summary>
-			void InvincibleTimer();
 
 
 		private:
