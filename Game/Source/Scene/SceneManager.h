@@ -1,100 +1,111 @@
-#pragma once
+ï»¿#pragma once
 
-/// <summary>
-/// ƒV[ƒ“‚ÌƒCƒ“ƒ^[ƒtƒF[ƒXB
-/// ƒˆ‰¼‘zŠÖ”‚ÅA”h¶æ‚ÉÀ‘•‚ğ‹­§‚·‚éB
-/// </summary>
-class IScene
+namespace app
 {
-public:
-	IScene() {};
-	// ƒfƒXƒgƒ‰ƒNƒ^‚Évirtual‚ğ•t‚¯‚é‚±‚Æ‚ÅA‰¼‘zŠÖ”ƒe[ƒuƒ‹‚É“o˜^‚³‚êAÀ‘Ìi”h¶æj‚ÌƒfƒXƒgƒ‰ƒNƒ^‚ªŒÄ‚Î‚ê‚é‚æ‚¤‚É‚È‚éB
-	virtual~IScene() {};
-
-	virtual bool Start() = 0;
-	virtual void Update() = 0;
-};
-
-
-enum class SceneID : uint8_t
-{
-	Title = 0,
-	FirstStage,
-	BossStage,
-	None = 0xff	// 0x‚Å16i”Bff‚Í10i”‚Å255B
-};
-
-
-/// <summary>
-/// ƒV[ƒ“‚ÌŠÇ—ÒB
-/// ƒV[ƒ“Ø‚è‘Ö‚¦EXV‚Ì’ñ‹Ÿ‚ğs‚¤B
-/// </summary>
-class SceneManager
-{
-private:
-	IScene* m_currentScene = nullptr;
-	SceneID m_currentID = SceneID::Title;
-	SceneID m_requestID = SceneID::Title;
-
-
-public:
-	void Update();
-	void ChangeScene(SceneID nextID)
+	namespace scene
 	{
-		m_requestID = nextID;
-	};
+		/**
+		 * ã‚·ãƒ¼ãƒ³ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã€‚
+		 */
+		class IScene
+		{
+		public:
+			IScene() {};
+			/** ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã«virtualã‚’ä»˜ã‘ã‚‹ã“ã¨ã§ã€ä»®æƒ³é–¢æ•°ãƒ†ãƒ¼ãƒ–ãƒ«ã«ç™»éŒ²ã•ã‚Œã€å®Ÿä½“ï¼ˆæ´¾ç”Ÿå…ˆï¼‰ã®ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒå‘¼ã°ã‚Œã‚‹ã‚ˆã†ã«ãªã‚‹ */
+			virtual~IScene() {};
+
+			virtual bool Start() = 0;
+			virtual void Update() = 0;
+		};
 
 
-public:
-	/// <summary>
-	/// ƒV[ƒ“Ø‚è‘Ö‚¦‚ªƒŠƒNƒGƒXƒg‚³‚ê‚Ä‚¢‚é‚©ƒ`ƒFƒbƒNB
-	/// </summary>
-	/// <returns> ƒŠƒNƒGƒXƒg‚³‚ê‚Ä‚¢‚ê‚ÎtrueB</returns>
-	bool GetIsSceneChangeRequested() const
-	{
-		return m_requestID != SceneID::None;
+		/**
+		 * ã‚·ãƒ¼ãƒ³ã®ç™»éŒ²ãƒ»å‘¼ã³å‡ºã—ã«ä½¿ã†ID
+		 */
+		enum class SceneID : uint8_t
+		{
+			Title = 0,
+			FirstStage,
+			BossStage,
+			None = 0xff	/** 0xã§16é€²æ•°ã€‚ffã¯10é€²æ•°ã§255 */
+		};
+
+
+		/**
+		 * ã‚·ãƒ¼ãƒ³ã®ç®¡ç†è€…ã€‚
+		 * ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆãƒ»æ›´æ–°ã®æä¾›ã‚’è¡Œã†ã€‚
+		 */
+		class SceneManager
+		{
+		private:
+			/** ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ */
+			IScene* m_currentScene = nullptr;
+			/** ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ID */
+			SceneID m_currentID = SceneID::Title;
+			/** ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆãƒªã‚¯ã‚¨ã‚¹ãƒˆID */
+			SceneID m_requestID = SceneID::Title;
+
+
+		public:
+			/** ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã§å‘¼ã³å‡ºã™ãŸã‚public */
+			void Update();
+
+			/** ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆã‚’ãƒªã‚¯ã‚¨ã‚¹ãƒˆ */
+			void ChangeScene(SceneID nextID)
+			{
+				m_requestID = nextID;
+			};
+
+			/**
+			 * ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆãŒãƒªã‚¯ã‚¨ã‚¹ãƒˆã•ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯ã€‚
+			 */
+			bool GetIsSceneChangeRequested() const
+			{
+				return m_requestID != SceneID::None;
+			}
+
+
+		private:
+			SceneManager() {};
+			~SceneManager() {};
+
+
+		private:
+			static SceneManager* m_instance;
+		public:
+			static void CreateInstance()
+			{
+				if (!m_instance) {
+					m_instance = new SceneManager();
+				}
+			};
+			static SceneManager* GetInstance()
+			{
+				return m_instance;
+			};
+			static void DeleteInstance()
+			{
+				if (m_instance) {
+					delete m_instance;
+					m_instance = nullptr;
+				}
+			};
+		};
+
+
+		/**
+		 * ã‚·ãƒ¼ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚’æ›´æ–°ã—ãŸã‚Šã™ã‚‹ãŸã‚ã®ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+		 */
+		class SceneManagerObject : public IGameObject
+		{
+		public:
+			SceneManagerObject();
+			~SceneManagerObject();
+
+
+		private:
+			bool Start() override;
+			void Update() override;
+		};
 	}
-
-
-private:
-	SceneManager() {};
-	~SceneManager() {};
-
-
-private:
-	static SceneManager* m_instance;
-public:
-	static void CreateInstance()
-	{
-		if (!m_instance) {
-			m_instance = new SceneManager();
-		}
-	};
-	static SceneManager* GetInstance()
-	{
-		return m_instance;
-	};
-	static void DeleteInstance()
-	{
-		if (m_instance) {
-			delete m_instance;
-			m_instance = nullptr;
-		}
-	};
-};
-
-
-/// <summary>
-/// ƒV[ƒ“ƒ}ƒl[ƒWƒƒ[‚ğXV‚µ‚½‚è‚·‚é‚½‚ß‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒgB
-/// </summary>
-class SceneManagerObject : public IGameObject
-{
-public:
-	SceneManagerObject();
-	~SceneManagerObject();
-
-
-private:
-	bool Start() override;
-	void Update() override;
-};
+}

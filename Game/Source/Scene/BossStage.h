@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 #include "Source/Scene/BattleStageBase.h"
 
 class BossPlanet;
@@ -6,24 +6,30 @@ class Spawner;
 class UIBossLife;
 
 
-class BossStage : public BattleStageBase
+namespace app
 {
-public:
-	BossStage();
-	~BossStage();
+	namespace scene
+	{
+		class BossStage : public BattleStageBase
+		{
+		public:
+			BossStage();
+			~BossStage();
 
 
-private:
-	bool Start() override final;
+		private:
+			bool Start() override final;
 
-	void OnUpdate() override final;
+			void OnUpdate() override final;
 
-	void InitLevel()override final;
-	LevelRender m_levelRender;		//ÉåÉxÉãÉåÉìÉ_Å[ÅB
+			void InitLevel()override final;
+			LevelRender m_levelRender;		//„É¨„Éô„É´„É¨„É≥„ÉÄ„Éº„ÄÇ
 
 
-private:
-	BossPlanet* m_bossPlanet = nullptr;
-	std::vector<Spawner*> m_spawners;
-	UIBossLife* m_uiBossLife = nullptr;
-};
+		private:
+			BossPlanet* m_bossPlanet = nullptr;
+			std::vector<Spawner*> m_spawners;
+			UIBossLife* m_uiBossLife = nullptr;
+		};
+	}
+}

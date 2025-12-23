@@ -1,75 +1,81 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "SceneManager.h"
 #include "Title.h"
 #include "FirstStage.h"
 #include "BossStage.h"
 
 
-SceneManager* SceneManager::m_instance = nullptr;
-
-
-namespace
+namespace app
 {
-	IScene* CreateScene(SceneID id)
+	namespace scene
 	{
-		switch (id)
+		SceneManager* SceneManager::m_instance = nullptr;
+
+
+		namespace
 		{
-		case SceneID::Title:
-			return new Title();
-		case SceneID::FirstStage:
-			return new FirstStage();
-		case SceneID::BossStage:
-			return new BossStage();
-		default:
-			return nullptr;
+			IScene* CreateScene(SceneID id)
+			{
+				switch (id)
+				{
+				case SceneID::Title:
+					return new scene::Title();
+					//case SceneID::FirstStage:
+					//	return new FirstStage();
+					//case SceneID::BossStage:
+					//	return new BossStage();
+				default:
+					return nullptr;
+				}
+			}
+		}
+
+
+		void SceneManager::Update()
+		{
+			if (m_requestID != SceneID::None)
+			{
+				delete m_currentScene;
+				m_currentScene = nullptr;
+				/** å¤ã„ã‚·ãƒ¼ãƒ³ã‚’å‰Šé™¤ã—ã¦æ–°ã—ã„ã‚·ãƒ¼ãƒ³ã«åˆ‡ã‚Šæ›¿ãˆ */
+				m_currentScene = CreateScene(m_requestID);
+				m_currentScene->Start();
+				/** ã‚·ãƒ¼ãƒ³ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’ã‚¯ãƒªã‚¢ */
+				m_requestID = SceneID::None;
+			}
+			if (m_currentScene)
+			{
+				m_currentScene->Update();
+			}
+		}
+
+
+
+
+		/********************************/
+
+
+		SceneManagerObject::SceneManagerObject()
+		{
+			SceneManager::CreateInstance();
+		}
+
+
+		SceneManagerObject::~SceneManagerObject()
+		{
+			SceneManager::DeleteInstance();
+		}
+
+
+		bool SceneManagerObject::Start()
+		{
+			return true;
+		}
+
+
+		void SceneManagerObject::Update()
+		{
+			SceneManager::GetInstance()->Update();
 		}
 	}
-}
-
-
-void SceneManager::Update()
-{
-	if (m_requestID != SceneID::None)
-	{
-		delete m_currentScene;
-		m_currentScene = nullptr;
-		// ŒÃ‚¢ƒV[ƒ“‚ðíœ‚µ‚ÄV‚µ‚¢ƒV[ƒ“‚ÉØ‚è‘Ö‚¦B
-		m_currentScene = CreateScene(m_requestID);
-		m_currentScene->Start();
-		// ƒV[ƒ“ƒŠƒNƒGƒXƒg‚ðƒNƒŠƒAB
-		m_requestID = SceneID::None;
-	}
-	if (m_currentScene)
-	{
-		m_currentScene->Update();
-	}
-}
-
-
-
-
-/********************************/
-
-
-SceneManagerObject::SceneManagerObject()
-{
-	SceneManager::CreateInstance();
-}
-
-
-SceneManagerObject::~SceneManagerObject()
-{
-	SceneManager::DeleteInstance();
-}
-
-
-bool SceneManagerObject::Start()
-{
-	return true;
-}
-
-
-void SceneManagerObject::Update()
-{
-	SceneManager::GetInstance()->Update();
 }

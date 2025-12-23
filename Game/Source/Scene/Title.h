@@ -1,43 +1,46 @@
-#pragma once
+Ôªø#pragma once
 #include "Source/Scene/SceneManager.h"
 
 
-class UITitle;
-class TitlePlayer;
-class TitleCamera;
-class TitlePlanet;
-class UITitle;
-
-
-class Title :public IScene
+namespace app
 {
-public:
-	Title();
-	~Title();
+	namespace scene
+	{
+		class UITitle;
+		class TitlePlayer;
+		class TitleCamera;
+		class TitlePlanet;
+		class UITitle;
 
 
-private:
-	bool Start() override final;
-	void Update() override final;
+		class Title :public IScene
+		{
+		public:
+			Title();
+			~Title();
 
 
-private:
-	UITitle* m_titleUI = nullptr;
-	TitlePlayer* m_titlePlayer = nullptr;
-	TitleCamera* m_titleCamera = nullptr;
-	TitlePlanet* m_titleStage = nullptr;
-	UITitle* m_uiTitle = nullptr;
-
-	float m_waitTimer = 0.0f;
-	bool m_isLoadingFinished = false;
+		private:
+			bool Start() override final;
+			void Update() override final;
 
 
-private:
-	/// <summary>
-	/// ãÛÇèâä˙âªÅB
-	/// </summary>
-	void InitSky();
+		private:
+			UITitle* m_titleUI = nullptr;
+			TitlePlayer* m_titlePlayer = nullptr;
+			TitleCamera* m_titleCamera = nullptr;
+			TitlePlanet* m_titleStage = nullptr;
+			UITitle* m_uiTitle = nullptr;
 
-	SkyCube* m_skyCube = nullptr;		//ÉXÉJÉCÉLÉÖÅ[ÉuÅB
-	int m_skyCubeType = enSkyCubeType_SpaceToon_2;
-};
+
+		private:
+			/// <summary>
+			/// Á©∫„ÇíÂàùÊúüÂåñ„ÄÇ
+			/// </summary>
+			void InitSky();
+
+			SkyCube* m_skyCube = nullptr;		//„Çπ„Ç´„Ç§„Ç≠„É•„Éº„Éñ„ÄÇ
+			int m_skyCubeType = enSkyCubeType_SpaceToon_2;
+		};
+	}
+}

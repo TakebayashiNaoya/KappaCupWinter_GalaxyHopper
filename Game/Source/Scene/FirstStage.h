@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Source/Scene/BattleStageBase.h"
 
 class FirstPlanet;
@@ -7,26 +7,31 @@ class Rocket;
 class UIGear;
 
 
-class FirstStage :public BattleStageBase
+namespace app
 {
-public:
-	FirstStage();
-	~FirstStage();
+	namespace scene
+	{
+		class FirstStage :public BattleStageBase
+		{
+		public:
+			FirstStage();
+			~FirstStage();
 
 
-private:
-	bool Start() override final;
+		private:
+			bool Start() override final;
 
-	void OnUpdate() override final;
+			void OnUpdate() override final;
 
-	void InitLevel()override final;
-	LevelRender m_levelRender;		//ƒŒƒxƒ‹ƒŒƒ“ƒ_[B
+			void InitLevel()override final;
+			LevelRender m_levelRender;		//ãƒ¬ãƒ™ãƒ«ãƒ¬ãƒ³ãƒ€ãƒ¼ã€‚
 
 
-private:
-	FirstPlanet* m_firstStage = nullptr;
-	std::vector<Treasure*> m_treasures;
-	Rocket* m_rocket = nullptr;
-	UIGear* m_uiGear = nullptr;
-};
-
+		private:
+			FirstPlanet* m_firstStage = nullptr;
+			std::vector<Treasure*> m_treasures;
+			Rocket* m_rocket = nullptr;
+			UIGear* m_uiGear = nullptr;
+		};
+	}
+}

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SceneManager.h"
 
 
@@ -11,105 +11,119 @@ class CollisionManagerObject;
 class UIResultBase;
 
 
-// ƒoƒgƒ‹‚ª‚ ‚éƒXƒe[ƒW‹¤’Ê‚ÌeƒNƒ‰ƒX
-class BattleStageBase : public IScene
+namespace app
 {
-public:
-	BattleStageBase();
-	virtual ~BattleStageBase();
-
-
-protected:
-	virtual bool Start() override;
-
-	/// <summary>
-	/// ”h¶æ‚ÅXVˆ—‚ğÀ‘•‚·‚é‚½‚ß‚Ì‰¼‘zŠÖ”B
-	/// </summary>
-	virtual void OnUpdate() {};
-
-	/// <summary>
-	/// ƒŒƒxƒ‹‚Ì‰Šú‰»‚ğs‚¤‰¼‘zŠÖ”‚Å‚·B
-	/// ”h¶ƒNƒ‰ƒX‚ÅƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ä‰Šú‰»‚µ‚Ä‚­‚¾‚³‚¢B
-	/// </summary>
-	virtual void InitLevel() {};
-
-	// Ÿ”s”»’è‚É•K—v‚È‚½‚ßŠî’êƒNƒ‰ƒX‚É‚½‚¹‚Ä‚¢‚Ü‚·B
-	// ŠeƒXƒe[ƒW‚Å¶¬‚µ‚½PlayerABossEnemy‚Ìƒ|ƒCƒ“ƒ^‚ğƒZƒbƒg‚µ‚Ä‚­‚¾‚³‚¢B
-	Player* m_player = nullptr;
-	BossEnemy* m_bossEnemy = nullptr;	// ¦”h¶æ‚ÅDeleteGO‚µ‚Ä‚­‚¾‚³‚¢B
-
-
-
-
-	/////////////////////////////////////////////////////////////////
-	///--- ƒQ[ƒ€‚Ìisó‘Ô‚ğŠÇ—‚µA‹¤’Ê‚ÌŸ”s”»’è‚ğs‚¢‚Ü‚·B---///
-	/////////////////////////////////////////////////////////////////
-private:
-	/// <summary>
-	/// í“¬‚Ìisó‘Ô‚ğ•\‚·—ñ‹“Œ^B
-	/// </summary>
-	enum enBattlePhase
+	namespace scene
 	{
-		enBattlePhase_Battle,
-		enBattlePhase_BattleFinish,
-		enBattlePhase_WaitFinishAnimation,
-		enBattlePhase_GameOver,
-		enBattlePhase_GameClear,
-		enBattlePhase_WaitEnd,
-		enBattlePhase_End
-	};
-	enBattlePhase m_battlePhase = enBattlePhase_Battle;
-
-	/// <summary>
-	/// Ÿ”sŒ‹‰Ê‚ğ•\‚·—ñ‹“Œ^B
-	/// </summary>
-	enum enResult
-	{
-		enResult_None,
-		enResult_PlayerWin,
-		enResult_PlayerLose
-	};
-	enResult m_result = enResult_None;
-
-	/// <summary>
-	/// ‘S‚Ä‚ÌƒXƒe[ƒW‚Å‹¤’Ê‚·‚éŸ”s”»’è‚ğs‚¢‚Ü‚·B
-	/// </summary>
-	void Update() override final;
+		/**
+		 * ãƒãƒˆãƒ«ãŒã‚ã‚‹ã‚¹ãƒ†ãƒ¼ã‚¸å…±é€šã®è¦ªã‚¯ãƒ©ã‚¹
+		 */
+		class BattleStageBase : public IScene
+		{
+		public:
+			BattleStageBase();
+			virtual ~BattleStageBase();
 
 
+		protected:
+			/**
+			 * æ´¾ç”Ÿå…ˆã§é–‹å§‹å‡¦ç†ã‚’å®Ÿè£…ã™ã‚‹ãŸã‚ã®ä»®æƒ³é–¢æ•°
+			 */
+			virtual bool Start() override;
+
+			/**
+			 * æ´¾ç”Ÿå…ˆã§æ›´æ–°å‡¦ç†ã‚’å®Ÿè£…ã™ã‚‹ãŸã‚ã®ä»®æƒ³é–¢æ•°
+			 */
+			virtual void OnUpdate() {};
+
+			/**
+			 * ãƒ¬ãƒ™ãƒ«ã®åˆæœŸåŒ–ã‚’è¡Œã†ä»®æƒ³é–¢æ•°ã§ã™ã€‚
+			 * æ´¾ç”Ÿã‚¯ãƒ©ã‚¹ã§ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦åˆæœŸåŒ–ã—ã¦ãã ã•ã„
+			 */
+			virtual void InitLevel() {};
+
+			/**
+			 * å‹æ•—åˆ¤å®šã«å¿…è¦ãªãŸã‚åŸºåº•ã‚¯ãƒ©ã‚¹ã«æŒãŸã›ã¦ã„ã‚‹
+			 * å„ã‚¹ãƒ†ãƒ¼ã‚¸ã§ç”Ÿæˆã—ãŸPlayerã€BossEnemyã®ãƒã‚¤ãƒ³ã‚¿ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã“ã¨
+			 */
+			Player* m_player = nullptr;
+			BossEnemy* m_bossEnemy = nullptr;	// â€»æ´¾ç”Ÿå…ˆã§DeleteGOã—ã¦ãã ã•ã„ã€‚
 
 
-	/////////////////////////////////////////////////////////////////////
-	///--- ‘S‚Ä‚ÌƒXƒe[ƒW‚Å‹¤’Ê‚·‚éƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·B---///
-	/////////////////////////////////////////////////////////////////////
-private:
-	/// <summary>
-	/// ‘S‚Ä‚ÌƒXƒe[ƒW‚Å‹¤’Ê‚·‚éƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»B
-	/// NOTE:ƒ[ƒh‰æ–Ê‚ğ‰~ŠŠ‚É“®‚©‚·‚½‚ßAƒXƒe[ƒgƒ}ƒVƒ“Œ`®‚Å‰Šú‰»‚ğ•ªŠ„‚µ‚Ä‚¢‚Ü‚·B
-	/// </summary>
-	void InitObjects();
+			/**
+			 * ã‚²ãƒ¼ãƒ ã®é€²è¡ŒçŠ¶æ…‹ã‚’ç®¡ç†ã—ã€å…±é€šã®å‹æ•—åˆ¤å®šã‚’è¡Œã„ã¾ã™
+			 */
+		private:
+			/**
+			 * æˆ¦é—˜ã®é€²è¡ŒçŠ¶æ…‹ã‚’è¡¨ã™åˆ—æŒ™å‹
+			 */
+			enum enBattlePhase
+			{
+				enBattlePhase_Battle,				/** æˆ¦é—˜ä¸­ */
+				enBattlePhase_BattleFinish,			/** æˆ¦é—˜æ™‚ã®å‡¦ç†ã‚’å‘¼ã³å‡ºã™ */
+				enBattlePhase_WaitFinishAnimation,	/** æˆ¦é—˜çµ‚äº†ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å®Œäº†å¾…ã¡ */
+				enBattlePhase_GameOver,				/** ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼å‡¦ç† */
+				enBattlePhase_GameClear,			/** ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢å‡¦ç† */
+				enBattlePhase_WaitEnd,				/** ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã€ã¾ãŸã¯ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢UIã®çµ‚äº†å¾…ã¡ */
+				enBattlePhase_End
+			};
+			enBattlePhase m_battlePhase = enBattlePhase_Battle;
 
-	/// <summary>
-	/// InitObjects‚ÅÀs‚·‚éƒ^ƒXƒN‚ğ“o˜^‚µ‚Ü‚·B
-	/// </summary>
-	void RegisterLoadingTasks();
+			/**
+			 * å‹æ•—çµæœã‚’è¡¨ã™åˆ—æŒ™å‹
+			 */
+			enum enResult
+			{
+				enResult_None,
+				enResult_PlayerWin,
+				enResult_PlayerLose
+			};
+			enResult m_result = enResult_None;
 
-	std::vector<std::function<void()>> m_loadingTasks;	// ƒ^ƒXƒN‚ÌƒŠƒXƒg
-	int m_currentTaskIndex = 0;							// Às’†‚Ìƒ^ƒXƒN”Ô†B
+			/**
+			 * å…¨ã¦ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã§å…±é€šã™ã‚‹å‹æ•—åˆ¤å®šã‚’è¡Œã†
+			 */
+			void Update() override final;
 
 
-	BattleManagerObject* m_battleManager = nullptr;			// ƒoƒgƒ‹ƒ}ƒl[ƒWƒƒ[B
-	CollisionManagerObject* m_collisionManager = nullptr;	// ƒRƒŠƒWƒ‡ƒ“ƒ}ƒl[ƒWƒƒ[B
-	UIInGame* m_inGameUI = nullptr;							// ƒCƒ“ƒQ[ƒ€UIB
-	GameCamera* m_gameCamera = nullptr;						// ƒQ[ƒ€ƒJƒƒ‰B
-	UIResultBase* m_uiResult = nullptr;						// ƒŠƒUƒ‹ƒgUIB
+			/**
+			 * å…¨ã¦ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã§å…±é€šã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–ã‚’è¡Œã†
+			 */
+		private:
+			/**
+			 * å…¨ã¦ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã§å…±é€šã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–ã€‚
+			 * NOTE:ãƒ­ãƒ¼ãƒ‰ç”»é¢ã‚’å††æ»‘ã«å‹•ã‹ã™ãŸã‚ã€switchã§åˆæœŸåŒ–ã‚’åˆ†å‰²ã—ã¦ã„ã‚‹
+			 */
+			void InitObjects();
+
+			/**
+			 * InitObjectsã§å®Ÿè¡Œã™ã‚‹ã‚¿ã‚¹ã‚¯ã‚’ç™»éŒ²ã™ã‚‹
+			 */
+			void RegisterLoadingTasks();
+
+			/** åˆæœŸåŒ–ã™ã‚‹ã‚¿ã‚¹ã‚¯ã®ãƒªã‚¹ãƒˆ */
+			std::vector<std::function<void()>> m_loadingTasks;
+			/** ç¾åœ¨å®Ÿè¡Œä¸­ã®ã‚¿ã‚¹ã‚¯ç•ªå· */
+			int m_currentTaskIndex = 0;
+
+			/** ãƒãƒˆãƒ«ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ */
+			BattleManagerObject* m_battleManager = nullptr;
+			/** ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ */
+			CollisionManagerObject* m_collisionManager = nullptr;
+			/** ã‚¤ãƒ³ã‚²ãƒ¼ãƒ UI */
+			UIInGame* m_inGameUI = nullptr;
+			/** ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ© */
+			GameCamera* m_gameCamera = nullptr;
+			/** ãƒªã‚¶ãƒ«ãƒˆUI */
+			UIResultBase* m_uiResult = nullptr;
 
 
-	/// <summary>
-	/// ‹ó‚ğ‰Šú‰»B
-	/// </summary>
-	void InitSky();
-
-	SkyCube* m_skyCube = nullptr;				// ƒXƒJƒCƒLƒ…[ƒuB
-	int m_skyCubeType = enSkyCubeType_Night;	// ƒXƒJƒCƒLƒ…[ƒu‚Ìƒ^ƒCƒvB
-};
+			/** ç©ºã‚’åˆæœŸåŒ– */
+			void InitSky();
+			/** ã‚¹ã‚«ã‚¤ã‚­ãƒ¥ãƒ¼ãƒ– */
+			SkyCube* m_skyCube = nullptr;
+			/** ã‚¹ã‚«ã‚¤ã‚­ãƒ¥ãƒ¼ãƒ–ã®ã‚¿ã‚¤ãƒ— */
+			int m_skyCubeType = enSkyCubeType_Night;
+		};
+	}
+}
