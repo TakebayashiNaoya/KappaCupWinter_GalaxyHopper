@@ -1,92 +1,154 @@
 ﻿#pragma once
 
-class LoadingScreen
+namespace app
 {
-public:
-	enum EnState
+	class LoadingScreen
 	{
-		enState_Close,
-		enState_Loading,
-		enState_Open,
-		enState_Opened,
-		enState_None
+	public:
+		/**
+		 * ロード画面の状態
+		 */
+		enum EnState
+		{
+			enState_Closing,
+			enState_Loading,
+			enState_Opening,
+			enState_Opened,
+			enState_None
+		};
+
+		/**
+		 * ロードを開始させる
+		 */
+		static void StartLoading();
+
+		/**
+		 * ロードを終了させる
+		 */
+		static void FinishLoading();
+
+		/**
+		 * ロード状態を強制的にロード中のレイアウトに変更し、全ての音を停止する
+		 */
+		void SnapToLoading();
+
+		/**
+		 * ロード状態を強制的にロード完了のレイアウトに変更する
+		 */
+		void SnapToOpened();
+
+		/**
+		 * ロード状態を強制的に変更する
+		 */
+		static void ChangeState(EnState state);
+
+		/**
+		 * ロード画面の状態を取得する
+		 */
+		static const EnState GetState();
+
+
+	private:
+		/** ロード画面を構成する画像パーツ */
+		enum EnImageParts
+		{
+			enImageParts_Center,	/** 中央 */
+			enImageParts_Top,		/** 上　 */
+			enImageParts_Bottom,	/** 下　 */
+			enImageParts_Left,		/** 左　 */
+			enImageParts_Right,		/** 右　 */
+			enImageParts_Num
+		};
+
+
+	private:
+		/** 画像リスト */
+		SpriteRender* m_displayImages = nullptr;
+		/** ローディングアイコン */
+		SpriteRender m_loadingIcon;
+		/** ロード状態 */
+		EnState m_state = enState_None;
+		/** アニメーション用タイマー */
+		float m_timer = 0.0f;
+
+
+	private:
+		LoadingScreen();
+		~LoadingScreen();
+
+
+	public:
+		bool Start();
+		void Update();
+		void Render(RenderContext& rc);
+
+
+	private:
+		/**
+		 * レイアウトの初期化
+		 */
+		void InitLayout();
+
+		/**
+		 * アイリスイン・アイリスアウト時の各画像の大きさ・座標を更新する
+		 * 引数が0.0fで閉じた状態、1.0fで開いた状態
+		 */
+		void UpdateIrisTransform(float ratio);
+
+		/**
+		 * アニメーションの更新
+		 * startRatio～endRatioまでduration秒かけて変化させ、nextStateに遷移する
+		 */
+		void UpdateAnimation(float startRatio, float endRatio, float duration, EnState nextState);
+
+
+		/**
+		 * シングルトン関連
+		 */
+	private:
+		static LoadingScreen* m_instance;
+
+	public:
+		static LoadingScreen* CreateInstance()
+		{
+			if (m_instance == nullptr) {
+				m_instance = new LoadingScreen();
+			}
+			return m_instance;
+		}
+		static LoadingScreen* GetInstance()
+		{
+			return m_instance;
+		}
+		static bool GetIsAvailable()
+		{
+			return m_instance != nullptr;
+		}
+		static void Delete()
+		{
+			if (m_instance != nullptr) {
+				delete m_instance;
+				m_instance = nullptr;
+			}
+		}
 	};
 
 
-	static void StartLoading();
-	static void FinishLoading();
-	static void ChangeState(EnState state);
-	static const EnState GetState();
 
 
-private:
-	enum EnImageParts
+	/********************************/
+
+
+	class LoadingScreenObject : public IGameObject
 	{
-		enImageParts_Center,
-		enImageParts_Top,
-		enImageParts_Bottom,
-		enImageParts_Left,
-		enImageParts_Right,
-		enImageParts_Num
+	public:
+		LoadingScreenObject();
+		~LoadingScreenObject();
+
+
+	private:
+		bool Start() override;
+		void Update() override;
+		void Render(RenderContext& rc) override;
 	};
-
-private:
-	LoadingScreen();
-	~LoadingScreen();
-
-	void ForceToLoadingLayout();
-
-public:
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
-
-private:
-	SpriteRender* m_displayImages = nullptr;
-	SpriteRender m_loadingIcon;
-	EnState m_state = enState_None;
-	float m_timer = 0.0f;
-
-private:
-	void InitLayout();
-
-	/**
-	 * シングルトン関連
-	 */
-private:
-	static LoadingScreen* m_instance;
-
-public:
-	static LoadingScreen* CreateInstance()
-	{
-		if (m_instance == nullptr) {
-			m_instance = new LoadingScreen();
-		}
-		return m_instance;
-	}
-	static LoadingScreen* GetInstance()
-	{
-		return m_instance;
-	}
-	static bool GetIsAvailable()
-	{
-		return m_instance != nullptr;
-	}
-	static void Delete()
-	{
-		if (m_instance != nullptr) {
-			delete m_instance;
-			m_instance = nullptr;
-		}
-	}
-};
-
-class LoadingScreenObject : public IGameObject
-{
-public:
-	LoadingScreenObject();
-	~LoadingScreenObject();
-	bool Start() override;
-	void Update() override;
-	void Render(RenderContext& rc) override;
-};
+}

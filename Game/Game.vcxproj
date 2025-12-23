@@ -226,7 +226,9 @@
     <ClCompile Include="Collision\CollisionManager.cpp" />
     <ClCompile Include="Core\ParameterManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Sound\SoundManager.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp" />
     <ClCompile Include="Source\Actor\ActorStatus.cpp" />
     <ClCompile Include="Source\Actor\ActorTypes.cpp" />
@@ -262,6 +264,8 @@
     <ClInclude Include="Collision\CollisionManager.h" />
     <ClInclude Include="Core\ParameterManager.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="LoadingScreen.h" />
+    <ClInclude Include="Sound\SoundManager.h" />
     <ClInclude Include="Source\Actor\Actor.h" />
     <ClInclude Include="Source\Actor\ActorStatus.h" />
     <ClInclude Include="Source\Actor\ActorTypes.h" />

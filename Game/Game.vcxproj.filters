@@ -19,6 +19,9 @@
     <Filter Include="Source\Scene">
       <UniqueIdentifier>{cdb61daa-095a-4b5a-9bdb-e6191e9e56e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{2222a7a1-5811-45eb-b70a-47fc9a9705cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -103,6 +106,10 @@
     <ClCompile Include="Source\Actor\Enemy.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="LoadingScreen.cpp" />
+    <ClCompile Include="Sound\SoundManager.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -185,6 +192,10 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\Enemy.h">
       <Filter>Source\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScreen.h" />
+    <ClInclude Include="Sound\SoundManager.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
