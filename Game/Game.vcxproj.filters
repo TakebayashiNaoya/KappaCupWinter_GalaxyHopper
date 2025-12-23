@@ -22,6 +22,12 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{2222a7a1-5811-45eb-b70a-47fc9a9705cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Battle">
+      <UniqueIdentifier>{54be5862-08f8-435a-ad23-9ad6d8c53d1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ui">
+      <UniqueIdentifier>{aea9ab42-daf7-4870-a22b-275da831db30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -110,6 +116,16 @@
     <ClCompile Include="Sound\SoundManager.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
+    <ClCompile Include="Battle\BattleManager.cpp">
+      <Filter>Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\SpriteAnimation.cpp">
+      <Filter>Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\UIBase.cpp">
+      <Filter>Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="HierarchicalTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -197,5 +213,15 @@
     <ClInclude Include="Sound\SoundManager.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="Battle\BattleManager.h">
+      <Filter>Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="Ui\SpriteAnimation.h">
+      <Filter>Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="Ui\UIBase.h">
+      <Filter>Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="HierarchicalTransform.h" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * UIBase.h
  * UIの基本的な処理をするクラス群
  */
@@ -11,7 +11,7 @@ class SpriteAnimationBase;
 class UIBase : public Noncopyable
 {
 public:
-	Transform m_transform;
+	HierarchicalTransform m_transform;
 
 
 protected:
