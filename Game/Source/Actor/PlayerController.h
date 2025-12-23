@@ -7,19 +7,26 @@
  // 操作対象（肉体）を知っておく必要がある
 class Player;
 
-class PlayerController : public IGameObject
+
+namespace app
 {
-public:
-	PlayerController();
-	~PlayerController();
+	namespace actor
+	{
+		class PlayerController : public IGameObject
+		{
+		public:
+			PlayerController();
+			~PlayerController();
 
-	bool Start() override;
-	void Update() override;
+			bool Start() override;
+			void Update() override;
 
-	// 操作する対象をセットする関数
-	void SetTarget(Player* target) { m_target = target; }
+			// 操作する対象をセットする関数
+			void SetTarget(Player* target) { m_target = target; }
 
-private:
-	// 操作対象のプレイヤー（肉体）
-	Player* m_target = nullptr;
-};
+		private:
+			// 操作対象のプレイヤー（肉体）
+			Player* m_target = nullptr;
+		};
+	}
+}

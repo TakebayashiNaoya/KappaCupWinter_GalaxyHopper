@@ -1,51 +1,58 @@
-/**
+ï»¿/**
  * PlayerController.cpp
- * ƒRƒ“ƒgƒ[ƒ‰[“ü—Í‚ðƒvƒŒƒCƒ„[‚Ì“®‚«‚É•ÏŠ·‚·‚é
+ * ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼å…¥åŠ›ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‹•ãã«å¤‰æ›ã™ã‚‹
  */
 #include "stdafx.h"
 #include "PlayerController.h"
-#include "Player.h" // Player‚Ì’†g‚ð‘€ì‚·‚é‚Ì‚ÅƒCƒ“ƒNƒ‹[ƒh
-
-PlayerController::PlayerController()
-{
-}
-
-PlayerController::~PlayerController()
-{
-}
-
-bool PlayerController::Start()
-{
-	return true;
-}
-
-void PlayerController::Update()
-{
-	// ‘€ì‘ÎÛ‚ª‚¢‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
-	if (m_target == nullptr) return;
-
-	// 1. “ü—Í‚ðŽæ“¾i‚±‚±‚ª“ª”]‚ÌŽdŽ–Ij
-	// X‚ÆY‚Ì“ü—Í‚ðŽæ“¾‚µ‚ÄAZ(‰œ)•ûŒü‚Ö‚ÌˆÚ“®‚É•ÏŠ·‚µ‚Ä‚¢‚Ü‚·
-	Vector3 stickL = Vector3(g_pad[0]->GetLStickXF(), 0.0f, g_pad[0]->GetLStickYF());
-
-	// 2. ƒJƒƒ‰‚É‡‚í‚¹‚ÄˆÚ“®•ûŒü‚ðŒvŽZ
-	Vector3 moveDir = Vector3::Zero;
-	if (stickL.LengthSq() > 0.001f) {
-		// ƒJƒƒ‰‚Ì‘O•ûŒüE‰E•ûŒü‚ðŽæ“¾
-		Vector3 forward = g_camera3D->GetForward();
-		Vector3 right = g_camera3D->GetRight();
-
-		// ã‰º¬•ªiYj‚ðÁ‚µ‚ÄA…•½‚ÈˆÚ“®‚É‚·‚é
-		forward.y = 0.0f;
-		right.y = 0.0f;
-		forward.Normalize();
-		right.Normalize();
-
-		// “ü—Í‚ÆƒJƒƒ‰‚ÌŒü‚«‚ð‡¬
-		moveDir = forward * stickL.z + right * stickL.x;
-	}
-
-	// 3. “÷‘ÌiPlayerj‚Éu‚±‚Á‚¿‚É“®‚¯v‚Æ–½—ß‚·‚é
-	// ¦‚±‚ÌŠÖ”(SetVelocity)‚ÍŒã‚ÅPlayer‚Éì‚è‚Ü‚·
-	m_target->SetVelocity(moveDir);
-}
+ //#include "Player.h" // Playerã®ä¸­èº«ã‚’æ“ä½œã™ã‚‹ã®ã§ã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰
+ //
+ //
+ //namespace app
+ //{
+ //	namespace actor
+ //	{
+ //		PlayerController::PlayerController()
+ //		{
+ //		}
+ //
+ //		PlayerController::~PlayerController()
+ //		{
+ //		}
+ //
+ //		bool PlayerController::Start()
+ //		{
+ //			return true;
+ //		}
+ //
+ //		void PlayerController::Update()
+ //		{
+ //			// æ“ä½œå¯¾è±¡ãŒã„ãªã‘ã‚Œã°ä½•ã‚‚ã—ãªã„
+ //			if (m_target == nullptr) return;
+ //
+ //			// 1. å…¥åŠ›ã‚’å–å¾—ï¼ˆã“ã“ãŒé ­è„³ã®ä»•äº‹ï¼ï¼‰
+ //			// Xã¨Yã®å…¥åŠ›ã‚’å–å¾—ã—ã¦ã€Z(å¥¥)æ–¹å‘ã¸ã®ç§»å‹•ã«å¤‰æ›ã—ã¦ã„ã¾ã™
+ //			Vector3 stickL = Vector3(g_pad[0]->GetLStickXF(), 0.0f, g_pad[0]->GetLStickYF());
+ //
+ //			// 2. ã‚«ãƒ¡ãƒ©ã«åˆã‚ã›ã¦ç§»å‹•æ–¹å‘ã‚’è¨ˆç®—
+ //			Vector3 moveDir = Vector3::Zero;
+ //			if (stickL.LengthSq() > 0.001f) {
+ //				// ã‚«ãƒ¡ãƒ©ã®å‰æ–¹å‘ãƒ»å³æ–¹å‘ã‚’å–å¾—
+ //				Vector3 forward = g_camera3D->GetForward();
+ //				Vector3 right = g_camera3D->GetRight();
+ //
+ //				// ä¸Šä¸‹æˆåˆ†ï¼ˆYï¼‰ã‚’æ¶ˆã—ã¦ã€æ°´å¹³ãªç§»å‹•ã«ã™ã‚‹
+ //				forward.y = 0.0f;
+ //				right.y = 0.0f;
+ //				forward.Normalize();
+ //				right.Normalize();
+ //
+ //				// å…¥åŠ›ã¨ã‚«ãƒ¡ãƒ©ã®å‘ãã‚’åˆæˆ
+ //				moveDir = forward * stickL.z + right * stickL.x;
+ //			}
+ //
+ //			// 3. è‚‰ä½“ï¼ˆPlayerï¼‰ã«ã€Œã“ã£ã¡ã«å‹•ã‘ã€ã¨å‘½ä»¤ã™ã‚‹
+ //			// â€»ã“ã®é–¢æ•°(SetVelocity)ã¯å¾Œã§Playerã«ä½œã‚Šã¾ã™
+ //			m_target->SetVelocity(moveDir);
+ //		}
+ //	}
+ //}

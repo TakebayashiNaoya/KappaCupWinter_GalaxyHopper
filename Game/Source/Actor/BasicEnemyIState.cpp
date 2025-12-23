@@ -10,28 +10,17 @@ namespace app
 {
 	namespace actor
 	{
-		IdleState::IdleState(StateMachineBase* owner)
-			: IState(owner)
+		void BasicEnemyIdleState::Enter()
 		{
 		}
 
 
-		IdleState::~IdleState()
+		void BasicEnemyIdleState::Update()
 		{
 		}
 
 
-		void IdleState::Enter()
-		{
-		}
-
-
-		void IdleState::Update()
-		{
-		}
-
-
-		void IdleState::Exit()
+		void BasicEnemyIdleState::Exit()
 		{
 		}
 
@@ -41,28 +30,17 @@ namespace app
 		/********************************/
 
 
-		DashState::DashState(StateMachineBase* owner)
-			: IState(owner)
+		void BasicEnemyDashState::Enter()
 		{
 		}
 
 
-		DashState::~DashState()
+		void BasicEnemyDashState::Update()
 		{
 		}
 
 
-		void DashState::Enter()
-		{
-		}
-
-
-		void DashState::Update()
-		{
-		}
-
-
-		void DashState::Exit()
+		void BasicEnemyDashState::Exit()
 		{
 		}
 
@@ -72,28 +50,17 @@ namespace app
 		/********************************/
 
 
-		WaitState::WaitState(StateMachineBase* owner)
-			: IState(owner)
+		void BasicEnemyWaitState::Enter()
 		{
 		}
 
 
-		WaitState::~WaitState()
+		void BasicEnemyWaitState::Update()
 		{
 		}
 
 
-		void WaitState::Enter()
-		{
-		}
-
-
-		void WaitState::Update()
-		{
-		}
-
-
-		void WaitState::Exit()
+		void BasicEnemyWaitState::Exit()
 		{
 		}
 
@@ -103,28 +70,17 @@ namespace app
 		/********************************/
 
 
-		DeadState::DeadState(StateMachineBase* owner)
-			: IState(owner)
+		void BasicEnemyDeadState::Enter()
 		{
 		}
 
 
-		DeadState::~DeadState()
+		void BasicEnemyDeadState::Update()
 		{
 		}
 
 
-		void DeadState::Enter()
-		{
-		}
-
-
-		void DeadState::Update()
-		{
-		}
-
-
-		void DeadState::Exit()
+		void BasicEnemyDeadState::Exit()
 		{
 		}
 	}

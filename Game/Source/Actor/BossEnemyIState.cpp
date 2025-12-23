@@ -10,28 +10,17 @@ namespace app
 {
 	namespace actor
 	{
-		IdleState::IdleState(StateMachineBase* owner)
-			: IState(owner)
+		void BossEnemyIdleState::Enter()
 		{
 		}
 
 
-		IdleState::~IdleState()
+		void BossEnemyIdleState::Update()
 		{
 		}
 
 
-		void IdleState::Enter()
-		{
-		}
-
-
-		void IdleState::Update()
-		{
-		}
-
-
-		void IdleState::Exit()
+		void BossEnemyIdleState::Exit()
 		{
 		}
 
@@ -41,28 +30,17 @@ namespace app
 		/********************************/
 
 
-		WalkState::WalkState(StateMachineBase* owner)
-			: IState(owner)
+		void BossEnemyWalkState::Enter()
 		{
 		}
 
 
-		WalkState::~WalkState()
+		void BossEnemyWalkState::Update()
 		{
 		}
 
 
-		void WalkState::Enter()
-		{
-		}
-
-
-		void WalkState::Update()
-		{
-		}
-
-
-		void WalkState::Exit()
+		void BossEnemyWalkState::Exit()
 		{
 		}
 
@@ -72,28 +50,17 @@ namespace app
 		/********************************/
 
 
-		DashState::DashState(StateMachineBase* owner)
-			: IState(owner)
+		void BossEnemyDashState::Enter()
 		{
 		}
 
 
-		DashState::~DashState()
+		void BossEnemyDashState::Update()
 		{
 		}
 
 
-		void DashState::Enter()
-		{
-		}
-
-
-		void DashState::Update()
-		{
-		}
-
-
-		void DashState::Exit()
+		void BossEnemyDashState::Exit()
 		{
 		}
 
@@ -103,28 +70,17 @@ namespace app
 		/********************************/
 
 
-		AttackState::AttackState(StateMachineBase* owner)
-			: IState(owner)
+		void BossEnemyAttackState::Enter()
 		{
 		}
 
 
-		AttackState::~AttackState()
+		void BossEnemyAttackState::Update()
 		{
 		}
 
 
-		void AttackState::Enter()
-		{
-		}
-
-
-		void AttackState::Update()
-		{
-		}
-
-
-		void AttackState::Exit()
+		void BossEnemyAttackState::Exit()
 		{
 		}
 
@@ -134,28 +90,17 @@ namespace app
 		/********************************/
 
 
-		CoolDownState::CoolDownState(StateMachineBase* owner)
-			: IState(owner)
+		void BossEnemyCoolDownState::Enter()
 		{
 		}
 
 
-		CoolDownState::~CoolDownState()
+		void BossEnemyCoolDownState::Update()
 		{
 		}
 
 
-		void CoolDownState::Enter()
-		{
-		}
-
-
-		void CoolDownState::Update()
-		{
-		}
-
-
-		void CoolDownState::Exit()
+		void BossEnemyCoolDownState::Exit()
 		{
 		}
 
@@ -165,28 +110,17 @@ namespace app
 		/********************************/
 
 
-		DamageState::DamageState(StateMachineBase* owner)
-			: IState(owner)
+		void BossEnemyDamageState::Enter()
 		{
 		}
 
 
-		DamageState::~DamageState()
+		void BossEnemyDamageState::Update()
 		{
 		}
 
 
-		void DamageState::Enter()
-		{
-		}
-
-
-		void DamageState::Update()
-		{
-		}
-
-
-		void DamageState::Exit()
+		void BossEnemyDamageState::Exit()
 		{
 		}
 
@@ -196,28 +130,17 @@ namespace app
 		/********************************/
 
 
-		DyingState::DyingState(StateMachineBase* owner)
-			: IState(owner)
+		void BossEnemyDyingState::Enter()
 		{
 		}
 
 
-		DyingState::~DyingState()
+		void BossEnemyDyingState::Update()
 		{
 		}
 
 
-		void DyingState::Enter()
-		{
-		}
-
-
-		void DyingState::Update()
-		{
-		}
-
-
-		void DyingState::Exit()
+		void BossEnemyDyingState::Exit()
 		{
 		}
 
@@ -227,28 +150,17 @@ namespace app
 		/********************************/
 
 
-		DeadState::DeadState(StateMachineBase* owner)
-			: IState(owner)
+		void BossEnemyDeadState::Enter()
 		{
 		}
 
 
-		DeadState::~DeadState()
+		void BossEnemyDeadState::Update()
 		{
 		}
 
 
-		void DeadState::Enter()
-		{
-		}
-
-
-		void DeadState::Update()
-		{
-		}
-
-
-		void DeadState::Exit()
+		void BossEnemyDeadState::Exit()
 		{
 		}
 	}

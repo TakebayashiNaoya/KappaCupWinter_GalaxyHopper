@@ -223,23 +223,83 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Battle\BattleManager.cpp" />
+    <ClCompile Include="Collision\CollisionManager.cpp" />
     <ClCompile Include="Core\ParameterManager.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="HierarchicalTransform.cpp" />
+    <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Source\Actor\PlayerStatus.cpp" />
+    <ClCompile Include="Sound\SoundManager.cpp" />
+    <ClCompile Include="Source\Actor\Actor.cpp" />
+    <ClCompile Include="Source\Actor\ActorStatus.cpp" />
+    <ClCompile Include="Source\Actor\ActorTypes.cpp" />
+    <ClCompile Include="Source\Actor\BasicEnemyIState.cpp" />
+    <ClCompile Include="Source\Actor\BossEnemyIState.cpp" />
+    <ClCompile Include="Source\Actor\BossPlanet.cpp" />
+    <ClCompile Include="Source\Actor\Character.cpp" />
+    <ClCompile Include="Source\Actor\DeformEnemyIState.cpp" />
+    <ClCompile Include="Source\Actor\Enemy.cpp" />
+    <ClCompile Include="Source\Actor\EnemyStateMachine.cpp" />
+    <ClCompile Include="Source\Actor\FirstPlanet.cpp" />
+    <ClCompile Include="Source\Actor\PlanetBase.cpp" />
+    <ClCompile Include="Source\Actor\Player.cpp" />
+    <ClCompile Include="Source\Actor\PlayerController.cpp" />
+    <ClCompile Include="Source\Actor\PlayerIState.cpp" />
+    <ClCompile Include="Source\Actor\PlayerStateMachine.cpp" />
+    <ClCompile Include="Source\Actor\StateMachine.cpp" />
+    <ClCompile Include="Source\Actor\TitlePlanet.cpp" />
+    <ClCompile Include="Source\Scene\BattleStageBase.cpp" />
+    <ClCompile Include="Source\Scene\BossStage.cpp" />
+    <ClCompile Include="Source\Scene\FirstStage.cpp" />
+    <ClCompile Include="Source\Scene\SceneManager.cpp" />
+    <ClCompile Include="Source\Scene\Title.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Ui\SpriteAnimation.cpp" />
+    <ClCompile Include="Ui\UIBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Battle\BattleManager.h" />
+    <ClInclude Include="Collision\CollisionManager.h" />
     <ClInclude Include="Core\ParameterManager.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Source\Actor\PlayerStatus.h" />
+    <ClInclude Include="HierarchicalTransform.h" />
+    <ClInclude Include="LoadingScreen.h" />
+    <ClInclude Include="Sound\SoundManager.h" />
+    <ClInclude Include="Source\Actor\Actor.h" />
+    <ClInclude Include="Source\Actor\ActorStatus.h" />
+    <ClInclude Include="Source\Actor\ActorTypes.h" />
+    <ClInclude Include="Source\Actor\BasicEnemyIState.h" />
+    <ClInclude Include="Source\Actor\BossEnemyIState.h" />
+    <ClInclude Include="Source\Actor\BossPlanet.h" />
+    <ClInclude Include="Source\Actor\Character.h" />
+    <ClInclude Include="Source\Actor\DeformEnemyIState.h" />
+    <ClInclude Include="Source\Actor\Enemy.h" />
+    <ClInclude Include="Source\Actor\EnemyStateMachine.h" />
+    <ClInclude Include="Source\Actor\FirstPlanet.h" />
+    <ClInclude Include="Source\Actor\PlanetBase.h" />
+    <ClInclude Include="Source\Actor\Player.h" />
+    <ClInclude Include="Source\Actor\PlayerController.h" />
+    <ClInclude Include="Source\Actor\PlayerIState.h" />
+    <ClInclude Include="Source\Actor\PlayerStateMachine.h" />
+    <ClInclude Include="Source\Actor\StateMachine.h" />
+    <ClInclude Include="Source\Actor\TitlePlanet.h" />
+    <ClInclude Include="Source\Scene\BattleStageBase.h" />
+    <ClInclude Include="Source\Scene\BossStage.h" />
+    <ClInclude Include="Source\Scene\FirstStage.h" />
+    <ClInclude Include="Source\Scene\SceneManager.h" />
+    <ClInclude Include="Source\Scene\Title.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Ui\SpriteAnimation.h" />
+    <ClInclude Include="Ui\UIBase.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

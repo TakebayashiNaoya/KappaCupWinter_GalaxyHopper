@@ -1,127 +1,96 @@
-/// <summary>
-/// ƒvƒŒƒCƒ„[‚ğŠÇ—‚·‚éƒNƒ‰ƒXB
-/// </summary>
+ï»¿/**
+ * Player.h
+ * ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ */
 #pragma once
-#include "Source/Actor/Character/Character.h"
-#include "PlayerStatus.h" // š’Ç‰Á: ƒpƒ‰ƒ[ƒ^ŠÇ—
+#include "Character.h"
+#include "ActorStatus.h" 
+#include "PlayerStateMachine.h"
 
-namespace app {
-	namespace player {
-		class PlayerStateMachine;
+namespace app
+{
+	namespace actor
+	{
+		class Player : public Character
+		{
+		public:
+			/**
+			 * ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒªãƒƒãƒ—
+			 * åˆæœŸåŒ–æ™‚ã¨IStateã§ã‚¢ãƒ‹ãƒ¡å†ç”Ÿã«ä½¿ç”¨ã™ã‚‹ã®ã§publicã«ã—ã¦ã„ã¾ã™ã€‚
+			 */
+			enum EnAnimationClip : uint8_t
+			{
+				enAnimationClip_Idle,		/** å¾…æ©Ÿ		*/
+				enAnimationClip_Walk,		/** æ­©ã		*/
+				enAnimationClip_Dash,		/** èµ°ã‚Š		*/
+				enAnimationClip_Jump,		/** ã‚¸ãƒ£ãƒ³ãƒ—	*/
+				enAnimationClip_Damage,		/** è¢«å¼¾		*/
+				enAnimationClip_Die,		/** æ­»äº¡		*/
+				enAnimationClip_Num,
+			};
+
+
+			/** ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‹ã‚‰æ¸¡ã•ã‚Œã‚‹ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«ã®ã‚»ãƒƒã‚¿ãƒ¼ */
+			void SetVelocity(const Vector3& velocity) { m_velocity = velocity; }
+
+			/** ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ã®ã‚²ãƒƒã‚¿ãƒ¼ */
+			PlayerStateMachine* GetStateMachine() const { return m_stateMachine.get(); }
+
+
+			/// <summary>
+			/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®XZè»¸å›è»¢è§’åº¦ã‚’å–å¾—
+			/// </summary>
+			const Quaternion& GetAdditionalRot() const { return m_xzAdditionalRot; }
+
+			/// <summary>
+			/// ç„¡æ•µä¸­ã‹ã©ã†ã‹ã‚’å–å¾—ãƒ»è¨­å®š
+			/// </summary>
+			const bool GetIsInvincible() const { return m_isInvincible; }
+			void SetIsInvincible(const bool isInvincible) { m_isInvincible = isInvincible; }
+
+			/// <summary>
+			/// ãƒãƒƒã‚¯ãƒãƒƒã‚¯ã‚¿ã‚¤ãƒãƒ¼ã‚’ãƒªã‚»ãƒƒãƒˆ
+			/// </summary>
+			void ResetKnockBackTimer() { m_knockBackTimer = 0.0f; }
+
+
+		protected:
+			// â˜…å‰Šé™¤: å…¥åŠ›å‡¦ç†ï¼ˆComputeMoveDirectionï¼‰ã¯Controllerã«ç§»è­²ã—ãŸãŸã‚ä¸è¦
+
+		protected:
+			Quaternion	m_xzAdditionalRot;	// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã®XZè»¸å›è»¢è§’åº¦
+
+
+		public:
+			Player();
+			~Player();
+
+
+		private:
+			bool Start() override;
+			void Update() override;
+			void Render(RenderContext& rc) override;
+
+
+		private:
+			// â˜…è¿½åŠ : ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‹ã‚‰æ¸¡ã•ã‚Œã‚‹ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«
+			Vector3 m_velocity = Vector3::Zero;
+
+			/** ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
+			std::unique_ptr<PlayerStatus> m_status;
+
+			// ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³
+			std::unique_ptr<PlayerStateMachine> m_stateMachine;
+
+			// ãƒ€ãƒ¡ãƒ¼ã‚¸é–¢é€£
+			Vector3 m_knockBackDirection = Vector3::Zero;
+			float	m_knockBackTimer = 0.0f;
+			bool	m_isBlinking = false;
+			bool	m_isInvincible = false;
+			float   m_invincibleTimer = 0.0f;
+
+			// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³è¨­å®š
+			static const AnimationOption PLAYER_ANIMATION_OPTIONS[enAnimationClip_Num];
+		};
 	}
 }
-
-class Player : public Character
-{
-public:
-	Player();
-	~Player();
-
-	/// <summary>
-	/// ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒNƒŠƒbƒv‚ğ•\‚·—ñ‹“Œ^
-	/// </summary>
-	enum EnAnimationClip
-	{
-		enAnimationClip_Idle,		// ‘Ò‹@
-		enAnimationClip_Walk,		// •à‚«
-		enAnimationClip_Run,		// ‘–‚è
-		enAnimationClip_Down,		// ƒ_ƒEƒ“
-		enAnimationClip_Dead,		// €–S
-		enAnimationClip_Num,
-	};
-
-	// ----------------------------------------------------------
-	// š’Ç‰Á: ŠO•”iƒRƒ“ƒgƒ[ƒ‰[j‚©‚ç‘€ì‚ğó‚¯æ‚é‚½‚ß‚ÌŠÖ”
-	// ----------------------------------------------------------
-	void SetVelocity(const Vector3& velocity) { m_velocity = velocity; }
-
-	// ----------------------------------------------------------
-	// š’Ç‰Á: ƒXƒe[ƒ^ƒX‚ÆƒXƒe[ƒgƒ}ƒVƒ“‚Ö‚ÌƒAƒNƒZƒX
-	// ----------------------------------------------------------
-	PlayerStatus* GetPlayerStatus() const { return m_status; }
-	app::player::PlayerStateMachine* GetStateMachine() const { return m_stateMachine.get(); }
-
-
-	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€‚ÌXZ²‰ñ“]Šp“x‚ğæ“¾
-	/// </summary>
-	const Quaternion& GetAdditionalRot() const { return m_xzAdditionalRot; }
-
-	/// <summary>
-	/// –³“G’†‚©‚Ç‚¤‚©‚ğæ“¾Eİ’è
-	/// </summary>
-	const bool GetIsInvincible() const { return m_isInvincible; }
-	void SetIsInvincible(const bool isInvincible) { m_isInvincible = isInvincible; }
-
-	/// <summary>
-	/// ƒmƒbƒNƒoƒbƒNƒ^ƒCƒ}[‚ğƒŠƒZƒbƒg
-	/// </summary>
-	void ResetKnockBackTimer() { m_knockBackTimer = 0.0f; }
-
-	/// <summary>
-	/// ƒJƒƒ‰‚Ì‰ñ“]Šp“x‚ğŒvZ
-	/// </summary>
-	void CalcCameraRotation();
-
-	/// <summary>
-	/// ˆÚ“®XVi‘¬“x‚ÍJSON‚©‚çA•ûŒü‚ÍController‚©‚çó‚¯æ‚éj
-	/// </summary>
-	/// <param name="speed">ˆÚ“®‘¬“x</param>
-	void MoveUpdate(const float speed);
-
-	/// <summary>
-	/// ƒmƒbƒNƒoƒbƒN•ûŒü‚ğŒvZ
-	/// </summary>
-	void ComputeKnockBackDirection(const Vector3& enemyPos);
-
-	/// <summary>
-	/// ƒmƒbƒNƒoƒbƒNˆ—
-	/// </summary>
-	void KnockedBack();
-
-	/// <summary>
-	/// “¥‚İ‚Â‚¯ƒWƒƒƒ“ƒv
-	/// </summary>
-	void StompJump();
-
-	/// <summary>
-	/// ƒAƒjƒ[ƒVƒ‡ƒ“ƒCƒxƒ“ƒg
-	/// </summary>
-	void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName) override final;
-
-protected:
-	// šíœ: “ü—Íˆ—iComputeMoveDirectionj‚ÍController‚ÉˆÚ÷‚µ‚½‚½‚ß•s—v
-
-protected:
-	Quaternion	m_xzAdditionalRot;	// –ˆƒtƒŒ[ƒ€‚ÌXZ²‰ñ“]Šp“x
-
-private:
-	bool Start() override;
-	void Update() override;
-	void Render(RenderContext& rc) override;
-
-	/// <summary>
-	/// –³“Gƒ^ƒCƒ}[XV
-	/// </summary>
-	void InvincibleTimer();
-
-private:
-	// š’Ç‰Á: ƒpƒ‰ƒ[ƒ^ŠÇ—ƒNƒ‰ƒX
-	PlayerStatus* m_status = nullptr;
-
-	// š’Ç‰Á: ƒRƒ“ƒgƒ[ƒ‰[‚©‚ç“n‚³‚ê‚éˆÚ“®ƒxƒNƒgƒ‹
-	Vector3 m_velocity = Vector3::Zero;
-
-	// ƒXƒe[ƒgƒ}ƒVƒ“
-	std::unique_ptr<app::player::PlayerStateMachine> m_stateMachine;
-
-	// ƒ_ƒ[ƒWŠÖ˜A
-	Vector3 m_knockBackDirection = Vector3::Zero;
-	float	m_knockBackTimer = 0.0f;
-	bool	m_isBlinking = false;
-	bool	m_isInvincible = false;
-	float   m_invincibleTimer = 0.0f;
-
-	// ƒAƒjƒ[ƒVƒ‡ƒ“İ’è
-	static const Character::AnimationOption PLAYER_ANIMATION_OPTIONS[];
-};

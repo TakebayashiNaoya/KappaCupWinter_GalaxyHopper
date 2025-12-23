@@ -1,257 +1,75 @@
+ï»¿/**
+ * Player.cpp
+ * ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
+ */
 #include "stdafx.h"
 #include "Player.h"
-#include "PlayerStateMachine.h"
-#include "Source/Collision/CollisionManager.h"
+#include "Collision/CollisionManager.h"
 
-// ƒAƒjƒ[ƒVƒ‡ƒ“İ’è
-const Character::AnimationOption Player::PLAYER_ANIMATION_OPTIONS[] = {
-   {"Player/idle",	true},
-   {"Player/walk",	true},
-   {"Player/run",	true},
-   {"Player/down",	true},
-   {"Player/dead",	false},
-};
 
-namespace
+namespace app
 {
-	const std::string MODEL_PATH = "Player/rabbit";
-	constexpr float MODEL_SCALE = 200.0f;
-
-	// ƒRƒ‰ƒCƒ_[İ’è‚È‚Ç‚Í‚Ü‚¾JSON‚É‚µ‚Ä‚¢‚È‚¢‚Ì‚Å’è”‚Ì‚Ü‚Ü
-	constexpr float HURT_COLLIDER_RADIUS = 30.0f;
-	constexpr float HURT_COLLIDER_HEIGHT = 60.0f;
-	constexpr float COLLIDER_OFFSET = 50.0f;
-
-	constexpr float INITIAL_KNOCK_BACK_SPEED = 10.0f;
-	constexpr float KNOCK_BACK_DAMPING = 10.0f;
-	constexpr float INVINCIBLE_TIME = 5.0f;
-	constexpr int LIFE = 3;
-}
-
-Player::Player()
-{
-	// š’Ç‰Á: ƒpƒ‰ƒ[ƒ^‚Ì“Ç‚İ‚İ
-	m_status = new PlayerStatus();
-	m_status->Load();
-
-	// ƒXƒe[ƒgƒ}ƒVƒ“‚Ì¶¬
-	m_stateMachine = std::make_unique<app::player::PlayerStateMachine>(this);
-}
-
-Player::~Player()
-{
-	// š’Ç‰Á: ƒpƒ‰ƒ[ƒ^‚Ì”jŠü
-	delete m_status;
-
-	// ƒRƒ‰ƒCƒ_[‚Ìíœ
-	m_hurtCollider = CollisionHitManager::DeleteCollider(m_hurtCollider);
-	m_attackCollider = CollisionHitManager::DeleteCollider(m_attackCollider);
-}
-
-bool Player::Start()
-{
-	// ƒ‚ƒfƒ‹‚ÆƒAƒjƒ[ƒVƒ‡ƒ“‚ğ‰Šú‰»
-	InitModel(enAnimationClip_Num, PLAYER_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
-	InitLife(LIFE);
-
-	// ‰ŠúƒXƒe[ƒg‚ğİ’è
-	m_stateMachine->InitializeState(enPlayerState_Idle);
-
-	// ‚â‚ç‚ê”»’è‚ÌƒRƒ‰ƒCƒ_[‚ğì¬
-	if (CollisionHitManager::IsAvailable()) {
-		m_hurtCollider = CollisionHitManager::GetInstance()->CreateCollider(
-			this,
-			enCollisionType_Player,
-			HURT_COLLIDER_RADIUS,
-			true
-		);
-	}
-
-	// ƒAƒjƒ[ƒVƒ‡ƒ“ƒCƒxƒ“ƒg“o˜^
-	m_modelRender.AddAnimationEvent([&](const wchar_t* clipName, const wchar_t* eventName) {
-		OnAnimationEvent(clipName, eventName);
-		});
-
-	return true;
-}
-
-void Player::Update()
-{
-	// ƒ|[ƒY’†‚Ü‚½‚Íí“¬I—¹‚ÍXV‚µ‚È‚¢
-	if (BattleManager::GetIsBattleFinish()) {
-		StopLoopSound();
-		return;
-	}
-
-	// u˜f¯‚Ì’†S¨ƒLƒƒƒ‰v‚ÌƒxƒNƒgƒ‹‚ğXV
-	UpdateUpDirection();
-	m_xzAdditionalRot = Quaternion::Identity;
-
-	// šƒXƒe[ƒgƒ}ƒVƒ“‚ÌXVi‚±‚±‚ÅMoveUpdate“™‚ªŒÄ‚Î‚ê‚éj
-	if (m_stateMachine) {
-		m_stateMachine->Update();
-	}
-
-	// šd—v: ƒRƒ“ƒgƒ[ƒ‰[‚©‚ç‚Ì–½—ß‚Í1ƒtƒŒ[ƒ€ŒÀ‚è‚È‚Ì‚ÅƒŠƒZƒbƒg‚·‚é
-	m_velocity = Vector3::Zero;
-
-	// ƒRƒ‰ƒCƒ_[‚ÌXV
-	if (CollisionHitManager::IsAvailable()) {
-		CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
-	}
-
-	// –³“GŠÔ‚ÌXV
-	InvincibleTimer();
-
-	// ƒ‚ƒfƒ‹‚ÌXV
-	m_modelRender.SetPosition(m_position);
-	m_modelRender.Update();
-
-	if (m_life <= 0) {
-		SetIsDying(true);
-	}
-}
-
-void Player::Render(RenderContext& rc)
-{
-	// –³“GŠÔ’†‚Í“_–Å
-	if (m_isInvincible) {
-		m_isBlinking = !m_isBlinking;
-		if (m_isBlinking) {
-			m_modelRender.Draw(rc);
-		}
-	}
-	else {
-		m_modelRender.Draw(rc);
-	}
-}
-
-// ˆÚ“®XV
-void Player::MoveUpdate(const float speed)
-{
-	// š•ÏX: m_velocityiƒRƒ“ƒgƒ[ƒ‰[‚©‚ç‚Ì“ü—Íj‚ğg‚Á‚ÄˆÚ“®
-	// m_velocity‚ÍŠù‚ÉƒJƒƒ‰•ûŒü‚È‚Ç‚ğl—¶Ï‚İ
-	Vector3 moveVec = m_velocity;
-
-	// “ü—Í‚ª‚ ‚éê‡‚Ì‚İˆÚ“®ˆ—
-	if (moveVec.LengthSq() > 0.001f) {
-		moveVec.Normalize();
-
-		// …•½•ûŒü‚ÌˆÚ“®i‘¬“x‚Íˆø”‚Åw’èj
-		m_moveSpeed += moveVec * speed;
-
-		// ƒLƒƒƒ‰ƒNƒ^[‚ÌŒü‚«‚ğ•ÏXiis•ûŒü‚ÉŒü‚­j
-		// d—Í•ûŒü‚ğl—¶‚µ‚½‰ñ“]ŒvZ
-		Vector3 up = m_upDirection;
-		Vector3 right = Vector3::Zero;
-		right.Cross(up, moveVec); // ‰E•ûŒü
-		right.Normalize();
-		Quaternion rot;
-		// ŠÈˆÕ“I‚È‰ñ“]iÀÛ‚ÍCalcCameraRotation“™‚Æ‘g‚İ‡‚í‚¹‚éj
-		m_rotation.SetRotation(Vector3::Front, moveVec);
-	}
-
-	// ‚’¼•ûŒüid—ÍEƒWƒƒƒ“ƒvj‚ğ‰ÁZ
-	m_moveSpeed += CalcVerticalVelocity();
-
-	// ÅI“I‚ÈˆÚ“®
-	ComputePosition();
-}
-
-// ƒJƒƒ‰‰ñ“]iController‰»‚Å­‚µ–ğŠ„‚ª•Ï‚í‚è‚Ü‚·‚ªAˆê’UˆÛj
-void Player::CalcCameraRotation()
-{
-	// m_velocity ‚ğŠî€‚ÉŒvZ‚·‚é‚æ‚¤‚É•ÏX
-	if (m_velocity.LengthSq() <= 0.001f) {
-		return;
-	}
-
-	Vector3 forwardDirection = m_velocity;
-	forwardDirection.Normalize();
-	Vector3 upDirection = m_upDirection;
-
-	Vector3 xzDirection;
-	xzDirection.Cross(upDirection, forwardDirection);
-	xzDirection.Normalize();
-
-	float dotResult = m_upDirection.Dot(m_beforeUpDirection);
-	dotResult = Math::Clamp(dotResult, -1.0f, 1.0f);
-	float m_rotationAngle = acosf(dotResult);
-
-	Vector3 m_rotationDirection = Vector3::Zero;
-	m_rotationDirection.Cross(m_beforeUpDirection, m_upDirection);
-
-	if (m_rotationDirection.Dot(xzDirection) < 0.0f) {
-		m_rotationAngle *= -1.0f;
-	}
-
-	m_xzAdditionalRot.SetRotation(xzDirection, m_rotationAngle);
-}
-
-// ƒmƒbƒNƒoƒbƒN•ûŒüŒvZ
-void Player::ComputeKnockBackDirection(const Vector3& enemyPos)
-{
-	Vector3 directionToEnemy = enemyPos - m_position;
-	directionToEnemy.Normalize();
-	Vector3 attackedDirection = ProjectOnPlane(directionToEnemy, m_upDirection);
-	m_knockBackDirection = attackedDirection * -1.0f;
-	m_knockBackDirection.Normalize();
-}
-
-// ƒmƒbƒNƒoƒbƒNˆ—
-void Player::KnockedBack()
-{
-	m_knockBackTimer += g_gameTime->GetFrameDeltaTime();
-	float knockedBackSpeed = INITIAL_KNOCK_BACK_SPEED - (KNOCK_BACK_DAMPING * m_knockBackTimer);
-
-	if (knockedBackSpeed < 0.0f)
+	namespace actor
 	{
-		m_isAttacked = false;
-		return;
-	}
+		/** ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³è¨­å®š */
+		const Character::AnimationOption Player::PLAYER_ANIMATION_OPTIONS[] =
+		{
+		  AnimationOption { std::string("Player/idle"),		bool(true)	},
+		  AnimationOption { std::string("Player/walk"),		bool(true)	},
+		  AnimationOption { std::string("Player/dash"),		bool(true)	},
+		  AnimationOption { std::string("Player/jump"),		bool(true)	},
+		  AnimationOption { std::string("Player/damage"),	bool(true)	},
+		  AnimationOption { std::string("Player/die"),		bool(false)	},
+		};
 
-	m_moveSpeed += m_knockBackDirection * knockedBackSpeed;
-	m_moveSpeed += CalcVerticalVelocity();
-	ComputePosition();
-}
 
-// “¥‚İ‚Â‚¯ƒWƒƒƒ“ƒv
-void Player::StompJump()
-{
-	m_moveSpeed = Vector3::Zero;
+		Player::Player()
+		{
+			/** ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æ•°ãƒã‚§ãƒƒã‚¯ */
+			static_assert(ARRAYSIZE(PLAYER_ANIMATION_OPTIONS) == enAnimationClip_Num,
+				"ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã¨ã‚¯ãƒªãƒƒãƒ—æ•°ãŒåˆã£ã¦ã„ã¾ã›ã‚“ã€‚");
 
-	// š•ÏX: JSON‚©‚çƒWƒƒƒ“ƒv—Í‚ğæ‚é‚±‚Æ‚à‰Â”\‚¾‚ªA‚±‚±‚Í“ÁêƒAƒNƒVƒ‡ƒ“‚È‚Ì‚Å
-	// •K—v‚È‚ç STOMP_JUMP_POWER ‚àJSON‚É“ü‚ê‚é‚Æ—Ç‚¢
-	m_initialJumpSpeed = 30.0f; // ‰¼
+			/** ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ç”Ÿæˆ */
+			m_status = std::make_unique<PlayerStatus>();
 
-	m_fallTimer = 0.0f;
-}
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ç”Ÿæˆ */
+			m_stateMachine = std::make_unique<PlayerStateMachine>(this);
+		}
 
-// –³“Gƒ^ƒCƒ}[
-void Player::InvincibleTimer()
-{
-	if (!m_isInvincible) return;
 
-	m_invincibleTimer += g_gameTime->GetFrameDeltaTime();
-	if (m_invincibleTimer >= INVINCIBLE_TIME) {
-		m_isInvincible = false;
-		m_invincibleTimer = 0.0f;
-	}
-}
+		Player::~Player()
+		{
+		}
 
-// ƒAƒjƒ[ƒVƒ‡ƒ“ƒCƒxƒ“ƒg
-void Player::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
-{
-	if (wcscmp(eventName, L"first_step") == 0) {
-		SoundManager::Play(enSoundList_PlayerStep1SE);
-	}
-	else if (wcscmp(eventName, L"second_step") == 0) {
-		SoundManager::Play(enSoundList_PlayerStep2SE, false, true, m_position);
-	}
-	else if (wcscmp(eventName, L"die") == 0) {
-		SoundManager::Play(enSoundList_PlayerDie);
-	}
-	else if (wcscmp(eventName, L"dead") == 0) {
-		SoundManager::Play(enSoundList_PlayerDead);
+
+		bool Player::Start()
+		{
+			/** ãƒ¢ãƒ‡ãƒ«ã¨ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ– */
+			InitModel(enAnimationClip_Num, PLAYER_ANIMATION_OPTIONS, "Player/player", GetStatus<PlayerStatus>()->GetModelScale());
+
+			/** ã‚„ã‚‰ã‚Œåˆ¤å®šã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ä½œæˆ */
+			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
+				this,
+				collision::EnCollisionType::enCollisionType_Player,
+				GetStatus<PlayerStatus>()->GetHurtRadius(),
+				app::EnCollisionAttr::enCollisionAttr_Player
+			);
+			return true;
+		}
+
+
+		void Player::Update()
+		{
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³æ›´æ–° */
+			m_stateMachine->Update();
+
+			/** ç„¡æ•µã‚¿ã‚¤ãƒãƒ¼æ›´æ–° */
+			//InvincibleTimer();
+		}
+
+		void Player::Render(RenderContext& rc)
+		{
+			Character::Render(rc);
+		}
 	}
 }

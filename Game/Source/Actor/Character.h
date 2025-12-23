@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Character.h
  * キャラクターとなる要素をもったクラス
  */
@@ -26,6 +26,9 @@ namespace app
 			/** 一時的な攻撃判定 */
 			CollisionObject* m_attackHitCollider = nullptr;
 
+			/** 上方向ベクトル */
+			Vector3 m_upDirection = Vector3::Up;
+
 
 		public:
 			Character();
@@ -38,12 +41,27 @@ namespace app
 			virtual void Render(RenderContext& renderContect) override;
 
 
-		public:
-			/** キャラクターステータスの取得 */
-			CharacterStatus* GetStatus()
+		protected:
+			/// <summary>
+			/// アニメーションファイルのオプションを管理する構造体。
+			/// 継承先の.cppで定義すること。
+			/// </summary>
+			struct AnimationOption
 			{
-				return dynamic_cast<CharacterStatus*>(m_status);
-			}
+				std::string fileName;	// ファイルパス。
+				bool is_loop = false;	// リピートするかどうか。（true=する、false=しない）
+			};
+
+
+			/**
+			 * モデルとアニメーションの初期化を行う。
+			 */
+			void InitModel(
+				const uint8_t count,				/** アニメーションクリップの数 */
+				const AnimationOption* option,	/** アニメーションクリップのオプション配列 */
+				const std::string path,			/** モデルファイルのパス */
+				const float scale				/** モデルの拡大率 */
+			);
 		};
 	}
 }

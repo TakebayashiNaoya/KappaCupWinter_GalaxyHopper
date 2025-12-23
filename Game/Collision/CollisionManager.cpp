@@ -1,484 +1,283 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "CollisionManager.h"
-#include "Source/Actor/Character/Player/Player.h"
-#include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
-#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
-#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
-#include "Source/Scene/SceneManager.h"
+#include "Source/Actor/Character.h"
 
 
-CollisionHitManager* CollisionHitManager::m_instance = nullptr;
-
-namespace
+namespace app
 {
-	// ƒvƒŒƒCƒ„[‚ª–³“G’†‚©AƒvƒŒƒCƒ„[‚ÌUŒ‚‚ªæ‚É“–‚½‚Á‚Ä‚¢‚éê‡Atrue‚ğ•Ô‚·B
-	const bool IsAttackBlocked(Player* player, const bool isStomp)
+	namespace collision
 	{
-		if (player->GetIsInvincible()) {
-			return true;
+		namespace
+		{
+			//TODO: ã‚¹ã‚¿ãƒ³ãƒ—ãƒ•ãƒ©ã‚°ã¯ä¸è¦ã®ãŸã‚ã€ã“ã®é–¢æ•°ã¯æ¶ˆã—ã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç„¡æ•µçŠ¶æ…‹ã ã‘ã§åˆ¤å®šã™ã‚‹ã‚ˆã†ã«ã™ã‚‹ã€‚
+			// 
+			//// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç„¡æ•µä¸­ã‹ã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ”»æ’ƒãŒå…ˆã«å½“ãŸã£ã¦ã„ã‚‹å ´åˆã€trueã‚’è¿”ã™ã€‚
+			//const bool IsAttackBlocked(Player* player, const bool isStomp)
+			//{
+			//	if (player->GetIsInvincible()) {
+			//		return true;
+			//	}
+			//	else if (isStomp) {
+			//		return true;
+			//	}
+			//	return false;
+			//}
 		}
-		else if (isStomp) {
-			return true;
+
+
+		CollisionHitManager* CollisionHitManager::m_instance = nullptr;
+
+
+		CollisionHitManager::CollisionHitManager()
+		{
+			m_collisionInformationList.clear();
 		}
-		return false;
-	}
-}
 
 
-CollisionHitManager::CollisionHitManager()
-{
-	m_collisionInformationList.clear();
-}
+		CollisionHitManager::~CollisionHitManager()
+		{
+			m_collisionInformationList.clear();
+			m_collisionPairList.clear();
+		}
 
 
-CollisionHitManager::~CollisionHitManager()
-{
-	m_collisionInformationList.clear();
-	m_collisionPairList.clear();
-}
+		void CollisionHitManager::Update()
+		{
+			///**
+			// * ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆãŒãƒªã‚¯ã‚¨ã‚¹ãƒˆã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ã€ç¾åœ¨ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®è¡çªåˆ¤å®šå‡¦ç†ã‚’ã‚¹ã‚­ãƒƒãƒ—ã™ã‚‹
+			// * ã“ã‚Œã«ã‚ˆã‚Šã€å‰Šé™¤ãŒå§‹ã¾ã£ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¸ã®ä¸æ­£ã‚¢ã‚¯ã‚»ã‚¹ã‚’é˜²ã
+			// */
+			//if (SceneManager::GetInstance()->GetIsSceneChangeRequested()) {
+			//	m_collisionPairList.clear();
+			//	return;
+			//}
+			///** ãƒãƒˆãƒ«çµ‚äº†å¾Œã¯è¡çªåˆ¤å®šã‚’è¡Œã‚ãªã„ */
+			//if (BattleManager::GetIsStopCollisionManager()) {
+			//	m_collisionPairList.clear();
+			//	return;
+			//}
 
+			m_collisionPairList.clear();
 
-void CollisionHitManager::Update()
-{
-	// ƒV[ƒ“Ø‚è‘Ö‚¦‚ªƒŠƒNƒGƒXƒg‚³‚ê‚Ä‚¢‚éê‡‚ÍAŒ»İ‚ÌƒtƒŒ[ƒ€‚ÌÕ“Ë”»’èˆ—‚ğƒXƒLƒbƒv‚·‚éB
-	// ‚±‚ê‚É‚æ‚èAíœ‚ªn‚Ü‚Á‚½ƒIƒuƒWƒFƒNƒg‚Ö‚Ì•s³ƒAƒNƒZƒX‚ğ–h‚®B
-	if (SceneManager::GetInstance()->GetIsSceneChangeRequested()) {
-		m_collisionPairList.clear(); // ”O‚Ì‚½‚ßƒŠƒXƒg‚ÍƒNƒŠƒA
-		return;
-	}
+			// ãƒ’ãƒƒãƒˆã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒšã‚¢ã‚’ä½œã‚‹
+			const uint32_t colSize = static_cast<uint32_t>(m_collisionInformationList.size());
+			for (uint32_t i = 0; i < colSize; ++i) {
+				for (uint32_t j = i + 1; j < colSize; ++j) {
+					CollisionInformation* infoA = &m_collisionInformationList[i];
+					CollisionInformation* infoB = &m_collisionInformationList[j];
 
-	if (BattleManager::GetIsStopCollisionManager()) {
-		m_collisionPairList.clear(); // ”O‚Ì‚½‚ßƒŠƒXƒg‚ÍƒNƒŠƒA
-		return;
-	}
-
-	m_collisionPairList.clear();
-
-	// ƒqƒbƒg‚·‚éƒIƒuƒWƒFƒNƒg‚ÌƒyƒA‚ğì‚é
-	const uint32_t colSize = static_cast<uint32_t>(m_collisionInformationList.size());
-	for (uint32_t i = 0; i < colSize; ++i) {
-		for (uint32_t j = i + 1; j < colSize; ++j) {
-			CollisionInformation* infoA = &m_collisionInformationList[i];
-			CollisionInformation* infoB = &m_collisionInformationList[j];
-
-			if (infoA->m_collision->IsHit(infoB->m_collision) || infoB->m_collision->IsHit(infoA->m_collision))
-			{
-				// CollisionPair‚Ì’†‚É“¯‚¶‘g‚İ‡‚í‚¹‚ª‚È‚¢‚©ƒ`ƒFƒbƒN
-				bool exists = false;
-				for (const auto& pair : m_collisionPairList) {
-					if ((pair.m_left == infoA && pair.m_right == infoB) || (pair.m_left == infoB && pair.m_right == infoA)) {
-						exists = true;
-						break;
+					if (infoA->m_collision->IsHit(infoB->m_collision) || infoB->m_collision->IsHit(infoA->m_collision))
+					{
+						// CollisionPairã®ä¸­ã«åŒã˜çµ„ã¿åˆã‚ã›ãŒãªã„ã‹ãƒã‚§ãƒƒã‚¯
+						bool exists = false;
+						for (const auto& pair : m_collisionPairList) {
+							if ((pair.m_left == infoA && pair.m_right == infoB) || (pair.m_left == infoB && pair.m_right == infoA)) {
+								exists = true;
+								break;
+							}
+						}
+						// ã™ã§ã«ç™»éŒ²æ¸ˆã¿ã§ã¯ãªã„ãªã‚‰è¿½åŠ ã™ã‚‹
+						if (!exists) {
+							m_collisionPairList.push_back(CollisionPair(infoA, infoB));
+						}
 					}
 				}
-				// ‚·‚Å‚É“o˜^Ï‚İ‚Å‚Í‚È‚¢‚È‚ç’Ç‰Á‚·‚é
-				if (!exists) {
-					m_collisionPairList.push_back(CollisionPair(infoA, infoB));
+			}
+
+
+			/** ãƒ’ãƒƒãƒˆã—ãŸãƒšã‚¢ã§è¡çªã—ãŸæ™‚ã®å‡¦ç†ã‚’ã™ã‚‹ */
+			for (auto& pair : m_collisionPairList)
+			{
+				/** ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ vs åŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ */
+				if (UpdateHitPlayerBasicEnemy(pair)) {
+					continue;
+				}
+
+				/** ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ vs å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ */
+				if (UpdateHitPlayerDeformEnemy(pair)) {
+					continue;
+				}
+
+				/** ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ vs ãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼ */
+				if (UpdateHitPlayerBossEnemy(pair)) {
+					continue;
+				}
+
+				/** åŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ vs å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ */
+				if (UpdateHitBasicEnemyDeformEnemy(pair)) {
+					continue;
+				}
+
+				/** å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ vs ãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼ */
+				if (UpdateHitDeformEnemyBossEnemy(pair)) {
+					continue;
+				}
+			}
+
+			m_collisionPairList.clear();
+		}
+
+
+		void CollisionHitManager::Register(const EnCollisionType type, CollisionObject* collisionObject, IGameObject* gameObject)
+		{
+			CollisionInformation info(type, collisionObject, gameObject);
+			m_collisionInformationList.push_back(info);
+		}
+
+
+		void CollisionHitManager::Unregister(CollisionObject* collisionObject)
+		{
+			if (m_collisionInformationList.size() == 0) {
+				return;
+			}
+
+			for (auto it = m_collisionInformationList.begin(); it != m_collisionInformationList.end(); ++it)
+			{
+				if (it->m_collision == nullptr) {
+					continue;
+				}
+
+				if (it->m_collision == collisionObject) {
+					m_collisionInformationList.erase(it);
+					break;
 				}
 			}
 		}
-	}
 
-	// ƒqƒbƒg‚µ‚½ƒyƒA‚ÅÕ“Ë‚µ‚½‚Ìˆ—‚ğ‚·‚é
-	// ¡‰ñ‚ÌƒQ[ƒ€‚Å‚Í‚È‚¢‚ªƒvƒŒƒCƒ„[‚ÌUŒ‚‚ªƒGƒlƒ~[‚É‚ ‚½‚Á‚½‚Ì‚ÅHP‚ğŒ¸‚ç‚·‚İ‚½‚¢‚È‚±‚Æ‚ğ‚·‚é
-	for (auto& pair : m_collisionPairList) {
 
-		// ƒvƒŒƒCƒ„[ vs Šî–{ƒGƒlƒ~[
-		if (UpdateHitPlayerBasicEnemy(pair)) {
-			continue;
+		bool CollisionHitManager::UpdateHitPlayerBasicEnemy(CollisionPair& pair)
+		{
+			return false;
 		}
 
-		// ƒvƒŒƒCƒ„[ vs •ÏŒ`ƒGƒlƒ~[
-		if (UpdateHitPlayerDeformEnemy(pair)) {
-			continue;
+
+		bool CollisionHitManager::UpdateHitPlayerDeformEnemy(CollisionPair& pair)
+		{
+			return false;
 		}
 
-		// ƒvƒŒƒCƒ„[ vs ƒ{ƒXƒGƒlƒ~[
-		if (UpdateHitPlayerBossEnemy(pair)) {
-			continue;
+
+		bool CollisionHitManager::UpdateHitPlayerBossEnemy(CollisionPair& pair)
+		{
+			return false;
 		}
 
-		// Šî–{ƒGƒlƒ~[ vs •ÏŒ`ƒGƒlƒ~[
-		if (UpdateHitBasicEnemyDeformEnemy(pair)) {
-			continue;
+
+		bool CollisionHitManager::UpdateHitBasicEnemyDeformEnemy(CollisionPair& pair)
+		{
+			return false;
 		}
 
-		// •ÏŒ`ƒGƒlƒ~[ vs ƒ{ƒXƒGƒlƒ~[
-		if (UpdateHitDeformEnemyBossEnemy(pair)) {
-			continue;
-		}
-	}
 
-	m_collisionPairList.clear();
-}
-
-
-void CollisionHitManager::Register(const EnCollisionType type, CollisionObject* collisionObject, IGameObject* gameObject)
-{
-	CollisionInformation info(type, collisionObject, gameObject);
-	m_collisionInformationList.push_back(info);
-}
-
-
-void CollisionHitManager::Unregister(CollisionObject* collisionObject)
-{
-	if (m_collisionInformationList.size() == 0) {
-		return;
-	}
-
-	for (auto it = m_collisionInformationList.begin(); it != m_collisionInformationList.end(); ++it)
-	{
-		if (it->m_collision == nullptr) {
-			continue;
+		bool CollisionHitManager::UpdateHitDeformEnemyBossEnemy(CollisionPair& pair)
+		{
+			return false;
 		}
 
-		if (it->m_collision == collisionObject) {
-			m_collisionInformationList.erase(it);
-			break;
-		}
-	}
-}
 
+		CollisionObject* CollisionHitManager::CreateCollider(
+			app::actor::Character* ins, const EnCollisionType type, const Vector3 size, const EnCollisionAttr index)
+		{
+			/** ã‚³ãƒªã‚¸ãƒ§ãƒ³ã‚’ä½œæˆ */
+			CollisionObject* collider = new CollisionObject();
+			collider->CreateBox(
+				ins->GetTransform().m_position,
+				ins->GetTransform().m_rotation,
+				size
+			);
 
-/// <summary>
-/// uƒvƒŒƒCƒ„[v‚ÆuŠî–{ƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
-/// </summary>
-bool CollisionHitManager::UpdateHitPlayerBasicEnemy(CollisionPair& pair)
-{
-	Player* player = GetTargetObject<Player>(pair, enCollisionType_Player);
-	if (player == nullptr) {
-		return false;
-	}
+			/** ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ç™»éŒ² */
+			m_instance->Register(type, collider, ins);
 
-	BasicEnemy* basicEnemy = GetTargetObject<BasicEnemy>(pair, enCollisionType_BasicEnemy);
-	if (basicEnemy == nullptr) {
-		return false;
-	}
+			/** RayTestã§ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®š */
+			m_instance->SetIsTrigger(collider, index);
 
-
-	// ƒvƒŒƒCƒ„[‚ÌUŒ‚B
-	if (player->GetAttackCollider()->IsHit(basicEnemy->GetHurtCollider())) {
-		player->StompJump();
-		basicEnemy->SetIsDying(true);
-		SoundManager::Play(enSoundList_Stomp);
-		return true;
-	}
-
-	// ƒvƒŒƒCƒ„[‚ª–³“G’†‚Ìê‡AƒGƒlƒ~[‚ÌUŒ‚‚Í–³Œø‚É‚·‚éB
-	if (player->GetIsInvincible()) {
-		return true;
-	}
-
-	// ƒGƒlƒ~[‚ÌUŒ‚B
-	if (basicEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
-		player->SetIsAttacked(true);
-		player->ComputeKnockBackDirection(basicEnemy->GetPosition());
-		basicEnemy->SetIsCoolDown(true);
-		SoundManager::Play(enSoundList_PlayerDamage);
-		return true;
-	}
-
-	return true;
-}
-
-/// <summary>
-/// uƒvƒŒƒCƒ„[v‚Æu•ÏŒ`ƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
-/// </summary>
-bool CollisionHitManager::UpdateHitPlayerDeformEnemy(CollisionPair& pair)
-{
-	Player* player = GetTargetObject<Player>(pair, enCollisionType_Player);
-	if (player == nullptr) {
-		return false;
-	}
-
-	DeformEnemy* deformEnemy = GetTargetObject<DeformEnemy>(pair, enCollisionType_DeformEnemy);
-	if (deformEnemy == nullptr) {
-		return false;
-	}
-
-
-	// ƒGƒlƒ~[‚ª•ÏŒ`‚µ‚Ä‚¢‚È‚¢ê‡B
-	if (!deformEnemy->GetIsDeformed())
-	{
-		// ƒvƒŒƒCƒ„[‚ÌUŒ‚B
-		if (player->GetAttackCollider()->IsHit(deformEnemy->GetHurtCollider())) {
-			player->StompJump();
-			deformEnemy->SetIsDeformed(true);
-			SoundManager::Play(enSoundList_Stomp);
-			return true;
+			return collider;
 		}
 
-		// ƒvƒŒƒCƒ„[‚ª–³“G’†‚Ìê‡A‚Ü‚½‚ÍƒvƒŒƒCƒ„[‚ÌUŒ‚‚ªæ‚É“–‚½‚Á‚Ä‚¢‚éê‡AƒGƒlƒ~[‚ÌUŒ‚‚Í–³Œø‚É‚·‚éB
-		if (player->GetIsInvincible()) {
-			return true;
+
+		CollisionObject* CollisionHitManager::CreateCollider(
+			app::actor::Character* ins, const EnCollisionType type, const float radius, const EnCollisionAttr index)
+		{
+			/** ã‚³ãƒªã‚¸ãƒ§ãƒ³ã‚’ä½œæˆ */
+			CollisionObject* collider = new CollisionObject();
+			collider->CreateSphere(
+				ins->GetTransform().m_position,
+				ins->GetTransform().m_rotation,
+				radius
+			);
+
+			/** ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ç™»éŒ² */
+			m_instance->Register(type, collider, ins);
+
+			/** RayTestã§ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®š */
+			m_instance->SetIsTrigger(collider, index);
+
+			return collider;
 		}
 
-		// ƒGƒlƒ~[‚ÌUŒ‚B
-		if (deformEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
-			player->SetIsAttacked(true);
-			player->ComputeKnockBackDirection(deformEnemy->GetPosition());
-			SoundManager::Play(enSoundList_PlayerDamage);
-			return true;
+
+		CollisionObject* CollisionHitManager::CreateCollider(
+			app::actor::Character* ins, const EnCollisionType type, const float radius, const float height, const EnCollisionAttr index)
+		{
+			/** ã‚³ãƒªã‚¸ãƒ§ãƒ³ã‚’ä½œæˆ */
+			CollisionObject* collider = new CollisionObject();
+			collider->CreateCapsule(
+				ins->GetTransform().m_position,
+				ins->GetTransform().m_rotation,
+				radius,
+				height
+			);
+
+			/** ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ç™»éŒ² */
+			m_instance->Register(type, collider, ins);
+
+			/** RayTestã§ç„¡è¦–ã™ã‚‹ã‹ã©ã†ã‹ã‚’è¨­å®š */
+			m_instance->SetIsTrigger(collider, index);
+
+			return collider;
 		}
 
-		return true;
-	}
 
-	// ƒGƒlƒ~[‚ª•ÏŒ`‚µ‚Ä‚¢‚ÄAŠŠ‘–‚µ‚Ä‚¢‚È‚¢ê‡B
-	else if (deformEnemy->GetIsDeformed() && !deformEnemy->GetIsSliding())
-	{
-		// ƒvƒŒƒCƒ„[‚ªƒGƒlƒ~[‚É“–‚½‚Á‚½ê‡B
-		if (player->GetHurtCollider()->IsHit(deformEnemy->GetHurtCollider())) {
-			deformEnemy->SetIsSliding(true);
-			deformEnemy->CalcInitialSlideDirection(player->GetPosition());
-			SoundManager::Play(enSoundList_SlidingStart);
-			return true;
-		}
-		return true;
-	}
+		void CollisionHitManager::UpdateCollider(
+			app::actor::Character* ins, CollisionObject* collider, const float offset)
+		{
+			if (collider == nullptr) {
+				return;
+			}
 
-	// ƒGƒlƒ~[‚ª•ÏŒ`‚µ‚Ä‚¢‚ÄAŠŠ‘–‚µ‚Ä‚¢‚éê‡B
-	else if (deformEnemy->GetIsDeformed() && deformEnemy->GetIsSliding())
-	{
-		// ŠŠ‘–’†‚ÉƒvƒŒƒCƒ„[‚ª“¥‚ñ‚¾‚çAƒGƒlƒ~[‚ğ~‚ß‚éB
-		if (player->GetAttackCollider()->IsHit(deformEnemy->GetHurtCollider())) {
-			player->StompJump();
-			deformEnemy->SetIsSliding(false);
-			SoundManager::Play(enSoundList_Stomp);
-			return true;
+			/** ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åº§æ¨™ã‚’è¨ˆç®—ã™ã‚‹ */
+			Vector3 ghostPos = ins->GetTransform().m_position + ins->GetUpDirection() * offset;
+
+			/** ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åº§æ¨™ã‚’ãƒ¢ãƒ‡ãƒ«ã®åº§æ¨™ã«åˆã‚ã›ã‚‹ */
+			collider->SetPosition(ghostPos);
+
+			/** ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å›è»¢ã‚’ãƒ¢ãƒ‡ãƒ«ã®å›è»¢ã«åˆã‚ã›ã‚‹ */
+			collider->SetRotation(ins->GetTransform().m_rotation);
 		}
 
-		// ƒvƒŒƒCƒ„[‚ª–³“G’†‚Ìê‡AƒGƒlƒ~[‚ÌUŒ‚‚Í–³Œø‚É‚·‚éB
-		if (player->GetIsInvincible()) {
-			return true;
+
+		CollisionObject* CollisionHitManager::DeleteCollider(CollisionObject* collider)
+		{
+			if (collider == nullptr) {
+				return nullptr;
+			}
+
+			/** ã‚³ãƒªã‚¸ãƒ§ãƒ³ãƒ’ãƒƒãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‹ã‚‰ç™»éŒ²è§£é™¤ */
+			if (GetIsAvailable()) {
+				GetInstance()->Unregister(collider);
+			}
+
+			delete collider;
+			return nullptr;
 		}
 
-		// ƒGƒlƒ~[‚ÌUŒ‚B
-		if (deformEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
-			player->SetIsAttacked(true);
-			player->ComputeKnockBackDirection(deformEnemy->GetPosition());
-			deformEnemy->SetIsDying(true);
-			SoundManager::Play(enSoundList_PlayerDamage);
-			return true;
+		void CollisionHitManager::SetIsTrigger(CollisionObject* collider, EnCollisionAttr index)
+		{
+			if (collider) {
+				/** UserIndexã®å†…éƒ¨å‡¦ç†ã¯intã®ãŸã‚ã€å±æ€§ã®enumã‚’intã¨ã—ã¦ã‚»ãƒƒãƒˆã™ã‚‹ */
+				collider->GetbtCollisionObject().setUserIndex(index);
+			}
 		}
-		return true;
-	}
-
-	return true;
-}
-
-/// <summary>
-/// uƒvƒŒƒCƒ„[v‚Æuƒ{ƒXƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
-/// </summary>
-bool CollisionHitManager::UpdateHitPlayerBossEnemy(CollisionPair& pair)
-{
-	Player* player = GetTargetObject<Player>(pair, enCollisionType_Player);
-	if (player == nullptr) {
-		return false;
-	}
-
-	BossEnemy* bossEnemy = GetTargetObject<BossEnemy>(pair, enCollisionType_BossEnemy);
-	if (bossEnemy == nullptr) {
-		return false;
-	}
-
-
-	// ƒvƒŒƒCƒ„[‚ª–³“G’†‚Ìê‡AƒGƒlƒ~[‚ÌUŒ‚‚Í–³Œø‚É‚·‚éB
-	if (player->GetIsInvincible()) {
-		return true;
-	}
-
-
-	// ƒ{ƒX‚Ì‘Ì“–‚½‚èB
-	if (bossEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
-		player->SetIsAttacked(true);
-		player->ComputeKnockBackDirection(bossEnemy->GetPosition());
-		SoundManager::Play(enSoundList_PlayerDamage);
-		return true;
-	}
-
-	// ƒ{ƒX‚ÌUŒ‚B
-	if (bossEnemy->GetAttackCollider()->IsHit(player->GetHurtCollider())) {
-		player->SetIsAttacked(true);
-		player->ComputeKnockBackDirection(bossEnemy->GetPosition());
-		SoundManager::Play(enSoundList_PlayerDamage);
-		return true;
-	}
-
-	return true;
-}
-
-/// <summary>
-/// uŠî–{ƒGƒlƒ~[v‚Æu•ÏŒ`ƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
-/// </summary>
-bool CollisionHitManager::UpdateHitBasicEnemyDeformEnemy(CollisionPair& pair)
-{
-	BasicEnemy* basicEnemy = GetTargetObject<BasicEnemy>(pair, enCollisionType_BasicEnemy);
-	if (basicEnemy == nullptr) {
-		return false;
-	}
-
-	DeformEnemy* deformEnemy = GetTargetObject<DeformEnemy>(pair, enCollisionType_DeformEnemy);
-	if (deformEnemy == nullptr) {
-		return false;
-	}
-
-
-	// •ÏŒ`ƒGƒlƒ~[‚ª•ÏŒ`‚µ‚Ä‚¢‚ÄAŠŠ‘–‚µ‚Ä‚¢‚éê‡B
-	if (deformEnemy->GetIsDeformed() && deformEnemy->GetIsSliding())
-	{
-		// •ÏŒ`ƒGƒlƒ~[‚ÌUŒ‚B
-		if (deformEnemy->GetHitCollider()->IsHit(basicEnemy->GetHurtCollider())) {
-			basicEnemy->SetIsDying(true);
-			deformEnemy->SetIsDying(true);
-			SoundManager::Play(enSoundList_Stomp);
-			return true;
-		}
-		return true;
-	}
-	return true;
-}
-
-/// <summary>
-/// u•ÏŒ`ƒGƒlƒ~[v‚Æuƒ{ƒXƒGƒlƒ~[v‚ÌÕ“Ëˆ—‚ğs‚¢‚Ü‚·B
-/// </summary>
-bool CollisionHitManager::UpdateHitDeformEnemyBossEnemy(CollisionPair& pair)
-{
-	DeformEnemy* deformEnemy = GetTargetObject<DeformEnemy>(pair, enCollisionType_DeformEnemy);
-	if (deformEnemy == nullptr) {
-		return false;
-	}
-
-	BossEnemy* bossEnemy = GetTargetObject<BossEnemy>(pair, enCollisionType_BossEnemy);
-	if (bossEnemy == nullptr) {
-		return false;
-	}
-
-	// •ÏŒ`ƒGƒlƒ~[‚ª•ÏŒ`‚µ‚Ä‚¢‚ÄAŠŠ‘–‚µ‚Ä‚¢‚éê‡B
-	if (deformEnemy->GetIsDeformed() && deformEnemy->GetIsSliding())
-	{
-		// •ÏŒ`ƒGƒlƒ~[‚ÌUŒ‚B
-		if (deformEnemy->GetHitCollider()->IsHit(bossEnemy->GetHurtCollider())) {
-			bossEnemy->SetIsAttacked(true);
-			deformEnemy->SetIsDying(true);
-			SoundManager::Play(enSoundList_Stomp);
-			return true;
-		}
-		return true;
-	}
-
-	return true;
-}
-
-
-
-
-/********************************/
-
-
-CollisionObject* CollisionHitManager::CreateCollider(
-	Character* ins, const EnCollisionType type, const Vector3 size, const bool isTrigger)
-{
-	// ƒS[ƒXƒgƒIƒuƒWƒFƒNƒg‚ğì¬B
-	CollisionObject* collider = new CollisionObject();
-	collider->CreateBox(
-		ins->GetPosition(),
-		ins->GetRotation(),
-		size
-	);
-
-	// ƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚É“o˜^B
-	m_instance->Register(type, collider, ins);
-
-	// RayTest‚Å–³‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’èB
-	m_instance->SetIsTrigger(collider, isTrigger);
-
-	return collider;
-}
-
-
-CollisionObject* CollisionHitManager::CreateCollider(
-	Character* ins, const EnCollisionType type, const float radius, const int index)
-{
-	// ƒS[ƒXƒgƒIƒuƒWƒFƒNƒg‚ğì¬B
-	CollisionObject* collider = new CollisionObject();
-	collider->CreateSphere(
-		ins->GetPosition(),
-		ins->GetRotation(),
-		radius
-	);
-
-	// ƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚É“o˜^B
-	m_instance->Register(type, collider, ins);
-
-	// RayTest‚Å–³‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’èB
-	m_instance->SetIsTrigger(collider, index);
-
-	return collider;
-}
-
-
-CollisionObject* CollisionHitManager::CreateCollider(
-	Character* ins, const EnCollisionType type, const float radius, const float height, const bool isTrigger)
-{
-	// ƒS[ƒXƒgƒIƒuƒWƒFƒNƒg‚ğì¬B
-	CollisionObject* collider = new CollisionObject();
-	collider->CreateCapsule(
-		ins->GetPosition(),
-		ins->GetRotation(),
-		radius,
-		height
-	);
-
-	// ƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚É“o˜^B
-	m_instance->Register(type, collider, ins);
-
-	// RayTest‚Å–³‹‚·‚é‚©‚Ç‚¤‚©‚ğİ’èB
-	m_instance->SetIsTrigger(collider, isTrigger);
-
-	return collider;
-}
-
-
-void CollisionHitManager::UpdateCollider(const Character* ins, CollisionObject* collider, const float offset)
-{
-	if (collider == nullptr) {
-		return;
-	}
-
-	// ƒRƒ‰ƒCƒ_[‚ÌÀ•W‚ğŒvZ‚·‚éB
-	Vector3 ghostPos = ins->GetPosition() + ins->GetUpDirection() * offset;
-
-	// ƒRƒ‰ƒCƒ_[‚ÌÀ•W‚ğƒ‚ƒfƒ‹‚ÌÀ•W‚É‡‚í‚¹‚éB
-	collider->SetPosition(ghostPos);
-
-	// ƒRƒ‰ƒCƒ_[‚Ì‰ñ“]‚ğƒ‚ƒfƒ‹‚Ì‰ñ“]‚É‡‚í‚¹‚éB
-	collider->SetRotation(ins->GetRotation());
-}
-
-
-/// <summary>
-/// ‚â‚ç‚ê”»’è‚ğdeleteAnullptr‚µ‚Ü‚·B
-/// </summary>
-CollisionObject* CollisionHitManager::DeleteCollider(CollisionObject* collider)
-{
-	if (collider == nullptr) {
-		return nullptr;
-	}
-
-	// ƒRƒŠƒWƒ‡ƒ“ƒqƒbƒgƒ}ƒl[ƒWƒƒ[‚©‚ç“o˜^‰ğœB
-	if (GetIsAvailable()) {
-		GetInstance()->Unregister(collider);
-	}
-
-	delete collider;
-	return nullptr;
-}
-
-void CollisionHitManager::SetIsTrigger(CollisionObject* collider, int index)
-{
-	if (collider) {
-		// true(ƒgƒŠƒK[)‚È‚ç 1Afalse(’Êí)‚È‚ç 0 ‚ğƒZƒbƒg
-		collider->GetbtCollisionObject().setUserIndex(index);
 	}
 }

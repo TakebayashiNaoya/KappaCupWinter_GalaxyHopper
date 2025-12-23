@@ -13,11 +13,11 @@ namespace app
 		/**
 		 * 止まってる
 		 */
-		class IdleState : public IState
+		class BasicEnemyIdleState : public IState
 		{
 		public:
-			IdleState(StateMachineBase* owner);
-			~IdleState();
+			BasicEnemyIdleState(StateMachineBase* owner) : IState(owner) {};
+			~BasicEnemyIdleState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -33,11 +33,11 @@ namespace app
 		/**
 		 * 走る
 		 */
-		class DashState : public IState
+		class BasicEnemyDashState : public IState
 		{
 		public:
-			DashState(StateMachineBase* owner);
-			~DashState();
+			BasicEnemyDashState(StateMachineBase* owner) : IState(owner) {};
+			~BasicEnemyDashState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -53,11 +53,11 @@ namespace app
 		/**
 		 * 待機
 		 */
-		class WaitState : public IState
+		class BasicEnemyWaitState : public IState
 		{
 		public:
-			WaitState(StateMachineBase* owner);
-			~WaitState();
+			BasicEnemyWaitState(StateMachineBase* owner) : IState(owner) {};
+			~BasicEnemyWaitState() {};
 
 			void Enter() override;
 			void Update() override;
@@ -73,11 +73,11 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class DeadState : public IState
+		class BasicEnemyDeadState : public IState
 		{
 		public:
-			DeadState(StateMachineBase* owner);
-			~DeadState();
+			BasicEnemyDeadState(StateMachineBase* owner) : IState(owner) {};
+			~BasicEnemyDeadState() {};
 
 			void Enter() override;
 			void Update() override;

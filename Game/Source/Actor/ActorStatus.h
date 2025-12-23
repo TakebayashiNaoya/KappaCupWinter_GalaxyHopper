@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ActorStatus.h
  * ステータス関連をまとめるファイル
  */
@@ -64,6 +64,8 @@ namespace app
 			float m_dashSpeed = 0.0f;
 			/** ダメージを受ける当たり判定の半径 */
 			float m_radius = 0.0f;
+			/** モデルの拡大率 */
+			float m_modelScale = 0.0f;
 			/** ダメージを受けたかどうか */
 			bool m_isDamage = false;
 
@@ -81,9 +83,14 @@ namespace app
 				m_isDamage = false;
 			}
 
-			void Damage(uint8_t damageAmount)
+			//void Damage(uint8_t damageAmount)
+			//{
+			//	m_hp -= damageAmount;
+			//	m_isDamage = true;
+			//}
+			void Damage()
 			{
-				m_hp -= damageAmount;
+				m_hp--;
 				m_isDamage = true;
 			}
 
@@ -98,7 +105,9 @@ namespace app
 			/** ダッシュスピードのゲッター */
 			float GetDashSpeed() const { return m_dashSpeed; }
 			/** 半径のゲッター */
-			float GetHitRadius() const { return m_radius; }
+			float GetHurtRadius() const { return m_radius; }
+			/** モデルの拡大率のゲッター */
+			float GetModelScale() const { return m_modelScale; }
 			/** ダメージを受けたかどうかのゲッター */
 			bool IsDamage() const { return m_isDamage; }
 		};
