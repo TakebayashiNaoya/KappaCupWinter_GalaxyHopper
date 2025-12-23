@@ -9,6 +9,7 @@ using namespace nsK2Engine;
 #include "json/json.hpp"
 
 #include "Transform.h"
+#include "Sound/SoundManager.h"
 
 //#include "core/Fade.h"
 

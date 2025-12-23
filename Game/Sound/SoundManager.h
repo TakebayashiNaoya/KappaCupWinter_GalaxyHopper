@@ -14,7 +14,7 @@ namespace app
 {
 	namespace sound
 	{
-		// サウンドリスト
+		/** サウンドリスト */
 		enum EnSoundList
 		{
 			enSoundList_TitleBGM,
@@ -43,26 +43,6 @@ namespace app
 			enSoundList_GameOverSlip,
 			//
 			enSoundList_Num
-		};
-
-
-
-
-		/********************************/
-
-
-		/**
-		 * SoundSourceを継承した自作クラス
-		 * エンジン側のファイルを汚さずに、削除時の通知機能を追加する
-		 */
-		class GameSoundSource : public nsK2EngineLow::SoundSource
-		{
-		public:
-			/** 自分が消える時にマネージャーへ連絡する */
-			~GameSoundSource()
-			{
-				SoundManager::UnregisterPseudo3D(this);
-			};
 		};
 
 
@@ -171,8 +151,6 @@ namespace app
 			void Update();
 
 
-
-
 			/**
 			 * シングルトン関連
 			 */
@@ -205,9 +183,34 @@ namespace app
 		};
 
 
-		/// <summary>
-		/// サウンドマネージャーを動かすためのゲームオブジェクト
-		/// </summary>
+
+
+		/********************************/
+
+
+		/**
+		 * SoundSourceを継承した自作クラス
+		 * エンジン側のファイルを汚さずに、削除時の通知機能を追加する
+		 */
+		class GameSoundSource : public nsK2EngineLow::SoundSource
+		{
+		public:
+			/** 自分が消える時にマネージャーへ連絡する */
+			~GameSoundSource()
+			{
+				SoundManager::UnregisterPseudo3D(this);
+			};
+		};
+
+
+
+
+		/********************************/
+
+
+		/**
+		 *  サウンドマネージャーを動かすためのゲームオブジェクト
+		 */
 		class SoundManagerObject : public IGameObject
 		{
 		public:
