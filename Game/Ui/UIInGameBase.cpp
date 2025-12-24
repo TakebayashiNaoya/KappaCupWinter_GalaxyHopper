@@ -32,6 +32,7 @@ namespace app
 			const float			FLASH_H = 1080.0f;
 			const Vector3		FLASH_POS = Vector3::Zero;
 
+			const char* const	PATH_FLASH_NONE = "Assets/sprite/DamageFlash0.dds";
 			const char* const	PATH_FLASH_DANGER = "Assets/sprite/DamageFlash1.dds";
 			const char* const	PATH_FLASH_CAUTION = "Assets/sprite/DamageFlash2.dds";
 
@@ -112,8 +113,12 @@ namespace app
 
 		void UIInGameBase::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) return;
-			if (BattleManager::GetIsBattleFinish()) return;
+			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+				return;
+			}
+			if (BattleManager::GetIsBattleFinish()) {
+				return;
+			}
 
 			// キャンバスを一括描画（子UIのRenderも呼ばれる）
 			if (m_canvas) {
@@ -124,8 +129,12 @@ namespace app
 
 		void UIInGameBase::SetPlayerHp(int hp)
 		{
-			if (m_uiPlayerLife) m_uiPlayerLife->SetPlayerHp(hp);
-			if (m_uiDamageFlash) m_uiDamageFlash->SetPlayerHp(hp);
+			if (m_uiPlayerLife) {
+				m_uiPlayerLife->SetPlayerHp(hp);
+			}
+			if (m_uiDamageFlash) {
+				m_uiDamageFlash->SetPlayerHp(hp);
+			}
 		}
 
 
@@ -154,13 +163,7 @@ namespace app
 
 		bool UIPlayerLife::Start()
 		{
-			Initialize(
-				m_imagePaths[enPlayerCondition_Fine].c_str(),
-				LIFE_SIZE_W, LIFE_SIZE_H,
-				LIFE_POS,
-				Vector3::One,
-				Quaternion::Identity
-			);
+			Initialize(m_imagePaths[enPlayerCondition_Fine].c_str(), LIFE_SIZE_W, LIFE_SIZE_H, LIFE_POS);
 			return true;
 		}
 
@@ -196,16 +199,7 @@ namespace app
 
 		bool UIDamageFlash::Start()
 		{
-			Initialize(
-				PATH_FLASH_DANGER,
-				FLASH_W, FLASH_H,
-				FLASH_POS,
-				Vector3::One,
-				Quaternion::Identity
-			);
-
-			/** 最初は非表示（透明） */
-			m_spriteRender.SetMulColor({ 1.0f, 1.0f, 1.0f, 0.0f });
+			Initialize(PATH_FLASH_DANGER, FLASH_W, FLASH_H, FLASH_POS);
 			m_spriteRender.Update();
 
 			return true;
@@ -215,18 +209,13 @@ namespace app
 		void UIDamageFlash::SetPlayerHp(int hp)
 		{
 			if (hp == enPlayerCondition_Danger) {
-				// 危険：赤色フラッシュ画像にし、不透明度を上げる
 				m_spriteRender.Init(PATH_FLASH_DANGER, FLASH_W, FLASH_H);
-				m_spriteRender.SetMulColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 			}
 			else if (hp == enPlayerCondition_Caution) {
-				// 注意：黄色フラッシュ画像にし、不透明度を上げる
 				m_spriteRender.Init(PATH_FLASH_CAUTION, FLASH_W, FLASH_H);
-				m_spriteRender.SetMulColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 			}
 			else {
-				// それ以外：透明にする
-				m_spriteRender.SetMulColor({ 0.0f, 0.0f, 0.0f, 0.0f });
+				m_spriteRender.Init(PATH_FLASH_NONE, FLASH_W, FLASH_H);
 			}
 			m_spriteRender.Update();
 		}
@@ -252,49 +241,21 @@ namespace app
 
 		bool UIControls::Start()
 		{
-			// ジャンプ
+			/** ジャンプ */
 			auto* jump = CreateUI<UIImage>();
-			jump->Initialize(
-				PATH_CTRL_JUMP,
-				CTRL_JUMP_SIZE,
-				CTRL_JUMP_SIZE,
-				CTRL_JUMP_POS,
-				Vector3::One,
-				Quaternion::Identity
-			);
+			jump->Initialize(PATH_CTRL_JUMP, CTRL_JUMP_SIZE, CTRL_JUMP_SIZE, CTRL_JUMP_POS);
 
-			// ダッシュ
+			/** ダッシュ */
 			auto* dash = CreateUI<UIImage>();
-			dash->Initialize(
-				PATH_CTRL_DASH,
-				CTRL_DASH_SIZE,
-				CTRL_DASH_SIZE,
-				CTRL_DASH_POS,
-				Vector3::One,
-				Quaternion::Identity
-			);
+			dash->Initialize(PATH_CTRL_DASH, CTRL_DASH_SIZE, CTRL_DASH_SIZE, CTRL_DASH_POS);
 
-			// ボタンA
+			/** ボタンA */
 			auto* btnA = CreateUI<UIImage>();
-			btnA->Initialize(
-				PATH_CTRL_BTN_A,
-				CTRL_BTN_SIZE,
-				CTRL_BTN_SIZE,
-				CTRL_BTN_A_POS,
-				Vector3::One,
-				Quaternion::Identity
-			);
+			btnA->Initialize(PATH_CTRL_BTN_A, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_A_POS);
 
-			// ボタンB
+			/** ボタンB */
 			auto* btnB = CreateUI<UIImage>();
-			btnB->Initialize(
-				PATH_CTRL_BTN_B,
-				CTRL_BTN_SIZE,
-				CTRL_BTN_SIZE,
-				CTRL_BTN_B_POS,
-				Vector3::One,
-				Quaternion::Identity
-			);
+			btnB->Initialize(PATH_CTRL_BTN_B, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_B_POS);
 
 			return true;
 		}
