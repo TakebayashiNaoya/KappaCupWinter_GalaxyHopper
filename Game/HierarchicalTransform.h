@@ -3,72 +3,53 @@
 
 class HierarchicalTransform : public Noncopyable
 {
-	/** public変数 */
 public:
+	/** 自身のトランスフォーム */
 	Transform m_localTransform;
-	//自身のパラメータ
-
-	Transform m_worldTransform;
 	/** 親トランスフォームを考慮したパラメータ */
+	Transform m_worldTransform;
 
-	/** private変数 */
-	/** 基本的に関数以外から弄る必要なし */
+
 private:
-
-	Matrix m_rotationMatrix;
+	/** 親トランスフォームを考慮したワールド行列 */
 	Matrix m_worldMatrix;
-
+	/** 親トランスフォーム */
 	HierarchicalTransform* m_parent;
+	/** 子トランスフォーム群 */
 	std::vector<HierarchicalTransform*> m_children;
 
 
-	/** public関数 */
 public:
 	HierarchicalTransform();
 	~HierarchicalTransform();
 
-	/** 更新処理 */
-	void UpdateTransform();
-	/** ワールド行列更新、UpdateTransformの方で呼ばれるので呼び出す必要なし */
-	void UpdateWorldMatrix();
 
-	/** 全ての子トランスフォームとの紐づけを外す */
+public:
+	/**
+	 * 親がいる場合は、親のトランスフォームと自身のトランスフォームを掛け合わせ、自身のワールドトランスフォームを更新する
+	 * 親がいない場合は、自身のローカルトランスフォームをそのままワールドトランスフォームにコピーする
+	 */
+	void UpdateTransform();
+
+	/** すべての子トランスフォームとの紐づけを外す */
 	void Release();
 
 	/** 特定の子トランスフォームとの紐づけを外す */
 	void RemoveChild(HierarchicalTransform* t);
-	/** すべてのトランスフォームとの紐づけを外す */
+
+	/** すべての子トランスフォームとの紐づけを外す */
 	void ClearChild();
-	void AddChild(HierarchicalTransform* t)
-	{
-		// 同じのは追加しない
-		if (FindChild(t)) {
-			return;
-		}
-		m_children.push_back(t);
-	}
-	bool FindChild(HierarchicalTransform* t)
-	{
-		for (auto* child : m_children)
-		{
-			if (child == t) {
-				return true;
-			}
-		}
-		return false;
-	}
 
-	/** 親トランスフォームを設定 */
-	void SetParent(HierarchicalTransform* p)
-	{
-		if (m_parent) {
-			return;
-		}
-		m_parent = p;
-		m_parent->AddChild(this);
-	}
+	/** 引数に入れたトランスフォームを自身の子トランスフォームに追加する */
+	void AddChild(HierarchicalTransform* t);
 
-	/** 親トランスフォームがあるか */
+	/** 引数に入れた子トランスフォームが存在する場合はtrueを返す */
+	bool FindChild(HierarchicalTransform* t);
+
+	/** 引数に入れたトランスフォームを親にする */
+	void SetParent(HierarchicalTransform* p);
+
+	/** 親トランスフォームがある場合はtrueを返す */
 	bool HasParent() const
 	{
 		return m_parent != nullptr;
@@ -78,4 +59,9 @@ public:
 	{
 		m_parent = nullptr;
 	}
+
+
+private:
+	/** ワールド行列更新、UpdateTransformの方で呼ばれるので呼び出す必要なし */
+	void UpdateWorldMatrix();
 };

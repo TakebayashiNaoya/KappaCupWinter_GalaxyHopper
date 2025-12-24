@@ -2,8 +2,7 @@
 #include "HierarchicalTransform.h"
 
 HierarchicalTransform::HierarchicalTransform()
-	: m_rotationMatrix(Matrix::Identity)
-	, m_worldMatrix(Matrix::Identity)
+	: m_worldMatrix(Matrix::Identity)
 	, m_parent(nullptr)
 {
 	m_children.clear();
@@ -60,22 +59,21 @@ void HierarchicalTransform::UpdateTransform()
 		m_worldTransform.m_rotation = m_localTransform.m_rotation;
 	}
 
-	/** ワールド回転から回転行列を算出 */
-	m_rotationMatrix.MakeRotationFromQuaternion(m_worldTransform.m_rotation);
-
 	/** ここまで計算したワールド座標・ワールド拡大縮小・ワールド回転を1つのワールド行列にまとめる */
 	UpdateWorldMatrix();
 }
 
 void HierarchicalTransform::UpdateWorldMatrix()
 {
-	Matrix scal, pos, world;
+	Matrix scal, rot, pos, world;
 	/** 拡大縮小行列を作成 */
 	scal.MakeScaling(m_worldTransform.m_scale);
+	/** 回転行列を作成 */
+	rot.MakeRotationFromQuaternion(m_worldTransform.m_rotation);
 	/** 平行移動行列を作成 */
 	pos.MakeTranslation(m_worldTransform.m_position);
 	/** 拡大縮小→回転→平行移動の順で行列を掛け合わせる */
-	world.Multiply(scal, m_rotationMatrix);
+	world.Multiply(scal, rot);
 	m_worldMatrix.Multiply(world, pos);
 
 	/** 自分の子も更新 */
@@ -136,4 +134,32 @@ void HierarchicalTransform::RemoveChild(HierarchicalTransform* t)
 void HierarchicalTransform::ClearChild()
 {
 	m_children.clear();
+}
+
+void HierarchicalTransform::AddChild(HierarchicalTransform* t)
+{
+	/** すでに登録されている場合は追加しない */
+	if (FindChild(t)) {
+		return;
+	}
+	m_children.push_back(t);
+}
+
+bool HierarchicalTransform::FindChild(HierarchicalTransform* t)
+{
+	for (auto* child : m_children) {
+		if (child == t) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void HierarchicalTransform::SetParent(HierarchicalTransform* p)
+{
+	if (m_parent) {
+		return;
+	}
+	m_parent = p;
+	m_parent->AddChild(this);
 }
