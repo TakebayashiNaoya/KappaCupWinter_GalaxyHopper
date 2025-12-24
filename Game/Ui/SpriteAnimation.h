@@ -9,7 +9,9 @@ namespace app
 {
 	namespace ui
 	{
-		/** スプライトアニメーションの基底クラス */
+		/**
+		 * スプライトアニメーションの基底クラス
+		 */
 		class SpriteAnimationBase
 		{
 		protected:
