@@ -43,9 +43,9 @@ namespace app
 			/** スプライトアニメーションの追加 */
 			void AddSpriteAnimation(SpriteAnimationBase* animation);
 			/** スプライトアニメーションの再生 */
-			void PlaySpriteAnimation();
+			void PlaySpriteAnimations();
 			/** スプライトアニメーションの停止 */
-			void StopSpriteAnimation();
+			void StopSpriteAnimations();
 		};
 
 

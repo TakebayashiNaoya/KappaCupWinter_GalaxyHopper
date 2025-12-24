@@ -33,19 +33,17 @@ namespace app
 		}
 
 
-		void UIBase::PlaySpriteAnimation()
+		void UIBase::PlaySpriteAnimations()
 		{
-			for (auto* animation : m_spriteAnimationList)
-			{
+			for (auto* animation : m_spriteAnimationList) {
 				animation->Play();
 			}
 		}
 
 
-		void UIBase::StopSpriteAnimation()
+		void UIBase::StopSpriteAnimations()
 		{
-			for (auto* animation : m_spriteAnimationList)
-			{
+			for (auto* animation : m_spriteAnimationList) {
 				animation->Stop();
 			}
 		}
