@@ -3,11 +3,15 @@
  * UIの基本的な処理をするクラス群
  */
 #pragma once
+#include "HierarchicalTransform.h"
 
 
 class SpriteAnimationBase;
 
 
+/**
+ * UIの基本クラス
+ */
 class UIBase : public Noncopyable
 {
 public:
@@ -15,10 +19,6 @@ public:
 
 
 protected:
-	bool isStart = false;
-	bool isUpdate = true;
-	bool isDraw = true;
-
 	std::vector<SpriteAnimationBase*> m_spriteAnimationList;
 
 
@@ -54,11 +54,12 @@ public:
 
 
 
-// ============================================
-// 画像を使うUI関連
-// ============================================
+/********************************/
 
 
+/**
+ * 画像を使うUIの基本クラス
+ */
 class UIImage : public UIBase
 {
 protected:
@@ -81,14 +82,13 @@ public:
 };
 
 
-
 /**
  * ゲージUI
  */
 class UIGauge : public UIImage
 {
 	friend class UICanvas;
-	
+
 
 private:
 	UIGauge();
@@ -130,11 +130,12 @@ public:
 
 
 
-// ============================================
-// 文字を使うUI関連
-// ============================================
+/********************************/
 
 
+/**
+ * 文字を使うUIの基本クラス
+ */
 class UIText : public UIBase
 {
 protected:
@@ -154,9 +155,13 @@ public:
 
 
 
-// ============================================
-// ボタンを使うUI関連
-// ============================================
+
+/********************************/
+
+
+/**
+ * ボタンを使うUIの基本クラス
+ */
 class UIButton : public UIImage
 {
 private:
@@ -177,9 +182,13 @@ public:
 
 
 
-// ============================================
-// UI桁表示(スコア表示などで使用)
-// ============================================
+
+/********************************/
+
+
+/**
+ * 画像を使って数字を表示するUIの基本クラス
+ */
 class UIDigit : public UIBase
 {
 private:
@@ -225,11 +234,10 @@ public:
 	/** 数字を設定 */
 	void SetNumber(const int number) { m_requestNumber = number; }
 
-	// @todo for test
-	//void SetCustomChar(int targetDigit, const std::string& assetPath);
-
+	/** スプライトレンダーのリストを取得 */
 	std::vector<SpriteRender*>& GetSpriteRenderList() { return m_renderList; }
 
+	/** スプライトレンダーのリストに対して関数を実行 */
 	void ForEach(const std::function<void(SpriteRender*)>& func)
 	{
 		for (auto* render : m_renderList) {
@@ -249,14 +257,12 @@ private:
 
 
 
-// ============================================
-// キャンバス
-// ============================================
+/********************************/
 
 
 /**
  * 絵を書くキャンバスのイメージ
- * UIを作るときにこのクラスを作ってください
+ * ※UIを作るときにこのクラスを作ること
  */
 class UICanvas : public UIBase
 {

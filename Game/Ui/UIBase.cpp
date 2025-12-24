@@ -1,4 +1,4 @@
-/**
+﻿/**
  * UIBase.cpp
  * UIの基本的な処理をするクラス群
  */
@@ -27,9 +27,7 @@ void UIBase::StopSpriteAnimation()
 
 
 
- // ============================================
- // 画像を使うUI関連
- // ============================================
+/************************************/
 
 
 UIImage::UIImage()
@@ -99,9 +97,9 @@ void UIGauge::Render(RenderContext& rc)
 
 void UIGauge::Initialize(const char* assetName, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation)
 {
-	m_transform.m_localPosition = position;
-	m_transform.m_localScale = scale;
-	m_transform.m_localRotation = rotation;
+	m_transform.m_localTransform.m_position = position;
+	m_transform.m_localTransform.m_scale = scale;
+	m_transform.m_localTransform.m_rotation = rotation;
 
 	m_spriteRender.Init(assetName, width, height);
 	m_spriteRender.SetPosition(position);
@@ -192,7 +190,7 @@ void UIDigit::Update()
 	if (m_number != m_requestNumber) {
 		m_number = m_requestNumber;
 		for (int i = 0; i < m_digit; ++i) {
-			UpdateNumber(i+1, m_number);
+			UpdateNumber(i + 1, m_number);
 		}
 	}
 
@@ -241,7 +239,7 @@ void UIDigit::Initialize(const char* assetName, const int digit, const int numbe
 		//spriteRender->SetScale(scale);
 		//spriteRender->SetRotation(rotation);
 		//m_renderList.push_back(spriteRender);
-		UpdateNumber(i+1, m_number);	// 桁なので＋１する
+		UpdateNumber(i + 1, m_number);	// 桁なので＋１する
 	}
 }
 
@@ -273,7 +271,8 @@ void UIDigit::UpdateNumber(const int targetDigit, const int number)
 	// 次のやつをつくる
 	if (targetRenderIndex < m_renderList.size()) {
 		nextRender = m_renderList[targetRenderIndex];
-	} else {
+	}
+	else {
 		nextRender = new SpriteRender();
 		m_renderList.push_back(nextRender);
 	}
@@ -321,7 +320,7 @@ UICanvas::UICanvas()
 
 UICanvas::~UICanvas()
 {
-	for(auto* ui : m_uiList) {
+	for (auto* ui : m_uiList) {
 		// トランスフォームの親子関係を解除
 		m_transform.RemoveChild(&ui->m_transform);
 		// キャンバス上にあるUIを削除
