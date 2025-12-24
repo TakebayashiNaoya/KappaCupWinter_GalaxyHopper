@@ -108,7 +108,7 @@ namespace app
 			UIControls();
 			~UIControls();
 
-			bool Start();
+			bool Start(); // UICanvasにはStartの純粋仮想がないため、独自定義
 		};
 	}
 }

@@ -249,6 +249,7 @@
     <ClCompile Include="Source\Actor\PlayerStateMachine.cpp" />
     <ClCompile Include="Source\Actor\StateMachine.cpp" />
     <ClCompile Include="Source\Actor\TitlePlanet.cpp" />
+    <ClCompile Include="Source\Actor\Types.cpp" />
     <ClCompile Include="Source\Scene\BattleStageBase.cpp" />
     <ClCompile Include="Source\Scene\BossStage.cpp" />
     <ClCompile Include="Source\Scene\FirstStage.cpp" />
@@ -263,6 +264,8 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Ui\SpriteAnimation.cpp" />
     <ClCompile Include="Ui\UIBase.cpp" />
+    <ClCompile Include="Ui\UIInGameBase.cpp" />
+    <ClCompile Include="Ui\UITitle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Battle\BattleManager.h" />
@@ -290,6 +293,7 @@
     <ClInclude Include="Source\Actor\PlayerStateMachine.h" />
     <ClInclude Include="Source\Actor\StateMachine.h" />
     <ClInclude Include="Source\Actor\TitlePlanet.h" />
+    <ClInclude Include="Source\Actor\Types.h" />
     <ClInclude Include="Source\Scene\BattleStageBase.h" />
     <ClInclude Include="Source\Scene\BossStage.h" />
     <ClInclude Include="Source\Scene\FirstStage.h" />
@@ -300,6 +304,8 @@
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Ui\SpriteAnimation.h" />
     <ClInclude Include="Ui\UIBase.h" />
+    <ClInclude Include="Ui\UIInGameBase.h" />
+    <ClInclude Include="Ui\UITitle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
