@@ -116,9 +116,7 @@ namespace app
 
 		void UIGauge::Update()
 		{
-			// @todo for test
-			float m_uiGargeMid = 0.0f;
-
+			/** トランスフォーム更新とスプライトレンダー更新 */
 			m_transform.UpdateTransform();
 			m_spriteRender.SetPosition(m_transform.m_worldTransform.m_position);
 			m_spriteRender.SetScale(m_transform.m_worldTransform.m_scale);
@@ -156,15 +154,16 @@ namespace app
 
 		void UIIcon::Update()
 		{
+			/** トランスフォーム更新とスプライトレンダー更新 */
 			m_transform.UpdateTransform();
 			m_spriteRender.SetPosition(m_transform.m_worldTransform.m_position);
 			m_spriteRender.SetScale(m_transform.m_worldTransform.m_scale);
 			m_spriteRender.SetRotation(m_transform.m_worldTransform.m_rotation);
 			m_spriteRender.Update();
 
-			for (auto* animation : m_spriteAnimationList) {
-				animation->Update();
-			}
+			//for (auto* animation : m_spriteAnimationList) {
+			//	animation->Update();
+			//}
 		}
 
 
@@ -197,6 +196,7 @@ namespace app
 
 		void UIDigit::Update()
 		{
+			/** 数字が変わっていたら更新 */
 			if (m_number != m_requestNumber) {
 				m_number = m_requestNumber;
 				for (int i = 0; i < m_digit; ++i) {
@@ -204,10 +204,9 @@ namespace app
 				}
 			}
 
-
+			/** トランスフォーム更新とスプライトレンダー更新 */
 			m_transform.UpdateTransform();
-			for (int i = 0; i < m_renderList.size(); ++i)
-			{
+			for (int i = 0; i < m_renderList.size(); ++i) {
 				auto* spriteRender = m_renderList[i];
 				UpdatePosition(i);
 				spriteRender->SetScale(m_transform.m_worldTransform.m_scale);
@@ -215,6 +214,7 @@ namespace app
 				spriteRender->Update();
 			}
 
+			/** スプライトアニメーション更新 */
 			for (auto* animation : m_spriteAnimationList) {
 				animation->Update();
 			}
@@ -223,8 +223,8 @@ namespace app
 
 		void UIDigit::Render(RenderContext& rc)
 		{
-			for (SpriteRender* spriteRender : m_renderList)
-			{
+			/** スプライトレンダー描画 */
+			for (SpriteRender* spriteRender : m_renderList) {
 				spriteRender->Draw(rc);
 			}
 		}
@@ -242,38 +242,16 @@ namespace app
 			m_transform.m_localTransform.m_scale = scale;
 			m_transform.m_localTransform.m_rotation = rotation;
 
-			for (int i = 0; i < digit; i++)
-			{
-				//SpriteRender* spriteRender = new SpriteRender;
-				////spriteRender->Init(assetPath, widht, height);
-				//spriteRender->SetPosition(position);
-				//spriteRender->SetScale(scale);
-				//spriteRender->SetRotation(rotation);
-				//m_renderList.push_back(spriteRender);
-				UpdateNumber(i + 1, m_number);	// 桁なので＋１する
+			/** 各桁の数字を更新 */
+			for (int i = 0; i < digit; i++) {
+				UpdateNumber(i + 1, m_number);	/** 桁なので＋１する */
 			}
 		}
 
 
-		// @todo for test
-		//void UIDigit::SetCustomChar(int targetDigit, const std::string& assetPath)
-		//{
-		//	K2_ASSERT(targetDigit >= 1, "桁指定が間違えています。\n");
-		//
-		//	int targetIndex = targetDigit - 1;
-		//	if (targetIndex >= m_renderList.size())
-		//	{
-		//		return; // 範囲外
-		//	}
-		//
-		//	SpriteRender* render = m_renderList[targetIndex];
-		//	std::string assetPath = m_assetPath + "/" + assetPath; // coron.dds
-		//	render->Init(assetPath.c_str(), m_width, m_height);
-		//}
-
 		void UIDigit::UpdateNumber(const int targetDigit, const int number)
 		{
-			// NOTE: targetDigitは1以上の値になっている
+			/** targetDigitが1以上でなければ警告する */
 			K2_ASSERT(targetDigit >= 1, "桁指定が間違えています。\n");
 
 			// いらない
