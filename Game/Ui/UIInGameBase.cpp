@@ -4,6 +4,7 @@
  */
 #include "stdafx.h"
 #include "UIInGameBase.h"
+#include "Battle/BattleManager.h"
 #include "LoadingScreen.h"
 
 namespace app
