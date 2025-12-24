@@ -1,19 +1,32 @@
+﻿/**
+ * UITitle.h
+ * タイトルのUIを管理するクラス
+ */
 #pragma once
+#include "UIBase.h"
 
-class UITitle :public IGameObject
+namespace app
 {
-public:
-	UITitle();
-	~UITitle();
+	namespace ui
+	{
+		class UITitle : public IGameObject
+		{
+		private:
+			/** UIを管理するキャンバス */
+			UICanvas m_canvas;
+			/** タイトルロゴの画像 */
+			UIImage* m_titleLogo = nullptr;
 
 
-private:
-	bool Start() override final;
-	void Update() override final;
-	void Render(RenderContext& rc) override final;
+		public:
+			UITitle();
+			~UITitle();
 
 
-private:
-	SpriteRender m_backGroundImage;
-};
-
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
+		};
+	}
+}
