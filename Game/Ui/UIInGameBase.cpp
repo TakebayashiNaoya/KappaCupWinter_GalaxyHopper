@@ -12,14 +12,52 @@ namespace app
 	{
 		namespace
 		{
-			// UIPlayerLife用定数
-			const Vector3 LIFE_POS = { 800.0f, 400.0f, 0.0f };
-			const float LIFE_SIZE_W = 300.0f;
-			const float LIFE_SIZE_H = 300.0f;
+			/**
+			 * UIPlayerLife用定数
+			 */
+			const Vector3		LIFE_POS = { 800.0f, 400.0f, 0.0f };
+			const float			LIFE_SIZE_W = 300.0f;
+			const float			LIFE_SIZE_H = 300.0f;
 
-			// UIDamageFlash用定数
-			const float FLASH_W = 1920.0f;
-			const float FLASH_H = 1080.0f;
+			const char* const	PATH_HP_DEAD = "Assets/sprite/HP0.dds";
+			const char* const	PATH_HP_DANGER = "Assets/sprite/HP1.dds";
+			const char* const	PATH_HP_CAUTION = "Assets/sprite/HP2.dds";
+			const char* const	PATH_HP_FINE = "Assets/sprite/HP3.dds";
+
+
+			/**
+			 * UIDamageFlash用定数
+			 */
+			const float			FLASH_W = 1920.0f;
+			const float			FLASH_H = 1080.0f;
+			const Vector3		FLASH_POS = Vector3::Zero;
+
+			const char* const	PATH_FLASH_DANGER = "Assets/sprite/DamageFlash1.dds";
+			const char* const	PATH_FLASH_CAUTION = "Assets/sprite/DamageFlash2.dds";
+
+
+			/**
+			 * UIControls用定数
+			 */
+			 /** ジャンプ */
+			const Vector3		CTRL_JUMP_POS = { 630.0f, -370.0f, 0.0f };
+			const float			CTRL_JUMP_SIZE = 150.0f;
+			const char* const	PATH_CTRL_JUMP = "Assets/sprite/RabbitJump.dds";
+
+			/** ダッシュ */
+			const Vector3		CTRL_DASH_POS = { 800.0f, -300.0f, 0.0f };
+			const float			CTRL_DASH_SIZE = 150.0f;
+			const char* const	PATH_CTRL_DASH = "Assets/sprite/RabbitDash.dds";
+
+			/** ボタンA */
+			const Vector3		CTRL_BTN_A_POS = { 700.0f, -450.0f, 0.0f };
+			const float			CTRL_BTN_SIZE = 100.0f;
+			const char* const	PATH_CTRL_BTN_A = "Assets/sprite/ButtonA_2.dds";
+
+			/** ボタンB */
+			const Vector3		CTRL_BTN_B_POS = { 870.0f, -380.0f, 0.0f };
+			const float			CTRL_BTN_SIZE = 100.0f;
+			const char* const	PATH_CTRL_BTN_B = "Assets/sprite/ButtonB_2.dds";
 		}
 
 
@@ -102,10 +140,10 @@ namespace app
 		UIPlayerLife::UIPlayerLife()
 		{
 			/** パスを保存しておく */
-			m_imagePaths[enPlayerCondition_Dead] = "Assets/sprite/HP0.dds";
-			m_imagePaths[enPlayerCondition_Danger] = "Assets/sprite/HP1.dds";
-			m_imagePaths[enPlayerCondition_Caution] = "Assets/sprite/HP2.dds";
-			m_imagePaths[enPlayerCondition_Fine] = "Assets/sprite/HP3.dds";
+			m_imagePaths[enPlayerCondition_Dead] = PATH_HP_DEAD;
+			m_imagePaths[enPlayerCondition_Danger] = PATH_HP_DANGER;
+			m_imagePaths[enPlayerCondition_Caution] = PATH_HP_CAUTION;
+			m_imagePaths[enPlayerCondition_Fine] = PATH_HP_FINE;
 		}
 
 
@@ -159,9 +197,9 @@ namespace app
 		bool UIDamageFlash::Start()
 		{
 			Initialize(
-				"Assets/sprite/DamageFlash1.dds",
+				PATH_FLASH_DANGER,
 				FLASH_W, FLASH_H,
-				Vector3::Zero,
+				FLASH_POS,
 				Vector3::One,
 				Quaternion::Identity
 			);
@@ -178,12 +216,12 @@ namespace app
 		{
 			if (hp == enPlayerCondition_Danger) {
 				// 危険：赤色フラッシュ画像にし、不透明度を上げる
-				m_spriteRender.Init("Assets/sprite/DamageFlash1.dds", FLASH_W, FLASH_H);
+				m_spriteRender.Init(PATH_FLASH_DANGER, FLASH_W, FLASH_H);
 				m_spriteRender.SetMulColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 			}
 			else if (hp == enPlayerCondition_Caution) {
 				// 注意：黄色フラッシュ画像にし、不透明度を上げる
-				m_spriteRender.Init("Assets/sprite/DamageFlash2.dds", FLASH_W, FLASH_H);
+				m_spriteRender.Init(PATH_FLASH_CAUTION, FLASH_W, FLASH_H);
 				m_spriteRender.SetMulColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 			}
 			else {
@@ -217,10 +255,10 @@ namespace app
 			// ジャンプ
 			auto* jump = CreateUI<UIImage>();
 			jump->Initialize(
-				"Assets/sprite/RabbitJump.dds",
-				150.0f,
-				150.0f,
-				{ 630.0f, -370.0f, 0.0f },
+				PATH_CTRL_JUMP,
+				CTRL_JUMP_SIZE,
+				CTRL_JUMP_SIZE,
+				CTRL_JUMP_POS,
 				Vector3::One,
 				Quaternion::Identity
 			);
@@ -228,10 +266,10 @@ namespace app
 			// ダッシュ
 			auto* dash = CreateUI<UIImage>();
 			dash->Initialize(
-				"Assets/sprite/RabbitDash.dds",
-				150.0f,
-				150.0f,
-				{ 800.0f, -300.0f, 0.0f },
+				PATH_CTRL_DASH,
+				CTRL_DASH_SIZE,
+				CTRL_DASH_SIZE,
+				CTRL_DASH_POS,
 				Vector3::One,
 				Quaternion::Identity
 			);
@@ -239,10 +277,10 @@ namespace app
 			// ボタンA
 			auto* btnA = CreateUI<UIImage>();
 			btnA->Initialize(
-				"Assets/sprite/ButtonA_2.dds",
-				100.0f,
-				100.0f,
-				{ 700.0f, -450.0f, 0.0f },
+				PATH_CTRL_BTN_A,
+				CTRL_BTN_SIZE,
+				CTRL_BTN_SIZE,
+				CTRL_BTN_A_POS,
 				Vector3::One,
 				Quaternion::Identity
 			);
@@ -250,10 +288,10 @@ namespace app
 			// ボタンB
 			auto* btnB = CreateUI<UIImage>();
 			btnB->Initialize(
-				"Assets/sprite/ButtonB_2.dds",
-				100.0f,
-				100.0f,
-				{ 870.0f, -380.0f, 0.0f },
+				PATH_CTRL_BTN_B,
+				CTRL_BTN_SIZE,
+				CTRL_BTN_SIZE,
+				CTRL_BTN_B_POS,
 				Vector3::One,
 				Quaternion::Identity
 			);
