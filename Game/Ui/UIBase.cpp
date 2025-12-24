@@ -133,20 +133,6 @@ namespace app
 		}
 
 
-		void UIGauge::Initialize(const char* assetName, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation)
-		{
-			m_transform.m_localTransform.m_position = position;
-			m_transform.m_localTransform.m_scale = scale;
-			m_transform.m_localTransform.m_rotation = rotation;
-
-			m_spriteRender.Init(assetName, width, height);
-			m_spriteRender.SetPosition(position);
-			m_spriteRender.SetScale(scale);
-			m_spriteRender.SetRotation(rotation);
-			m_spriteRender.Update();
-		}
-
-
 
 
 		/************************************/
@@ -185,20 +171,6 @@ namespace app
 		void UIIcon::Render(RenderContext& rc)
 		{
 			m_spriteRender.Draw(rc);
-		}
-
-
-		void UIIcon::Initialize(const char* assetPath, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation)
-		{
-			m_transform.m_localTransform.m_position = position;
-			m_transform.m_localTransform.m_scale = scale;
-			m_transform.m_localTransform.m_rotation = rotation;
-
-			m_spriteRender.Init(assetPath, width, height);
-			m_spriteRender.SetPosition(position);
-			m_spriteRender.SetScale(scale);
-			m_spriteRender.SetRotation(rotation);
-			m_spriteRender.Update();
 		}
 
 
@@ -257,13 +229,14 @@ namespace app
 			}
 		}
 
+
 		void UIDigit::Initialize(const char* assetPath, const int digit, const int number, const float widht, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation)
 		{
 			m_assetPath = assetPath;
 			m_digit = digit;
 			m_number = number;
-			w = widht;
-			h = height;
+			m_width = widht;
+			m_height = height;
 
 			m_transform.m_localTransform.m_position = position;
 			m_transform.m_localTransform.m_scale = scale;
@@ -295,7 +268,7 @@ namespace app
 		//
 		//	SpriteRender* render = m_renderList[targetIndex];
 		//	std::string assetPath = m_assetPath + "/" + assetPath; // coron.dds
-		//	render->Init(assetPath.c_str(), w, h);
+		//	render->Init(assetPath.c_str(), m_width, m_height);
 		//}
 
 		void UIDigit::UpdateNumber(const int targetDigit, const int number)
@@ -322,7 +295,7 @@ namespace app
 			// Assets/modelData/UI/suji/0.dds
 			// 数字の部分を桁の数字で変える
 			assetNname[assetNname.size() - 5] = '0' + targetDigitNumber;
-			nextRender->Init(assetNname.c_str(), w, h);
+			nextRender->Init(assetNname.c_str(), m_width, m_height);
 		}
 
 
@@ -330,7 +303,7 @@ namespace app
 		{
 			SpriteRender* render = m_renderList[index];
 			Vector3 position = m_transform.m_worldTransform.m_position;
-			position.x -= w * index;
+			position.x -= m_width * index;
 			render->SetPosition(position);
 		}
 

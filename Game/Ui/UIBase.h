@@ -198,15 +198,16 @@ namespace app
 			std::vector<SpriteRender*> m_renderList;
 			/** 表示される数字 */
 			int m_number;
+			/** 表示してほしい数字 */
 			int m_requestNumber;
+			/** 桁数 */
 			int m_digit;
 			/** 数字表示に必要な画像が入った */
 			std::string m_assetPath;
-
-			// あとでかえて
-			int w;
-			int h;
-
+			/** 幅 */
+			int m_width;
+			/** 高さ */
+			int m_height;
 
 
 		public:
@@ -221,17 +222,17 @@ namespace app
 
 
 		public:
-			/**
-			 * ・アセットの名前
-			 * ・何桁かの情報（数）
-			 * ・表示する数
-			 * ・横
-			 * ・高さ
-			 * ・位置
-			 * ・大きさ
-			 * ・回転
-			 */
-			void Initialize(const char* assetPath, const int digit, const int number, const float widht, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation);
+			/** 初期化 */
+			void Initialize(
+				const char* assetPath,		/** アセットパス */
+				const int digit,			/** 桁数		 */
+				const int number,			/** 表示したい値 */
+				const float widht,			/** 幅			 */
+				const float height,			/** 高さ		 */
+				const Vector3& position,	/** 座標		 */
+				const Vector3& scale,		/** 拡大縮小	 */
+				const Quaternion& rotation	/** 回転		 */
+			);
 
 			/** 数字を設定 */
 			void SetNumber(const int number) { m_requestNumber = number; }
@@ -294,6 +295,7 @@ namespace app
 
 
 		public:
+			/** UIの生成 */
 			template <typename T>
 			T* CreateUI()
 			{
