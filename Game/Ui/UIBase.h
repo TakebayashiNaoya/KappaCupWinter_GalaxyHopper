@@ -33,7 +33,7 @@ namespace app
 			virtual ~UIBase();
 
 
-		protected:
+		public:
 			virtual bool Start() = 0;
 			virtual void Update() = 0;
 			virtual void Render(RenderContext& rc) = 0;
@@ -60,6 +60,7 @@ namespace app
 		class UIImage : public UIBase
 		{
 		protected:
+			/** スプライトレンダー */
 			SpriteRender m_spriteRender;
 
 
@@ -73,9 +74,20 @@ namespace app
 			virtual void Update() override;
 			virtual void Render(RenderContext& rc) override;
 
+
 		public:
 			/** スプライトレンダーの取得 */
 			SpriteRender* GetSpriteRender() { return &m_spriteRender; }
+
+			/** 初期化 */
+			void Initialize(
+				const char* assetPath,			/** アセットパス */
+				const float width,				/** 幅			 */
+				const float height,				/** 高さ		 */
+				const Vector3& position,		/** 座標		 */
+				const Vector3& scale,			/** 拡大縮小	 */
+				const Quaternion& rotation		/** 回転		 */
+			);
 		};
 
 
@@ -96,9 +108,6 @@ namespace app
 			virtual bool Start() override;
 			virtual void Update() override;
 			virtual void Render(RenderContext& rc) override;
-
-		public:
-			void Initialize(const char* assetName, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation);
 		};
 
 
@@ -118,10 +127,6 @@ namespace app
 			virtual bool Start() override;
 			virtual void Update() override;
 			virtual void Render(RenderContext& rc) override;
-
-
-		public:
-			void Initialize(const char* assetName, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation);
 		};
 
 

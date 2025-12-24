@@ -79,6 +79,20 @@ namespace app
 		}
 
 
+		void UIImage::Initialize(const char* assetPath, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation)
+		{
+			m_transform.m_localTransform.m_position = position;
+			m_transform.m_localTransform.m_scale = scale;
+			m_transform.m_localTransform.m_rotation = rotation;
+
+			m_spriteRender.Init(assetPath, width, height);
+			m_spriteRender.SetPosition(position);
+			m_spriteRender.SetScale(scale);
+			m_spriteRender.SetRotation(rotation);
+			m_spriteRender.Update();
+		}
+
+
 
 
 		/************************************/
@@ -106,9 +120,9 @@ namespace app
 			float m_uiGargeMid = 0.0f;
 
 			m_transform.UpdateTransform();
-			m_spriteRender.SetPosition(m_transform.m_position);
-			m_spriteRender.SetScale(m_transform.m_scale);
-			m_spriteRender.SetRotation(m_transform.m_rotation);
+			m_spriteRender.SetPosition(m_transform.m_worldTransform.m_position);
+			m_spriteRender.SetScale(m_transform.m_worldTransform.m_scale);
+			m_spriteRender.SetRotation(m_transform.m_worldTransform.m_rotation);
 			m_spriteRender.Update();
 		}
 
@@ -157,9 +171,9 @@ namespace app
 		void UIIcon::Update()
 		{
 			m_transform.UpdateTransform();
-			m_spriteRender.SetPosition(m_transform.m_position);
-			m_spriteRender.SetScale(m_transform.m_scale);
-			m_spriteRender.SetRotation(m_transform.m_rotation);
+			m_spriteRender.SetPosition(m_transform.m_worldTransform.m_position);
+			m_spriteRender.SetScale(m_transform.m_worldTransform.m_scale);
+			m_spriteRender.SetRotation(m_transform.m_worldTransform.m_rotation);
 			m_spriteRender.Update();
 
 			for (auto* animation : m_spriteAnimationList) {
@@ -174,13 +188,13 @@ namespace app
 		}
 
 
-		void UIIcon::Initialize(const char* assetName, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation)
+		void UIIcon::Initialize(const char* assetPath, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation)
 		{
-			m_transform.m_localPosition = position;
-			m_transform.m_localScale = scale;
-			m_transform.m_localRotation = rotation;
+			m_transform.m_localTransform.m_position = position;
+			m_transform.m_localTransform.m_scale = scale;
+			m_transform.m_localTransform.m_rotation = rotation;
 
-			m_spriteRender.Init(assetName, width, height);
+			m_spriteRender.Init(assetPath, width, height);
 			m_spriteRender.SetPosition(position);
 			m_spriteRender.SetScale(scale);
 			m_spriteRender.SetRotation(rotation);
@@ -224,8 +238,8 @@ namespace app
 			{
 				auto* spriteRender = m_renderList[i];
 				UpdatePosition(i);
-				spriteRender->SetScale(m_transform.m_scale);
-				spriteRender->SetRotation(m_transform.m_rotation);
+				spriteRender->SetScale(m_transform.m_worldTransform.m_scale);
+				spriteRender->SetRotation(m_transform.m_worldTransform.m_rotation);
 				spriteRender->Update();
 			}
 
@@ -243,22 +257,22 @@ namespace app
 			}
 		}
 
-		void UIDigit::Initialize(const char* assetName, const int digit, const int number, const float widht, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation)
+		void UIDigit::Initialize(const char* assetPath, const int digit, const int number, const float widht, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation)
 		{
-			m_assetPath = assetName;
+			m_assetPath = assetPath;
 			m_digit = digit;
 			m_number = number;
 			w = widht;
 			h = height;
 
-			m_transform.m_localPosition = position;
-			m_transform.m_localScale = scale;
-			m_transform.m_localRotation = rotation;
+			m_transform.m_localTransform.m_position = position;
+			m_transform.m_localTransform.m_scale = scale;
+			m_transform.m_localTransform.m_rotation = rotation;
 
 			for (int i = 0; i < digit; i++)
 			{
 				//SpriteRender* spriteRender = new SpriteRender;
-				////spriteRender->Init(assetName, widht, height);
+				////spriteRender->Init(assetPath, widht, height);
 				//spriteRender->SetPosition(position);
 				//spriteRender->SetScale(scale);
 				//spriteRender->SetRotation(rotation);
@@ -280,8 +294,8 @@ namespace app
 		//	}
 		//
 		//	SpriteRender* render = m_renderList[targetIndex];
-		//	std::string assetName = m_assetPath + "/" + assetPath; // coron.dds
-		//	render->Init(assetName.c_str(), w, h);
+		//	std::string assetPath = m_assetPath + "/" + assetPath; // coron.dds
+		//	render->Init(assetPath.c_str(), w, h);
 		//}
 
 		void UIDigit::UpdateNumber(const int targetDigit, const int number)
@@ -315,7 +329,7 @@ namespace app
 		void UIDigit::UpdatePosition(const int index)
 		{
 			SpriteRender* render = m_renderList[index];
-			Vector3 position = m_transform.m_position;
+			Vector3 position = m_transform.m_worldTransform.m_position;
 			position.x -= w * index;
 			render->SetPosition(position);
 		}
