@@ -253,7 +253,7 @@ namespace app
 			void UpdateNumber(const int targetDigit, const int number);
 			void UpdatePosition(const int index);
 
-			/** 対象の桁 */
+			/** 指定した桁の数字を取得する */
 			int GetDigit(int digit);
 		};
 

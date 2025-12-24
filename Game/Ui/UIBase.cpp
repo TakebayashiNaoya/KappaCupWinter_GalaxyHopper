@@ -242,6 +242,14 @@ namespace app
 			m_transform.m_localTransform.m_scale = scale;
 			m_transform.m_localTransform.m_rotation = rotation;
 
+			/** 先に必要な数のスプライトを生成 */
+			m_renderList.clear();
+			for (int i = 0; i < digit; i++) {
+				// 箱（スプライト）を作ってリストに入れる
+				SpriteRender* render = new SpriteRender();
+				m_renderList.push_back(render);
+			}
+
 			/** 各桁の数字を更新 */
 			for (int i = 0; i < digit; i++) {
 				UpdateNumber(i + 1, m_number);	/** 桁なので＋１する */
@@ -254,25 +262,29 @@ namespace app
 			/** targetDigitが1以上でなければ警告する */
 			K2_ASSERT(targetDigit >= 1, "桁指定が間違えています。\n");
 
-			// いらない
 			const int targetRenderIndex = targetDigit - 1;
-			SpriteRender* nextRender = nullptr;
-			// 次のやつをつくる
-			if (targetRenderIndex < m_renderList.size()) {
-				nextRender = m_renderList[targetRenderIndex];
-			}
-			else {
-				nextRender = new SpriteRender();
-				m_renderList.push_back(nextRender);
+
+			/** リストの範囲外なら何もしない */
+			if (targetRenderIndex >= m_renderList.size()) {
+				return;
 			}
 
-			// 対象の桁の数字
+			// すでにリストにあるものを取り出すだけにする
+			SpriteRender* nextRender = m_renderList[targetRenderIndex];
+
+			/** 対象の桁の数字 */
 			const int targetDigitNumber = GetDigit(targetDigit);
-			// Assets/modelData/UI/suji + "0.dds" ここを変更できるようにする
+
+			/** 後で書き換えるため、パスを0.ddsにしておく */
 			std::string assetNname = m_assetPath + "/0.dds";
-			// Assets/modelData/UI/suji/0.dds
-			// 数字の部分を桁の数字で変える
+
+			/**
+			 * パスの後ろから5番目の文字を数字の部分を桁の数字で変える
+			 * '0'は文字コードで48なので、'0' + 数字で文字に変換できる
+			 */
 			assetNname[assetNname.size() - 5] = '0' + targetDigitNumber;
+
+			/** スプライトレンダーを初期化 */
 			nextRender->Init(assetNname.c_str(), m_width, m_height);
 		}
 
@@ -288,8 +300,16 @@ namespace app
 
 		int UIDigit::GetDigit(int digit)
 		{
-			// NOTE: targetDigitは1以上の値になっている
+			/** NOTE: targetDigitは1以上の値になっている */
 			K2_ASSERT(digit >= 1, "桁指定が間違えています。\n");
+
+			/**
+			 * 指定した桁の数字を取得
+			 * NOTE: 123の2桁目を取得したい場合
+			 *		 digitは2なので、1を引いて1にする
+			 *		 10の1乗(digit乗)でm_numberを割ると12になる
+			 *		 12を10で割った余りを取ると2になるのでこれを返す
+			 */
 			digit -= 1;
 			int divisor = static_cast<int>(pow(10, digit));
 			return (m_number / divisor) % 10;
@@ -310,9 +330,9 @@ namespace app
 		UICanvas::~UICanvas()
 		{
 			for (auto* ui : m_uiList) {
-				// トランスフォームの親子関係を解除
+				/** トランスフォームの親子関係を解除 */
 				m_transform.RemoveChild(&ui->m_transform);
-				// キャンバス上にあるUIを削除
+				/** キャンバス上にあるUIを削除 */
 				delete ui;
 				ui = nullptr;
 			}
