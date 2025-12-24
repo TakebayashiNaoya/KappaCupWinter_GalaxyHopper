@@ -250,7 +250,10 @@ namespace app
 
 
 		private:
+			/** 指定した桁の数字を更新する */
 			void UpdateNumber(const int targetDigit, const int number);
+
+			/** 指定した桁の位置を更新する */
 			void UpdatePosition(const int index);
 
 			/** 指定した桁の数字を取得する */
