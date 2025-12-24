@@ -6,298 +6,297 @@
 #include "HierarchicalTransform.h"
 
 
-class SpriteAnimationBase;
-
-
-/**
- * UIの基本クラス
- */
-class UIBase : public Noncopyable
+namespace app
 {
-public:
-	HierarchicalTransform m_transform;
-
-
-protected:
-	std::vector<SpriteAnimationBase*> m_spriteAnimationList;
-
-
-public:
-	UIBase()
+	namespace ui
 	{
-		m_spriteAnimationList.clear();
+		class SpriteAnimationBase;
+
+
+		/**
+		 * UIの基本クラス
+		 */
+		class UIBase : public Noncopyable
+		{
+		public:
+			/** トランスフォーム */
+			HierarchicalTransform m_transform;
+
+
+		protected:
+			/** スプライトアニメーション一括管理するためのリスト */
+			std::vector<SpriteAnimationBase*> m_spriteAnimationList;
+
+
+		public:
+			UIBase();
+			virtual ~UIBase();
+
+
+		protected:
+			virtual bool Start() = 0;
+			virtual void Update() = 0;
+			virtual void Render(RenderContext& rc) = 0;
+
+
+		public:
+			/** スプライトアニメーションの追加 */
+			void AddSpriteAnimation(SpriteAnimationBase* animation);
+			/** スプライトアニメーションの再生 */
+			void PlaySpriteAnimation();
+			/** スプライトアニメーションの停止 */
+			void StopSpriteAnimation();
+		};
+
+
+
+
+		/********************************/
+
+
+		/**
+		 * 画像を使うUIの基本クラス
+		 */
+		class UIImage : public UIBase
+		{
+		protected:
+			SpriteRender m_spriteRender;
+
+
+		protected:
+			UIImage();
+			~UIImage();
+
+
+		public:
+			virtual bool Start() override;
+			virtual void Update() override;
+			virtual void Render(RenderContext& rc) override;
+
+		public:
+			/** スプライトレンダーの取得 */
+			SpriteRender* GetSpriteRender() { return &m_spriteRender; }
+		};
+
+
+		/**
+		 * ゲージUI
+		 */
+		class UIGauge : public UIImage
+		{
+			friend class UICanvas;
+
+
+		private:
+			UIGauge();
+			~UIGauge();
+
+
+		public:
+			virtual bool Start() override;
+			virtual void Update() override;
+			virtual void Render(RenderContext& rc) override;
+
+		public:
+			void Initialize(const char* assetName, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation);
+		};
+
+
+		/**
+		 * アイコンUI
+		 */
+		class UIIcon : public UIImage
+		{
+			friend class UICanvas;
+
+		private:
+			UIIcon();
+			~UIIcon();
+
+
+		public:
+			virtual bool Start() override;
+			virtual void Update() override;
+			virtual void Render(RenderContext& rc) override;
+
+
+		public:
+			void Initialize(const char* assetName, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation);
+		};
+
+
+
+
+		/********************************/
+
+
+		/**
+		 * 文字を使うUIの基本クラス
+		 */
+		class UIText : public UIBase
+		{
+		protected:
+			FontRender m_fontRender;
+
+
+		private:
+			UIText();
+			~UIText();
+
+
+		public:
+			virtual bool Start() override;
+			virtual void Update() override;
+			virtual void Render(RenderContext& rc) override;
+		};
+
+
+
+
+		/********************************/
+
+
+		/**
+		 * ボタンを使うUIの基本クラス
+		 */
+		class UIButton : public UIImage
+		{
+		private:
+			/** ボタンが押されたときの処理(外部から委譲される) */
+			std::function<void()> m_delegate;
+
+
+		private:
+			UIButton();
+			~UIButton();
+
+
+		public:
+			virtual bool Start() override;
+			virtual void Update() override;
+			virtual void Render(RenderContext& rc) override;
+		};
+
+
+
+
+		/********************************/
+
+
+		/**
+		 * 画像を使って数字を表示するUIの基本クラス
+		 */
+		class UIDigit : public UIBase
+		{
+		private:
+			/** 画像表示機能の可変長配列 */
+			std::vector<SpriteRender*> m_renderList;
+			/** 表示される数字 */
+			int m_number;
+			int m_requestNumber;
+			int m_digit;
+			/** 数字表示に必要な画像が入った */
+			std::string m_assetPath;
+
+			// あとでかえて
+			int w;
+			int h;
+
+
+
+		public:
+			UIDigit();
+			~UIDigit();
+
+
+		public:
+			virtual bool Start() override;
+			virtual void Update() override;
+			virtual void Render(RenderContext& rc) override;
+
+
+		public:
+			/**
+			 * ・アセットの名前
+			 * ・何桁かの情報（数）
+			 * ・表示する数
+			 * ・横
+			 * ・高さ
+			 * ・位置
+			 * ・大きさ
+			 * ・回転
+			 */
+			void Initialize(const char* assetPath, const int digit, const int number, const float widht, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation);
+
+			/** 数字を設定 */
+			void SetNumber(const int number) { m_requestNumber = number; }
+
+			/** スプライトレンダーのリストを取得 */
+			std::vector<SpriteRender*>& GetSpriteRenderList() { return m_renderList; }
+
+			/** スプライトレンダーのリストに対して関数を実行 */
+			void ForEach(const std::function<void(SpriteRender*)>& func)
+			{
+				for (auto* render : m_renderList) {
+					func(render);
+				}
+			}
+
+
+		private:
+			void UpdateNumber(const int targetDigit, const int number);
+			void UpdatePosition(const int index);
+
+			/** 対象の桁 */
+			int GetDigit(int digit);
+		};
+
+
+
+
+		/********************************/
+
+
+		/**
+		 * 絵を書くキャンバスのイメージ
+		 * ※UIを作るときにこのクラスを作ること
+		 */
+		class UICanvas : public UIBase
+		{
+			friend class UIBase;
+			friend class UIImage;
+			friend class UIGauge;
+			friend class UIIcon;
+			friend class UIText;
+			friend class UIButton;
+
+
+		private:
+			/**
+			 * NOTE: 各UI自体に親子関係持たせたいけど使わない可能性があるので、一旦ここだけにしてみる
+			 */
+			std::vector<UIBase*> m_uiList;
+
+
+		public:
+			UICanvas();
+			~UICanvas();
+
+
+			bool Start();
+			void Update();
+			void Render(RenderContext& rc);
+
+
+		public:
+			template <typename T>
+			T* CreateUI()
+			{
+				T* ui = new T();
+				ui->m_transform.SetParent(&m_transform);
+				m_uiList.push_back(ui);
+				return ui;
+			}
+		};
 	}
-	virtual ~UIBase()
-	{
-		for (auto* spriteAnimation : m_spriteAnimationList) {
-			delete spriteAnimation;
-			spriteAnimation = nullptr;
-		}
-		m_spriteAnimationList.clear();
-	}
-
-	virtual bool Start() = 0;
-	virtual void Update() = 0;
-	virtual void Render(RenderContext& rc) = 0;
-
-
-public:
-	/** スプライトアニメーションの追加 */
-	void AddSpriteAnimation(SpriteAnimationBase* animation)
-	{
-		m_spriteAnimationList.push_back(animation);
-	}
-	void PlaySpriteAnimation();
-	void StopSpriteAnimation();
-};
-
-
-
-
-/********************************/
-
-
-/**
- * 画像を使うUIの基本クラス
- */
-class UIImage : public UIBase
-{
-protected:
-	SpriteRender m_spriteRender;
-
-
-protected:
-	UIImage();
-	~UIImage();
-
-
-public:
-	virtual bool Start() override;
-	virtual void Update() override;
-	virtual void Render(RenderContext& rc) override;
-
-public:
-	/** スプライトレンダーの取得 */
-	SpriteRender* GetSpriteRender() { return &m_spriteRender; }
-};
-
-
-/**
- * ゲージUI
- */
-class UIGauge : public UIImage
-{
-	friend class UICanvas;
-
-
-private:
-	UIGauge();
-	~UIGauge();
-
-
-public:
-	virtual bool Start() override;
-	virtual void Update() override;
-	virtual void Render(RenderContext& rc) override;
-
-public:
-	void Initialize(const char* assetName, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation);
-};
-
-
-/**
- * アイコンUI
- */
-class UIIcon : public UIImage
-{
-	friend class UICanvas;
-
-private:
-	UIIcon();
-	~UIIcon();
-
-
-public:
-	virtual bool Start() override;
-	virtual void Update() override;
-	virtual void Render(RenderContext& rc) override;
-
-
-public:
-	void Initialize(const char* assetName, const float width, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation);
-};
-
-
-
-
-/********************************/
-
-
-/**
- * 文字を使うUIの基本クラス
- */
-class UIText : public UIBase
-{
-protected:
-	FontRender m_fontRender;
-
-
-private:
-	UIText();
-	~UIText();
-
-
-public:
-	virtual bool Start() override;
-	virtual void Update() override;
-	virtual void Render(RenderContext& rc) override;
-};
-
-
-
-
-/********************************/
-
-
-/**
- * ボタンを使うUIの基本クラス
- */
-class UIButton : public UIImage
-{
-private:
-	/** ボタンが押されたときの処理(外部から委譲される) */
-	std::function<void()> m_delegate;
-
-
-private:
-	UIButton();
-	~UIButton();
-
-
-public:
-	virtual bool Start() override;
-	virtual void Update() override;
-	virtual void Render(RenderContext& rc) override;
-};
-
-
-
-
-/********************************/
-
-
-/**
- * 画像を使って数字を表示するUIの基本クラス
- */
-class UIDigit : public UIBase
-{
-private:
-	/** 画像表示機能の可変長配列 */
-	std::vector<SpriteRender*> m_renderList;
-	/** 表示される数字 */
-	int m_number;
-	int m_requestNumber;
-	int m_digit;
-	/** 数字表示に必要な画像が入った */
-	std::string m_assetPath;
-
-	// あとでかえて
-	int w;
-	int h;
-
-
-
-public:
-	UIDigit();
-	~UIDigit();
-
-
-public:
-	virtual bool Start() override;
-	virtual void Update() override;
-	virtual void Render(RenderContext& rc) override;
-
-
-public:
-	/**
-	 * ・アセットの名前
-	 * ・何桁かの情報（数）
-	 * ・表示する数
-	 * ・横
-	 * ・高さ
-	 * ・位置
-	 * ・大きさ
-	 * ・回転
-	 */
-	void Initialize(const char* assetPath, const int digit, const int number, const float widht, const float height, const Vector3& position, const Vector3& scale, const Quaternion& rotation);
-
-	/** 数字を設定 */
-	void SetNumber(const int number) { m_requestNumber = number; }
-
-	/** スプライトレンダーのリストを取得 */
-	std::vector<SpriteRender*>& GetSpriteRenderList() { return m_renderList; }
-
-	/** スプライトレンダーのリストに対して関数を実行 */
-	void ForEach(const std::function<void(SpriteRender*)>& func)
-	{
-		for (auto* render : m_renderList) {
-			func(render);
-		}
-	}
-
-
-private:
-	void UpdateNumber(const int targetDigit, const int number);
-	void UpdatePosition(const int index);
-
-	/** 対象の桁 */
-	int GetDigit(int digit);
-};
-
-
-
-
-/********************************/
-
-
-/**
- * 絵を書くキャンバスのイメージ
- * ※UIを作るときにこのクラスを作ること
- */
-class UICanvas : public UIBase
-{
-	friend class UIBase;
-	friend class UIImage;
-	friend class UIGauge;
-	friend class UIIcon;
-	friend class UIText;
-	friend class UIButton;
-
-
-private:
-	/**
-	 * NOTE: 各UI自体に親子関係持たせたいけど使わない可能性があるので、一旦ここだけにしてみる
-	 */
-	std::vector<UIBase*> m_uiList;
-
-
-public:
-	UICanvas();
-	~UICanvas();
-
-
-	bool Start();
-	void Update();
-	void Render(RenderContext& rc);
-
-
-public:
-	template <typename T>
-	T* CreateUI()
-	{
-		T* ui = new T();
-		ui->m_transform.SetParent(&m_transform);
-		m_uiList.push_back(ui);
-		return ui;
-	}
-};
+}
