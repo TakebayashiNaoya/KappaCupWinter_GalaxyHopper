@@ -1,179 +1,184 @@
-#pragma once
+ï»¿#pragma once
 
 
-class Player;
-class BossEnemy;
-class BasicEnemy;
-class DeformEnemy;
-class UIPlayerLife;
-class UIDamageFlash;
-class UIBossLife;
-class UIGear;
-class Rocket;
-class Treasure;
-
-
-// “–‚½‚è”»’è‚ğŠÇ—‚·‚éƒNƒ‰ƒX
-// “–‚½‚Á‚½‚Æ‚¢‚¤ˆ—‚ğ‚Ü‚Æ‚ß‚½‚¢
-class BattleManager
+namespace app
 {
-private:
-	BattleManager() {};
-	~BattleManager() {};
-
-
-public:
-	void Update();
-
-
-
-
-private:
-	static BattleManager* m_instance;
-
-
-public:
-	static BattleManager* Create()
+	namespace battle
 	{
-		if (m_instance == nullptr) {
-			m_instance = new BattleManager();
-		}
-		return m_instance;
+		class Player;
+		class BossEnemy;
+		class BasicEnemy;
+		class DeformEnemy;
+		class UIPlayerLife;
+		class UIDamageFlash;
+		class UIBossLife;
+		class UIGear;
+		class Rocket;
+		class Treasure;
+
+
+		// å½“ãŸã‚Šåˆ¤å®šã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
+		// å½“ãŸã£ãŸã¨ã„ã†å‡¦ç†ã‚’ã¾ã¨ã‚ãŸã„
+		class BattleManager
+		{
+		private:
+			BattleManager() {};
+			~BattleManager() {};
+
+
+		public:
+			void Update();
+
+
+
+
+		private:
+			static BattleManager* m_instance;
+
+
+		public:
+			static BattleManager* Create()
+			{
+				if (m_instance == nullptr) {
+					m_instance = new BattleManager();
+				}
+				return m_instance;
+			}
+			static void Delete()
+			{
+				if (m_instance != nullptr) {
+					delete m_instance;
+					m_instance = nullptr;
+				}
+			}
+			static BattleManager* GetInstance()
+			{
+				return m_instance;
+			}
+
+
+			/// <summary>
+			/// ãƒ•ãƒ©ã‚°ã®å–å¾—ãƒ»è¨­å®š
+			/// </summary>
+		public:
+			static bool GetIsBattleFinish()
+			{
+				return m_isBattleFinish;
+			}
+			static void SetIsBattleFinish(bool isFinish)
+			{
+				m_isBattleFinish = isFinish;
+			}
+			static bool GetIsStopCollisionManager()
+			{
+				return m_isStopCollisionManager;
+			}
+			static void SetIsStopCollisionManager(bool isStop)
+			{
+				m_isStopCollisionManager = isStop;
+			}
+
+
+			/// <summary>
+			/// ç™»éŒ²ãƒ»è§£é™¤é–¢æ•°ç¾¤
+			/// </summary>
+		public:
+			// ã‚¨ãƒãƒŸãƒ¼å…¨å‰Šé™¤ç”¨
+			void DestroyAllEnemies();
+
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç”¨
+			void Register(Player* player);
+			void Unregister(Player* player);
+
+			// ãƒœã‚¹ç”¨
+			void Register(BossEnemy* boss);
+			void Unregister(BossEnemy* boss);
+
+			// åŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ç”¨
+			void Register(BasicEnemy* enemy);
+			void Unregister(BasicEnemy* enemy);
+
+			// å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ç”¨
+			void Register(DeformEnemy* enemy);
+			void Unregister(DeformEnemy* enemy);
+
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ©ã‚¤ãƒ•UIç”¨
+			void Register(UIPlayerLife* uiPlayerLife);
+			void Unregister(UIPlayerLife* uiPlayerLife);
+
+			// ãƒ€ãƒ¡ãƒ¼ã‚¸ãƒ•ãƒ©ãƒƒã‚·ãƒ¥UIç”¨
+			void Register(UIDamageFlash* uiDamageFlash);
+			void Unregister(UIDamageFlash* uiDamageFlash);
+
+			// ãƒœã‚¹ãƒ©ã‚¤ãƒ•UIç”¨
+			void Register(UIBossLife* uiBossLife);
+			void Unregister(UIBossLife* uiBossLife);
+
+			// ã‚®ã‚¢UIç”¨
+			void Register(UIGear* uiGear);
+			void Unregister(UIGear* uiGear);
+
+			// ãƒ­ã‚±ãƒƒãƒˆç”¨
+			void Register(Rocket* rocket);
+			void Unregister(Rocket* rocket);
+
+			// å®ç®±ç”¨
+			void Register(Treasure* treasure);
+			void Unregister(Treasure* treasure);
+
+			// ãã®ä»–æ±ç”¨
+			template<typename T>
+			void Register(T* object)
+			{
+				K2_ASSERT(false, "ã—ã‚‡ã‚Šã¤ã„ã‹ã‚ã™ã‚Œ");
+			}
+			template<typename T>
+			void Unregister(T* object)
+			{
+				K2_ASSERT(false, "ã—ã‚‡ã‚Šã¤ã„ã‹ã‚ã™ã‚Œ");
+			}
+
+
+		private:
+			static bool m_isBattleFinish;
+			static bool m_isStopCollisionManager;
+
+			Player* m_player = nullptr;
+			BossEnemy* m_bossEnemy = nullptr;
+			std::vector<BasicEnemy*> m_basicEnemies;
+			std::vector<DeformEnemy*> m_deformEnemies;
+
+			UIPlayerLife* m_uiPlayerLife = nullptr;
+			UIDamageFlash* m_uiDamageFlash = nullptr;
+			UIBossLife* m_uiBossLife = nullptr;
+			UIGear* m_uiGear = nullptr;
+			int m_gotGearCount = 0;
+			int m_maxGearCount = 0;
+			bool m_canLaunch = false;
+
+			Rocket* m_rocket = nullptr;
+			std::vector<Treasure*> m_treasures;
+
+			std::vector<IGameObject*> m_objects;
+		};
+
+
+
+		/// <summary>
+		/// å½“ãŸã‚Šåˆ¤å®šç®¡ç†ã‚¯ãƒ©ã‚¹ã‚’æ›´æ–°ã—ãŸã‚Šã™ã‚‹ãŸã‚ã®ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
+		/// </summary>
+		class BattleManagerObject : public IGameObject
+		{
+		public:
+			BattleManagerObject();
+			~BattleManagerObject();
+			bool Start() override;
+			void Update() override;
+			void Render(RenderContext& renderContext) override {}	// Renderã¯ãªã„
+
+
+		private:
+			BattleManager* m_battleManager = nullptr;
+		};
 	}
-	static void Delete()
-	{
-		if (m_instance != nullptr) {
-			delete m_instance;
-			m_instance = nullptr;
-		}
-	}
-	static BattleManager* GetInstance()
-	{
-		return m_instance;
-	}
-
-
-	/// <summary>
-	/// ƒtƒ‰ƒO‚Ìæ“¾Eİ’è
-	/// </summary>
-public:
-	static bool GetIsBattleFinish()
-	{
-		return m_isBattleFinish;
-	}
-	static void SetIsBattleFinish(bool isFinish)
-	{
-		m_isBattleFinish = isFinish;
-	}
-	static bool GetIsStopCollisionManager()
-	{
-		return m_isStopCollisionManager;
-	}
-	static void SetIsStopCollisionManager(bool isStop)
-	{
-		m_isStopCollisionManager = isStop;
-	}
-
-
-	/// <summary>
-	/// “o˜^E‰ğœŠÖ”ŒQ
-	/// </summary>
-public:
-	// ƒGƒlƒ~[‘Síœ—p
-	void DestroyAllEnemies();
-
-	// ƒvƒŒƒCƒ„[—p
-	void Register(Player* player);
-	void Unregister(Player* player);
-
-	// ƒ{ƒX—p
-	void Register(BossEnemy* boss);
-	void Unregister(BossEnemy* boss);
-
-	// Šî–{ƒGƒlƒ~[—p
-	void Register(BasicEnemy* enemy);
-	void Unregister(BasicEnemy* enemy);
-
-	// •ÏŒ`ƒGƒlƒ~[—p
-	void Register(DeformEnemy* enemy);
-	void Unregister(DeformEnemy* enemy);
-
-	// ƒvƒŒƒCƒ„[ƒ‰ƒCƒtUI—p
-	void Register(UIPlayerLife* uiPlayerLife);
-	void Unregister(UIPlayerLife* uiPlayerLife);
-
-	// ƒ_ƒ[ƒWƒtƒ‰ƒbƒVƒ…UI—p
-	void Register(UIDamageFlash* uiDamageFlash);
-	void Unregister(UIDamageFlash* uiDamageFlash);
-
-	// ƒ{ƒXƒ‰ƒCƒtUI—p
-	void Register(UIBossLife* uiBossLife);
-	void Unregister(UIBossLife* uiBossLife);
-
-	// ƒMƒAUI—p
-	void Register(UIGear* uiGear);
-	void Unregister(UIGear* uiGear);
-
-	// ƒƒPƒbƒg—p
-	void Register(Rocket* rocket);
-	void Unregister(Rocket* rocket);
-
-	// •ó” —p
-	void Register(Treasure* treasure);
-	void Unregister(Treasure* treasure);
-
-	// ‚»‚Ì‘¼”Ä—p
-	template<typename T>
-	void Register(T* object)
-	{
-		K2_ASSERT(false, "‚µ‚å‚è‚Â‚¢‚©‚í‚·‚ê");
-	}
-	template<typename T>
-	void Unregister(T* object)
-	{
-		K2_ASSERT(false, "‚µ‚å‚è‚Â‚¢‚©‚í‚·‚ê");
-	}
-
-
-private:
-	static bool m_isBattleFinish;
-	static bool m_isStopCollisionManager;
-
-	Player* m_player = nullptr;
-	BossEnemy* m_bossEnemy = nullptr;
-	std::vector<BasicEnemy*> m_basicEnemies;
-	std::vector<DeformEnemy*> m_deformEnemies;
-
-	UIPlayerLife* m_uiPlayerLife = nullptr;
-	UIDamageFlash* m_uiDamageFlash = nullptr;
-	UIBossLife* m_uiBossLife = nullptr;
-	UIGear* m_uiGear = nullptr;
-	int m_gotGearCount = 0;
-	int m_maxGearCount = 0;
-	bool m_canLaunch = false;
-
-	Rocket* m_rocket = nullptr;
-	std::vector<Treasure*> m_treasures;
-
-	std::vector<IGameObject*> m_objects;
-};
-
-
-
-/// <summary>
-/// “–‚½‚è”»’èŠÇ—ƒNƒ‰ƒX‚ğXV‚µ‚½‚è‚·‚é‚½‚ß‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒgB
-/// </summary>
-class BattleManagerObject : public IGameObject
-{
-public:
-	BattleManagerObject();
-	~BattleManagerObject();
-	bool Start() override;
-	void Update() override;
-	void Render(RenderContext& renderContext) override {}	// Render‚Í‚È‚¢
-
-
-private:
-	BattleManager* m_battleManager = nullptr;
-};
-
+}
