@@ -16,28 +16,27 @@ namespace app
 			const float deltaTime = g_gameTime->GetFrameDeltaTime();
 			m_elapsedTime += deltaTime;
 
-			// Step1
-			// Index=0
-			T valueStart = targetList[m_targetIndex];      // 値[0]
-			T valueEnd = targetList[m_targetIndex + 1];    // 値[1]
-			// 現在の時間何秒まで
-			float targetTime = m_targetTimeList[m_targetIndex];  // 2秒(0～2秒)
+			/** 現在のターゲットインデックスに基づいて、初期値と目標値を取得 */
+			T valueStart = targetList[m_targetIndex];
+			T valueEnd = targetList[m_targetIndex + 1];
 
-			// 現在のアニメーション経過時間のパーセント
+			/** 何秒かけて変化させるかの取得 */
+			float targetTime = m_targetTimeList[m_targetIndex];
+
+			/** 現時点で何％変化しているかを算出 */
 			const float computePercent = m_elapsedTime / targetTime;
 
-			// 初期値から目標値までをなめらかに変化にRenderに設定を外から設定されるラムダ式でする
+			/** 初期値、目標値、変化率を渡してfuncで値を計算し、計算結果をレンダーに反映する */
 			func(computePercent, valueStart, valueEnd);
 			m_render->Update();
 
-			// 今の時間が指定した時間を超えたら
+			/** 今の時間が指定した時間を超えたら、次のアニメーションに移行する */
 			if (m_elapsedTime >= targetTime) {
 				m_targetIndex++;
 				m_elapsedTime = 0.0f;
 
-				// currentIndex(2) = 2
+				/** 最後のアニメーションまで到達したら完了フラグを立てる */
 				if (m_targetIndex == m_targetTimeList.size()) {
-					// 完了
 					m_isCompleted = true;
 					m_targetIndex = 0;
 				}
@@ -67,95 +66,11 @@ namespace app
 			if (!CanUpdate()) {
 				return;
 			}
-
 			UpdateCore<Vector2>(m_targetScaleList, [&](const float percent, const Vector2& startValue, const Vector2& endValue)
 				{
 					Vector2 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
 					m_render->SetScale(Vector3(value.x, value.y, 0.0f));
 				});
-
-			//const float deltaTime = g_gameTime->GetFrameDeltaTime();
-			//m_elapsedTime += deltaTime;
-
-			//// Step1
-			//// Index=0
-			//Vector2 valueStart = m_targetScaleList[m_targetIndex];  // 値[0]
-			//Vector2 valueEnd = m_targetScaleList[m_targetIndex + 1]; // 値[1]
-			//// 現在の時間何秒まで
-			//float targetTime = m_targetTimeList[m_targetIndex];   // 2秒(0～2秒)
-
-			//// 現在のアニメーション経過時間のパーセント
-			//const float computePercent = m_elapsedTime / targetTime;
-
-			//// 初期値から目標値までをなめらかに変化
-			//Vector2 computeScale;
-			//computeScale.Lerp(computePercent, valueStart, valueEnd);
-
-			//// 大きさを設定する
-			//m_render->SetScale(Vector3(computeScale.x, computeScale.y, 1.0f));
-			//m_render->Update();
-
-			//// 今の時間が指定した時間を超えたら
-			//if (m_elapsedTime >= targetTime) {
-			// m_targetIndex++;
-			// m_elapsedTime = 0.0f;
-
-			// // currentIndex(2) = 2
-			// if (m_targetIndex == m_targetTimeList.size()) {
-			//  // 完了
-			//  m_isCompleted = true;
-			// }
-			//}
-
-
-			//// Step2
-			//// Index=1
-			//Vector2 valueStart = m_targetScaleList[m_targetIndex];  // 値[1]
-			//Vector2 valueEnd = m_targetScaleList[m_targetIndex + 1]; // 値[2]
-			//// 何秒かけて
-			//float targetTime = m_targetTimeList[m_targetIndex];   // 1秒(2秒～3秒)
-
-			//// 今の時間が指定した時間を超えたら
-			//if (m_elapsedTime >= targetTime) {
-			// m_targetIndex++;
-			//}
-
-			//
-
-
-
-			//Vector2 targetScale;
-			//Vector2 baseScale;
-			//// ステップの切り替わりで拡縮
-			//switch (m_currentStep)
-			//{
-			// case enAnimationStep_Min:
-			// {
-			//  targetScale = m_targetScale;
-			//  baseScale = m_baseScale;
-			//  break;
-			// }
-			// case enAnimationStep_Max:
-			// {
-			//  targetScale = m_baseScale;
-			//  baseScale = m_targetScale;
-			//  break;
-			// }
-			//}
-
-
-			//// 一定時間経過したら往復
-			//m_elapsedTime += deltaTime;
-			//if (m_elapsedTime >= m_targetTime) {
-			// m_elapsedTime = 0.0f;
-			// // 三項演算子を使ったif文
-			// // 今の状態(Step)がMaxだった場合->Min。そうでない場合->Max
-			// // 例文)condition ? value_if_true : value_if_false;
-			// m_currentStep = m_currentStep == enAnimationStep_Max ? enAnimationStep_Min : enAnimationStep_Max;
-
-			// // 完了
-			// m_isCompleted = true;
-			//}
 		}
 
 
@@ -187,7 +102,6 @@ namespace app
 			if (!CanUpdate()) {
 				return;
 			}
-
 			UpdateCore<Vector3>(m_targetTranslateList, [&](const float percent, const Vector3& startValue, const Vector3& endValue)
 				{
 					Vector3 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
@@ -206,7 +120,6 @@ namespace app
 			if (!CanUpdate()) {
 				return;
 			}
-
 			UpdateCore<Vector3>(m_targetOffsetList, [&](const float percent, const Vector3& startValue, const Vector3& endValue)
 				{
 					Vector3 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);

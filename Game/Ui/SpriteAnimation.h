@@ -9,25 +9,24 @@ namespace app
 {
 	namespace ui
 	{
-		/** 基底クラス */
+		/** スプライトアニメーションの基底クラス */
 		class SpriteAnimationBase
 		{
-			//protected:
-			// enum EnAnimationStep
-			// {
-			//  enAnimationStep_Min,
-			//  enAnimationStep_Max
-			// };
-			//
-
 		protected:
+			/** スプライトレンダー */
 			SpriteRender* m_render = nullptr;
+			/** 経過時間 */
 			float m_elapsedTime = 0.0;
-			std::vector<float> m_targetTimeList;    // ターゲットタイムがいっぱい入ってくる
-			int m_targetIndex = 0;					// ターゲットインデックス
-			bool m_isLoop = false;					// ループするかどうか
-			bool m_isCompleted = false;				// 処理が完了したか
-			bool m_isPlay = false;					// 再生するかどうか
+			/** ターゲットのタイムリスト */
+			std::vector<float> m_targetTimeList;
+			/** ターゲットのインデックス */
+			int m_targetIndex = 0;
+			/** ループするかどうか */
+			bool m_isLoop = false;
+			/** 処理が完了したか */
+			bool m_isCompleted = false;
+			/** 再生するかどうか */
+			bool m_isPlay = false;
 
 
 		public:
@@ -41,31 +40,33 @@ namespace app
 			/** 純粋仮想関数 */
 			virtual void Update() = 0;
 
+			/** アニメーション更新のコア処理部分 */
 			template <typename T>
 			void UpdateCore(std::vector<T> targetList, const std::function<void(const float, const T&, const T&)> func);
 
+			/** アニメーションを更新できるかどうか */
 			virtual bool CanUpdate();
 
+			/** アニメーションを再生する */
 			void Play()
 			{
-				// 再生するかどうかフラグをtrueにする
 				m_isPlay = true;
 				m_isCompleted = false;
 				m_elapsedTime = 0.0f;
 				m_targetIndex = 0;
 
 			}
+			/** アニメーションを停止する */
 			void Stop()
 			{
-				// 再生するかどうかフラグをfalseにする
 				m_isPlay = false;
 			}
 		};
 
 
+
+
 		/********************************************/
-
-
 
 
 		/**
@@ -74,10 +75,12 @@ namespace app
 		class ScaleSpriteAnimation : public SpriteAnimationBase
 		{
 		private:
+			/** 基準スケール */
 			Vector2 m_baseScale = Vector2::Zero;
+			/** ターゲットのスケール */
 			Vector2 m_targetScale = Vector2::Zero;
-
-			std::vector<Vector2> m_targetScaleList;   // ターゲットスケールがいっぱい入ってくる
+			/** ターゲットのスケールのリスト */
+			std::vector<Vector2> m_targetScaleList;
 
 
 		public:
@@ -105,6 +108,7 @@ namespace app
 		class ColorSpriteAnimation : public SpriteAnimationBase
 		{
 		private:
+			/** ターゲットのカラーのリスト */
 			std::vector<Vector4> m_targetColorList;
 
 
@@ -131,19 +135,20 @@ namespace app
 		class TranslateSpriteAnimation : public SpriteAnimationBase
 		{
 		private:
+			/** ターゲットの座標のリスト */
 			std::vector<Vector3> m_targetTranslateList;
+
+
 		public:
 			TranslateSpriteAnimation(SpriteRender* render, const bool isLoop, std::vector<float> targetTimeList, std::vector<Vector3> targetTranslateList)
 				: SpriteAnimationBase(render, isLoop, targetTimeList)
 				, m_targetTranslateList(targetTranslateList)
-
 			{
 			}
 
 
 			void Update() override;
 		};
-
 
 
 
@@ -157,7 +162,9 @@ namespace app
 		class TranslateOffsetSpriteAnimation : public SpriteAnimationBase
 		{
 		private:
+			/** ターゲットのオフセットのリスト */
 			std::vector<Vector3> m_targetOffsetList;
+			/** 所有しているTransform */
 			Transform* m_ownerTransform = nullptr;
 
 
@@ -166,7 +173,6 @@ namespace app
 				: SpriteAnimationBase(render, isLoop, targetTimeList)
 				, m_targetOffsetList(targetOffsetList)
 				, m_ownerTransform(ownerTransform)
-
 			{
 			}
 
@@ -186,9 +192,11 @@ namespace app
 		class RotationSpriteAnimation : public SpriteAnimationBase
 		{
 		private:
+			/** 基準回転 */
 			Quaternion m_baseRotation = Quaternion::Identity;
+			/** ターゲットの回転 */
 			Quaternion m_targetRotation = Quaternion::Identity;
-
+			/** ターゲットの回転のリスト */
 			std::vector<Quaternion> m_targetRotationList;
 
 
