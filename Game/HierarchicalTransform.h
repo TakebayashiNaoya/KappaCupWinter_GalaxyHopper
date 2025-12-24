@@ -1,5 +1,10 @@
-﻿#pragma once
+﻿/**
+ * HierarchicalTransform.h
+ * 階層型トランスフォーム
+ */
+#pragma once
 #include "Transform.h"
+
 
 class HierarchicalTransform : public Noncopyable
 {
@@ -31,30 +36,47 @@ public:
 	 */
 	void UpdateTransform();
 
-	/** すべての子トランスフォームとの紐づけを外す */
-	void Release();
+	/**
+	 * 子を追加する
+	 */
+	void AddChild(HierarchicalTransform* child);
 
-	/** 特定の子トランスフォームとの紐づけを外す */
-	void RemoveChild(HierarchicalTransform* t);
+	/**
+	 * 特定の子を削除する
+	 */
+	void RemoveChild(HierarchicalTransform* child);
 
-	/** すべての子トランスフォームとの紐づけを外す */
-	void ClearChild();
+	/**
+	 * すべての子を削除する
+	 */
+	void RemoveAllChildren();
 
-	/** 引数に入れたトランスフォームを自身の子トランスフォームに追加する */
-	void AddChild(HierarchicalTransform* t);
+	/**
+	 * 指定した子が自分のリストにいるか確認する
+	 */
+	bool HasChild(HierarchicalTransform* child) const;
 
-	/** 引数に入れた子トランスフォームが存在する場合はtrueを返す */
-	bool FindChild(HierarchicalTransform* t);
+	/**
+	 * 親を設定する
+	 */
+	void SetParent(HierarchicalTransform* parent);
 
-	/** 引数に入れたトランスフォームを親にする */
-	void SetParent(HierarchicalTransform* p);
+	/**
+	 * 親を解除する
+	 */
+	void RemoveParent();
 
-	/** 親トランスフォームがある場合はtrueを返す */
+	/**
+	 * 親がいるか
+	 */
 	bool HasParent() const
 	{
 		return m_parent != nullptr;
 	}
-	/** 親を解除 */
+
+	/**
+	 * 親を解除
+	 */
 	void ClearParent()
 	{
 		m_parent = nullptr;
