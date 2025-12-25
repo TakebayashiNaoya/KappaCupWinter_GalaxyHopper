@@ -87,15 +87,15 @@ namespace app
 			}
 			m_canvas->Start();
 
-			// 1. プレイヤーライフ生成
+			/** プレイヤーライフ生成 */
 			m_uiPlayerLife = m_canvas->CreateUI<UIPlayerLife>();
 			m_uiPlayerLife->Start();
 
-			// 2. ダメージフラッシュ生成
+			/** ダメージフラッシュ生成 */
 			m_uiDamageFlash = m_canvas->CreateUI<UIDamageFlash>();
 			m_uiDamageFlash->Start();
 
-			// 3. 操作説明生成
+			/** 操作説明生成 */
 			m_uiControls = m_canvas->CreateUI<UIControls>();
 			m_uiControls->Start();
 
@@ -105,7 +105,7 @@ namespace app
 
 		void UIInGameBase::Update()
 		{
-			// キャンバスを一括更新（子UIのUpdateも呼ばれる）
+			/** キャンバスを一括更新（子UIのUpdateも呼ばれる） */
 			if (m_canvas) {
 				m_canvas->Update();
 			}
@@ -121,7 +121,7 @@ namespace app
 				return;
 			}
 
-			// キャンバスを一括描画（子UIのRenderも呼ばれる）
+			/** キャンバスを一括描画（子UIのRenderも呼ばれる） */
 			if (m_canvas) {
 				m_canvas->Render(rc);
 			}
