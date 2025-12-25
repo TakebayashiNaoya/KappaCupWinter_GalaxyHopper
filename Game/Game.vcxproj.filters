@@ -126,6 +126,15 @@
       <Filter>Ui</Filter>
     </ClCompile>
     <ClCompile Include="HierarchicalTransform.cpp" />
+    <ClCompile Include="Ui\UITitle.cpp">
+      <Filter>Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\UIInGameBase.cpp">
+      <Filter>Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Types.cpp">
+      <Filter>Source\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -223,5 +232,14 @@
       <Filter>Ui</Filter>
     </ClInclude>
     <ClInclude Include="HierarchicalTransform.h" />
+    <ClInclude Include="Ui\UITitle.h">
+      <Filter>Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="Ui\UIInGameBase.h">
+      <Filter>Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Types.h">
+      <Filter>Source\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

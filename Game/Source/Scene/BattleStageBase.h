@@ -46,8 +46,8 @@ namespace app
 			 * 勝敗判定に必要なため基底クラスに持たせている
 			 * 各ステージで生成したPlayer、BossEnemyのポインタをセットすること
 			 */
-			Player* m_player = nullptr;
-			BossEnemy* m_bossEnemy = nullptr;	// ※派生先でDeleteGOしてください。
+			actor::Player* m_player = nullptr;
+			actor::BossEnemy* m_bossEnemy = nullptr;	// ※派生先でDeleteGOしてください。
 
 
 			/**

@@ -81,12 +81,12 @@ namespace app
 
 			/** 初期化 */
 			void Initialize(
-				const char* assetPath,			/** アセットパス */
-				const float width,				/** 幅			 */
-				const float height,				/** 高さ		 */
-				const Vector3& position,		/** 座標		 */
-				const Vector3& scale,			/** 拡大縮小	 */
-				const Quaternion& rotation		/** 回転		 */
+				const char* assetPath,								/** アセットパス */
+				const float width,									/** 幅			 */
+				const float height,									/** 高さ		 */
+				const Vector3& position,							/** 座標		 */
+				const Vector3& scale = Vector3::One,				/** 拡大縮小	 */
+				const Quaternion& rotation = Quaternion::Identity	/** 回転		 */
 			);
 		};
 
@@ -224,14 +224,14 @@ namespace app
 		public:
 			/** 初期化 */
 			void Initialize(
-				const char* assetPath,		/** アセットパス */
-				const int digit,			/** 桁数		 */
-				const int number,			/** 表示したい値 */
-				const float widht,			/** 幅			 */
-				const float height,			/** 高さ		 */
-				const Vector3& position,	/** 座標		 */
-				const Vector3& scale,		/** 拡大縮小	 */
-				const Quaternion& rotation	/** 回転		 */
+				const char* assetPath,								/** アセットパス */
+				const int digit,									/** 桁数		 */
+				const int number,									/** 表示したい値 */
+				const float widht,									/** 幅			 */
+				const float height,									/** 高さ		 */
+				const Vector3& position,							/** 座標		 */
+				const Vector3& scale = Vector3::One,				/** 拡大縮小	 */
+				const Quaternion& rotation = Quaternion::Identity	/** 回転		 */
 			);
 
 			/** 数字を設定 */
