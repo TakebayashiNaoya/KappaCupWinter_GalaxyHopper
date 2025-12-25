@@ -21,9 +21,15 @@ namespace app
 		 */
 		class UIInGameBase : public IGameObject
 		{
-		private:
-			/** 管理用キャンバス */
+		protected:
+			/** 
+			 * 管理用キャンバス
+			 * 派生先でUIを追加する場合はここからCreateUIで生成する
+			 */
 			UICanvas* m_canvas = nullptr;
+
+
+		private:
 			/** プレイヤーHP */
 			UIPlayerLife* m_uiPlayerLife = nullptr;
 			/** ダメージフラッシュ */
@@ -41,9 +47,12 @@ namespace app
 
 
 		protected:
+			/** 派生先のStartで必ず呼ぶこと */
 			virtual bool Start() override;
+			/** 派生先のUpdateでオーバーライドするなら必ず呼ぶこと */
 			virtual void Update() override;
-			virtual void Render(RenderContext& rc) override;
+			/** 描画処理はキャンバスのみのため、オーバーライド不要 */
+			void Render(RenderContext& rc) override final;
 		};
 
 
