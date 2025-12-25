@@ -18,6 +18,8 @@ namespace app
 		 */
 		class UIBase : public Noncopyable
 		{
+			friend class UICanvas;
+
 		public:
 			/** トランスフォーム */
 			HierarchicalTransform m_transform;
@@ -59,6 +61,8 @@ namespace app
 		 */
 		class UIImage : public UIBase
 		{
+			friend class UICanvas;
+
 		protected:
 			/** スプライトレンダー */
 			SpriteRender m_spriteRender;
@@ -66,7 +70,7 @@ namespace app
 
 		protected:
 			UIImage();
-			~UIImage();
+			virtual ~UIImage();
 
 
 		public:
@@ -105,7 +109,6 @@ namespace app
 		class UIGauge : public UIImage
 		{
 			friend class UICanvas;
-
 
 		private:
 			UIGauge();
@@ -148,6 +151,8 @@ namespace app
 		 */
 		class UIText : public UIBase
 		{
+			friend class UICanvas;
+
 		protected:
 			FontRender m_fontRender;
 
@@ -174,6 +179,8 @@ namespace app
 		 */
 		class UIButton : public UIImage
 		{
+			friend class UICanvas;
+
 		private:
 			/** ボタンが押されたときの処理(外部から委譲される) */
 			std::function<void()> m_delegate;
@@ -201,6 +208,8 @@ namespace app
 		 */
 		class UIDigit : public UIBase
 		{
+			friend class UICanvas;
+
 		private:
 			/** 画像表示機能の可変長配列 */
 			std::vector<SpriteRender*> m_renderList;
@@ -296,6 +305,7 @@ namespace app
 			friend class UIIcon;
 			friend class UIText;
 			friend class UIButton;
+			friend class UIDigit;
 
 
 		private:

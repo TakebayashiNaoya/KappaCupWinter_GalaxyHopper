@@ -4,6 +4,8 @@
  */
 #include "stdafx.h"
 #include "UIBossStage.h"
+#include "LoadingScreen.h"
+#include "Battle/BattleManager.h"
 
 
 namespace app
@@ -63,6 +65,7 @@ namespace app
 
 		UIBossStage::~UIBossStage()
 		{
+			if (m_uiBossLife) DeleteGO(m_uiBossLife);
 		}
 
 
@@ -74,19 +77,9 @@ namespace app
 			}
 
 			/** ボスHP UI生成 */
-			if (m_canvas) {
-				m_uiBossLife = m_canvas->CreateUI<UIBossLife>();
-				m_uiBossLife->Start();
-			}
+			m_uiBossLife = NewGO<UIBossLife>(0, "UIBossLife");
 
 			return true;
-		}
-
-
-		void UIBossStage::Update()
-		{
-			/** 親クラスの更新 */
-			UIInGameBase::Update();
 		}
 
 
@@ -108,6 +101,7 @@ namespace app
 		 */
 		UIBossLife::UIBossLife()
 		{
+			m_canvas = std::make_unique<UICanvas>();
 		}
 
 
@@ -118,39 +112,59 @@ namespace app
 
 		bool UIBossLife::Start()
 		{
+			m_canvas->Start();
+
 			/** ボス名 */
-			m_name = CreateUI<UIImage>();
+			m_name = m_canvas->CreateUI<UIIcon>();
 			m_name->Initialize(
 				PATH_NAME,
-				NAME_W, 
+				NAME_W,
 				NAME_H,
 				NAME_POS
 			);
 
 			/** HPバー背景 */
-			m_barBack = CreateUI<UIImage>();
+			m_barBack = m_canvas->CreateUI<UIIcon>();
 			m_barBack->Initialize(
 				PATH_BAR_BACK,
-				BAR_BACK_W, 
+				BAR_BACK_W,
 				BAR_BACK_H,
 				BAR_BACK_POS
 			);
 
 			/** HPバー前景 */
-			m_barFront = CreateUI<UIImage>();
+			m_barFront = m_canvas->CreateUI<UIIcon>();
 			/** 左端を基準に伸縮させるため、ピボットを左中央に設定 */
 			m_barFront->GetSpriteRender()->SetPivot(PIVOT_LEFT_CENTER);
 			/** 初期カラー（緑） */
 			m_barFront->GetSpriteRender()->SetMulColor(COLOR_GREEN);
 			m_barFront->Initialize(
 				PATH_BAR_FRONT,
-				BAR_FRONT_W, 
+				BAR_FRONT_W,
 				BAR_FRONT_H,
 				BAR_FRONT_POS
 			);
 			m_barFront->GetSpriteRender()->Update();
 
 			return true;
+		}
+
+
+		void UIBossLife::Update()
+		{
+			if (m_canvas) m_canvas->Update();
+		}
+
+
+		void UIBossLife::Render(RenderContext& rc)
+		{
+			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+				return;
+			}
+			if (battle::BattleManager::GetIsBattleFinish()) {
+				return;
+			}
+			if (m_canvas) m_canvas->Render(rc);
 		}
 
 

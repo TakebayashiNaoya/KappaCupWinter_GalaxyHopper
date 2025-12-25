@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "UIInGameBase.h"
+#include <memory>
 
 namespace app
 {
@@ -31,9 +32,8 @@ namespace app
 			void SetBossHp(uint8_t currentHp, uint8_t maxHp);
 
 
-		protected:
-			bool Start() override;
-			void Update() override;
+		private:
+			bool Start() override final;
 		};
 
 
@@ -44,24 +44,28 @@ namespace app
 
 		/**
 		 * ボスHP表示UI
-		 * 名前、HPバー（背景・前景）をまとめて管理
+		 * IGameObjectを継承し、Canvasを持つ
 		 */
-		class UIBossLife : public UICanvas
+		class UIBossLife : public IGameObject
 		{
 		private:
+			std::unique_ptr<UICanvas> m_canvas;
+
 			/** ボス名画像 */
-			UIImage* m_name = nullptr;
+			UIIcon* m_name = nullptr;
 			/** HPバー背景画像 */
-			UIImage* m_barBack = nullptr;
+			UIIcon* m_barBack = nullptr;
 			/** HPバー前景画像 */
-			UIImage* m_barFront = nullptr;
+			UIIcon* m_barFront = nullptr;
 
 
 		public:
 			UIBossLife();
 			~UIBossLife();
 
-			bool Start();
+			bool Start() override;
+			void Update() override;
+			void Render(RenderContext& rc) override;
 
 			/** HPの更新（バーの長さと色を変える） */
 			void UpdateHp(uint8_t currentHp, uint8_t maxHp);

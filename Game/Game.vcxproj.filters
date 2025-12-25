@@ -135,6 +135,12 @@
     <ClCompile Include="Source\Actor\Types.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Ui\UIFirstStage.cpp">
+      <Filter>Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\UIBossStage.cpp">
+      <Filter>Ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -240,6 +246,12 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\Types.h">
       <Filter>Source\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Ui\UIFirstStage.h">
+      <Filter>Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="Ui\UIBossStage.h">
+      <Filter>Ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
