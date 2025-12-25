@@ -79,14 +79,22 @@ namespace app
 			/** スプライトレンダーの取得 */
 			SpriteRender* GetSpriteRender() { return &m_spriteRender; }
 
-			/** 初期化 */
+			/** 
+			 * 初期化
+			 * ・アセットパス
+			 * ・幅
+			 * ・高さ
+			 * ・座標
+			 * ・拡大縮小（デフォルト: Vector3::One）
+			 * ・回転（デフォルト: Quaternion::Identity）
+			 */
 			void Initialize(
-				const char* assetPath,								/** アセットパス */
-				const float width,									/** 幅			 */
-				const float height,									/** 高さ		 */
-				const Vector3& position,							/** 座標		 */
-				const Vector3& scale = Vector3::One,				/** 拡大縮小	 */
-				const Quaternion& rotation = Quaternion::Identity	/** 回転		 */
+				const char* assetPath,								
+				const float width,									
+				const float height,									
+				const Vector3& position,							
+				const Vector3& scale = Vector3::One,				
+				const Quaternion& rotation = Quaternion::Identity	
 			);
 		};
 
@@ -222,7 +230,17 @@ namespace app
 
 
 		public:
-			/** 初期化 */
+			/**
+			 * 初期化
+			 * ・アセットパス
+			 * ・桁数
+			 * ・表示したい値
+			 * ・幅
+			 * ・高さ
+			 * ・座標
+			 * ・拡大縮小（デフォルト: Vector3::One）
+			 * ・回転（デフォルト: Quaternion::Identity）
+			 */
 			void Initialize(
 				const char* assetPath,								/** アセットパス */
 				const int digit,									/** 桁数		 */
