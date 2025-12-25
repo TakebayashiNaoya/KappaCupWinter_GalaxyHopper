@@ -117,7 +117,7 @@ namespace app
 			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
 				return;
 			}
-			if (BattleManager::GetIsBattleFinish()) {
+			if (battle::BattleManager::GetIsBattleFinish()) {
 				return;
 			}
 
