@@ -77,7 +77,7 @@ namespace app
 			}
 
 			/** ボスHP UI生成 */
-			m_uiBossLife = NewGO<UIBossLife>(0, "UIBossLife");
+			m_uiBossLife = NewGO<UIBossHp>(0, "UIBossHp");
 
 			return true;
 		}
@@ -85,9 +85,7 @@ namespace app
 
 		void UIBossStage::SetBossHp(uint8_t currentHp, uint8_t maxHp)
 		{
-			if (m_uiBossLife) {
-				m_uiBossLife->UpdateHp(currentHp, maxHp);
-			}
+			m_uiBossLife->UpdateHp(currentHp, maxHp);
 		}
 
 
@@ -99,64 +97,64 @@ namespace app
 		/**
 		 * ボスHP表示UI
 		 */
-		UIBossLife::UIBossLife()
-		{
-			m_canvas = std::make_unique<UICanvas>();
-		}
-
-
-		UIBossLife::~UIBossLife()
+		UIBossHp::UIBossHp()
 		{
 		}
 
 
-		bool UIBossLife::Start()
+		UIBossHp::~UIBossHp()
 		{
-			m_canvas->Start();
+		}
 
-			/** ボス名 */
-			m_name = m_canvas->CreateUI<UIImage>();
-			m_name->Initialize(
+
+		bool UIBossHp::Start()
+		{
+			/** キャンバス生成 */
+			m_bossHpCanvas = std::make_unique<UICanvas>();
+
+			/** ボス名の画像生成 */
+			auto* bossName = m_bossHpCanvas->CreateUI<UIImage>();
+			bossName->Initialize(
 				NAME_PATH,
 				NAME_W,
 				NAME_H,
 				NAME_POS
 			);
 
-			/** HPバー背景 */
-			m_barBack = m_canvas->CreateUI<UIImage>();
-			m_barBack->Initialize(
+			/** HPバー背景画像の生成 */
+			auto* backBar = m_bossHpCanvas->CreateUI<UIImage>();
+			backBar->Initialize(
 				BAR_BACK_PATH,
 				BAR_BACK_W,
 				BAR_BACK_H,
 				BAR_BACK_POS
 			);
 
-			/** HPバー前景 */
-			m_barFront = m_canvas->CreateUI<UIImage>();
+			/** HPバー前景の生成 */
+			m_frontBarImage = m_bossHpCanvas->CreateUI<UIImage>();
 			/** 左端を基準に伸縮させるため、ピボットを左中央に設定 */
-			m_barFront->GetSpriteRender()->SetPivot(PIVOT_LEFT_CENTER);
+			m_frontBarImage->GetSpriteRender()->SetPivot(PIVOT_LEFT_CENTER);
 			/** 初期カラー（緑） */
-			m_barFront->GetSpriteRender()->SetMulColor(COLOR_GREEN);
-			m_barFront->Initialize(
+			m_frontBarImage->GetSpriteRender()->SetMulColor(COLOR_GREEN);
+			m_frontBarImage->Initialize(
 				BAR_FRONT_PATH,
 				BAR_FRONT_W,
 				BAR_FRONT_H,
 				BAR_FRONT_POS
 			);
-			m_barFront->GetSpriteRender()->Update();
+			m_frontBarImage->GetSpriteRender()->Update();
 
 			return true;
 		}
 
 
-		void UIBossLife::Update()
+		void UIBossHp::Update()
 		{
-			m_canvas->Update();
+			m_bossHpCanvas->Update();
 		}
 
 
-		void UIBossLife::Render(RenderContext& rc)
+		void UIBossHp::Render(RenderContext& rc)
 		{
 			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
 				return;
@@ -164,20 +162,20 @@ namespace app
 			if (battle::BattleManager::GetIsBattleFinish()) {
 				return;
 			}
-			m_canvas->Render(rc);
+			m_bossHpCanvas->Render(rc);
 		}
 
 
-		void UIBossLife::UpdateHp(uint8_t currentHp, uint8_t maxHp)
+		void UIBossHp::UpdateHp(uint8_t currentHp, uint8_t maxHp)
 		{
-			if (!m_barFront || maxHp <= 0) {
+			if (!m_frontBarImage || maxHp <= 0) {
 				return;
 			}
 
 			/** HP割合計算 */
 			float hpRatio = static_cast<float>(currentHp) / static_cast<float>(maxHp);
 			/** HPバーの長さ更新 */
-			m_barFront->GetSpriteRender()->SetScale(Vector3(hpRatio, 1.0f, 1.0f));
+			m_frontBarImage->GetSpriteRender()->SetScale(Vector3(hpRatio, 1.0f, 1.0f));
 
 			/** 色更新 */
 			Vector4 color = COLOR_RED;
@@ -188,8 +186,8 @@ namespace app
 				color = COLOR_YELLOW;
 			}
 
-			m_barFront->GetSpriteRender()->SetMulColor(color);
-			m_barFront->GetSpriteRender()->Update();
+			m_frontBarImage->GetSpriteRender()->SetMulColor(color);
+			m_frontBarImage->GetSpriteRender()->Update();
 		}
 	}
 }

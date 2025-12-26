@@ -49,24 +49,25 @@ namespace app
 		class UIGear : public IGameObject
 		{
 		private:
-			std::unique_ptr<UICanvas> m_canvas;
+			/** UI描画用のキャンバス */
+			std::unique_ptr<UICanvas> m_gearCanvas;
 
-			/** ギアのアイコン画像 */
-			UIImage* m_icon = nullptr;
-			/** ギアの数（数字画像） */
-			UIDigit* m_digit = nullptr;
+			/** ギアの取得数 */
+			UIDigit* m_gotGearCountDigit = nullptr;
 
 
 		public:
 			UIGear();
 			~UIGear();
 
-			bool Start() override;
-			void Update() override;
-			void Render(RenderContext& rc) override;
-
 			/** 表示する数字を更新 */
 			void SetCount(int count);
+
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 		};
 	}
 }

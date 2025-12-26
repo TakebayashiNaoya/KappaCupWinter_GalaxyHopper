@@ -45,7 +45,7 @@ namespace app
 
 		UIFirstStage::~UIFirstStage()
 		{
-			if (m_uiGear) DeleteGO(m_uiGear);
+			DeleteGO(m_uiGear);
 		}
 
 
@@ -65,9 +65,7 @@ namespace app
 
 		void UIFirstStage::SetGearCount(int count)
 		{
-			if (m_uiGear) {
-				m_uiGear->SetCount(count);
-			}
+			m_uiGear->SetCount(count);
 		}
 
 
@@ -81,7 +79,6 @@ namespace app
 		 */
 		UIGear::UIGear()
 		{
-			m_canvas = std::make_unique<UICanvas>();
 		}
 
 
@@ -92,11 +89,11 @@ namespace app
 
 		bool UIGear::Start()
 		{
-			m_canvas->Start();
+			m_gearCanvas = std::make_unique<UICanvas>();
 
-			/** アイコンの生成 */
-			m_icon = m_canvas->CreateUI<UIImage>();
-			m_icon->Initialize(
+			/** ギアアイコンの生成 */
+			auto* gear = m_gearCanvas->CreateUI<UIImage>();
+			gear->Initialize(
 				PATH_GEAR_ICON,
 				GEAR_ICON_SIZE,
 				GEAR_ICON_SIZE,
@@ -104,8 +101,8 @@ namespace app
 			);
 
 			/** 数字の生成 */
-			m_digit = m_canvas->CreateUI<UIDigit>();
-			m_digit->Initialize(
+			m_gotGearCountDigit = m_gearCanvas->CreateUI<UIDigit>();
+			m_gotGearCountDigit->Initialize(
 				PATH_GEAR_NUM_BASE,
 				GEAR_DIGIT_COUNT,
 				0,
@@ -120,7 +117,7 @@ namespace app
 
 		void UIGear::Update()
 		{
-			if (m_canvas) m_canvas->Update();
+			m_gearCanvas->Update();
 		}
 
 
@@ -133,15 +130,13 @@ namespace app
 				return;
 			}
 
-			if (m_canvas) m_canvas->Render(rc);
+			m_gearCanvas->Render(rc);
 		}
 
 
 		void UIGear::SetCount(int count)
 		{
-			if (m_digit) {
-				m_digit->SetNumber(count);
-			}
+			m_gotGearCountDigit->SetNumber(count);
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace app
 {
 	namespace ui
 	{
-		class UIPlayerLife;
+		class UIPlayerHp;
 		class UIDamageFlash;
 		class UIControls;
 
@@ -27,8 +27,11 @@ namespace app
 			/**
 			 * 各UIはIGameObjectとして管理する
 			 */
-			UIPlayerLife* m_uiPlayerLife = nullptr;
+			 /** プレイヤー体力UI */
+			UIPlayerHp* m_uiPlayerLife = nullptr;
+			/** ダメージフラッシュUI */
 			UIDamageFlash* m_uiDamageFlash = nullptr;
+			/** 操作説明UI */
 			UIControls* m_uiControls = nullptr;
 
 
@@ -41,7 +44,10 @@ namespace app
 
 
 		protected:
-			/** 派生先のStartで必ず呼ぶこと */
+			/** 
+			 * 全てのステージで共通のUIを生成する
+			 * 派生先のStartで必ず呼ぶこと
+			 */
 			virtual bool Start() override;
 
 
@@ -59,31 +65,30 @@ namespace app
 
 		/**
 		 * プレイヤー体力UI
-		 * IGameObjectを継承し、Canvasを持つ
 		 */
-		class UIPlayerLife : public IGameObject
+		class UIPlayerHp : public IGameObject
 		{
 		private:
-			/** UI描画用のキャンバス（所有権を持つ） */
-			std::unique_ptr<UICanvas> m_canvas;
-
-			/** 実際に描画されるアイコン（Canvas管理） */
-			UIImage* m_icon = nullptr;
-
+			/** UI描画用のキャンバス */
+			std::unique_ptr<UICanvas> m_playerHpCanvas;
+			/** 体力の画像 */
+			UIImage* m_playerHpImage = nullptr;
 			/** 画像パスの配列 */
 			std::array<std::string, enPlayerCondition_Num> m_imagePaths;
 
 
 		public:
-			UIPlayerLife();
-			~UIPlayerLife();
-
-			bool Start() override;
-			void Update() override;
-			void Render(RenderContext& rc) override;
+			UIPlayerHp();
+			~UIPlayerHp();
 
 			/** HPが変わった時に画像を差し替える */
 			void SetPlayerHp(int hp);
+
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 		};
 
 
@@ -94,24 +99,28 @@ namespace app
 
 		/**
 		 * ダメージフラッシュUI
-		 * IGameObjectを継承し、Canvasを持つ
 		 */
 		class UIDamageFlash : public IGameObject
 		{
 		private:
-			std::unique_ptr<UICanvas> m_canvas;
-			UIImage* m_icon = nullptr;
+			/** UI描画用のキャンバス */
+			std::unique_ptr<UICanvas> m_damageFlashCanvas;
+			/** ダメージフラッシュ画像 */
+			UIImage* m_damageFlashImage = nullptr;
+
 
 		public:
 			UIDamageFlash();
 			~UIDamageFlash();
 
-			bool Start() override;
-			void Update() override;
-			void Render(RenderContext& rc) override;
-
-			/** HPに応じて表示・非表示を切り替える */
+			/** HPが変わった時に画像を差し替える */
 			void SetPlayerHp(int hp);
+
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 		};
 
 
@@ -122,20 +131,23 @@ namespace app
 
 		/**
 		 * 操作説明UI
-		 * IGameObjectを継承し、Canvasを持つ
 		 */
 		class UIControls : public IGameObject
 		{
 		private:
-			std::unique_ptr<UICanvas> m_canvas;
+			/** UI描画用のキャンバス */
+			std::unique_ptr<UICanvas> m_controlsCanvas;
+
 
 		public:
 			UIControls();
 			~UIControls();
 
-			bool Start() override;
-			void Update() override;
-			void Render(RenderContext& rc) override;
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 		};
 	}
 }

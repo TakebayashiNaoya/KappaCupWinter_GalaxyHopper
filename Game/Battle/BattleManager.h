@@ -9,9 +9,9 @@ namespace app
 		class BossEnemy;
 		class BasicEnemy;
 		class DeformEnemy;
-		class UIPlayerLife;
+		class UIPlayerHp;
 		class UIDamageFlash;
-		class UIBossLife;
+		class UIBossHp;
 		class UIGear;
 		class Rocket;
 		class Treasure;
@@ -103,16 +103,16 @@ namespace app
 			void Unregister(DeformEnemy* enemy);
 
 			// プレイヤーライフUI用
-			void Register(UIPlayerLife* uiPlayerLife);
-			void Unregister(UIPlayerLife* uiPlayerLife);
+			void Register(UIPlayerHp* uiPlayerLife);
+			void Unregister(UIPlayerHp* uiPlayerLife);
 
 			// ダメージフラッシュUI用
 			void Register(UIDamageFlash* uiDamageFlash);
 			void Unregister(UIDamageFlash* uiDamageFlash);
 
 			// ボスライフUI用
-			void Register(UIBossLife* uiBossLife);
-			void Unregister(UIBossLife* uiBossLife);
+			void Register(UIBossHp* uiBossLife);
+			void Unregister(UIBossHp* uiBossLife);
 
 			// ギアUI用
 			void Register(UIGear* uiGear);
@@ -148,9 +148,9 @@ namespace app
 			std::vector<BasicEnemy*> m_basicEnemies;
 			std::vector<DeformEnemy*> m_deformEnemies;
 
-			UIPlayerLife* m_uiPlayerLife = nullptr;
+			UIPlayerHp* m_uiPlayerLife = nullptr;
 			UIDamageFlash* m_uiDamageFlash = nullptr;
-			UIBossLife* m_uiBossLife = nullptr;
+			UIBossHp* m_uiBossLife = nullptr;
 			UIGear* m_uiGear = nullptr;
 			int m_gotGearCount = 0;
 			int m_maxGearCount = 0;

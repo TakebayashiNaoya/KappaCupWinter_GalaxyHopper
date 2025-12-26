@@ -76,18 +76,16 @@ namespace app
 
 		UIInGameBase::~UIInGameBase()
 		{
-			/** IGameObjectはDeleteGOで削除する */
-			if (m_uiPlayerLife) DeleteGO(m_uiPlayerLife);
-			if (m_uiDamageFlash) DeleteGO(m_uiDamageFlash);
-			if (m_uiControls) DeleteGO(m_uiControls);
+			DeleteGO(m_uiPlayerLife);
+			DeleteGO(m_uiDamageFlash);
+			DeleteGO(m_uiControls);
 		}
 
 
 		bool UIInGameBase::Start()
 		{
 			/** プレイヤーライフ生成 (NewGO) */
-			m_uiPlayerLife = NewGO<UIPlayerLife>(0, "UIPlayerLife");
-			/** NewGOで生成されたオブジェクトのStartはエンジンが自動で呼ぶため、ここでは呼ばない */
+			m_uiPlayerLife = NewGO<UIPlayerHp>(0, "UIPlayerHp");
 
 			/** ダメージフラッシュ生成 */
 			m_uiDamageFlash = NewGO<UIDamageFlash>(0, "UIDamageFlash");
@@ -118,43 +116,43 @@ namespace app
 		/**
 		 * プレイヤー体力UI
 		 */
-		UIPlayerLife::UIPlayerLife()
+		UIPlayerHp::UIPlayerHp()
 		{
-			m_canvas = std::make_unique<UICanvas>();
+		}
+
+
+		UIPlayerHp::~UIPlayerHp()
+		{
+		}
+
+
+		bool UIPlayerHp::Start()
+		{
+			/** キャンバス生成 */
+			m_playerHpCanvas = std::make_unique<UICanvas>();
 
 			/** パスを保存しておく */
 			m_imagePaths[enPlayerCondition_Dead] = PATH_HP_DEAD;
 			m_imagePaths[enPlayerCondition_Danger] = PATH_HP_DANGER;
 			m_imagePaths[enPlayerCondition_Caution] = PATH_HP_CAUTION;
 			m_imagePaths[enPlayerCondition_Fine] = PATH_HP_FINE;
-		}
 
-
-		UIPlayerLife::~UIPlayerLife()
-		{
-		}
-
-
-		bool UIPlayerLife::Start()
-		{
-			m_canvas->Start();
-
-			m_icon = m_canvas->CreateUI<UIImage>();
-			m_icon->Initialize(m_imagePaths[enPlayerCondition_Fine].c_str(), LIFE_SIZE_W, LIFE_SIZE_H, LIFE_POS);
+			/** キャンバス生成 */
+			m_playerHpImage = m_playerHpCanvas->CreateUI<UIImage>();
+			m_playerHpImage->Initialize(m_imagePaths[enPlayerCondition_Fine].c_str(), LIFE_SIZE_W, LIFE_SIZE_H, LIFE_POS);
 
 			return true;
 		}
 
 
-		void UIPlayerLife::Update()
+		void UIPlayerHp::Update()
 		{
-			if (m_canvas) m_canvas->Update();
+			m_playerHpCanvas->Update();
 		}
 
 
-		void UIPlayerLife::Render(RenderContext& rc)
+		void UIPlayerHp::Render(RenderContext& rc)
 		{
-			/** UIPlayerLife自体が描画条件を持つ場合ここに記述 */
 			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
 				return;
 			}
@@ -162,20 +160,14 @@ namespace app
 				return;
 			}
 
-			if (m_canvas) m_canvas->Render(rc);
+			m_playerHpCanvas->Render(rc);
 		}
 
 
-		void UIPlayerLife::SetPlayerHp(int hp)
+		void UIPlayerHp::SetPlayerHp(int hp)
 		{
-			/** 範囲外なら何もしない */
-			if (hp < 0 || hp >= enPlayerCondition_Num) {
-				return;
-			}
 			/** 画像を差し替え */
-			if (m_icon) {
-				m_icon->GetSpriteRender()->Init(m_imagePaths[hp].c_str(), LIFE_SIZE_W, LIFE_SIZE_H);
-			}
+			m_playerHpImage->GetSpriteRender()->Init(m_imagePaths[hp].c_str(), LIFE_SIZE_W, LIFE_SIZE_H);
 		}
 
 
@@ -189,7 +181,6 @@ namespace app
 		 */
 		UIDamageFlash::UIDamageFlash()
 		{
-			m_canvas = std::make_unique<UICanvas>();
 		}
 
 
@@ -200,11 +191,14 @@ namespace app
 
 		bool UIDamageFlash::Start()
 		{
-			m_canvas->Start();
+			/** キャンバス生成 */
+			m_damageFlashCanvas = std::make_unique<UICanvas>();
 
-			m_icon = m_canvas->CreateUI<UIImage>();
-			m_icon->Initialize(PATH_FLASH_DANGER, FLASH_W, FLASH_H, FLASH_POS);
+			/** ダメージフラッシュ画像生成 */
+			m_damageFlashImage = m_damageFlashCanvas->CreateUI<UIImage>();
+			m_damageFlashImage->Initialize(PATH_FLASH_DANGER, FLASH_W, FLASH_H, FLASH_POS);
 
+			/** 初期状態は非表示にするため全快状態に設定 */
 			SetPlayerHp(enPlayerCondition_Fine);
 
 			return true;
@@ -213,7 +207,7 @@ namespace app
 
 		void UIDamageFlash::Update()
 		{
-			if (m_canvas) m_canvas->Update();
+			m_damageFlashCanvas->Update();
 		}
 
 
@@ -226,15 +220,13 @@ namespace app
 				return;
 			}
 
-			if (m_canvas) m_canvas->Render(rc);
+			m_damageFlashCanvas->Render(rc);
 		}
 
 
 		void UIDamageFlash::SetPlayerHp(int hp)
 		{
-			if (!m_icon) return;
-
-			auto* render = m_icon->GetSpriteRender();
+			auto* render = m_damageFlashImage->GetSpriteRender();
 
 			if (hp == enPlayerCondition_Danger) {
 				render->Init(PATH_FLASH_DANGER, FLASH_W, FLASH_H);
@@ -259,7 +251,6 @@ namespace app
 		 */
 		UIControls::UIControls()
 		{
-			m_canvas = std::make_unique<UICanvas>();
 		}
 
 
@@ -270,22 +261,23 @@ namespace app
 
 		bool UIControls::Start()
 		{
-			m_canvas->Start();
+			/** キャンバス生成 */
+			m_controlsCanvas = std::make_unique<UICanvas>();
 
 			/** ジャンプ */
-			auto* jump = m_canvas->CreateUI<UIImage>();
+			auto* jump = m_controlsCanvas->CreateUI<UIImage>();
 			jump->Initialize(PATH_CTRL_JUMP, CTRL_JUMP_SIZE, CTRL_JUMP_SIZE, CTRL_JUMP_POS);
 
 			/** ダッシュ */
-			auto* dash = m_canvas->CreateUI<UIImage>();
+			auto* dash = m_controlsCanvas->CreateUI<UIImage>();
 			dash->Initialize(PATH_CTRL_DASH, CTRL_DASH_SIZE, CTRL_DASH_SIZE, CTRL_DASH_POS);
 
 			/** ボタンA */
-			auto* btnA = m_canvas->CreateUI<UIImage>();
+			auto* btnA = m_controlsCanvas->CreateUI<UIImage>();
 			btnA->Initialize(PATH_CTRL_BTN_A, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_A_POS);
 
 			/** ボタンB */
-			auto* btnB = m_canvas->CreateUI<UIImage>();
+			auto* btnB = m_controlsCanvas->CreateUI<UIImage>();
 			btnB->Initialize(PATH_CTRL_BTN_B, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_B_POS);
 
 			return true;
@@ -294,7 +286,7 @@ namespace app
 
 		void UIControls::Update()
 		{
-			if (m_canvas) m_canvas->Update();
+			m_controlsCanvas->Update();
 		}
 
 
@@ -307,7 +299,7 @@ namespace app
 				return;
 			}
 
-			if (m_canvas) m_canvas->Render(rc);
+			m_controlsCanvas->Render(rc);
 		}
 	}
 }
