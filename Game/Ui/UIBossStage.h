@@ -4,12 +4,13 @@
  */
 #pragma once
 #include "UIInGameBase.h"
+#include <memory>
 
 namespace app
 {
 	namespace ui
 	{
-		class UIBossLife;
+		class UIBossHp;
 
 
 		/**
@@ -20,7 +21,7 @@ namespace app
 		{
 		private:
 			/** ボスHP UI */
-			UIBossLife* m_uiBossLife = nullptr;
+			UIBossHp* m_uiBossLife = nullptr;
 
 
 		public:
@@ -31,9 +32,8 @@ namespace app
 			void SetBossHp(uint8_t currentHp, uint8_t maxHp);
 
 
-		protected:
-			bool Start() override;
-			void Update() override;
+		private:
+			bool Start() override final;
 		};
 
 
@@ -44,27 +44,29 @@ namespace app
 
 		/**
 		 * ボスHP表示UI
-		 * 名前、HPバー（背景・前景）をまとめて管理
+		 * IGameObjectを継承し、Canvasを持つ
 		 */
-		class UIBossLife : public UICanvas
+		class UIBossHp : public IGameObject
 		{
 		private:
-			/** ボス名画像 */
-			UIImage* m_name = nullptr;
-			/** HPバー背景画像 */
-			UIImage* m_barBack = nullptr;
+			/** UI描画用のキャンバス */
+			std::unique_ptr<UICanvas> m_bossHpCanvas;
 			/** HPバー前景画像 */
-			UIImage* m_barFront = nullptr;
+			UIImage* m_frontBarImage = nullptr;
 
 
 		public:
-			UIBossLife();
-			~UIBossLife();
-
-			bool Start();
+			UIBossHp();
+			~UIBossHp();
 
 			/** HPの更新（バーの長さと色を変える） */
 			void UpdateHp(uint8_t currentHp, uint8_t maxHp);
+
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 		};
 	}
 }

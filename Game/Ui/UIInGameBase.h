@@ -5,36 +5,33 @@
 #pragma once
 #include "UIBase.h"
 #include "Source/Actor/Types.h"
+#include <memory>
 
 
 namespace app
 {
 	namespace ui
 	{
-		class UIPlayerLife;
+		class UIPlayerHp;
 		class UIDamageFlash;
 		class UIControls;
 
 
 		/**
 		 * インゲーム共通UI管理クラス
+		 * 各UI要素（IGameObject）を統括して管理する
 		 */
 		class UIInGameBase : public IGameObject
 		{
-		protected:
-			/** 
-			 * 管理用キャンバス
-			 * 派生先でUIを追加する場合はここからCreateUIで生成する
-			 */
-			UICanvas* m_canvas = nullptr;
-
-
 		private:
-			/** プレイヤーHP */
-			UIPlayerLife* m_uiPlayerLife = nullptr;
-			/** ダメージフラッシュ */
+			/**
+			 * 各UIはIGameObjectとして管理する
+			 */
+			 /** プレイヤー体力UI */
+			UIPlayerHp* m_uiPlayerLife = nullptr;
+			/** ダメージフラッシュUI */
 			UIDamageFlash* m_uiDamageFlash = nullptr;
-			/** 操作説明 */
+			/** 操作説明UI */
 			UIControls* m_uiControls = nullptr;
 
 
@@ -47,12 +44,17 @@ namespace app
 
 
 		protected:
-			/** 派生先のStartで必ず呼ぶこと */
+			/** 
+			 * 全てのステージで共通のUIを生成する
+			 * 派生先のStartで必ず呼ぶこと
+			 */
 			virtual bool Start() override;
-			/** 派生先のUpdateでオーバーライドするなら必ず呼ぶこと */
-			virtual void Update() override;
-			/** 描画処理はキャンバスのみのため、オーバーライド不要 */
-			void Render(RenderContext& rc) override final;
+
+
+		private:
+			/** 各UIはIGameObjectを継承しているため、ここでは不要 */
+			void Update() override final {};
+			void Render(RenderContext& rc) override final {};
 		};
 
 
@@ -64,21 +66,29 @@ namespace app
 		/**
 		 * プレイヤー体力UI
 		 */
-		class UIPlayerLife : public UIImage
+		class UIPlayerHp : public IGameObject
 		{
 		private:
+			/** UI描画用のキャンバス */
+			std::unique_ptr<UICanvas> m_playerHpCanvas;
+			/** 体力の画像 */
+			UIImage* m_playerHpImage = nullptr;
 			/** 画像パスの配列 */
 			std::array<std::string, enPlayerCondition_Num> m_imagePaths;
 
 
 		public:
-			UIPlayerLife();
-			~UIPlayerLife();
-
-			bool Start() override;
+			UIPlayerHp();
+			~UIPlayerHp();
 
 			/** HPが変わった時に画像を差し替える */
 			void SetPlayerHp(int hp);
+
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 		};
 
 
@@ -90,16 +100,27 @@ namespace app
 		/**
 		 * ダメージフラッシュUI
 		 */
-		class UIDamageFlash : public UIImage
+		class UIDamageFlash : public IGameObject
 		{
+		private:
+			/** UI描画用のキャンバス */
+			std::unique_ptr<UICanvas> m_damageFlashCanvas;
+			/** ダメージフラッシュ画像 */
+			UIImage* m_damageFlashImage = nullptr;
+
+
 		public:
 			UIDamageFlash();
 			~UIDamageFlash();
 
-			bool Start() override;
-
-			/** HPに応じて表示・非表示を切り替える */
+			/** HPが変わった時に画像を差し替える */
 			void SetPlayerHp(int hp);
+
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 		};
 
 
@@ -111,13 +132,22 @@ namespace app
 		/**
 		 * 操作説明UI
 		 */
-		class UIControls : public UICanvas
+		class UIControls : public IGameObject
 		{
+		private:
+			/** UI描画用のキャンバス */
+			std::unique_ptr<UICanvas> m_controlsCanvas;
+
+
 		public:
 			UIControls();
 			~UIControls();
 
-			bool Start(); // UICanvasにはStartの純粋仮想がないため、独自定義
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 		};
 	}
 }

@@ -4,7 +4,7 @@
 //#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 //#include "Source/Actor/Planet/BossPlanet.h"
 //#include "Source/Actor/Object/Spawner/Spawner.h"
-//#include "Source/UI/UIBossLife.h"
+//#include "Source/UI/UIBossHp.h"
 //#include "Source/Actor/Actor.h"
 
 
@@ -41,7 +41,7 @@ namespace app
 			//// ロード明けで音量が上がるため、一旦音量を0にしておく。
 			//SoundManager::SetVolume(enSoundList_BossStageBGM, 0.0f);
 
-			//m_uiBossLife = NewGO<UIBossLife>(0, "UIBossLife");
+			//m_uiBossLife = NewGO<UIBossHp>(0, "UIBossHp");
 			//BattleManager::GetInstance()->Register(m_uiBossLife);
 
 			return true;

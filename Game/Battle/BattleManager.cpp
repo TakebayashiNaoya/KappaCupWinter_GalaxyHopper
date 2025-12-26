@@ -232,12 +232,12 @@ namespace app
 		}
 
 
-		void BattleManager::Register(UIPlayerLife* uiPlayerLife)
+		void BattleManager::Register(UIPlayerHp* uiPlayerLife)
 		{
 			m_uiPlayerLife = uiPlayerLife;
 		}
 
-		void BattleManager::Unregister(UIPlayerLife* uiPlayerLife)
+		void BattleManager::Unregister(UIPlayerHp* uiPlayerLife)
 		{
 			m_uiPlayerLife = nullptr;
 		}
@@ -254,12 +254,12 @@ namespace app
 		}
 
 
-		void BattleManager::Register(UIBossLife* uiBossLife)
+		void BattleManager::Register(UIBossHp* uiBossLife)
 		{
 			m_uiBossLife = uiBossLife;
 		}
 
-		void BattleManager::Unregister(UIBossLife* uiBossLife)
+		void BattleManager::Unregister(UIBossHp* uiBossLife)
 		{
 			m_uiBossLife = nullptr;
 		}

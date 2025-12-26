@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "UIInGameBase.h"
+#include <memory>
 
 namespace app
 {
@@ -19,7 +20,7 @@ namespace app
 		class UIFirstStage : public UIInGameBase
 		{
 		private:
-			/** ギアUI */
+			/** ギアUI（IGameObject） */
 			UIGear* m_uiGear = nullptr;
 
 
@@ -31,9 +32,8 @@ namespace app
 			void SetGearCount(int count);
 
 
-		protected:
-			bool Start() override;
-			void Update() override;
+		private:
+			bool Start() override final;
 		};
 
 
@@ -44,25 +44,30 @@ namespace app
 
 		/**
 		 * ギア表示UI
-		 * アイコンと数字をまとめて管理するためUICanvasを継承
+		 * IGameObjectを継承し、Canvasを持つ
 		 */
-		class UIGear : public UICanvas
+		class UIGear : public IGameObject
 		{
 		private:
-			/** ギアのアイコン画像 */
-			UIImage* m_icon = nullptr;
-			/** ギアの数（数字画像） */
-			UIDigit* m_digit = nullptr;
+			/** UI描画用のキャンバス */
+			std::unique_ptr<UICanvas> m_gearCanvas;
+
+			/** ギアの取得数 */
+			UIDigit* m_gotGearCountDigit = nullptr;
 
 
 		public:
 			UIGear();
 			~UIGear();
 
-			bool Start();
-
 			/** 表示する数字を更新 */
 			void SetCount(int count);
+
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 		};
 	}
 }

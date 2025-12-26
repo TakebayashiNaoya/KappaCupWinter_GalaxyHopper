@@ -59,6 +59,10 @@ namespace app
 		 */
 		class UIImage : public UIBase
 		{
+			/** CreateUIでの自身の生成を許可 */
+			friend class UICanvas;
+
+
 		protected:
 			/** スプライトレンダー */
 			SpriteRender m_spriteRender;
@@ -66,7 +70,7 @@ namespace app
 
 		protected:
 			UIImage();
-			~UIImage();
+			virtual ~UIImage();
 
 
 		public:
@@ -79,54 +83,23 @@ namespace app
 			/** スプライトレンダーの取得 */
 			SpriteRender* GetSpriteRender() { return &m_spriteRender; }
 
-			/** 初期化 */
+			/** 
+			 * 初期化
+			 * ・アセットパス
+			 * ・幅
+			 * ・高さ
+			 * ・座標
+			 * ・拡大縮小（デフォルト: Vector3::One）
+			 * ・回転（デフォルト: Quaternion::Identity）
+			 */
 			void Initialize(
-				const char* assetPath,								/** アセットパス */
-				const float width,									/** 幅			 */
-				const float height,									/** 高さ		 */
-				const Vector3& position,							/** 座標		 */
-				const Vector3& scale = Vector3::One,				/** 拡大縮小	 */
-				const Quaternion& rotation = Quaternion::Identity	/** 回転		 */
+				const char* assetPath,								
+				const float width,									
+				const float height,									
+				const Vector3& position,							
+				const Vector3& scale = Vector3::One,				
+				const Quaternion& rotation = Quaternion::Identity	
 			);
-		};
-
-
-		/**
-		 * ゲージUI
-		 */
-		class UIGauge : public UIImage
-		{
-			friend class UICanvas;
-
-
-		private:
-			UIGauge();
-			~UIGauge();
-
-
-		public:
-			virtual bool Start() override;
-			virtual void Update() override;
-			virtual void Render(RenderContext& rc) override;
-		};
-
-
-		/**
-		 * アイコンUI
-		 */
-		class UIIcon : public UIImage
-		{
-			friend class UICanvas;
-
-		private:
-			UIIcon();
-			~UIIcon();
-
-
-		public:
-			virtual bool Start() override;
-			virtual void Update() override;
-			virtual void Render(RenderContext& rc) override;
 		};
 
 
@@ -140,6 +113,10 @@ namespace app
 		 */
 		class UIText : public UIBase
 		{
+			/** CreateUIでの自身の生成を許可 */
+			friend class UICanvas;
+
+
 		protected:
 			FontRender m_fontRender;
 
@@ -162,37 +139,14 @@ namespace app
 
 
 		/**
-		 * ボタンを使うUIの基本クラス
-		 */
-		class UIButton : public UIImage
-		{
-		private:
-			/** ボタンが押されたときの処理(外部から委譲される) */
-			std::function<void()> m_delegate;
-
-
-		private:
-			UIButton();
-			~UIButton();
-
-
-		public:
-			virtual bool Start() override;
-			virtual void Update() override;
-			virtual void Render(RenderContext& rc) override;
-		};
-
-
-
-
-		/********************************/
-
-
-		/**
 		 * 画像を使って数字を表示するUIの基本クラス
 		 */
 		class UIDigit : public UIBase
 		{
+			/** CreateUIでの自身の生成を許可 */
+			friend class UICanvas;
+
+
 		private:
 			/** 画像表示機能の可変長配列 */
 			std::vector<SpriteRender*> m_renderList;
@@ -222,7 +176,17 @@ namespace app
 
 
 		public:
-			/** 初期化 */
+			/**
+			 * 初期化
+			 * ・アセットパス
+			 * ・桁数
+			 * ・表示したい値
+			 * ・幅
+			 * ・高さ
+			 * ・座標
+			 * ・拡大縮小（デフォルト: Vector3::One）
+			 * ・回転（デフォルト: Quaternion::Identity）
+			 */
 			void Initialize(
 				const char* assetPath,								/** アセットパス */
 				const int digit,									/** 桁数		 */
@@ -272,18 +236,8 @@ namespace app
 		 */
 		class UICanvas : public UIBase
 		{
-			friend class UIBase;
-			friend class UIImage;
-			friend class UIGauge;
-			friend class UIIcon;
-			friend class UIText;
-			friend class UIButton;
-
-
 		private:
-			/**
-			 * NOTE: 各UI自体に親子関係持たせたいけど使わない可能性があるので、一旦ここだけにしてみる
-			 */
+			/** 描画するUIのリスト */
 			std::vector<UIBase*> m_uiList;
 
 

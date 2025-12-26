@@ -4,6 +4,8 @@
  */
 #include "stdafx.h"
 #include "UIFirstStage.h"
+#include "LoadingScreen.h"
+#include "Battle/BattleManager.h"
 
 
 namespace app
@@ -43,6 +45,7 @@ namespace app
 
 		UIFirstStage::~UIFirstStage()
 		{
+			DeleteGO(m_uiGear);
 		}
 
 
@@ -54,29 +57,15 @@ namespace app
 			}
 
 			/** ギアUIを生成 */
-			if (m_canvas) {
-				m_uiGear = m_canvas->CreateUI<UIGear>();
-				m_uiGear->Start();
-			}
+			m_uiGear = NewGO<UIGear>(0, "UIGear");
 
 			return true;
 		}
 
 
-		void UIFirstStage::Update()
-		{
-			/** 親クラスの更新（キャンバス更新） */
-			UIInGameBase::Update();
-
-			/** 追加の処理があればここに記載 */
-		}
-
-
 		void UIFirstStage::SetGearCount(int count)
 		{
-			if (m_uiGear) {
-				m_uiGear->SetCount(count);
-			}
+			m_uiGear->SetCount(count);
 		}
 
 
@@ -100,9 +89,11 @@ namespace app
 
 		bool UIGear::Start()
 		{
-			/** アイコンの生成 */
-			m_icon = CreateUI<UIImage>();
-			m_icon->Initialize(
+			m_gearCanvas = std::make_unique<UICanvas>();
+
+			/** ギアアイコンの生成 */
+			auto* gear = m_gearCanvas->CreateUI<UIImage>();
+			gear->Initialize(
 				PATH_GEAR_ICON,
 				GEAR_ICON_SIZE,
 				GEAR_ICON_SIZE,
@@ -110,8 +101,8 @@ namespace app
 			);
 
 			/** 数字の生成 */
-			m_digit = CreateUI<UIDigit>();
-			m_digit->Initialize(
+			m_gotGearCountDigit = m_gearCanvas->CreateUI<UIDigit>();
+			m_gotGearCountDigit->Initialize(
 				PATH_GEAR_NUM_BASE,
 				GEAR_DIGIT_COUNT,
 				0,
@@ -124,11 +115,28 @@ namespace app
 		}
 
 
+		void UIGear::Update()
+		{
+			m_gearCanvas->Update();
+		}
+
+
+		void UIGear::Render(RenderContext& rc)
+		{
+			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+				return;
+			}
+			if (battle::BattleManager::GetIsBattleFinish()) {
+				return;
+			}
+
+			m_gearCanvas->Render(rc);
+		}
+
+
 		void UIGear::SetCount(int count)
 		{
-			if (m_digit) {
-				m_digit->SetNumber(count);
-			}
+			m_gotGearCountDigit->SetNumber(count);
 		}
 	}
 }

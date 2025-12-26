@@ -1,11 +1,12 @@
 ﻿/**
- * UIInGameBase.h
+ * UIInGameBase.cpp
  * インゲーム全体で共通して表示するUIを実装
  */
 #include "stdafx.h"
 #include "UIInGameBase.h"
 #include "Battle/BattleManager.h"
 #include "LoadingScreen.h"
+
 
 namespace app
 {
@@ -70,61 +71,29 @@ namespace app
 
 		UIInGameBase::UIInGameBase()
 		{
-			m_canvas = new UICanvas();
 		}
 
 
 		UIInGameBase::~UIInGameBase()
 		{
-			delete m_canvas;
+			DeleteGO(m_uiPlayerLife);
+			DeleteGO(m_uiDamageFlash);
+			DeleteGO(m_uiControls);
 		}
 
 
 		bool UIInGameBase::Start()
 		{
-			if (!m_canvas) {
-				return false;
-			}
-			m_canvas->Start();
-
-			/** プレイヤーライフ生成 */
-			m_uiPlayerLife = m_canvas->CreateUI<UIPlayerLife>();
-			m_uiPlayerLife->Start();
+			/** プレイヤーライフ生成 (NewGO) */
+			m_uiPlayerLife = NewGO<UIPlayerHp>(0, "UIPlayerHp");
 
 			/** ダメージフラッシュ生成 */
-			m_uiDamageFlash = m_canvas->CreateUI<UIDamageFlash>();
-			m_uiDamageFlash->Start();
+			m_uiDamageFlash = NewGO<UIDamageFlash>(0, "UIDamageFlash");
 
 			/** 操作説明生成 */
-			m_uiControls = m_canvas->CreateUI<UIControls>();
-			m_uiControls->Start();
+			m_uiControls = NewGO<UIControls>(0, "UIControls");
 
 			return true;
-		}
-
-
-		void UIInGameBase::Update()
-		{
-			/** キャンバスを一括更新（子UIのUpdateも呼ばれる） */
-			if (m_canvas) {
-				m_canvas->Update();
-			}
-		}
-
-
-		void UIInGameBase::Render(RenderContext& rc)
-		{
-			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
-				return;
-			}
-			if (battle::BattleManager::GetIsBattleFinish()) {
-				return;
-			}
-
-			/** キャンバスを一括描画（子UIのRenderも呼ばれる） */
-			if (m_canvas) {
-				m_canvas->Render(rc);
-			}
 		}
 
 
@@ -147,36 +116,58 @@ namespace app
 		/**
 		 * プレイヤー体力UI
 		 */
-		UIPlayerLife::UIPlayerLife()
+		UIPlayerHp::UIPlayerHp()
 		{
+		}
+
+
+		UIPlayerHp::~UIPlayerHp()
+		{
+		}
+
+
+		bool UIPlayerHp::Start()
+		{
+			/** キャンバス生成 */
+			m_playerHpCanvas = std::make_unique<UICanvas>();
+
 			/** パスを保存しておく */
 			m_imagePaths[enPlayerCondition_Dead] = PATH_HP_DEAD;
 			m_imagePaths[enPlayerCondition_Danger] = PATH_HP_DANGER;
 			m_imagePaths[enPlayerCondition_Caution] = PATH_HP_CAUTION;
 			m_imagePaths[enPlayerCondition_Fine] = PATH_HP_FINE;
-		}
 
+			/** キャンバス生成 */
+			m_playerHpImage = m_playerHpCanvas->CreateUI<UIImage>();
+			m_playerHpImage->Initialize(m_imagePaths[enPlayerCondition_Fine].c_str(), LIFE_SIZE_W, LIFE_SIZE_H, LIFE_POS);
 
-		UIPlayerLife::~UIPlayerLife()
-		{
-		}
-
-
-		bool UIPlayerLife::Start()
-		{
-			Initialize(m_imagePaths[enPlayerCondition_Fine].c_str(), LIFE_SIZE_W, LIFE_SIZE_H, LIFE_POS);
 			return true;
 		}
 
 
-		void UIPlayerLife::SetPlayerHp(int hp)
+		void UIPlayerHp::Update()
 		{
-			/** 範囲外なら何もしない */
-			if (hp < 0 || hp >= enPlayerCondition_Num) {
+			m_playerHpCanvas->Update();
+		}
+
+
+		void UIPlayerHp::Render(RenderContext& rc)
+		{
+			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
 				return;
 			}
+			if (battle::BattleManager::GetIsBattleFinish()) {
+				return;
+			}
+
+			m_playerHpCanvas->Render(rc);
+		}
+
+
+		void UIPlayerHp::SetPlayerHp(int hp)
+		{
 			/** 画像を差し替え */
-			m_spriteRender.Init(m_imagePaths[hp].c_str(), LIFE_SIZE_W, LIFE_SIZE_H);
+			m_playerHpImage->GetSpriteRender()->Init(m_imagePaths[hp].c_str(), LIFE_SIZE_W, LIFE_SIZE_H);
 		}
 
 
@@ -200,25 +191,53 @@ namespace app
 
 		bool UIDamageFlash::Start()
 		{
-			Initialize(PATH_FLASH_DANGER, FLASH_W, FLASH_H, FLASH_POS);
-			m_spriteRender.Update();
+			/** キャンバス生成 */
+			m_damageFlashCanvas = std::make_unique<UICanvas>();
+
+			/** ダメージフラッシュ画像生成 */
+			m_damageFlashImage = m_damageFlashCanvas->CreateUI<UIImage>();
+			m_damageFlashImage->Initialize(PATH_FLASH_DANGER, FLASH_W, FLASH_H, FLASH_POS);
+
+			/** 初期状態は非表示にするため全快状態に設定 */
+			SetPlayerHp(enPlayerCondition_Fine);
 
 			return true;
 		}
 
 
+		void UIDamageFlash::Update()
+		{
+			m_damageFlashCanvas->Update();
+		}
+
+
+		void UIDamageFlash::Render(RenderContext& rc)
+		{
+			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+				return;
+			}
+			if (battle::BattleManager::GetIsBattleFinish()) {
+				return;
+			}
+
+			m_damageFlashCanvas->Render(rc);
+		}
+
+
 		void UIDamageFlash::SetPlayerHp(int hp)
 		{
+			auto* render = m_damageFlashImage->GetSpriteRender();
+
 			if (hp == enPlayerCondition_Danger) {
-				m_spriteRender.Init(PATH_FLASH_DANGER, FLASH_W, FLASH_H);
+				render->Init(PATH_FLASH_DANGER, FLASH_W, FLASH_H);
 			}
 			else if (hp == enPlayerCondition_Caution) {
-				m_spriteRender.Init(PATH_FLASH_CAUTION, FLASH_W, FLASH_H);
+				render->Init(PATH_FLASH_CAUTION, FLASH_W, FLASH_H);
 			}
 			else {
-				m_spriteRender.Init(PATH_FLASH_NONE, FLASH_W, FLASH_H);
+				render->Init(PATH_FLASH_NONE, FLASH_W, FLASH_H);
 			}
-			m_spriteRender.Update();
+			render->Update();
 		}
 
 
@@ -242,23 +261,45 @@ namespace app
 
 		bool UIControls::Start()
 		{
+			/** キャンバス生成 */
+			m_controlsCanvas = std::make_unique<UICanvas>();
+
 			/** ジャンプ */
-			auto* jump = CreateUI<UIImage>();
+			auto* jump = m_controlsCanvas->CreateUI<UIImage>();
 			jump->Initialize(PATH_CTRL_JUMP, CTRL_JUMP_SIZE, CTRL_JUMP_SIZE, CTRL_JUMP_POS);
 
 			/** ダッシュ */
-			auto* dash = CreateUI<UIImage>();
+			auto* dash = m_controlsCanvas->CreateUI<UIImage>();
 			dash->Initialize(PATH_CTRL_DASH, CTRL_DASH_SIZE, CTRL_DASH_SIZE, CTRL_DASH_POS);
 
 			/** ボタンA */
-			auto* btnA = CreateUI<UIImage>();
+			auto* btnA = m_controlsCanvas->CreateUI<UIImage>();
 			btnA->Initialize(PATH_CTRL_BTN_A, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_A_POS);
 
 			/** ボタンB */
-			auto* btnB = CreateUI<UIImage>();
+			auto* btnB = m_controlsCanvas->CreateUI<UIImage>();
 			btnB->Initialize(PATH_CTRL_BTN_B, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_B_POS);
 
 			return true;
+		}
+
+
+		void UIControls::Update()
+		{
+			m_controlsCanvas->Update();
+		}
+
+
+		void UIControls::Render(RenderContext& rc)
+		{
+			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+				return;
+			}
+			if (battle::BattleManager::GetIsBattleFinish()) {
+				return;
+			}
+
+			m_controlsCanvas->Render(rc);
 		}
 	}
 }
