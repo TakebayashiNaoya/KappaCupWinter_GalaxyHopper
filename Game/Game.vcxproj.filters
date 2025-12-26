@@ -28,6 +28,9 @@
     <Filter Include="Ui">
       <UniqueIdentifier>{aea9ab42-daf7-4870-a22b-275da831db30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{91035eeb-58d1-4327-8792-0b49120fdffe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -141,6 +144,12 @@
     <ClCompile Include="Ui\UIBossStage.cpp">
       <Filter>Ui</Filter>
     </ClCompile>
+    <ClCompile Include="Camera\GameCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\TitleCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -252,6 +261,12 @@
     </ClInclude>
     <ClInclude Include="Ui\UIBossStage.h">
       <Filter>Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\GameCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\TitleCamera.h">
+      <Filter>Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,6 +14,14 @@ namespace
 	AddjustConst float CAMERA_ROTATION_SPEED = 3.0f;
 }
 
+GameCamera::GameCamera()
+{
+}
+
+GameCamera::~GameCamera()
+{
+}
+
 bool GameCamera::Start()
 {
 	//注視点から視点までのベクトルを設定。
