@@ -22,19 +22,19 @@ namespace app
 			const Vector3		NAME_POS = { 0.0f, 480.0f, 0.0f };
 			const float			NAME_W = 180.0f;
 			const float			NAME_H = 50.0f;
-			const char* const	PATH_NAME = "Assets/sprite/Boss.dds";
+			const char* const	NAME_PATH = "Assets/sprite/Boss.dds";
 
 			/** HPバー背景 */
 			const Vector3		BAR_BACK_POS = { 0.0f, 400.0f, 0.0f };
 			const float			BAR_BACK_W = 1071.0f;
 			const float			BAR_BACK_H = 107.0f;
-			const char* const	PATH_BAR_BACK = "Assets/sprite/BossHpBarBack.dds";
+			const char* const	BAR_BACK_PATH = "Assets/sprite/BossHpBarBack.dds";
 
 			/** HPバー前景 */
 			const Vector3		BAR_FRONT_POS = { -420.0f, 400.0f, 0.0f };
 			const float			BAR_FRONT_W = 937.0f;
 			const float			BAR_FRONT_H = 37.0f;
-			const char* const	PATH_BAR_FRONT = "Assets/sprite/BossHpBarFront.dds";
+			const char* const	BAR_FRONT_PATH = "Assets/sprite/BossHpBarFront.dds";
 
 			/** ピボット設定（左中央） */
 			const Vector2		PIVOT_LEFT_CENTER = { 0.0f, 0.5f };
@@ -65,7 +65,7 @@ namespace app
 
 		UIBossStage::~UIBossStage()
 		{
-			if (m_uiBossLife) DeleteGO(m_uiBossLife);
+			DeleteGO(m_uiBossLife);
 		}
 
 
@@ -115,31 +115,31 @@ namespace app
 			m_canvas->Start();
 
 			/** ボス名 */
-			m_name = m_canvas->CreateUI<UIIcon>();
+			m_name = m_canvas->CreateUI<UIImage>();
 			m_name->Initialize(
-				PATH_NAME,
+				NAME_PATH,
 				NAME_W,
 				NAME_H,
 				NAME_POS
 			);
 
 			/** HPバー背景 */
-			m_barBack = m_canvas->CreateUI<UIIcon>();
+			m_barBack = m_canvas->CreateUI<UIImage>();
 			m_barBack->Initialize(
-				PATH_BAR_BACK,
+				BAR_BACK_PATH,
 				BAR_BACK_W,
 				BAR_BACK_H,
 				BAR_BACK_POS
 			);
 
 			/** HPバー前景 */
-			m_barFront = m_canvas->CreateUI<UIIcon>();
+			m_barFront = m_canvas->CreateUI<UIImage>();
 			/** 左端を基準に伸縮させるため、ピボットを左中央に設定 */
 			m_barFront->GetSpriteRender()->SetPivot(PIVOT_LEFT_CENTER);
 			/** 初期カラー（緑） */
 			m_barFront->GetSpriteRender()->SetMulColor(COLOR_GREEN);
 			m_barFront->Initialize(
-				PATH_BAR_FRONT,
+				BAR_FRONT_PATH,
 				BAR_FRONT_W,
 				BAR_FRONT_H,
 				BAR_FRONT_POS
@@ -152,7 +152,7 @@ namespace app
 
 		void UIBossLife::Update()
 		{
-			if (m_canvas) m_canvas->Update();
+			m_canvas->Update();
 		}
 
 
@@ -164,7 +164,7 @@ namespace app
 			if (battle::BattleManager::GetIsBattleFinish()) {
 				return;
 			}
-			if (m_canvas) m_canvas->Render(rc);
+			m_canvas->Render(rc);
 		}
 
 

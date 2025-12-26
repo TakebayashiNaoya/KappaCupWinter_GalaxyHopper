@@ -52,7 +52,7 @@ namespace app
 			std::unique_ptr<UICanvas> m_canvas;
 
 			/** ギアのアイコン画像 */
-			UIIcon* m_icon = nullptr;
+			UIImage* m_icon = nullptr;
 			/** ギアの数（数字画像） */
 			UIDigit* m_digit = nullptr;
 

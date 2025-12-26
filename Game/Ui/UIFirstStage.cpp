@@ -95,7 +95,7 @@ namespace app
 			m_canvas->Start();
 
 			/** ƒAƒCƒRƒ“‚Ì¶¬ */
-			m_icon = m_canvas->CreateUI<UIIcon>();
+			m_icon = m_canvas->CreateUI<UIImage>();
 			m_icon->Initialize(
 				PATH_GEAR_ICON,
 				GEAR_ICON_SIZE,

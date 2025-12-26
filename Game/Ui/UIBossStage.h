@@ -52,11 +52,11 @@ namespace app
 			std::unique_ptr<UICanvas> m_canvas;
 
 			/** ボス名画像 */
-			UIIcon* m_name = nullptr;
+			UIImage* m_name = nullptr;
 			/** HPバー背景画像 */
-			UIIcon* m_barBack = nullptr;
+			UIImage* m_barBack = nullptr;
 			/** HPバー前景画像 */
-			UIIcon* m_barFront = nullptr;
+			UIImage* m_barFront = nullptr;
 
 
 		public:

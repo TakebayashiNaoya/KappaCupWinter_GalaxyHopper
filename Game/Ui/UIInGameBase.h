@@ -68,7 +68,7 @@ namespace app
 			std::unique_ptr<UICanvas> m_canvas;
 
 			/** 実際に描画されるアイコン（Canvas管理） */
-			UIIcon* m_icon = nullptr;
+			UIImage* m_icon = nullptr;
 
 			/** 画像パスの配列 */
 			std::array<std::string, enPlayerCondition_Num> m_imagePaths;
@@ -100,7 +100,7 @@ namespace app
 		{
 		private:
 			std::unique_ptr<UICanvas> m_canvas;
-			UIIcon* m_icon = nullptr;
+			UIImage* m_icon = nullptr;
 
 		public:
 			UIDamageFlash();

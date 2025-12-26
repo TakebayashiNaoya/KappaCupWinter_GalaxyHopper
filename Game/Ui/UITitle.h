@@ -51,7 +51,7 @@ namespace app
 			/** UI描画用のキャンバス（所有権を持つ） */
 			std::unique_ptr<UICanvas> m_canvas;
 			/** 実際に描画されるロゴ画像（Canvas管理） */
-			UIIcon* m_icon = nullptr;
+			UIImage* m_icon = nullptr;
 
 
 		public:

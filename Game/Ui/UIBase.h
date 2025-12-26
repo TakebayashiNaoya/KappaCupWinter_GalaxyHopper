@@ -18,8 +18,6 @@ namespace app
 		 */
 		class UIBase : public Noncopyable
 		{
-			friend class UICanvas;
-
 		public:
 			/** トランスフォーム */
 			HierarchicalTransform m_transform;
@@ -61,7 +59,9 @@ namespace app
 		 */
 		class UIImage : public UIBase
 		{
+			/** CreateUIでの自身の生成を許可 */
 			friend class UICanvas;
+
 
 		protected:
 			/** スプライトレンダー */
@@ -103,44 +103,6 @@ namespace app
 		};
 
 
-		/**
-		 * ゲージUI
-		 */
-		class UIGauge : public UIImage
-		{
-			friend class UICanvas;
-
-		private:
-			UIGauge();
-			~UIGauge();
-
-
-		public:
-			virtual bool Start() override;
-			virtual void Update() override;
-			virtual void Render(RenderContext& rc) override;
-		};
-
-
-		/**
-		 * アイコンUI
-		 */
-		class UIIcon : public UIImage
-		{
-			friend class UICanvas;
-
-		private:
-			UIIcon();
-			~UIIcon();
-
-
-		public:
-			virtual bool Start() override;
-			virtual void Update() override;
-			virtual void Render(RenderContext& rc) override;
-		};
-
-
 
 
 		/********************************/
@@ -151,7 +113,9 @@ namespace app
 		 */
 		class UIText : public UIBase
 		{
+			/** CreateUIでの自身の生成を許可 */
 			friend class UICanvas;
+
 
 		protected:
 			FontRender m_fontRender;
@@ -175,40 +139,13 @@ namespace app
 
 
 		/**
-		 * ボタンを使うUIの基本クラス
-		 */
-		class UIButton : public UIImage
-		{
-			friend class UICanvas;
-
-		private:
-			/** ボタンが押されたときの処理(外部から委譲される) */
-			std::function<void()> m_delegate;
-
-
-		private:
-			UIButton();
-			~UIButton();
-
-
-		public:
-			virtual bool Start() override;
-			virtual void Update() override;
-			virtual void Render(RenderContext& rc) override;
-		};
-
-
-
-
-		/********************************/
-
-
-		/**
 		 * 画像を使って数字を表示するUIの基本クラス
 		 */
 		class UIDigit : public UIBase
 		{
+			/** CreateUIでの自身の生成を許可 */
 			friend class UICanvas;
+
 
 		private:
 			/** 画像表示機能の可変長配列 */
@@ -299,19 +236,8 @@ namespace app
 		 */
 		class UICanvas : public UIBase
 		{
-			friend class UIBase;
-			friend class UIImage;
-			friend class UIGauge;
-			friend class UIIcon;
-			friend class UIText;
-			friend class UIButton;
-			friend class UIDigit;
-
-
 		private:
-			/**
-			 * NOTE: 各UI自体に親子関係持たせたいけど使わない可能性があるので、一旦ここだけにしてみる
-			 */
+			/** 描画するUIのリスト */
 			std::vector<UIBase*> m_uiList;
 
 

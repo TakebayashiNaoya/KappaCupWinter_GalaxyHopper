@@ -139,7 +139,7 @@ namespace app
 		{
 			m_canvas->Start();
 
-			m_icon = m_canvas->CreateUI<UIIcon>();
+			m_icon = m_canvas->CreateUI<UIImage>();
 			m_icon->Initialize(m_imagePaths[enPlayerCondition_Fine].c_str(), LIFE_SIZE_W, LIFE_SIZE_H, LIFE_POS);
 
 			return true;
@@ -202,7 +202,7 @@ namespace app
 		{
 			m_canvas->Start();
 
-			m_icon = m_canvas->CreateUI<UIIcon>();
+			m_icon = m_canvas->CreateUI<UIImage>();
 			m_icon->Initialize(PATH_FLASH_DANGER, FLASH_W, FLASH_H, FLASH_POS);
 
 			SetPlayerHp(enPlayerCondition_Fine);
@@ -273,19 +273,19 @@ namespace app
 			m_canvas->Start();
 
 			/** ジャンプ */
-			auto* jump = m_canvas->CreateUI<UIIcon>();
+			auto* jump = m_canvas->CreateUI<UIImage>();
 			jump->Initialize(PATH_CTRL_JUMP, CTRL_JUMP_SIZE, CTRL_JUMP_SIZE, CTRL_JUMP_POS);
 
 			/** ダッシュ */
-			auto* dash = m_canvas->CreateUI<UIIcon>();
+			auto* dash = m_canvas->CreateUI<UIImage>();
 			dash->Initialize(PATH_CTRL_DASH, CTRL_DASH_SIZE, CTRL_DASH_SIZE, CTRL_DASH_POS);
 
 			/** ボタンA */
-			auto* btnA = m_canvas->CreateUI<UIIcon>();
+			auto* btnA = m_canvas->CreateUI<UIImage>();
 			btnA->Initialize(PATH_CTRL_BTN_A, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_A_POS);
 
 			/** ボタンB */
-			auto* btnB = m_canvas->CreateUI<UIIcon>();
+			auto* btnB = m_canvas->CreateUI<UIImage>();
 			btnB->Initialize(PATH_CTRL_BTN_B, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_B_POS);
 
 			return true;

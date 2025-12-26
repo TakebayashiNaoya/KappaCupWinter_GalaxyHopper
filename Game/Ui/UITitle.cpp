@@ -80,7 +80,7 @@ namespace app
 			m_canvas->Start();
 
 			/** タイトルロゴの初期化 */
-			m_icon = m_canvas->CreateUI<UIIcon>();
+			m_icon = m_canvas->CreateUI<UIImage>();
 			m_icon->Initialize(
 				PATH_LOGO,
 				LOGO_W,
