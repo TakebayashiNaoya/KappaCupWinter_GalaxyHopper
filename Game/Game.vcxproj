@@ -249,7 +249,7 @@
     <ClCompile Include="Source\Actor\PlayerController.cpp" />
     <ClCompile Include="Source\Actor\PlayerIState.cpp" />
     <ClCompile Include="Source\Actor\PlayerStateMachine.cpp" />
-    <ClCompile Include="Source\Actor\StateMachine.cpp" />
+    <ClCompile Include="Source\Actor\StateMachineBase.cpp" />
     <ClCompile Include="Source\Actor\TitlePlanet.cpp" />
     <ClCompile Include="Source\Actor\Types.cpp" />
     <ClCompile Include="Source\Scene\BattleStageBase.cpp" />
@@ -297,7 +297,7 @@
     <ClInclude Include="Source\Actor\PlayerController.h" />
     <ClInclude Include="Source\Actor\PlayerIState.h" />
     <ClInclude Include="Source\Actor\PlayerStateMachine.h" />
-    <ClInclude Include="Source\Actor\StateMachine.h" />
+    <ClInclude Include="Source\Actor\StateMachineBase.h" />
     <ClInclude Include="Source\Actor\TitlePlanet.h" />
     <ClInclude Include="Source\Actor\Types.h" />
     <ClInclude Include="Source\Scene\BattleStageBase.h" />
