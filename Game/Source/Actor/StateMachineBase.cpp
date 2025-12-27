@@ -268,177 +268,142 @@ namespace app
 		}
 
 
-		void StateMachineBase::Move()
+		void StateMachineBase::ComputeVelocity(Vector3& outHorizontalVel, Vector3& outVerticalVel)
 		{
-			/** 水平方向の速度 */
-			Vector3 horizontalVelocity = m_moveDirection * m_moveSpeed;
-
-			/** 垂直方向の速度 */
-			m_fallTimer += g_gameTime->GetFrameDeltaTime();
-			float jumpPower = m_initialJumpSpeed - (GRAVITY_POWER * m_fallTimer);
-			Vector3 verticalVelocity = m_upDirection * jumpPower;
-
-
-			/**
-			 * 水平移動処理
-			 */
-			if (horizontalVelocity.LengthSq() > MIN_MOVE_EPSILON)
-			{
-				/**
-				 * 壁にぶつからずに移動できるかを試みます
-				 */
-				Vector3 currentPos = m_transform.m_position;	/** 現在の座標を保存しておきます */
-				Vector3 attemptVelocity = horizontalVelocity;	/** 壁にぶつかった場合に、壁までのベクトルを格納する変数 */
-				bool needSlide = false;							/** 横滑りが必要かどうかのフラグ */
-				float moveDist = attemptVelocity.Length();
-
-				/** 水平移動の方向ベクトルを保存 */
-				Vector3 horizontalDirection = attemptVelocity;
-				horizontalDirection.Normalize();
-
-				/** 足元からレイを飛ばすと段差に引っかかるので、少し高い位置（腰など）から飛ばす */
-				Vector3 rayOriginOffset = m_upDirection * WALL_CHECK_RAY_HEIGHT;
-				/**
-				 * startPos：現在地から少し「後ろ」に引いた座標。
-				 * NOTE：すでに壁に少しめり込んでいた場合、現在地から飛ばすと壁の裏側から飛ばすことになり、検知できないため。
-				 */
-				Vector3 startPos = currentPos + rayOriginOffset - (horizontalDirection * BACK_CHECK_DIST);
-				/*
-				 * checkLength：レイの長さ。
-				 * 式：引き撃ち分 + 移動したい距離 + 体の半径 + 余白
-				 * NOTE：中心が壁に到達する前に止めたいので、「体の半径分」余分に先読みする必要があります。
-				 */
-				float checkLength = BACK_CHECK_DIST + moveDist + CHAR_RADIUS + SKIN_WIDTH;
-				/** endPos：レイの終点 */
-				Vector3 endPos = startPos + (horizontalDirection * checkLength);
-				/** rayが当たった座標を受け取る変数と、rayが当たったポリゴンの法線を受け取る変数を用意 */
-				Vector3 hitPos, hitNormal;
-
-				if (RayTest(startPos, endPos, hitPos, hitNormal, m_upDirection))
-				{
-					/**
-					 * 壁までの距離を算出。
-					 * distFromCurrent: 「本来の現在地（中心）」から「壁の表面」までの距離
-					 * 計算式：(レイの全長 - 引き撃ち分)
-					 */
-					float distFromCurrent = (hitPos - startPos).Length() - BACK_CHECK_DIST;
-					/**
-					 * availableDistance: 「実際に進める距離」
-					 * 計算式: 壁までの距離 - 体の半径
-					 * NOTE：体の表面が壁に触れるところで止めるため。
-					 */
-					float availableDistance = distFromCurrent - CHAR_RADIUS;
-
-					/**
-					 * 埋まったとき（体の表面の座標が壁の裏側になったとき）に、押し出す処理。
-					 * 法線方向に、埋まっている分と、少し余分に押し出す。
-					 */
-					if (availableDistance < 0.0f) {
-						float penetrationDepth = -availableDistance;
-						currentPos += hitNormal * (penetrationDepth + RECOVERY_BUFFER);
-						availableDistance = 0.0f;
-					}
-
-					/** upとrayが当たったポリゴンの法線との角度をクランプ・計算する */
-					float dot = hitNormal.Dot(m_upDirection);
-					Clamp(dot);
-					float slopeAngle = acosf(dot);
-
-					/** 角度が登れる角度よりも急なら「壁」とみなす */
-					if (slopeAngle > WALKABLE_SLOPE_LIMIT)
-					{
-						/** 壁の手前まで移動 */
-						float actualMove = max(0.0f, availableDistance - SKIN_WIDTH);
-						Vector3 moveVec = horizontalDirection * actualMove;
-						currentPos += moveVec;
-
-						/** 本来の移動ベクトルから、実際に移動した分を引き、移動できなかった分を計算する */
-						Vector3 currentRemaining = attemptVelocity - moveVec;
-
-						/** 移動できなかった分を、法線方向に投影して引き算を行う */
-						float d = currentRemaining.Dot(hitNormal);
-						if (d < 0.0f) {
-							attemptVelocity = currentRemaining - hitNormal * d;
-							/** 張り付き防止に少しだけ法線方向に移動させる */
-							attemptVelocity += hitNormal * SLIDE_ANTI_STICK;
-						}
-						else {
-							attemptVelocity = currentRemaining;
-						}
-
-						/** 滑り移動を行うフラグを立てる */
-						needSlide = true;
-					}
-					else {
-						/** 登れるのでそのまま進んで終了 */
-						currentPos += attemptVelocity;
-						needSlide = false;
-					}
-				}
-				else {
-					/** 障害物がないので、そのまま進んで終了 */
-					currentPos += attemptVelocity;
-					needSlide = false;
-				}
-
-
-
-				/**
-				 * 直前の移動で滑り処理が必要になった場合、滑り先のチェックを行う
-				 * 途中までは直前の処理と同じ
-				 */
-				if (needSlide && attemptVelocity.LengthSq() > MIN_MOVE_EPSILON)
-				{
-					moveDist = attemptVelocity.Length();
-					Vector3 attemptDirection = attemptVelocity;
-					attemptDirection.Normalize();
-
-					Vector3 rayOriginOffset = m_upDirection * WALL_CHECK_RAY_HEIGHT;
-					Vector3 startPos = currentPos + rayOriginOffset - (attemptDirection * BACK_CHECK_DIST);
-					float checkLength = BACK_CHECK_DIST + moveDist + CHAR_RADIUS + SKIN_WIDTH;
-					Vector3 endPos = startPos + (attemptDirection * checkLength);
-					Vector3 hitPos, hitNormal;
-
-					if (RayTest(startPos, endPos, hitPos, hitNormal, m_upDirection))
-					{
-						float distFromCurrent = (hitPos - startPos).Length() - BACK_CHECK_DIST;
-						float availableDistance = distFromCurrent - CHAR_RADIUS;
-
-						if (availableDistance < 0.0f) {
-							float penetrationDepth = -availableDistance;
-							currentPos += hitNormal * (penetrationDepth + RECOVERY_BUFFER);
-							availableDistance = 0.0f;
-						}
-
-						float dot = hitNormal.Dot(m_upDirection);
-						Clamp(dot);
-						float slopeAngle = acosf(dot);
-
-						if (slopeAngle > WALKABLE_SLOPE_LIMIT) {
-							/** 壁の手前まで移動して停止 */
-							float actualMove = max(0.0f, availableDistance - SKIN_WIDTH);
-							currentPos += attemptDirection * actualMove;
-						}
-						else {
-							/** 坂とみなし、登る */
-							currentPos += attemptVelocity;
-						}
-					}
-					else {
-						/** 障害物がないので、そのままスライド移動完了 */
-						currentPos += attemptVelocity;
-					}
-				}
-				/** 最終位置を確定 */
-				m_transform.m_position = currentPos;
+			// 1. 水平方向
+			// 球体対応：移動ベクトルを接平面に沿わせる
+			Vector3 tangentVelocity = ProjectOnPlane(m_moveDirection, m_upDirection);
+			if (tangentVelocity.LengthSq() > 0.001f) {
+				tangentVelocity.Normalize();
+			}
+			outHorizontalVel = tangentVelocity * m_moveSpeed;
+			if (outHorizontalVel.LengthSq() <= MIN_MOVE_EPSILON * MIN_MOVE_EPSILON) {
+				outHorizontalVel = Vector3::Zero;
 			}
 
+			// 2. 垂直方向
+			m_fallTimer += g_gameTime->GetFrameDeltaTime();
+			float jumpPower = m_initialJumpSpeed - (GRAVITY_POWER * m_fallTimer);
+			outVerticalVel = m_upDirection * jumpPower;
+		}
 
-			/**
-			 * 垂直移動処理
-			 */
-			Vector3 rayStartPos = m_transform.m_position + m_upDirection * VERTICAL_RAY_START_HEIGHT;
-			Vector3 rayEndPos = m_transform.m_position + verticalVelocity - (m_upDirection * VERTICAL_RAY_END_BUFFER);
+
+		Vector3 StateMachineBase::ExecuteMoveCheck(const Vector3& startPos, const Vector3& velocity, bool& outIsWall, Vector3& outNormal)
+		{
+			Vector3 nextPos = startPos;
+			outIsWall = false;
+			outNormal = Vector3::Zero;
+
+			float moveDist = velocity.Length();
+			if (moveDist <= MIN_MOVE_EPSILON) {
+				return nextPos;
+			}
+
+			Vector3 dir = velocity;
+			dir.Normalize();
+
+			// レイの設定
+			Vector3 rayOriginOffset = m_upDirection * WALL_CHECK_RAY_HEIGHT;
+			Vector3 rayStart = startPos + rayOriginOffset - (dir * BACK_CHECK_DIST);
+			float checkLength = BACK_CHECK_DIST + moveDist + CHAR_RADIUS + SKIN_WIDTH;
+			Vector3 rayEnd = rayStart + (dir * checkLength);
+			Vector3 hitPos, hitNormal;
+
+			// 衝突判定
+			if (RayTest(rayStart, rayEnd, hitPos, hitNormal, m_upDirection))
+			{
+				float distFromCurrent = (hitPos - rayStart).Length() - BACK_CHECK_DIST;
+				float availableDistance = distFromCurrent - CHAR_RADIUS;
+
+				// 1. 埋まり補正
+				if (availableDistance < 0.0f) {
+					nextPos += hitNormal * (-availableDistance + RECOVERY_BUFFER);
+					availableDistance = 0.0f;
+				}
+
+				// 2. 坂道・壁判定
+				float dot = hitNormal.Dot(m_upDirection);
+				Clamp(dot);
+				float slopeAngle = acosf(dot);
+
+				if (slopeAngle > WALKABLE_SLOPE_LIMIT)
+				{
+					// 壁なので手前で停止
+					outIsWall = true;
+					outNormal = hitNormal;
+					float actualMove = max(0.0f, availableDistance - SKIN_WIDTH);
+					nextPos += dir * actualMove;
+				}
+				else
+				{
+					// 登れる坂なのでそのまま進む
+					nextPos += velocity;
+				}
+			}
+			else
+			{
+				// 障害物なし
+				nextPos += velocity;
+			}
+
+			return nextPos;
+		}
+
+
+		Vector3 StateMachineBase::ComputeSlideVector(const Vector3& velocity, const Vector3& normal)
+		{
+			Vector3 slideVector = velocity;
+
+			// 法線方向への成分を取り除く（壁に沿わせる）
+			float d = velocity.Dot(normal);
+			if (d < 0.0f) {
+				slideVector = velocity - normal * d;
+				// 張り付き防止
+				slideVector += normal * SLIDE_ANTI_STICK;
+			}
+
+			return slideVector;
+		}
+
+
+		Vector3 StateMachineBase::CalculateHorizontalMove(const Vector3& currentPos, const Vector3& velocity)
+		{
+			if (velocity.LengthSq() <= MIN_MOVE_EPSILON) {
+				return currentPos;
+			}
+
+			// 1. 最初の移動試行
+			bool isWall = false;
+			Vector3 hitNormal = Vector3::Zero;
+			Vector3 nextPos = ExecuteMoveCheck(currentPos, velocity, isWall, hitNormal);
+
+			// 壁に当たっていたら「横滑り」処理
+			if (isWall)
+			{
+				// 実際に動けた分
+				Vector3 movedVec = nextPos - currentPos;
+
+				// 残りの移動力
+				Vector3 remainingVelocity = velocity - movedVec;
+
+				// 残りを壁に沿って滑らせる
+				Vector3 slideVelocity = ComputeSlideVector(remainingVelocity, hitNormal);
+
+				// 2. 滑りベクトルでもう一度移動試行
+				bool isWall2 = false;
+				Vector3 hitNormal2 = Vector3::Zero;
+				nextPos = ExecuteMoveCheck(nextPos, slideVelocity, isWall2, hitNormal2);
+			}
+
+			return nextPos;
+		}
+
+
+		Vector3 StateMachineBase::CalculateVerticalMove(const Vector3& currentPos, Vector3& velocity)
+		{
+			Vector3 nextPos = currentPos;
+			Vector3 rayStartPos = nextPos + m_upDirection * VERTICAL_RAY_START_HEIGHT;
+			Vector3 rayEndPos = nextPos + velocity - (m_upDirection * VERTICAL_RAY_END_BUFFER);
 			Vector3 hitPos, hitNormal;
 
 			if (RayTest(rayStartPos, rayEndPos, hitPos, hitNormal, m_upDirection, Math::PI))
@@ -448,26 +413,114 @@ namespace app
 				float angle = acosf(dot);
 
 				if (angle <= WALKABLE_SLOPE_LIMIT) {
-					m_transform.m_position = hitPos;
-					/** 着地したので、ジャンプ関連の変数をリセット */
+					// 着地
+					nextPos = hitPos;
 					m_initialJumpSpeed = 0.0f;
 					m_fallTimer = 0.0f;
-					verticalVelocity = Vector3::Zero;
+					velocity = Vector3::Zero; // 垂直速度をリセット
 				}
 				else {
-					m_transform.m_position = hitPos;
-					Vector3 slideVector = verticalVelocity - hitNormal * verticalVelocity.Dot(hitNormal);
-					verticalVelocity = slideVector;
+					// 滑り落ちる
+					nextPos = hitPos;
+					Vector3 slideVector = velocity - hitNormal * velocity.Dot(hitNormal);
+					velocity = slideVector;
 				}
 			}
 			else {
-				m_transform.m_position += verticalVelocity;
+				// 空中
+				nextPos += velocity;
 			}
 
-			/** 微小な移動量なら、強制的にゼロにする */
-			if (horizontalVelocity.Length() <= MIN_MOVE_EPSILON) {
-				horizontalVelocity = Vector3::Zero;
+			return nextPos;
+		}
+
+
+		Quaternion StateMachineBase::CalculateRotation(const Quaternion& currentRot, const Vector3& velocity)
+		{
+			// 1. 上方向ベクトルを正規化
+			Vector3 upDir = m_upDirection;
+			upDir.Normalize();
+
+			// 2. 移動ベクトルを接平面に投影（垂直成分を除去）
+			Vector3 forward = ProjectOnPlane(velocity, upDir);
+
+			// 3. 移動量チェック（停止時）
+			if (forward.LengthSq() <= MIN_MOVE_EPSILON * MIN_MOVE_EPSILON) {
+				// 停止中：現在の体の向きを維持しつつ、UpVectorに合わせた姿勢を作る
+
+				// 現在のモデルの前方向を取得
+				Vector3 currentForward = Vector3::Front;
+				m_transform.m_rotation.Apply(currentForward);
+
+				// 接平面に投影
+				forward = ProjectOnPlane(currentForward, upDir);
+
+				// それでも長さがゼロ（＝真上/真下を向いている）なら、適当な軸（Front）を使う
+				if (forward.LengthSq() <= 0.001f) {
+					forward = Vector3::Front;
+				}
 			}
+
+			forward.Normalize();
+
+			// 4. 惑星アライメント用クォータニオン (World::Up -> Current::Up)
+			// モデルのデフォルトの上方向(0, 1, 0)を、惑星の上方向(upDirection)に回転させる
+			Quaternion planetAlignmentRot;
+			planetAlignmentRot.SetRotation(Vector3::Up, upDir);
+
+			// 5. 惑星にアライメントされた状態で、モデルの前方向（Vector3::Front）がどこに向いているかを求める
+			Vector3 projectedDefaultForward = Vector3::Front;
+			planetAlignmentRot.Apply(projectedDefaultForward); // これが惑星に沿った状態での「前」
+			projectedDefaultForward.Normalize();
+
+			// 6. 惑星に沿った状態のデフォルトの前方向から、ターゲットの方向への回転角度を求める
+			float dotResult = projectedDefaultForward.Dot(forward);
+
+			// クランプ
+			Clamp(dotResult);
+
+			float rotAngle = acosf(dotResult);
+
+			// 7. 回転の向き（符号）を外積で判定
+			Vector3 crossProduct;
+			crossProduct.Cross(projectedDefaultForward, forward);
+			if (crossProduct.Dot(upDir) < 0.0f) {
+				rotAngle *= -1.0f;
+			}
+
+			// 8. Y軸（Up軸）周りの回転クォータニオン
+			Quaternion yRot;
+			yRot.SetRotation(upDir, rotAngle);
+
+			// 9. 「惑星アライメント」と「Y軸回転」を乗算（合成）
+			Quaternion nextRot = yRot * planetAlignmentRot;
+
+			// 即時適用して返す（Slerpなし）
+			return nextRot;
+		}
+
+
+		void StateMachineBase::ProcessMovement()
+		{
+			/** 移動ベクトルを水平方向と垂直方向に分ける */
+			Vector3 horizontalVel, verticalVel;
+			ComputeVelocity(horizontalVel, verticalVel);
+
+			/** 一旦今の座標を保存 */
+			Vector3 nextPosition = m_transform.m_position;
+
+			/** 今の座標と水平方向の移動ベクトルを加算し、水平方向に移動した座標を計算 */
+			nextPosition = CalculateHorizontalMove(nextPosition, horizontalVel);
+
+			/** さらに垂直方向の移動ベクトルを加算し、垂直方向に移動した座標を計算 */
+			nextPosition = CalculateVerticalMove(nextPosition, verticalVel);
+
+			/** 移動後のモデルに使用する回転を計算 */
+			Quaternion nextRotation = CalculateRotation(m_transform.m_rotation, horizontalVel);
+
+			/** 座標と回転を保存 */
+			m_transform.m_position = nextPosition;
+			m_transform.m_rotation = nextRotation;
 		}
 	}
 }

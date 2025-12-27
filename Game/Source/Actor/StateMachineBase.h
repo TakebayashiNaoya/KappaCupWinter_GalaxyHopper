@@ -257,13 +257,6 @@ namespace app
 			bool IsOnGround();
 
 			/**
-			 * 移動処理
-			 * ※呼び出す前に必ずm_upDirection、m_moveDirection、m_moveSpeedを設定しておいてください。
-			 * また、m_initialJumpSpeedを設定したら、ジャンプ処理も行われます。
-			 */
-			void Move();
-
-			/**
 			 * ベクトル v を法線 n の接平面へ投影（接線成分を取り出す）
 			 * Dot(v, n) は v と n の内積 → v の中で n 方向にどれだけ成分があるか。
 			 * n * Dot(v, n) はその成分を n 方向に戻したベクトル。
@@ -273,6 +266,52 @@ namespace app
 			{
 				return v - n * Dot(v, n);
 			}
+
+
+
+			/**
+			 * 移動処理
+			 * ※呼び出す前に必ずm_upDirection、m_moveDirection、m_moveSpeedを設定すること
+			 * なお、m_initialJumpSpeedを設定したら、ジャンプ処理も行われます。
+			 */
+			void ProcessMovement();
+
+
+		private:
+			/**
+			 * 移動速度（水平・垂直）を計算します
+			 */
+			void ComputeVelocity(Vector3& outHorizontalVel, Vector3& outVerticalVel);
+
+			/**
+			 * 指定した速度での移動を試みます（レイ判定・埋まり補正・壁判定込み）
+			 * @param startPos  開始座標
+			 * @param velocity  移動したいベクトル
+			 * @param outIsWall 壁に当たって止まったか（出力）
+			 * @param outNormal 当たった壁の法線（出力）
+			 * @return 移動後の座標
+			 */
+			Vector3 ExecuteMoveCheck(const Vector3& startPos, const Vector3& velocity, bool& outIsWall, Vector3& outNormal);
+
+			/**
+			 * 壁に沿った滑りベクトルを計算します
+			 */
+			Vector3 ComputeSlideVector(const Vector3& velocity, const Vector3& normal);
+
+			/**
+			 * 水平移動後の座標を計算して返します
+			 */
+			Vector3 CalculateHorizontalMove(const Vector3& currentPos, const Vector3& velocity);
+
+			/**
+			 * 垂直移動後の座標を計算して返します
+			 */
+			Vector3 CalculateVerticalMove(const Vector3& currentPos, Vector3& velocity);
+
+			/**
+			 * 次の回転姿勢を計算して返します
+			 */
+			Quaternion CalculateRotation(const Quaternion& currentRot, const Vector3& velocity);
 		};
 	}
 }
