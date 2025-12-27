@@ -1,9 +1,9 @@
 ﻿/**
- * StateMachine.cpp
+ * StateMachineBase.cpp
  * ステートマシンの実装
  */
 #include "stdafx.h"
-#include "StateMachine.h"
+#include "StateMachineBase.h"
 #include "Character.h"
 
 namespace

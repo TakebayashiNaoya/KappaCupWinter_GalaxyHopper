@@ -1,5 +1,5 @@
 ﻿/**
- * StateMachine.h
+ * StateMachineBase.h
  * 状態遷移を管理する基底クラス群
  */
 #pragma once

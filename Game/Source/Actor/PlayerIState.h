@@ -3,7 +3,7 @@
  * プレイヤーの各ステート
  */
 #pragma once
-#include "StateMachine.h"
+#include "StateMachineBase.h"
 
 
 namespace app
