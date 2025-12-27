@@ -224,6 +224,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Battle\BattleManager.cpp" />
+    <ClCompile Include="Camera\GameCamera.cpp" />
+    <ClCompile Include="Camera\TitleCamera.cpp" />
     <ClCompile Include="Collision\CollisionManager.cpp" />
     <ClCompile Include="Core\ParameterManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -271,6 +273,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Battle\BattleManager.h" />
+    <ClInclude Include="Camera\GameCamera.h" />
+    <ClInclude Include="Camera\TitleCamera.h" />
     <ClInclude Include="Collision\CollisionManager.h" />
     <ClInclude Include="Core\ParameterManager.h" />
     <ClInclude Include="Game.h" />

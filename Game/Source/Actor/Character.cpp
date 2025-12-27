@@ -6,9 +6,6 @@
 #include "Character.h"
 
 
-
-
-
 namespace app
 {
 	namespace actor
