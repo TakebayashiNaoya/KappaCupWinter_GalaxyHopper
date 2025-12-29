@@ -19,9 +19,9 @@ namespace app
 			BasicEnemyIdleState(StateMachineBase* owner) : IState(owner) {};
 			~BasicEnemyIdleState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -39,9 +39,9 @@ namespace app
 			BasicEnemyDashState(StateMachineBase* owner) : IState(owner) {};
 			~BasicEnemyDashState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -59,9 +59,9 @@ namespace app
 			BasicEnemyWaitState(StateMachineBase* owner) : IState(owner) {};
 			~BasicEnemyWaitState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -79,9 +79,9 @@ namespace app
 			BasicEnemyDeadState(StateMachineBase* owner) : IState(owner) {};
 			~BasicEnemyDeadState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 	}
 }
