@@ -256,18 +256,6 @@ namespace app
 			/** 地面に接地しているか */
 			bool IsOnGround();
 
-			/**
-			 * ベクトル v を法線 n の接平面へ投影（接線成分を取り出す）
-			 * Dot(v, n) は v と n の内積 → v の中で n 方向にどれだけ成分があるか。
-			 * n * Dot(v, n) はその成分を n 方向に戻したベクトル。
-			 * v - (その成分) → n方向の成分を引いて、残りを返す → 結果は n に直交する平面上のベクトル（接線）
-			 */
-			static Vector3 ProjectOnPlane(const Vector3& v, const Vector3& n)
-			{
-				return v - n * Dot(v, n);
-			}
-
-
 
 			/**
 			 * 移動処理
@@ -278,40 +266,38 @@ namespace app
 
 
 		private:
-			/**
-			 * 移動速度（水平・垂直）を計算します
-			 */
-			void ComputeVelocity(Vector3& outHorizontalVel, Vector3& outVerticalVel);
 
-			/**
-			 * 指定した速度での移動を試みます（レイ判定・埋まり補正・壁判定込み）
-			 * @param startPos  開始座標
-			 * @param velocity  移動したいベクトル
-			 * @param outIsWall 壁に当たって止まったか（出力）
-			 * @param outNormal 当たった壁の法線（出力）
-			 * @return 移動後の座標
-			 */
-			Vector3 ExecuteMoveCheck(const Vector3& startPos, const Vector3& velocity, bool& outIsWall, Vector3& outNormal);
+			//void CalcHorizontalVelocity(Vector3& outHorizontalVel, Vector3& outVerticalVel);
 
-			/**
-			 * 壁に沿った滑りベクトルを計算します
-			 */
-			Vector3 ComputeSlideVector(const Vector3& velocity, const Vector3& normal);
+			///**
+			// * 指定した速度での移動を試みます（レイ判定・埋まり補正・壁判定込み）
+			// * @param startPos  開始座標
+			// * @param velocity  移動したいベクトル
+			// * @param outIsWall 壁に当たって止まったか（出力）
+			// * @param outNormal 当たった壁の法線（出力）
+			// * @return 移動後の座標
+			// */
+			//Vector3 ExecuteMoveCheck(const Vector3& startPos, const Vector3& velocity, bool& outIsWall, Vector3& outNormal);
 
-			/**
-			 * 水平移動後の座標を計算して返します
-			 */
-			Vector3 CalculateHorizontalMove(const Vector3& currentPos, const Vector3& velocity);
+			///**
+			// * 壁に沿った滑りベクトルを計算します
+			// */
+			//Vector3 CalcSlideVector(const Vector3& velocity, const Vector3& normal);
 
-			/**
-			 * 垂直移動後の座標を計算して返します
-			 */
-			Vector3 CalculateVerticalMove(const Vector3& currentPos, Vector3& velocity);
+			///**
+			// * 水平移動後の座標を計算して返します
+			// */
+			//Vector3 CalcHorizontalMove(const Vector3& currentPos, const Vector3& velocity);
 
-			/**
-			 * 次の回転姿勢を計算して返します
-			 */
-			Quaternion CalculateRotation(const Quaternion& currentRot, const Vector3& velocity);
+			///**
+			// * 垂直移動後の座標を計算して返します
+			// */
+			//Vector3 CalcVerticalMove(const Vector3& currentPos, Vector3& velocity);
+
+			///**
+			// * 次の回転姿勢を計算して返します
+			// */
+			//Quaternion CalcRotation(const Quaternion& currentRot, const Vector3& velocity);
 		};
 	}
 }
