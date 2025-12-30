@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * EnemyStateMachine.h
- * ƒGƒlƒ~[‚Ìó‘Ô‘JˆÚ‚ğŠÇ—‚·‚éƒNƒ‰ƒXŒQ
+ * ã‚¨ãƒãƒŸãƒ¼ã®çŠ¶æ…‹é·ç§»ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ç¾¤
  */
 #pragma once
 #include "StateMachineBase.h"
@@ -11,7 +11,7 @@ namespace app
 	namespace actor
 	{
 		/**
-		 * Šî–{ƒGƒlƒ~[‚ÌƒXƒe[ƒgƒ}ƒVƒ“
+		 * åŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³
 		 */
 		class BasicEnemyStateMachine : public StateMachineBase
 		{
@@ -36,7 +36,7 @@ namespace app
 
 
 		/**
-		 * •ÏŒ`ƒGƒlƒ~[‚ÌƒXƒe[ƒgƒ}ƒVƒ“
+		 * å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³
 		 */
 		class DeformEnemyStateMachine : public StateMachineBase
 		{
@@ -62,7 +62,7 @@ namespace app
 
 
 		/**
-		 * ƒ{ƒXƒGƒlƒ~[‚ÌƒXƒe[ƒgƒ}ƒVƒ“
+		 * ãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³
 		 */
 		class BossEnemyStateMachine : public StateMachineBase
 		{
