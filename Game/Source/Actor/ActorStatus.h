@@ -11,25 +11,6 @@ namespace app
 	namespace actor
 	{
 		/**
-		 * ステータス生成関数
-		 * ※必ずこの関数を呼んでステータスの生成をすること！
-		 * 　Factoryパターンで指定したステータスを生成してセットアップまでする
-		 */
-		template <typename TStatus>
-		static TStatus* CreateStatus()
-		{
-			auto* status = new TStatus();
-			status->Setup();
-			return status;
-		}
-
-
-
-
-		/**********************/
-
-
-		/**
 		 * アクターステータス
 		 */
 		class ActorStatus

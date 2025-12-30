@@ -33,16 +33,6 @@ namespace app
 			/** ボスエネミーステートマシンの取得 */
 			BossEnemyStateMachine* GetStateMachine() const { return m_stateMachine.get(); }
 
-			/** ボスエネミーステータスの取得 */
-			BossEnemyStatus* GetStatus() const { return m_status.get(); }
-
-
-		public:
-			///// <summary>
-			///// アニメーションイベントを処理します。
-			///// </summary>
-			//void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName) override final;
-
 
 		public:
 			BossEnemy();
@@ -50,13 +40,7 @@ namespace app
 
 
 		private:
-			// ボスエネミーのステートマシン。
-			std::unique_ptr<BossEnemyStateMachine> m_stateMachine;
-			/** ステータス */
-			std::unique_ptr<BossEnemyStatus> m_status;
-
-
-			// クラススコープで宣言し、cppで定義。
+			/** アニメーションクリップのオプション配列 */
 			static const Character::AnimationOption BOSS_ENEMY_ANIMATION_OPTIONS[];
 
 
@@ -64,6 +48,9 @@ namespace app
 			bool Start() override final;
 			void Update() override final;
 			void Render(RenderContext& rc) override final;
+
+			/** アニメーションイベント */
+			void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);
 		};
 	}
 }

@@ -8,159 +8,72 @@ namespace app
 {
 	namespace actor
 	{
-		// ヘッダーのstatic宣言を消し、これをコンストラクタで定義すれば、同じクラスを使っても違うPLAYER_ANIMATION_OPTIONSを設定できる。
-		// ただ、staticの方がメモリ効率は良いので今回はこの形。
+		/** アニメーション設定 */
 		const Character::AnimationOption BossEnemy::BOSS_ENEMY_ANIMATION_OPTIONS[] = {
-		   {"Bear/idle",	true},
-		   {"Bear/walk",	true},
-		   {"Bear/run",		true},
-		   {"Bear/attack",	false},
-		   {"Bear/damage",	false},
-		   {"Bear/dead",	false},
+		  AnimationOption { std::string("Bear/idle"),		bool(true)	},
+		  AnimationOption { std::string("Bear/walk"),		bool(true)	},
+		  AnimationOption { std::string("Bear/dash"),		bool(true)	},
+		  AnimationOption { std::string("Bear/attack"),		bool(false)	},
+		  AnimationOption { std::string("Bear/damage"),		bool(true)	},
+		  AnimationOption { std::string("Bear/die"),		bool(false)	},
 		};
+
 
 		namespace
 		{
 			const std::string MODEL_PATH = "Bear/bear";
-			constexpr float MODEL_SCALE = 200.0f;
-
-			constexpr int MAX_LIFE = 10;										// 最大体力。
 
 			constexpr float COLLIDER_OFFSET = 100.0f;							// ボディコライダーのオフセット値。
 			constexpr float HIT_COLLIDER_RADIUS = 100.0f;						// 当たりコライダーのサイズ。
-			constexpr float HURT_COLLIDER_RADIUS = 300.0f;						// やられコライダーのサイズ。
-
-			const Vector3 SPAWN_POSITION = Vector3(0.0f, 0.0f, 2000.0f);		// スポーン座標。
+			constexpr float HURT_COLLIDER_RADIUS = 300.0f;
 
 			constexpr float COOLDOWN_DURATION = 3.0f;							// 攻撃のクールダウン時間。
 			constexpr float ATTACK_RANGE = 300.0f;								// 攻撃範囲。
 			constexpr float ATTACK_RADIUS = 200.0f;								// 攻撃判定の半径。
 		}
 
+
 		BossEnemy::BossEnemy()
 		{
-			m_stateMachine = std::make_unique<app::bossEnemy::BossEnemyStateMachine>(this);
+			/** アニメーション数チェック */
+			static_assert(ARRAYSIZE(BOSS_ENEMY_ANIMATION_OPTIONS) == enAnimationClip_Num,
+				"アニメーションのファイル数とクリップ数が合っていません。");
+
+			/** ステートマシン生成 */
+			m_stateMachine = std::make_unique<BossEnemyStateMachine>(this);
+
+			/** ステータス生成 */
+			m_status = CreateStatus<BossEnemyStatus>();
 		}
+
 
 		BossEnemy::~BossEnemy()
 		{
 		}
 
 
-		/// <summary>
-		/// プレイヤーに向かって走ります。
-		/// </summary>
-		void BossEnemy::ChasePlayer(const float speed)
-		{
-			// 水平方向に速度加算。
-			m_moveSpeed += CalcHorizontalVelocity(speed);
-
-			// 垂直方向に速度加算。
-			m_moveSpeed += CalcVerticalVelocity();
-
-			// 移動速度から座標更新。
-			ComputePosition();
-
-			// 攻撃方向を設定。
-			SetAttackDirection(m_moveSpeed);
-		}
-
-		void BossEnemy::UpdateCooldown()
-		{
-			m_cooldownTimer -= g_gameTime->GetFrameDeltaTime();
-		}
-
-		const bool BossEnemy::GetIsOnCooldown()const
-		{
-			return m_cooldownTimer > 0.0f;
-		}
-
-		const void BossEnemy::ResetCooldownTimer()
-		{
-			m_cooldownTimer = COOLDOWN_DURATION;
-		}
-
-		const float BossEnemy::GetDistanceToPlayer()const
-		{
-			Vector3 distance = m_playerFoundPos - m_position;
-			return distance.Length();
-		}
-
-
-		void BossEnemy::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
-		{
-			//キーの名前が「attack_start」の時。
-			if (wcscmp(eventName, L"attack_start") == 0)
-			{
-				SoundManager::Play(enSoundList_BossAttack, false, true, m_position);
-
-				if (CollisionHitManager::GetInstance() == nullptr) {
-					return;
-				}
-
-				m_attackCollider = CollisionHitManager::GetInstance()->CreateCollider(
-					this,
-					enCollisionType_BossEnemy,
-					ATTACK_RADIUS,
-					app::EnCollisionAttr::enCollisionAttr_Enemy
-				);
-
-				Vector3 attackPosition = m_position + m_attackDirection * ATTACK_RANGE;
-				m_attackCollider->SetPosition(attackPosition);
-			}
-			//キーの名前が「attack_end」の時。
-			else if (wcscmp(eventName, L"attack_end") == 0)
-			{
-				if (CollisionHitManager::GetInstance() == nullptr) {
-					return;
-				}
-
-				//攻撃用コライダーを削除。
-				m_attackCollider = CollisionHitManager::GetInstance()->DeleteCollider(m_attackCollider);
-			}
-			//キーの名前が「step」の時。
-			else if (wcscmp(eventName, L"step") == 0)
-			{
-				SoundManager::GetInstance()->Play(enSoundList_BossStep);
-			}
-			else if (wcscmp(eventName, L"dead") == 0) {
-				SoundManager::Play(enSoundList_BossDead, false, true, m_position);
-			}
-		}
-
-
 		bool BossEnemy::Start()
 		{
-			// モデルとアニメーションを初期化。
-			InitModel(enAnimationClip_Num, BOSS_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
+			/** モデルとアニメーションを初期化 */
+			InitModel(enAnimationClip_Num, BOSS_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, GetStatus<BossEnemyStatus>()->GetModelScale());
 
-			// 星に埋もれないように初期位置を調整。
-			m_position = SPAWN_POSITION;
-
-			ResetRotation();
-
-			m_maxLife = MAX_LIFE;
-			InitLife(m_maxLife);
-
-			// 初期ステートを設定
-			m_stateMachine->InitializeState(enBossEnemyState_Idle);
-
-			// 攻撃判定のコライダーを作成。
-			m_hitCollider = CollisionHitManager::GetInstance()->CreateCollider(
+			/** 攻撃判定のコライダーを作成 */
+			m_hitCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
-				enCollisionType_BossEnemy,
+				collision::enCollisionType_BossEnemy,
 				HIT_COLLIDER_RADIUS,
 				app::EnCollisionAttr::enCollisionAttr_Enemy
 			);
-			// やられ判定のコライダーを作成。
-			m_hurtCollider = CollisionHitManager::GetInstance()->CreateCollider(
+
+			/** やられ判定のコライダーを作成 */
+			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
-				enCollisionType_BossEnemy,
+				collision::enCollisionType_BossEnemy,
 				HURT_COLLIDER_RADIUS,
 				app::EnCollisionAttr::enCollisionAttr_Enemy
 			);
 
-			//アニメーションイベント用の関数を設定する。
+			/** アニメーションイベント用の関数を設定する */
 			m_modelRender.AddAnimationEvent([&](const wchar_t* clipName, const wchar_t* eventName) {
 				OnAnimationEvent(clipName, eventName);
 				});
@@ -168,35 +81,81 @@ namespace app
 			return true;
 		}
 
+
 		void BossEnemy::Update()
 		{
-			// ポーズ中または戦闘終了時は更新しない。
-			if (BattleManager::GetIsBattleFinish()) {
+			/** 戦闘終了時は更新しない */
+			if (battle::BattleManager::GetIsBattleFinish()) {
 				return;
 			}
 
-			m_moveSpeed = Vector3::Zero;
-
-			//「惑星の中心→キャラ」のベクトルを計算し、正規化します。
-			UpdateUpDirection();
-
+			/** ステートマシン更新 */
 			m_stateMachine->Update();
 
-			CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
-			CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
+			/** モデルと当たり判定の更新に必要な値を取得 */
+			m_transform.m_position = m_stateMachine->GetTransform().m_position;
+			m_transform.m_rotation = m_stateMachine->GetTransform().m_rotation;
+			m_upDirection = m_stateMachine->GetUpDirection();
 
-			m_modelRender.SetPosition(m_position);
+			/** 当たり判定の更新 */
+			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
+			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
+
+			/** モデルの更新 */
+			m_modelRender.SetPosition(m_transform.m_position);
+			m_modelRender.SetRotation(m_transform.m_rotation);
 			m_modelRender.Update();
-
-			if (m_life <= 0) {
-				SetIsDying(true);
-			}
-
 		}
+
 
 		void BossEnemy::Render(RenderContext& rc)
 		{
 			m_modelRender.Draw(rc);
+		}
+
+
+		void BossEnemy::OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName)
+		{
+			/** キーの名前が「attack_start」の時 */
+			if (wcscmp(eventName, L"attack_start") == 0)
+			{
+				/** 攻撃音再生 */
+				sound::SoundManager::Play(sound::enSoundList_BossAttack, false, true, m_transform.m_position);
+
+				if (collision::CollisionHitManager::GetInstance() == nullptr) {
+					return;
+				}
+
+				/** 攻撃用コライダーを作成 */
+				m_attackHitCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
+					this,
+					collision::enCollisionType_BossEnemy,
+					ATTACK_RADIUS,
+					app::EnCollisionAttr::enCollisionAttr_Enemy
+				);
+				/** 攻撃用コライダーの位置を設定 */
+				Vector3 attackPosition = m_transform.m_position + m_attackDirection * ATTACK_RANGE;
+				m_attackHitCollider->SetPosition(attackPosition);
+			}
+			/** キーの名前が「attack_end」の時 */
+			else if (wcscmp(eventName, L"attack_end") == 0)
+			{
+				if (collision::CollisionHitManager::GetInstance() == nullptr) {
+					return;
+				}
+
+				/** 攻撃用コライダーを削除 */
+				m_attackHitCollider = collision::CollisionHitManager::GetInstance()->DeleteCollider(m_attackHitCollider);
+			}
+			/** キーの名前が「step」の時 */
+			else if (wcscmp(eventName, L"step") == 0)
+			{
+				sound::SoundManager::GetInstance()->Play(sound::enSoundList_BossStep);
+			}
+			/** キーの名前が「dead」の時 */
+			else if (wcscmp(eventName, L"dead") == 0) {
+				sound::SoundManager::Play(sound::enSoundList_BossDead, false, true, m_transform.m_position);
+			}
 		}
 	}
 }

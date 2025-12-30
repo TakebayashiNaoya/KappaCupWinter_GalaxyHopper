@@ -33,9 +33,6 @@ namespace app
 			/** プレイヤーステートマシンの取得 */
 			PlayerStateMachine* GetStateMachine() const { return m_stateMachine.get(); }
 
-			/** プレイヤーステータスの取得 */
-			PlayerStatus* GetStatus() const { return m_status.get(); }
-
 			/// <summary>
 			/// 毎フレームのXZ軸回転角度を取得
 			/// </summary>
@@ -69,12 +66,6 @@ namespace app
 
 
 		private:
-			/** ステートマシン */
-			std::unique_ptr<PlayerStateMachine> m_stateMachine;
-			/** ステータス */
-			std::unique_ptr<PlayerStatus> m_status;
-
-
 			// ダメージ関連
 			Vector3 m_knockBackDirection = Vector3::Zero;
 			float	m_knockBackTimer = 0.0f;

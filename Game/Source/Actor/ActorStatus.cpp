@@ -23,8 +23,6 @@ namespace app
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.jumpPower = j["jumpPower"].get<float>();
 				});
-			/** ステータス設定 */
-			Setup();
 		}
 
 
@@ -65,8 +63,6 @@ namespace app
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
 				});
-			/** ステータス設定 */
-			Setup();
 		}
 
 
@@ -108,8 +104,6 @@ namespace app
 					parameter.hitRadius = j["hitRadius"].get<float>();
 					parameter.slideSpeed = j["slideSpeed"].get<float>();
 				});
-			/** ステータス設定 */
-			Setup();
 		}
 
 
@@ -151,8 +145,6 @@ namespace app
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
 				});
-			/** ステータス設定 */
-			Setup();
 		}
 
 
