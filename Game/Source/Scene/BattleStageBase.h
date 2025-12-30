@@ -25,10 +25,6 @@ namespace app
 	{
 		class CollisionManagerObject;
 	}
-	namespace ui
-	{
-		class UIFirstStage;
-	}
 
 
 	namespace scene
@@ -110,8 +106,6 @@ namespace app
 			collision::CollisionManagerObject* m_collisionManager = nullptr;
 			/** ゲームカメラ */
 			camera::GameCamera* m_gameCamera = nullptr;
-			/** ファーストステージ用UI */
-			ui::UIFirstStage* m_uiFirstStage = nullptr;
 			///** リザルトUI */
 			//UIResultBase* m_uiResult = nullptr;
 
