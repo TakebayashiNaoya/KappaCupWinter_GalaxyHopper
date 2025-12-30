@@ -10,11 +10,23 @@ namespace app
 {
 	namespace actor
 	{
-		class EnemyStateMachine : public StateMachineBase
+		/**
+		 * 基本エネミーのステートマシン
+		 */
+		class BasicEnemyStateMachine : public StateMachineBase
 		{
 		public:
-			EnemyStateMachine(IGameObject* owner) : StateMachineBase(owner) {}
-			virtual ~EnemyStateMachine() {}
+			enum EnBasicEnemyState
+			{
+				enBasicEnemyState_Idle,
+				enBasicEnemyState_Run,
+				enBasicEnemyState_Dead
+			};
+
+
+		public:
+			BasicEnemyStateMachine(IGameObject* owner) : StateMachineBase(owner) {};
+			virtual ~BasicEnemyStateMachine();
 		};
 
 
@@ -23,21 +35,51 @@ namespace app
 		/********************************/
 
 
-		enum EnBasicEnemyState
-		{
-			enBasicEnemyState_Idle,
-			enBasicEnemyState_Run,
-			enBasicEnemyState_Dead
-		};
-
 		/**
-		 * 基本エネミーのステートマシン
+		 * 変形エネミーのステートマシン
 		 */
-		class BasicEnemyStateMachine : public EnemyStateMachine
+		class DeformEnemyStateMachine : public StateMachineBase
 		{
 		public:
-			BasicEnemyStateMachine(IGameObject* owner) : EnemyStateMachine(owner) {};
-			virtual ~BasicEnemyStateMachine();
+			enum EnDeformEnemyState
+			{
+				enDeformEnemyState_Idle,
+				enDeformEnemyState_Transform,
+				enDeformEnemyState_Run,
+				enDeformEnemyState_Dead
+			};
+
+
+		public:
+			DeformEnemyStateMachine(IGameObject* owner) : StateMachineBase(owner) {};
+			virtual ~DeformEnemyStateMachine();
+		};
+
+
+
+
+		/********************************/
+
+
+		/**
+		 * ボスエネミーのステートマシン
+		 */
+		class BossEnemyStateMachine : public StateMachineBase
+		{
+		public:
+			enum EnBossEnemyState
+			{
+				enBossEnemyState_Idle,
+				enBossEnemyState_Chase,
+				enBossEnemyState_Attack,
+				enBossEnemyState_Damage,
+				enBossEnemyState_Dead
+			};
+
+
+		public:
+			BossEnemyStateMachine(IGameObject* owner) : StateMachineBase(owner) {};
+			virtual ~BossEnemyStateMachine();
 		};
 	}
 }
