@@ -4,14 +4,14 @@
  */
 #pragma once
 
- // 操作対象（肉体）を知っておく必要がある
-class Player;
-
 
 namespace app
 {
 	namespace actor
 	{
+		class Player;
+
+
 		class PlayerController : public IGameObject
 		{
 		public:
