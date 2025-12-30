@@ -22,12 +22,9 @@ namespace app
 			/** やられ判定 */
 			CollisionObject* m_hurtCollider = nullptr;
 			/** 体の当たり判定 */
-			CollisionObject* m_bodyHitCollider = nullptr;
+			CollisionObject* m_hitCollider = nullptr;
 			/** 一時的な攻撃判定 */
 			CollisionObject* m_attackHitCollider = nullptr;
-
-			/** 上方向ベクトル */
-			Vector3 m_upDirection = Vector3::Up;
 
 
 		public:

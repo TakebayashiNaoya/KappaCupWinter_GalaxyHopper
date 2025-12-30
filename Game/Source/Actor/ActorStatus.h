@@ -63,7 +63,7 @@ namespace app
 			/** 走る移動速度 */
 			float m_dashSpeed = 0.0f;
 			/** ダメージを受ける当たり判定の半径 */
-			float m_radius = 0.0f;
+			float m_hurtRadius = 0.0f;
 			/** モデルの拡大率 */
 			float m_modelScale = 0.0f;
 			/** ダメージを受けたかどうか */
@@ -105,7 +105,7 @@ namespace app
 			/** ダッシュスピードのゲッター */
 			float GetDashSpeed() const { return m_dashSpeed; }
 			/** 半径のゲッター */
-			float GetHurtRadius() const { return m_radius; }
+			float GetHurtRadius() const { return m_hurtRadius; }
 			/** モデルの拡大率のゲッター */
 			float GetModelScale() const { return m_modelScale; }
 			/** ダメージを受けたかどうかのゲッター */
