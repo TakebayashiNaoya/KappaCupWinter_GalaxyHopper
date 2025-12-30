@@ -10,6 +10,7 @@ using namespace nsK2Engine;
 
 #include "Transform.h"
 #include "Sound/SoundManager.h"
+#include "Battle/BattleManager.h"
 
 //#include "core/Fade.h"
 
