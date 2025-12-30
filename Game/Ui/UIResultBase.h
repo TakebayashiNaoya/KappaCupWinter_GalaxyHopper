@@ -1,18 +1,32 @@
+﻿/**
+ * UIResultBase.h
+ * リザルト用のUIの基底クラス
+ */
 #pragma once
 
-class UIResultBase : public IGameObject
+
+namespace app
 {
-public:
-	UIResultBase() {}
-	virtual ~UIResultBase() {}
-
-	// ���ʂ̏I������t���O�擾
-	const bool GetIsEnd() const
+	namespace ui
 	{
-		return m_isEnd;
+		class UIResultBase : public IGameObject
+		{
+		public:
+			UIResultBase() {}
+			virtual ~UIResultBase() {}
+
+			/**
+			 * UIアニメーションが終わったかを取得
+			 */
+			inline const bool GetIsEnd() const
+			{
+				return m_isEnd;
+			}
+
+
+		protected:
+			/** UIアニメーションが終わったか */
+			bool m_isEnd = false;
+		};
 	}
-
-protected:
-	bool m_isEnd = false; // �I���t���O
-};
-
+}
