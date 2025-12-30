@@ -3,7 +3,7 @@
  * ボスエネミーの各ステート
  */
 #pragma once
-#include "StateMachine.h"
+#include "StateMachineBase.h"
 
 
 namespace app
@@ -19,9 +19,9 @@ namespace app
 			BossEnemyIdleState(StateMachineBase* owner) : IState(owner) {};
 			~BossEnemyIdleState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -38,9 +38,9 @@ namespace app
 			BossEnemyWalkState(StateMachineBase* owner) : IState(owner) {};
 			~BossEnemyWalkState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -58,9 +58,9 @@ namespace app
 			BossEnemyDashState(StateMachineBase* owner) : IState(owner) {};
 			~BossEnemyDashState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -78,9 +78,9 @@ namespace app
 			BossEnemyAttackState(StateMachineBase* owner) : IState(owner) {};
 			~BossEnemyAttackState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -98,9 +98,9 @@ namespace app
 			BossEnemyCoolDownState(StateMachineBase* owner) : IState(owner) {};
 			~BossEnemyCoolDownState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -118,9 +118,9 @@ namespace app
 			BossEnemyDamageState(StateMachineBase* owner) : IState(owner) {};
 			~BossEnemyDamageState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -138,9 +138,9 @@ namespace app
 			BossEnemyDyingState(StateMachineBase* owner) : IState(owner) {};
 			~BossEnemyDyingState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -158,9 +158,9 @@ namespace app
 			BossEnemyDeadState(StateMachineBase* owner) : IState(owner) {};
 			~BossEnemyDeadState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 	}
 }

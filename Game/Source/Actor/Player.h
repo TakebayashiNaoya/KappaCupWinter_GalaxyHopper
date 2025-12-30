@@ -30,9 +30,6 @@ namespace app
 			};
 
 
-			/** コントローラーから渡される移動ベクトルのセッター */
-			void SetVelocity(const Vector3& velocity) { m_velocity = velocity; }
-
 			/** プレイヤーステートマシンのゲッター */
 			PlayerStateMachine* GetStateMachine() const { return m_stateMachine.get(); }
 
@@ -73,9 +70,6 @@ namespace app
 
 
 		private:
-			// ★追加: コントローラーから渡される移動ベクトル
-			Vector3 m_velocity = Vector3::Zero;
-
 			/** ステータス */
 			std::unique_ptr<PlayerStatus> m_status;
 

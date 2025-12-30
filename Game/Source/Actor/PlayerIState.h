@@ -3,7 +3,7 @@
  * プレイヤーの各ステート
  */
 #pragma once
-#include "StateMachine.h"
+#include "StateMachineBase.h"
 
 
 namespace app
@@ -19,9 +19,9 @@ namespace app
 			PlayerIdleState(StateMachineBase* owner) : IState(owner) {};
 			~PlayerIdleState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -39,9 +39,9 @@ namespace app
 			PlayerWalkState(StateMachineBase* owner) : IState(owner) {};
 			~PlayerWalkState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -59,9 +59,9 @@ namespace app
 			PlayerDashState(StateMachineBase* owner) : IState(owner) {};
 			~PlayerDashState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -79,9 +79,9 @@ namespace app
 			PlayerJumpState(StateMachineBase* owner) : IState(owner) {};
 			~PlayerJumpState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -99,9 +99,9 @@ namespace app
 			PlayerDamageState(StateMachineBase* owner) : IState(owner) {};
 			~PlayerDamageState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -119,9 +119,9 @@ namespace app
 			PlayerDyingState(StateMachineBase* owner) : IState(owner) {};
 			~PlayerDyingState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -139,9 +139,9 @@ namespace app
 			PlayerDeadState(StateMachineBase* owner) : IState(owner) {};
 			~PlayerDeadState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 	}
 }

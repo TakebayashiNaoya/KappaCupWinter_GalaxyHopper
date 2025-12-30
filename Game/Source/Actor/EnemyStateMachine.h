@@ -3,7 +3,7 @@
  * エネミーの状態遷移を管理するクラス群
  */
 #pragma once
-#include "StateMachine.h"
+#include "StateMachineBase.h"
 
 
 namespace app

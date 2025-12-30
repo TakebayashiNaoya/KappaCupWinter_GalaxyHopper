@@ -50,7 +50,6 @@ namespace app
 			~GameCamera();
 
 
-
 		private:
 			bool Start() override final;
 			void Update() override final;

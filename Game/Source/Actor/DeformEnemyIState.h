@@ -3,7 +3,7 @@
  * デフォームエネミーの各ステート
  */
 #pragma once
-#include "StateMachine.h"
+#include "StateMachineBase.h"
 
 
 namespace app
@@ -19,9 +19,9 @@ namespace app
 			DeformEnemyIdleState(StateMachineBase* owner) : IState(owner) {};
 			~DeformEnemyIdleState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -39,9 +39,9 @@ namespace app
 			DeformEnemyDashState(StateMachineBase* owner) : IState(owner) {};
 			~DeformEnemyDashState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -59,9 +59,9 @@ namespace app
 			DeformEnemyFlippingState(StateMachineBase* owner) : IState(owner) {};
 			~DeformEnemyFlippingState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -79,9 +79,9 @@ namespace app
 			DeformEnemyFlippedState(StateMachineBase* owner) : IState(owner) {};
 			~DeformEnemyFlippedState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -99,9 +99,9 @@ namespace app
 			DeformEnemySlidingState(StateMachineBase* owner) : IState(owner) {};
 			~DeformEnemySlidingState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 
 
@@ -119,9 +119,9 @@ namespace app
 			DeformEnemyDeadState(StateMachineBase* owner) : IState(owner) {};
 			~DeformEnemyDeadState() {};
 
-			void Enter() override;
-			void Update() override;
-			void Exit() override;
+			void Enter() override final;
+			void Update() override final;
+			void Exit() override final;
 		};
 	}
 }

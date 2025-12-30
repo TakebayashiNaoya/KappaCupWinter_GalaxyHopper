@@ -115,7 +115,7 @@ namespace app
 
 		void PlayerDamageState::Exit()
 		{
-			GetOwner<Player>()->GetPlayerStatus()->Damage();
+			GetOwner<PlayerStateMachine>()->GetOwner<Player>()->ResetKnockBackTimer();
 		}
 
 

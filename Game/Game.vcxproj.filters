@@ -48,9 +48,6 @@
     <ClCompile Include="Source\Actor\Player.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Actor\StateMachine.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Actor\ActorTypes.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
@@ -150,6 +147,12 @@
     <ClCompile Include="Camera\TitleCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\StateMachineBase.cpp">
+      <Filter>Source\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\TitlePlayer.cpp">
+      <Filter>Source\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -164,9 +167,6 @@
       <Filter>Source\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Actor\Player.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\StateMachine.h">
       <Filter>Source\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Actor\ActorTypes.h">
@@ -267,6 +267,12 @@
     </ClInclude>
     <ClInclude Include="Camera\TitleCamera.h">
       <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\StateMachineBase.h">
+      <Filter>Source\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\TitlePlayer.h">
+      <Filter>Source\Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

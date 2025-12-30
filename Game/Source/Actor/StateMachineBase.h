@@ -1,5 +1,5 @@
 ﻿/**
- * StateMachine.h
+ * StateMachineBase.h
  * 状態遷移を管理する基底クラス群
  */
 #pragma once
@@ -84,7 +84,7 @@ namespace app
 			/**
 			 * 移動方向の設定
 			 */
-			inline void SetMoveDirection(const Vector3& moveDir) { m_moveDirection = moveDir; }
+			inline void SetMoveDirection(const Vector3 moveDir) { m_moveDirection = moveDir; }
 
 			/**
 			 * 移動速度の取得
@@ -111,7 +111,7 @@ namespace app
 			/**
 			 * ダッシュできるかの設定
 			 */
-			inline void SetDash(const bool isDash) { m_isDash = isDash; }
+			inline void SetIsDash(const bool isDash) { m_isDash = isDash; }
 
 			/**
 			 * 攻撃できるかの取得
@@ -120,7 +120,7 @@ namespace app
 			/**
 			 * 攻撃できるかの設定
 			 */
-			inline void SetAttack(const bool isAttack) { m_isAttack = isAttack; }
+			inline void SetIsAttack(const bool isAttack) { m_isAttack = isAttack; }
 
 
 		protected:
@@ -207,8 +207,6 @@ namespace app
 				return dynamic_cast<T*>(m_owner);
 			}
 
-
-		protected:
 			/**
 			 * 現在ステートが指定したステートならtrueを返します。
 			 * 現在のステートが何かによって処理を分岐したい場合に使用します。
@@ -218,7 +216,7 @@ namespace app
 			{
 				return m_currentState == m_stateMap[state];
 			}
-		public:
+
 			/**
 			 * 次のステートが指定したステートならtrueを返します。
 			 * 次のステートが何かによって処理を分岐したい場合に使用します。
@@ -256,23 +254,48 @@ namespace app
 			/** 地面に接地しているか */
 			bool IsOnGround();
 
-			/**
-			 * 移動処理
-			 * ※呼び出す前に必ずm_upDirection、m_moveDirection、m_moveSpeedを設定しておいてください。
-			 * また、m_initialJumpSpeedを設定したら、ジャンプ処理も行われます。
-			 */
-			void Move();
 
 			/**
-			 * ベクトル v を法線 n の接平面へ投影（接線成分を取り出す）
-			 * Dot(v, n) は v と n の内積 → v の中で n 方向にどれだけ成分があるか。
-			 * n * Dot(v, n) はその成分を n 方向に戻したベクトル。
-			 * v - (その成分) → n方向の成分を引いて、残りを返す → 結果は n に直交する平面上のベクトル（接線）
+			 * 移動処理
+			 * ※呼び出す前に必ずm_upDirection、m_moveDirection、m_moveSpeedを設定すること
+			 * なお、m_initialJumpSpeedを設定したら、ジャンプ処理も行われます。
 			 */
-			static Vector3 ProjectOnPlane(const Vector3& v, const Vector3& n)
-			{
-				return v - n * Dot(v, n);
-			}
+			void ProcessMovement();
+
+
+		private:
+
+			//void CalcHorizontalVelocity(Vector3& outHorizontalVel, Vector3& outVerticalVel);
+
+			///**
+			// * 指定した速度での移動を試みます（レイ判定・埋まり補正・壁判定込み）
+			// * @param startPos  開始座標
+			// * @param velocity  移動したいベクトル
+			// * @param outIsWall 壁に当たって止まったか（出力）
+			// * @param outNormal 当たった壁の法線（出力）
+			// * @return 移動後の座標
+			// */
+			//Vector3 ExecuteMoveCheck(const Vector3& startPos, const Vector3& velocity, bool& outIsWall, Vector3& outNormal);
+
+			///**
+			// * 壁に沿った滑りベクトルを計算します
+			// */
+			//Vector3 CalcSlideVector(const Vector3& velocity, const Vector3& normal);
+
+			///**
+			// * 水平移動後の座標を計算して返します
+			// */
+			//Vector3 CalcHorizontalMove(const Vector3& currentPos, const Vector3& velocity);
+
+			///**
+			// * 垂直移動後の座標を計算して返します
+			// */
+			//Vector3 CalcVerticalMove(const Vector3& currentPos, Vector3& velocity);
+
+			///**
+			// * 次の回転姿勢を計算して返します
+			// */
+			//Quaternion CalcRotation(const Quaternion& currentRot, const Vector3& velocity);
 		};
 	}
 }

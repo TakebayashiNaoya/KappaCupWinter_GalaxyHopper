@@ -23,6 +23,17 @@ namespace app
 			AddjustConst float CAMERA_ROTATION_SPEED = 3.0f;
 		}
 
+
+		GameCamera::GameCamera()
+		{
+		}
+
+
+		GameCamera::~GameCamera()
+		{
+		}
+
+
 		bool GameCamera::Start()
 		{
 			// 初期オフセット設定

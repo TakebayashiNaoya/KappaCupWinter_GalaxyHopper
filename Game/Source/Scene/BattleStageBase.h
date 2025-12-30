@@ -1,18 +1,36 @@
-﻿#pragma once
+﻿/**
+ * BattleStageBase.h
+ * バトルがあるステージの基底クラス
+ */
+#pragma once
 #include "SceneManager.h"
-
-
-class Player;
-class BossEnemy;
-class GameCamera;
-class UIInGame;
-class BattleManagerObject;
-class CollisionManagerObject;
-class UIResultBase;
 
 
 namespace app
 {
+	namespace actor
+	{
+		class Player;
+		class BossEnemy;
+	}
+	namespace camera
+	{
+		class GameCamera;
+	}
+	namespace battle
+	{
+		class BattleManagerObject;
+	}
+	namespace collision
+	{
+		class CollisionManagerObject;
+	}
+	namespace ui
+	{
+		class UIFirstStage;
+	}
+
+
 	namespace scene
 	{
 		/**
@@ -26,37 +44,27 @@ namespace app
 
 
 		protected:
-			/**
-			 * 派生先で開始処理を実装するための仮想関数
-			 */
+			/** 派生先で開始処理を実装するための仮想関数 */
 			virtual bool Start() override;
-
-			/**
-			 * 派生先で更新処理を実装するための仮想関数
-			 */
+			/** 派生先で更新処理を実装するための仮想関数 */
 			virtual void OnUpdate() {};
-
-			/**
-			 * レベルの初期化を行う仮想関数です。
-			 * 派生クラスでオーバーライドして初期化してください
-			 */
+			/** 派生シーンでレベルの初期化を行うための仮想関数 */
 			virtual void InitLevel() {};
 
 			/**
 			 * 勝敗判定に必要なため基底クラスに持たせている
-			 * 各ステージで生成したPlayer、BossEnemyのポインタをセットすること
+			 * 各ステージで生成したPlayer、BossEnemyのポインタをセットする
+			 * ※派生先で必ずDeleteGO
 			 */
 			actor::Player* m_player = nullptr;
-			actor::BossEnemy* m_bossEnemy = nullptr;	// ※派生先でDeleteGOしてください。
+			actor::BossEnemy* m_bossEnemy = nullptr;
 
 
 			/**
-			 * ゲームの進行状態を管理し、共通の勝敗判定を行います
+			 * 勝敗判定関連
 			 */
 		private:
-			/**
-			 * 戦闘の進行状態を表す列挙型
-			 */
+			/** 戦闘の状態を表す列挙型 */
 			enum enBattlePhase
 			{
 				enBattlePhase_Battle,				/** 戦闘中 */
@@ -69,9 +77,7 @@ namespace app
 			};
 			enBattlePhase m_battlePhase = enBattlePhase_Battle;
 
-			/**
-			 * 勝敗結果を表す列挙型
-			 */
+			/** 勝敗結果を表す列挙型 */
 			enum enResult
 			{
 				enResult_None,
@@ -80,9 +86,7 @@ namespace app
 			};
 			enResult m_result = enResult_None;
 
-			/**
-			 * 全てのステージで共通する勝敗判定を行う
-			 */
+			/** 全てのステージで共通する勝敗判定を行う */
 			void Update() override final;
 
 
@@ -90,15 +94,9 @@ namespace app
 			 * 全てのステージで共通するオブジェクトの初期化を行う
 			 */
 		private:
-			/**
-			 * 全てのステージで共通するオブジェクトの初期化。
-			 * NOTE:ロード画面を円滑に動かすため、switchで初期化を分割している
-			 */
+			/** 全てのステージで共通するオブジェクトの初期化 */
 			void InitObjects();
-
-			/**
-			 * InitObjectsで実行するタスクを登録する
-			 */
+			/** InitObjectsで実行するタスクを登録する */
 			void RegisterLoadingTasks();
 
 			/** 初期化するタスクのリスト */
@@ -107,15 +105,15 @@ namespace app
 			int m_currentTaskIndex = 0;
 
 			/** バトルマネージャー */
-			BattleManagerObject* m_battleManager = nullptr;
+			battle::BattleManagerObject* m_battleManager = nullptr;
 			/** コリジョンマネージャー */
-			CollisionManagerObject* m_collisionManager = nullptr;
-			/** インゲームUI */
-			UIInGame* m_inGameUI = nullptr;
+			collision::CollisionManagerObject* m_collisionManager = nullptr;
 			/** ゲームカメラ */
-			GameCamera* m_gameCamera = nullptr;
-			/** リザルトUI */
-			UIResultBase* m_uiResult = nullptr;
+			camera::GameCamera* m_gameCamera = nullptr;
+			/** ファーストステージ用UI */
+			ui::UIFirstStage* m_uiFirstStage = nullptr;
+			///** リザルトUI */
+			//UIResultBase* m_uiResult = nullptr;
 
 
 			/** 空を初期化 */

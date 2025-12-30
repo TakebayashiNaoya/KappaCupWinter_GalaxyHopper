@@ -2,7 +2,7 @@
 /// プレイヤーのステートマシン。
 /// </summary>
 #pragma once
-#include "StateMachine.h"
+#include "StateMachineBase.h"
 
 
 namespace app
@@ -14,7 +14,13 @@ namespace app
 
 		class PlayerStateMachine : public StateMachineBase
 		{
-		private:
+		public:
+			PlayerStateMachine(Player* owner);
+			virtual ~PlayerStateMachine();
+
+			/** アニメーション再生 */
+			void PlayAnimation(const int animationIndex) override final;
+
 			/** ステートを識別するenum */
 			enum EnPlayerState
 			{
@@ -27,19 +33,6 @@ namespace app
 				enPlayerState_Dead,
 				enPlayerState_Num,
 			};
-
-
-		private:
-			/** ジャンプできるか */
-			bool m_isJump = false;
-
-
-		public:
-			PlayerStateMachine(Player* owner);
-			virtual ~PlayerStateMachine();
-
-			/** アニメーション再生 */
-			void PlayAnimation(const int animationIndex) override final;
 
 
 		private:
