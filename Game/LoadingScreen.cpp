@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "LoadingScreen.h"
-#include "Sound/SoundManager.h"
 
 
 namespace app
