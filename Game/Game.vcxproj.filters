@@ -150,6 +150,9 @@
     <ClCompile Include="Source\Actor\StateMachineBase.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\TitlePlayer.cpp">
+      <Filter>Source\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -266,6 +269,9 @@
       <Filter>Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\Actor\StateMachineBase.h">
+      <Filter>Source\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\TitlePlayer.h">
       <Filter>Source\Actor</Filter>
     </ClInclude>
   </ItemGroup>

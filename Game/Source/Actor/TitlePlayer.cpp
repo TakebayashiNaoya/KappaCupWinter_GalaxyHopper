@@ -1,107 +1,79 @@
+Ôªø/**
+ * TitlePlayer.cpp
+ * „Çø„Ç§„Éà„É´Áî®„ÅÆ„Éó„É¨„Ç§„É§„ÉºÂÆüË£Ö
+ */
 #include "stdafx.h"
 #include "TitlePlayer.h"
 #include "Source/Scene/SceneManager.h"
-#include "Source/Camera/TitleCamera.h"
 
-const Character::AnimationOption TitlePlayer::TITLE_PLAYER_ANIMATION_OPTIONS[] = {
-   {"Player/idle",	true},
-   {"Player/walk",	true},
-   {"Player/run",	true},
-   {"Player/down",	true},
-   {"Player/dead",	false},
-};
 
-namespace
+namespace app
 {
-	const std::string MODEL_PATH = "Player/rabbit";
-	constexpr float MODEL_SCALE = 200.0f;
-
-	const Vector3 SPAWN_POSITION = Vector3(0.0f, 1000.0f, 0.0f);
-
-	//const Vector3 MOVE_DIRECTION = Vector3(-0.5f, -0.5f, 0.0f);
-	//constexpr float WALK_SPEED = 10.0f;
-}
-
-TitlePlayer::TitlePlayer()
-{
-
-}
-
-TitlePlayer::~TitlePlayer()
-{
-}
-
-bool TitlePlayer::Start()
-{
-	m_titleCamera = FindGO<TitleCamera>("TitleCamera");
-
-	// ÉÇÉfÉãÇ∆ÉAÉjÉÅÅ[ÉVÉáÉìÇèâä˙âªÅB
-	InitModel(enAnimationClip_Num, TITLE_PLAYER_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
-
-	// êØÇ…ñÑÇ‡ÇÍÇ»Ç¢ÇÊÇ§Ç…èâä˙à íuÇí≤êÆÅB
-	m_position = SPAWN_POSITION;
-
-	return true;
-}
-
-void TitlePlayer::Update()
-{
-	// ÉVÅ[ÉìêÿÇËë÷Ç¶íÜÇÕçXêVÇµÇ»Ç¢ÅB
-	if (SceneManager::GetInstance()->GetIsSceneChangeRequested()) {
-		return;
-	}
-
-	if (m_titleCamera == nullptr)
+	namespace actor
 	{
-		return;
+		/** „Ç¢„Éã„É°„Éº„Ç∑„Éß„É≥Ë®≠ÂÆö */
+		const Character::AnimationOption TitlePlayer::PLAYER_ANIMATION_OPTIONS[] =
+		{
+		  AnimationOption { std::string("Player/idle"),		bool(true)	},
+		  AnimationOption { std::string("Player/walk"),		bool(true)	},
+		  AnimationOption { std::string("Player/dash"),		bool(true)	},
+		  AnimationOption { std::string("Player/jump"),		bool(true)	},
+		  AnimationOption { std::string("Player/damage"),	bool(true)	},
+		  AnimationOption { std::string("Player/die"),		bool(false)	},
+		};
+
+
+		namespace
+		{
+			/** „É¢„Éá„É´„Éë„Çπ */
+			const std::string MODEL_PATH = "Player/rabbit";
+			/** „É¢„Éá„É´„ÅÆ„Çπ„Ç±„Éº„É´ */
+			constexpr float MODEL_SCALE = 200.0f;
+			/** „Çπ„Éù„Éº„É≥‰ΩçÁΩÆ */
+			const Vector3 SPAWN_POSITION = Vector3(0.0f, 1000.0f, 0.0f);
+		}
+
+
+		TitlePlayer::TitlePlayer()
+		{
+		}
+
+
+		TitlePlayer::~TitlePlayer()
+		{
+		}
+
+
+		bool TitlePlayer::Start()
+		{
+			/** „É¢„Éá„É´„Å®„Ç¢„Éã„É°„Éº„Ç∑„Éß„É≥„ÇíÂàùÊúüÂåñ */
+			InitModel(enAnimationClip_Num, TITLE_PLAYER_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
+
+			/** Êòü„Å´Âüã„ÇÇ„Çå„Å™„ÅÑ„Çà„ÅÜ„Å´ÂàùÊúü‰ΩçÁΩÆ„ÇíË™øÊï¥ */
+			m_transform.m_position = SPAWN_POSITION;
+
+			return true;
+		}
+
+
+		void TitlePlayer::Update()
+		{
+			/** „Ç∑„Éº„É≥Âàá„ÇäÊõø„Åà‰∏≠„ÅØÊõ¥Êñ∞„Åó„Å™„ÅÑ */
+			if (scene::SceneManager::GetInstance()->GetIsSceneChangeRequested()) {
+				return;
+			}
+
+			/** Ê≠©„Åç„Ç¢„Éã„É°„Éº„Ç∑„Éß„É≥„ÇíÂÜçÁîü */
+			m_modelRender.PlayAnimation(enAnimationClip_Walk);
+			/** „É¢„Éá„É´„ÅÆÊõ¥Êñ∞ */
+			m_modelRender.SetPosition(m_transform.m_position);
+			m_modelRender.Update();
+		}
+
+
+		void TitlePlayer::Render(RenderContext& rc)
+		{
+			m_modelRender.Draw(rc);
+		}
 	}
-
-
-	//ÅuòfêØÇÃíÜêSÅ®ÉLÉÉÉâÅvÇÃÉxÉNÉgÉãÇçXêVÇµÇ‹Ç∑ÅB
-	UpdateUpDirection();
-
-	m_modelRender.PlayAnimation(enAnimationClip_Walk);
-	m_modelRender.SetPosition(m_position);
-	m_modelRender.Update();
 }
-
-void TitlePlayer::Render(RenderContext& rc)
-{
-	m_modelRender.Draw(rc);
-}
-
-//void TitlePlayer::CalcFrontAndRightDirection()
-//{
-//	Vector3 moveDirection = ComputeMoveDirection();
-//	// ê≥ñ ï˚å¸ÇåvéZÅB
-//	m_frontDirection = moveDirection;
-//	// âEï˚å¸ÇåvéZÅB
-//	m_rightDirection = Cross(m_upDirection, moveDirection);
-//	m_rightDirection.Normalize();
-//}
-
-//const Vector3 TitlePlayer::ComputeMoveDirection() const
-//{
-//	// ÉXÉeÉBÉbÉNÇÃì¸óÕÇéÊìæÅB
-//	Vector3 stickL = MOVE_DIRECTION;
-//	stickL.Normalize();
-//
-//	// ÉJÉÅÉâÇÃå¸Ç´Ç©ÇÁê≥ñ ÇéÊìæÅB
-//	Vector3 forward = Vector3::Zero;
-//	forward = g_camera3D->GetForward();
-//	forward = ProjectOnPlane(forward, m_upDirection);
-//	forward.Normalize();
-//
-//	// ÉJÉÅÉâÇÃå¸Ç´Ç©ÇÁâEÇéÊìæÅB
-//	Vector3 right = Vector3::Zero;
-//	right = g_camera3D->GetRight();
-//	right = ProjectOnPlane(right, m_upDirection);
-//	right.Normalize();
-//
-//	// ï˚å¸ê›íË
-//	Vector3 direction = Vector3::Front;
-//	direction = forward * stickL.y + right * stickL.x;
-//	direction.Normalize();
-//
-//	return direction;
-//}

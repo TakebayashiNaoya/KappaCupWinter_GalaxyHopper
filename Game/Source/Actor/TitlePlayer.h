@@ -1,64 +1,40 @@
+ï»¿/**
+ * TitlePlayer.h
+ * ã‚¿ã‚¤ãƒˆãƒ«ç”¨ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¯ãƒ©ã‚¹
+ */
 #pragma once
 #include "Player.h"
 
-class TitleCamera;
 
-class TitlePlayer : public Player
+namespace app
 {
-private:
-	/// <summary>
-	/// ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌƒNƒŠƒbƒv‚ğ•\‚·—ñ‹“Œ^‚Å‚·B
-	/// PlayerStateMachine‚ÅƒAƒjƒ‚ğØ‚è‘Ö‚¦‚é‚½‚ß‚Ég—p‚µ‚Ü‚·B
-	/// </summary>
-	enum EnAnimationClip
+	namespace camera
 	{
-		enAnimationClip_Idle,		// ‘Ò‹@ƒAƒjƒ[ƒVƒ‡ƒ“B
-		enAnimationClip_Walk,		// •à‚«ƒAƒjƒ[ƒVƒ‡ƒ“B
-		enAnimationClip_Run,		// ‘–‚èƒAƒjƒ[ƒVƒ‡ƒ“B
-		enAnimationClip_Down,		// ƒ_ƒEƒ“ƒAƒjƒ[ƒVƒ‡ƒ“B
-		enAnimationClip_Dead,		// €–SƒAƒjƒ[ƒVƒ‡ƒ“B
-		enAnimationClip_Num,
-	};
-
-
-public:
-	TitlePlayer();
-	~TitlePlayer();
-
-	const Vector3& GetFrontDirection() const
-	{
-		return m_frontDirection;
+		class TitleCamera;
 	}
 
-	const Vector3& GetRightDirection() const
+	namespace actor
 	{
-		return m_rightDirection;
+		class TitlePlayer : public Player
+		{
+		public:
+			TitlePlayer();
+			~TitlePlayer();
+
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
+
+			/** ã‚¿ã‚¤ãƒˆãƒ«ã‚«ãƒ¡ãƒ© */
+			camera::TitleCamera* m_titleCamera = nullptr;
+
+			/** ã‚¯ãƒ©ã‚¹ã‚¹ã‚³ãƒ¼ãƒ—ã§å®£è¨€ã—ã€cppã§å®šç¾© */
+			static const Character::AnimationOption TITLE_PLAYER_ANIMATION_OPTIONS[];
+
+			/** ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒªãƒƒãƒ— */
+			AnimationClip m_animationClip;
+		};
 	}
-
-private:
-	bool Start() override final;
-	void Update() override final;
-	void Render(RenderContext& rc) override final;
-
-	TitleCamera* m_titleCamera = nullptr;
-
-	/// <summary>
-	/// ³–Ê•ûŒü‚Æ‰E•ûŒü‚ğŒvZ‚µ‚Ü‚·B
-	/// </summary>
-	//void CalcFrontAndRightDirection();
-
-	Vector3 m_frontDirection = Vector3::Zero;
-	Vector3 m_rightDirection = Vector3::Zero;
-
-	/// <summary>
-	/// ˆÚ“®•ûŒü‚ğ•Ô‚µ‚Ü‚·B
-	/// </summary>
-	/// <returns> ˆÚ“®•ûŒüB</returns>
-	//const Vector3 ComputeMoveDirection()const override final;
-
-	// ƒNƒ‰ƒXƒXƒR[ƒv‚ÅéŒ¾‚µAcpp‚Å’è‹`B
-	static const Character::AnimationOption TITLE_PLAYER_ANIMATION_OPTIONS[];
-
-	AnimationClip m_animationClip;
-};
-
+}
