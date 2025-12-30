@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "BossEnemy.h"
-#include "BossEnemyStateMachine.h"
-#include "Source/Collision/CollisionManager.h"
+#include "EnemyStateMachine.h"
+#include "Collision/CollisionManager.h"
 
 
 namespace app

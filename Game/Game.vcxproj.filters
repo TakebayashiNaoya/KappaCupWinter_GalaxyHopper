@@ -162,6 +162,9 @@
     <ClCompile Include="Ui\UIResultBase.cpp">
       <Filter>Ui</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\BossEnemy.cpp">
+      <Filter>Source\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -291,6 +294,9 @@
     </ClInclude>
     <ClInclude Include="Ui\UIResultBase.h">
       <Filter>Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\BossEnemy.h">
+      <Filter>Source\Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
