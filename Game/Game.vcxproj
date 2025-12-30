@@ -269,7 +269,10 @@
     <ClCompile Include="Ui\UIBase.cpp" />
     <ClCompile Include="Ui\UIBossStage.cpp" />
     <ClCompile Include="Ui\UIFirstStage.cpp" />
+    <ClCompile Include="Ui\UIGameClear.cpp" />
+    <ClCompile Include="Ui\UIGameOver.cpp" />
     <ClCompile Include="Ui\UIInGameBase.cpp" />
+    <ClCompile Include="Ui\UIResultBase.cpp" />
     <ClCompile Include="Ui\UITitle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -314,7 +317,10 @@
     <ClInclude Include="Ui\UIBase.h" />
     <ClInclude Include="Ui\UIBossStage.h" />
     <ClInclude Include="Ui\UIFirstStage.h" />
+    <ClInclude Include="Ui\UIGameClear.h" />
+    <ClInclude Include="Ui\UIGameOver.h" />
     <ClInclude Include="Ui\UIInGameBase.h" />
+    <ClInclude Include="Ui\UIResultBase.h" />
     <ClInclude Include="Ui\UITitle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -153,6 +153,15 @@
     <ClCompile Include="Source\Actor\TitlePlayer.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Ui\UIGameClear.cpp">
+      <Filter>Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\UIGameOver.cpp">
+      <Filter>Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Ui\UIResultBase.cpp">
+      <Filter>Ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -273,6 +282,15 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\TitlePlayer.h">
       <Filter>Source\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Ui\UIGameClear.h">
+      <Filter>Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="Ui\UIGameOver.h">
+      <Filter>Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="Ui\UIResultBase.h">
+      <Filter>Ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
