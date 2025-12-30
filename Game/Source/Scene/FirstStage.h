@@ -9,6 +9,12 @@ class UIGear;
 
 namespace app
 {
+	namespace ui
+	{
+		class UIFirstStage;
+	}
+
+
 	namespace scene
 	{
 		class FirstStage :public BattleStageBase
@@ -24,14 +30,18 @@ namespace app
 			void OnUpdate() override final;
 
 			void InitLevel()override final;
-			LevelRender m_levelRender;		//レベルレンダー。
+			LevelRender m_levelRender;
 
 
 		private:
+			/** ファーストステージ用UI */
+			ui::UIFirstStage* m_uiFirstStage = nullptr;
+			/** ファーストステージ用オブジェクト */
 			FirstPlanet* m_firstStage = nullptr;
+			/** 宝箱リスト */
 			std::vector<Treasure*> m_treasures;
+			/** ロケット */
 			Rocket* m_rocket = nullptr;
-			UIGear* m_uiGear = nullptr;
 		};
 	}
 }
