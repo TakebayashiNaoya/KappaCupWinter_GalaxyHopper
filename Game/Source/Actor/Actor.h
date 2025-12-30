@@ -19,12 +19,6 @@ namespace app
 			ModelRender* GetModelRender() { return &m_modelRender; }
 
 			/**
-			 * ステータスを取得する
-			 */
-			template<typename TStatus>
-			TStatus* GetStatus() { return dynamic_cast<TStatus*>(m_status); }
-
-			/**
 			 * トランスフォームを取得
 			 */
 			inline Transform& GetTransform() { return m_transform; }

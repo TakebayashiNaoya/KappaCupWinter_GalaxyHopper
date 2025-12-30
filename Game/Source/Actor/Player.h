@@ -30,9 +30,11 @@ namespace app
 			};
 
 
-			/** プレイヤーステートマシンのゲッター */
+			/** プレイヤーステートマシンの取得 */
 			PlayerStateMachine* GetStateMachine() const { return m_stateMachine.get(); }
 
+			/** プレイヤーステータスの取得 */
+			PlayerStatus* GetStatus() const { return m_status.get(); }
 
 			/// <summary>
 			/// 毎フレームのXZ軸回転角度を取得
@@ -52,9 +54,6 @@ namespace app
 
 
 		protected:
-			// ★削除: 入力処理（ComputeMoveDirection）はControllerに移譲したため不要
-
-		protected:
 			Quaternion	m_xzAdditionalRot;	// 毎フレームのXZ軸回転角度
 
 
@@ -70,11 +69,11 @@ namespace app
 
 
 		private:
+			/** ステートマシン */
+			std::unique_ptr<PlayerStateMachine> m_stateMachine;
 			/** ステータス */
 			std::unique_ptr<PlayerStatus> m_status;
 
-			// ステートマシン
-			std::unique_ptr<PlayerStateMachine> m_stateMachine;
 
 			// ダメージ関連
 			Vector3 m_knockBackDirection = Vector3::Zero;

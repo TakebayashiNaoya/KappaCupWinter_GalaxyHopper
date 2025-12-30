@@ -68,7 +68,7 @@ namespace app
 					m_result = enResult_PlayerLose;
 					m_battlePhase = enBattlePhase_BattleFinish;
 				}
-				else if (m_bossEnemy && m_bossEnemy->GetIsDead()) {
+				else if (m_bossEnemy && m_bossEnemy->GetStateMachine()->IsEqualCurrentState(actor::PlayerStateMachine::enPlayerState_Dying)) {
 					m_result = enResult_PlayerWin;
 					m_battlePhase = enBattlePhase_BattleFinish;
 				}
