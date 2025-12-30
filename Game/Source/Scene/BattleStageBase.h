@@ -25,6 +25,10 @@ namespace app
 	{
 		class CollisionManagerObject;
 	}
+	namespace ui
+	{
+		class UIResultBase;
+	}
 
 
 	namespace scene
@@ -106,8 +110,8 @@ namespace app
 			collision::CollisionManagerObject* m_collisionManager = nullptr;
 			/** ゲームカメラ */
 			camera::GameCamera* m_gameCamera = nullptr;
-			///** リザルトUI */
-			//UIResultBase* m_uiResult = nullptr;
+			/** リザルトUI */
+			ui::UIResultBase* m_uiResult = nullptr;
 
 
 			/** 空を初期化 */

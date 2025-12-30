@@ -6,8 +6,8 @@
 #include "BattleStageBase.h"
 #include "Source/Actor/Player.h"   
 #include "Source/Actor/BossEnemy.h"
- //#include "Source/UI/UIGameOver.h"
- //#include "Source/UI/UIGameClear.h"
+#include "UI/UIGameOver.h"
+#include "UI/UIGameClear.h"
 #include "Camera/GameCamera.h"
 #include "UI/UIFirstStage.h"
 #include "Collision/CollisionManager.h"
@@ -103,13 +103,13 @@ namespace app
 				// 4.ゲームオーバー、またはゲームクリアUIを表示する。
 			case enBattlePhase_GameOver:
 				if (m_uiResult == nullptr) {
-					m_uiResult = NewGO<UIGameOver>(0, "UIGameOver");
+					m_uiResult = NewGO<ui::UIGameOver>(0, "UIGameOver");
 				}
 				m_battlePhase = enBattlePhase_WaitEnd;
 				break;
 			case enBattlePhase_GameClear:
 				if (m_uiResult == nullptr) {
-					m_uiResult = NewGO<UIGameClear>(0, "UIGameClear");
+					m_uiResult = NewGO<ui::UIGameClear>(0, "UIGameClear");
 				}
 				m_battlePhase = enBattlePhase_WaitEnd;
 				break;
