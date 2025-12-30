@@ -54,7 +54,7 @@ namespace app
 			template <typename T>
 			T* GetStateMachine() const
 			{
-				return static_cast<T*>(m_stateMachine.get());
+				return dynamic_cast<T*>(m_stateMachine.get());
 			}
 			/**
 			 * ステータスを取得
@@ -62,7 +62,7 @@ namespace app
 			template <typename T>
 			T* GetStatus() const
 			{
-				return static_cast<T*>(m_status.get());
+				return dynamic_cast<T*>(m_status.get());
 			}
 
 
