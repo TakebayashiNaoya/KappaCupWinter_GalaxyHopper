@@ -207,8 +207,6 @@ namespace app
 				return dynamic_cast<T*>(m_owner);
 			}
 
-
-		protected:
 			/**
 			 * 現在ステートが指定したステートならtrueを返します。
 			 * 現在のステートが何かによって処理を分岐したい場合に使用します。
@@ -218,7 +216,7 @@ namespace app
 			{
 				return m_currentState == m_stateMap[state];
 			}
-		public:
+
 			/**
 			 * 次のステートが指定したステートならtrueを返します。
 			 * 次のステートが何かによって処理を分岐したい場合に使用します。
