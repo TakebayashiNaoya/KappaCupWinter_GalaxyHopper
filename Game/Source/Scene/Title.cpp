@@ -1,6 +1,15 @@
-﻿#include "stdafx.h"
+﻿/**
+ * Title.cpp
+ * タイトルシーンの実装
+ */
+#include "stdafx.h"
 #include "Title.h"
 #include "LoadingScreen.h"
+#include "SceneManager.h"
+#include "Source/Actor/TitlePlayer.h"
+#include "Source/Actor/TitlePlanet.h"
+#include "Camera/TitleCamera.h"
+#include "UI/UITitle.h"
 
 
 namespace app
@@ -9,32 +18,33 @@ namespace app
 	{
 		Title::Title()
 		{
-			//m_titlePlayer = NewGO<TitlePlayer>(0, "TitlePlayer");
-			//m_titleCamera = NewGO<TitleCamera>(0, "TitleCamera");
-			//m_titleStage = NewGO<TitlePlanet>(0, "TitlePlanet");
-			//m_uiTitle = NewGO<UITitle>(0, "UITitle");
 		}
 
 
 		Title::~Title()
 		{
-			//SoundManager::StopBGM(enSoundList_TitleBGM, 1.0f);
-			//DeleteGO(m_titlePlayer);
-			//DeleteGO(m_titleCamera);
-			//DeleteGO(m_titleStage);
-			//DeleteGO(m_uiTitle);
-			//DeleteGO(m_skyCube);
+			sound::SoundManager::StopBGM(sound::enSoundList_TitleBGM, 1.0f);
+			DeleteGO(m_titlePlayer);
+			DeleteGO(m_titleCamera);
+			DeleteGO(m_titlePlanet);
+			DeleteGO(m_uiTitle);
+			DeleteGO(m_skyCube);
 		}
 
 
 		bool Title::Start()
 		{
+			/** 各種オブジェクト生成 */
+			m_titlePlayer = NewGO<actor::TitlePlayer>(0, "TitlePlayer");
+			m_titlePlanet = NewGO<actor::TitlePlanet>(0, "TitlePlanet");
+			m_titleCamera = NewGO<camera::TitleCamera>(0, "TitleCamera");
+			m_uiTitle = NewGO<ui::UITitle>(0, "UITitle");
 			InitSky();
 
+			/** ロード画面をアイリスインさせる */
 			LoadingScreen::FinishLoading();
-
+			/** タイトルBGM再生 */
 			sound::SoundManager::Play(sound::enSoundList_TitleBGM, true);
-			sound::SoundManager::SetVolume(sound::enSoundList_FirstStageBGM, 0.0f);
 
 			return true;
 		}

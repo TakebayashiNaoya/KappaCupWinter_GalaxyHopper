@@ -1,18 +1,30 @@
-﻿#pragma once
+﻿/**
+ * Title.h
+ * タイトルシーンを管理するクラス
+ */
+#pragma once
 #include "Source/Scene/SceneManager.h"
 
 
 namespace app
 {
-	namespace scene
+	namespace actor
+	{
+		class TitlePlayer;
+		class TitlePlanet;
+	}
+	namespace camera
+	{
+		class TitleCamera;
+	}
+	namespace ui
 	{
 		class UITitle;
-		class TitlePlayer;
-		class TitleCamera;
-		class TitlePlanet;
-		class UITitle;
+	}
 
 
+	namespace scene
+	{
 		class Title :public IScene
 		{
 		public:
@@ -26,20 +38,17 @@ namespace app
 
 
 		private:
-			UITitle* m_titleUI = nullptr;
-			TitlePlayer* m_titlePlayer = nullptr;
-			TitleCamera* m_titleCamera = nullptr;
-			TitlePlanet* m_titleStage = nullptr;
-			UITitle* m_uiTitle = nullptr;
+			actor::TitlePlayer* m_titlePlayer = nullptr;
+			actor::TitlePlanet* m_titlePlanet = nullptr;
+			camera::TitleCamera* m_titleCamera = nullptr;
+			ui::UITitle* m_uiTitle = nullptr;
 
 
 		private:
-			/// <summary>
-			/// 空を初期化。
-			/// </summary>
+			/** 空を初期化 */
 			void InitSky();
 
-			SkyCube* m_skyCube = nullptr;		//スカイキューブ。
+			SkyCube* m_skyCube = nullptr;
 			int m_skyCubeType = enSkyCubeType_SpaceToon_2;
 		};
 	}
