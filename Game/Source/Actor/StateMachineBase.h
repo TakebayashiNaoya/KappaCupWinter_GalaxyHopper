@@ -84,7 +84,7 @@ namespace app
 			/**
 			 * 移動方向の設定
 			 */
-			inline void SetMoveDirection(const Vector3& moveDir) { m_moveDirection = moveDir; }
+			inline void SetMoveDirection(const Vector3 moveDir) { m_moveDirection = moveDir; }
 
 			/**
 			 * 移動速度の取得
@@ -111,7 +111,7 @@ namespace app
 			/**
 			 * ダッシュできるかの設定
 			 */
-			inline void SetDash(const bool isDash) { m_isDash = isDash; }
+			inline void SetIsDash(const bool isDash) { m_isDash = isDash; }
 
 			/**
 			 * 攻撃できるかの取得
@@ -120,7 +120,7 @@ namespace app
 			/**
 			 * 攻撃できるかの設定
 			 */
-			inline void SetAttack(const bool isAttack) { m_isAttack = isAttack; }
+			inline void SetIsAttack(const bool isAttack) { m_isAttack = isAttack; }
 
 
 		protected:
