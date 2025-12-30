@@ -4,55 +4,98 @@
  */
 #include "stdafx.h"
 #include "PlayerController.h"
- //#include "Player.h" // Playerの中身を操作するのでインクルード
- //
- //
- //namespace app
- //{
- //	namespace actor
- //	{
- //		PlayerController::PlayerController()
- //		{
- //		}
- //
- //		PlayerController::~PlayerController()
- //		{
- //		}
- //
- //		bool PlayerController::Start()
- //		{
- //			return true;
- //		}
- //
- //		void PlayerController::Update()
- //		{
- //			// 操作対象がいなければ何もしない
- //			if (m_target == nullptr) return;
- //
- //			// 1. 入力を取得（ここが頭脳の仕事！）
- //			// XとYの入力を取得して、Z(奥)方向への移動に変換しています
- //			Vector3 stickL = Vector3(g_pad[0]->GetLStickXF(), 0.0f, g_pad[0]->GetLStickYF());
- //
- //			// 2. カメラに合わせて移動方向を計算
- //			Vector3 moveDir = Vector3::Zero;
- //			if (stickL.LengthSq() > 0.001f) {
- //				// カメラの前方向・右方向を取得
- //				Vector3 forward = g_camera3D->GetForward();
- //				Vector3 right = g_camera3D->GetRight();
- //
- //				// 上下成分（Y）を消して、水平な移動にする
- //				forward.y = 0.0f;
- //				right.y = 0.0f;
- //				forward.Normalize();
- //				right.Normalize();
- //
- //				// 入力とカメラの向きを合成
- //				moveDir = forward * stickL.z + right * stickL.x;
- //			}
- //
- //			// 3. 肉体（Player）に「こっちに動け」と命令する
- //			// ※この関数(SetVelocity)は後でPlayerに作ります
- //			m_target->SetVelocity(moveDir);
- //		}
- //	}
- //}
+#include "Player.h"
+
+
+namespace app
+{
+	namespace actor
+	{
+		namespace
+		{
+			/**
+			* ベクトル vector を法線 normal の接平面へ投影（接線成分を取り出す）
+			* Dot(vector, normal) は vector と normal の内積 → vector の中で n 方向にどれだけ成分があるか。
+			* normal * Dot(vector, normal) はその成分を normal 方向に戻したベクトル。
+			* vector - (その成分) → n方向の成分を引いて、残りを返す → 結果は n に直交する平面上のベクトル（接線）
+			*/
+			static Vector3 ProjectOnPlane(const Vector3& vector, const Vector3& normal)
+			{
+				return vector - normal * Dot(vector, normal);
+			}
+
+			/**
+			 * 移動方向を計算する
+			 */
+			const Vector3 CalcMoveDirection(PlayerStateMachine* targetStateMachine)
+			{
+				/** スティックの入力を取得 */
+				Vector3 stickL = Vector3::Zero;
+				stickL.x = g_pad[0]->GetLStickXF();
+				stickL.y = g_pad[0]->GetLStickYF();
+
+				/** 入力がなければゼロベクトルを返す */
+				if (stickL.x <= 0.01f && stickL.y <= 0.01f) {
+					return Vector3::Zero;
+				}
+
+				/** カメラの向きから正面を取得 */
+				Vector3 forward = Vector3::Zero;
+				forward = g_camera3D->GetForward();
+				forward = ProjectOnPlane(forward, targetStateMachine->GetUpDirection());
+				forward.Normalize();
+
+				/** カメラの向きから右を取得 */
+				Vector3 right = Vector3::Zero;
+				right = g_camera3D->GetRight();
+				right = ProjectOnPlane(right, targetStateMachine->GetUpDirection());
+				right.Normalize();
+
+				/** 方向設定 */
+				Vector3 direction = forward * stickL.y + right * stickL.x;
+				direction.Normalize();
+
+				return direction;
+			}
+		}
+
+
+		PlayerController::PlayerController()
+		{
+		}
+
+
+		PlayerController::~PlayerController()
+		{
+		}
+
+
+		bool PlayerController::Start()
+		{
+			return true;
+		}
+
+
+		void PlayerController::Update()
+		{
+			if (m_targetPlayer == nullptr) {
+				return;
+			}
+
+			/** プレイヤーのステートマシンを取得 */
+			auto* targetStateMachine = m_targetPlayer->GetStateMachine();
+
+			/** 着地時にAボタンを押した瞬間、ジャンプ初速を設定する */
+			if (targetStateMachine->IsOnGround() && g_pad[0]->IsTrigger(enButtonA)) {
+				targetStateMachine->SetInitialJumpSpeed(m_targetPlayer->GetStatus<PlayerStatus>()->GetJumpPower());
+			}
+
+			/** Bボタンを押している間ダッシュ */
+			targetStateMachine->SetIsDash(g_pad[0]->IsPress(enButtonB));
+
+			/** Lスティック入力があれば移動方向を設定する */
+			targetStateMachine->SetMoveDirection(CalcMoveDirection(targetStateMachine));
+		}
+
+	}
+}

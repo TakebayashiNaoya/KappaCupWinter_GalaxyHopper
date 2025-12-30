@@ -15,18 +15,25 @@ namespace app
 		class PlayerController : public IGameObject
 		{
 		public:
+			/**
+			 * 操作するキャラクターを設定
+			 */
+			void SetTargetPlayer(Player* target) { m_targetPlayer = target; }
+
+
+		public:
 			PlayerController();
 			~PlayerController();
 
-			bool Start() override;
-			void Update() override;
-
-			// 操作する対象をセットする関数
-			void SetTarget(Player* target) { m_target = target; }
 
 		private:
-			// 操作対象のプレイヤー（肉体）
-			Player* m_target = nullptr;
+			bool Start() override final;
+			void Update() override final;
+
+
+		private:
+			/** 操作対象のプレイヤー（肉体） */
+			Player* m_targetPlayer = nullptr;
 		};
 	}
 }
