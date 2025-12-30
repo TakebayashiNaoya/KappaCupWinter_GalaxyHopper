@@ -51,7 +51,7 @@ namespace app
 				right = ProjectOnPlane(right, targetStateMachine->GetUpDirection());
 				right.Normalize();
 
-				/** 方向設定 */
+				/** 移動方向を算出 */
 				Vector3 direction = forward * stickL.y + right * stickL.x;
 				direction.Normalize();
 
