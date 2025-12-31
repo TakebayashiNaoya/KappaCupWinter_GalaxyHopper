@@ -3,20 +3,26 @@
 
 namespace app
 {
-	namespace battle
+	namespace actor
 	{
 		class Player;
 		class BossEnemy;
 		class BasicEnemy;
 		class DeformEnemy;
+		class Rocket;
+		class Treasure;
+	}
+	namespace ui
+	{
 		class UIPlayerHp;
 		class UIDamageFlash;
 		class UIBossHp;
 		class UIGear;
-		class Rocket;
-		class Treasure;
+	}
 
 
+	namespace battle
+	{
 		// 当たり判定を管理するクラス
 		// 当たったという処理をまとめたい
 		class BattleManager
@@ -87,44 +93,44 @@ namespace app
 			void DestroyAllEnemies();
 
 			// プレイヤー用
-			void Register(Player* player);
-			void Unregister(Player* player);
+			void Register(actor::Player* player);
+			void Unregister(actor::Player* player);
 
 			// ボス用
-			void Register(BossEnemy* boss);
-			void Unregister(BossEnemy* boss);
+			void Register(actor::BossEnemy* boss);
+			void Unregister(actor::BossEnemy* boss);
 
 			// 基本エネミー用
-			void Register(BasicEnemy* enemy);
-			void Unregister(BasicEnemy* enemy);
+			void Register(actor::BasicEnemy* enemy);
+			void Unregister(actor::BasicEnemy* enemy);
 
 			// 変形エネミー用
-			void Register(DeformEnemy* enemy);
-			void Unregister(DeformEnemy* enemy);
-
-			// プレイヤーライフUI用
-			void Register(UIPlayerHp* uiPlayerLife);
-			void Unregister(UIPlayerHp* uiPlayerLife);
-
-			// ダメージフラッシュUI用
-			void Register(UIDamageFlash* uiDamageFlash);
-			void Unregister(UIDamageFlash* uiDamageFlash);
-
-			// ボスライフUI用
-			void Register(UIBossHp* uiBossLife);
-			void Unregister(UIBossHp* uiBossLife);
+			void Register(actor::DeformEnemy* enemy);
+			void Unregister(actor::DeformEnemy* enemy);
 
 			// ギアUI用
-			void Register(UIGear* uiGear);
-			void Unregister(UIGear* uiGear);
+			void Register(ui::UIGear* uiGear);
+			void Unregister(ui::UIGear* uiGear);
+
+			// プレイヤーライフUI用
+			void Register(ui::UIPlayerHp* uiPlayerLife);
+			void Unregister(ui::UIPlayerHp* uiPlayerLife);
+
+			// ダメージフラッシュUI用
+			void Register(ui::UIDamageFlash* uiDamageFlash);
+			void Unregister(ui::UIDamageFlash* uiDamageFlash);
+
+			// ボスライフUI用
+			void Register(ui::UIBossHp* uiBossLife);
+			void Unregister(ui::UIBossHp* uiBossLife);
 
 			// ロケット用
-			void Register(Rocket* rocket);
-			void Unregister(Rocket* rocket);
+			void Register(actor::Rocket* rocket);
+			void Unregister(actor::Rocket* rocket);
 
 			// 宝箱用
-			void Register(Treasure* treasure);
-			void Unregister(Treasure* treasure);
+			void Register(actor::Treasure* treasure);
+			void Unregister(actor::Treasure* treasure);
 
 			// その他汎用
 			template<typename T>
@@ -143,21 +149,21 @@ namespace app
 			static bool m_isBattleFinish;
 			static bool m_isStopCollisionManager;
 
-			Player* m_player = nullptr;
-			BossEnemy* m_bossEnemy = nullptr;
-			std::vector<BasicEnemy*> m_basicEnemies;
-			std::vector<DeformEnemy*> m_deformEnemies;
+			actor::Player* m_player = nullptr;
+			actor::BossEnemy* m_bossEnemy = nullptr;
+			std::vector<actor::BasicEnemy*> m_basicEnemies;
+			std::vector<actor::DeformEnemy*> m_deformEnemies;
 
-			UIPlayerHp* m_uiPlayerLife = nullptr;
-			UIDamageFlash* m_uiDamageFlash = nullptr;
-			UIBossHp* m_uiBossLife = nullptr;
-			UIGear* m_uiGear = nullptr;
+			ui::UIGear* m_uiGear = nullptr;
+			ui::UIPlayerHp* m_uiPlayerLife = nullptr;
+			ui::UIDamageFlash* m_uiDamageFlash = nullptr;
+			ui::UIBossHp* m_uiBossLife = nullptr;
 			int m_gotGearCount = 0;
 			int m_maxGearCount = 0;
 			bool m_canLaunch = false;
 
-			Rocket* m_rocket = nullptr;
-			std::vector<Treasure*> m_treasures;
+			actor::Rocket* m_rocket = nullptr;
+			std::vector<actor::Treasure*> m_treasures;
 
 			std::vector<IGameObject*> m_objects;
 		};
