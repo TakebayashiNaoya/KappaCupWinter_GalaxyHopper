@@ -92,11 +92,11 @@ namespace app
 		/**
 		 * クールダウン
 		 */
-		class BossEnemyCoolDownState : public IState
+		class BossEnemyCooldownState : public IState
 		{
 		public:
-			BossEnemyCoolDownState(StateMachineBase* owner) : IState(owner) {};
-			~BossEnemyCoolDownState() {};
+			BossEnemyCooldownState(StateMachineBase* owner) : IState(owner) {};
+			~BossEnemyCooldownState() {};
 
 			void Enter() override final;
 			void Update() override final;

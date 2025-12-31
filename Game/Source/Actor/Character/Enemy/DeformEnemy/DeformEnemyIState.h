@@ -11,7 +11,7 @@ namespace app
 	namespace actor
 	{
 		/**
-		 * 止まってる
+		 * 待機
 		 */
 		class DeformEnemyIdleState : public IState
 		{
@@ -31,13 +31,13 @@ namespace app
 
 
 		/**
-		 * 走る
+		 * 歩く
 		 */
-		class DeformEnemyDashState : public IState
+		class DeformEnemyWalkState : public IState
 		{
 		public:
-			DeformEnemyDashState(StateMachineBase* owner) : IState(owner) {};
-			~DeformEnemyDashState() {};
+			DeformEnemyWalkState(StateMachineBase* owner) : IState(owner) {};
+			~DeformEnemyWalkState() {};
 
 			void Enter() override final;
 			void Update() override final;
@@ -51,7 +51,8 @@ namespace app
 
 
 		/**
-		 * ひっくり返る
+		 * ひっくり返る（アニメーションが入る）
+		 * 最初の一回踏まれたときだけ
 		 */
 		class DeformEnemyFlippingState : public IState
 		{
@@ -71,7 +72,7 @@ namespace app
 
 
 		/**
-		 * ひっくり返った
+		 * ひっくり返った（アニメーションが入らない）
 		 */
 		class DeformEnemyFlippedState : public IState
 		{

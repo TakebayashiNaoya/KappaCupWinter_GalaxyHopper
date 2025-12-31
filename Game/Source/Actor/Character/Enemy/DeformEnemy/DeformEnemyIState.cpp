@@ -30,17 +30,17 @@ namespace app
 		/********************************/
 
 
-		void DeformEnemyDashState::Enter()
+		void DeformEnemyWalkState::Enter()
 		{
 		}
 
 
-		void DeformEnemyDashState::Update()
+		void DeformEnemyWalkState::Update()
 		{
 		}
 
 
-		void DeformEnemyDashState::Exit()
+		void DeformEnemyWalkState::Exit()
 		{
 		}
 

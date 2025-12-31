@@ -10,23 +10,37 @@ namespace app
 {
 	namespace actor
 	{
+		class BasicEnemy;
+		class DeformEnemy;
+		class BossEnemy;
+
+
 		/**
 		 * 基本エネミーのステートマシン
 		 */
 		class BasicEnemyStateMachine : public StateMachineBase
 		{
 		public:
+			BasicEnemyStateMachine(BasicEnemy* owner);
+			virtual ~BasicEnemyStateMachine();
+
+			/** アニメーション再生 */
+			void PlayAnimation(const int animationIndex) override final;
+
+
+		private:
+			/** ステート */
 			enum EnBasicEnemyState
 			{
 				enBasicEnemyState_Idle,
-				enBasicEnemyState_Run,
-				enBasicEnemyState_Dead
+				enBasicEnemyState_Dash,
+				enBasicEnemyState_Cooldown,
+				enBasicEnemyState_Dead,
+				enBasicEnemyState_Num
 			};
 
-
-		public:
-			BasicEnemyStateMachine(IGameObject* owner) : StateMachineBase(owner) {};
-			virtual ~BasicEnemyStateMachine();
+			/** 変更するステートを取得します。 */
+			IState* GetChangeState() override final;
 		};
 
 
@@ -41,18 +55,28 @@ namespace app
 		class DeformEnemyStateMachine : public StateMachineBase
 		{
 		public:
+			DeformEnemyStateMachine(DeformEnemy* owner);
+			virtual ~DeformEnemyStateMachine();
+
+			/** アニメーション再生 */
+			void PlayAnimation(const int animationIndex) override final;
+
+
+		private:
+			/** ステート */
 			enum EnDeformEnemyState
 			{
 				enDeformEnemyState_Idle,
-				enDeformEnemyState_Transform,
-				enDeformEnemyState_Run,
-				enDeformEnemyState_Dead
+				enDeformEnemyState_Walk,
+				enDeformEnemyState_Flipping,
+				enDeformEnemyState_Flipped,
+				enDeformEnemyState_Sliding,
+				enDeformEnemyState_Dead,
+				enDeformEnemyState_Num
 			};
 
-
-		public:
-			DeformEnemyStateMachine(IGameObject* owner) : StateMachineBase(owner) {};
-			virtual ~DeformEnemyStateMachine();
+			/** 変更するステートを取得します。 */
+			IState* GetChangeState() override final;
 		};
 
 
@@ -67,20 +91,30 @@ namespace app
 		class BossEnemyStateMachine : public StateMachineBase
 		{
 		public:
+			BossEnemyStateMachine(BossEnemy* owner);
+			virtual ~BossEnemyStateMachine();
+
+			/** アニメーション再生 */
+			void PlayAnimation(const int animationIndex) override final;
+
+
+		private:
+			/** ステート */
 			enum EnBossEnemyState
 			{
 				enBossEnemyState_Idle,
-				enBossEnemyState_Chase,
+				enBossEnemyState_Walk,
+				enBossEnemyState_Dash,
 				enBossEnemyState_Attack,
+				enBossEnemyState_Cooldown,
 				enBossEnemyState_Damage,
 				enBossEnemyState_Dying,
-				enBossEnemyState_Dead
+				enBossEnemyState_Dead,
+				enBossEnemyState_Num
 			};
 
-
-		public:
-			BossEnemyStateMachine(IGameObject* owner) : StateMachineBase(owner) {};
-			virtual ~BossEnemyStateMachine();
+			/** 変更するステートを取得します。 */
+			IState* GetChangeState() override final;
 		};
 	}
 }

@@ -50,17 +50,17 @@ namespace app
 		/********************************/
 
 
-		void BasicEnemyWaitState::Enter()
+		void BasicEnemyCooldownState::Enter()
 		{
 		}
 
 
-		void BasicEnemyWaitState::Update()
+		void BasicEnemyCooldownState::Update()
 		{
 		}
 
 
-		void BasicEnemyWaitState::Exit()
+		void BasicEnemyCooldownState::Exit()
 		{
 		}
 

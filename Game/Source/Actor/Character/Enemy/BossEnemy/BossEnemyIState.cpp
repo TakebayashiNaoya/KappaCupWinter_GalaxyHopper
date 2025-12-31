@@ -90,17 +90,17 @@ namespace app
 		/********************************/
 
 
-		void BossEnemyCoolDownState::Enter()
+		void BossEnemyCooldownState::Enter()
 		{
 		}
 
 
-		void BossEnemyCoolDownState::Update()
+		void BossEnemyCooldownState::Update()
 		{
 		}
 
 
-		void BossEnemyCoolDownState::Exit()
+		void BossEnemyCooldownState::Exit()
 		{
 		}
 

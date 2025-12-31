@@ -11,7 +11,7 @@ namespace app
 	namespace actor
 	{
 		/**
-		 * 止まってる
+		 * 待機
 		 */
 		class BasicEnemyIdleState : public IState
 		{
@@ -51,13 +51,13 @@ namespace app
 
 
 		/**
-		 * 待機
+		 * クールダウン
 		 */
-		class BasicEnemyWaitState : public IState
+		class BasicEnemyCooldownState : public IState
 		{
 		public:
-			BasicEnemyWaitState(StateMachineBase* owner) : IState(owner) {};
-			~BasicEnemyWaitState() {};
+			BasicEnemyCooldownState(StateMachineBase* owner) : IState(owner) {};
+			~BasicEnemyCooldownState() {};
 
 			void Enter() override final;
 			void Update() override final;
