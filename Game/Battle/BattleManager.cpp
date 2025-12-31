@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "BattleManager.h"
 #include "Source/Scene/SceneManager.h"
-#include "Source/Actor/Player.h"
+#include "Source/Actor/Character/Player/Player.h"
 #include "Source/Actor/BasicEnemy.h"
 #include "Source/Actor/DeformEnemy.h"
 #include "Source/Actor/BossEnemy.h"
