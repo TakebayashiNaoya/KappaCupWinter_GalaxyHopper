@@ -76,6 +76,7 @@ namespace app
 
 		void UIImage::Render(RenderContext& rc)
 		{
+			m_spriteRender.Draw(rc);
 		}
 
 
@@ -90,6 +91,80 @@ namespace app
 			m_spriteRender.SetScale(scale);
 			m_spriteRender.SetRotation(rotation);
 			m_spriteRender.Update();
+		}
+
+
+
+
+		/************************************/
+
+
+		UIText::UIText()
+		{
+		}
+
+
+		UIText::~UIText()
+		{
+		}
+
+
+		bool UIText::Start()
+		{
+			return true;
+		}
+
+
+		void UIText::Update()
+		{
+			///** トランスフォーム更新 */
+			//m_transform.UpdateTransform();
+
+			///** フォントレンダーにワールド座標などを反映 */
+			//m_fontRender.SetPosition(m_transform.m_worldTransform.m_position);
+			//m_fontRender.SetScale(m_transform.m_worldTransform.m_scale.x); // FontRenderのSetScaleはfloatを受け取る仕様のため
+			//m_fontRender.SetRotation(m_transform.m_worldTransform.m_rotation.y); // 必要に応じて軸を調整（FontRenderの仕様に合わせる）
+
+			///** スプライトアニメーション更新 */
+			//for (auto* animation : m_spriteAnimationList) {
+			//	animation->Update();
+			//}
+		}
+
+
+		void UIText::Render(RenderContext& rc)
+		{
+			m_fontRender.Draw(rc);
+		}
+
+
+		void UIText::Initialize(const wchar_t* text, const Vector3& position, const float scale, const Vector4& color, const Quaternion& rotation)
+		{
+			m_transform.m_localTransform.m_position = position;
+			/** UIのスケール管理を統一するためVector3に入れるが、FontRenderはfloatスケールを使う */
+			m_transform.m_localTransform.m_scale = Vector3(scale, scale, scale);
+			m_transform.m_localTransform.m_rotation = rotation;
+
+			m_transform.UpdateTransform();
+
+			m_fontRender.SetText(text);
+			m_fontRender.SetColor(color);
+			m_fontRender.SetPosition(position);
+			m_fontRender.SetScale(scale);
+		}
+
+
+		void UIText::SetText(const wchar_t* format, ...)
+		{
+			va_list args;
+			__crt_va_start(args, format);
+
+			wchar_t wcsbuf[256];
+			vswprintf_s(wcsbuf, 256, format, args);
+
+			__crt_va_end(args);
+
+			m_fontRender.SetText(wcsbuf);
 		}
 
 

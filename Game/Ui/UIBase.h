@@ -83,7 +83,7 @@ namespace app
 			/** スプライトレンダーの取得 */
 			SpriteRender* GetSpriteRender() { return &m_spriteRender; }
 
-			/** 
+			/**
 			 * 初期化
 			 * ・アセットパス
 			 * ・幅
@@ -93,12 +93,12 @@ namespace app
 			 * ・回転（デフォルト: Quaternion::Identity）
 			 */
 			void Initialize(
-				const char* assetPath,								
-				const float width,									
-				const float height,									
-				const Vector3& position,							
-				const Vector3& scale = Vector3::One,				
-				const Quaternion& rotation = Quaternion::Identity	
+				const char* assetPath,
+				const float width,
+				const float height,
+				const Vector3& position,
+				const Vector3& scale = Vector3::One,
+				const Quaternion& rotation = Quaternion::Identity
 			);
 		};
 
@@ -130,6 +130,33 @@ namespace app
 			virtual bool Start() override;
 			virtual void Update() override;
 			virtual void Render(RenderContext& rc) override;
+
+
+		public:
+			/** フォントレンダーの取得 */
+			FontRender* GetFontRender() { return &m_fontRender; }
+
+			/**
+			 * 初期化
+			 * ・初期表示するテキスト（"0/3" など）
+			 * ・座標
+			 * ・大きさ
+			 * ・色
+			 * ・回転（デフォルト: Quaternion::Identity）
+			 */
+			void Initialize(
+				const wchar_t* text,
+				const Vector3& position,
+				const float scale,
+				const Vector4& color,
+				const Quaternion& rotation = Quaternion::Identity
+			);
+
+			/**
+			 * テキストを設定・更新する
+			 * 例: uiText->SetText(L"%d/%d", current, max);
+			 */
+			void SetText(const wchar_t* format, ...);
 		};
 
 
