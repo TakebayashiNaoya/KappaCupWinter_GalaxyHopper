@@ -228,10 +228,10 @@ namespace app
 		{
 			auto* render = m_damageFlashImage->GetSpriteRender();
 
-			if (hp == enPlayerCondition_Danger) {
+			if (hp == 1) {
 				render->Init(PATH_FLASH_DANGER, FLASH_W, FLASH_H);
 			}
-			else if (hp == enPlayerCondition_Caution) {
+			else if (hp == 2) {
 				render->Init(PATH_FLASH_CAUTION, FLASH_W, FLASH_H);
 			}
 			else {
