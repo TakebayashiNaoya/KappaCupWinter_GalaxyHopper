@@ -1,4 +1,8 @@
-﻿#pragma once
+﻿/**
+ * BattleManager.h
+ * すべてのクラスの仲介を担うバトルマネージャー
+ */
+#pragma once
 
 
 namespace app
@@ -23,66 +27,42 @@ namespace app
 
 	namespace battle
 	{
-		// 当たり判定を管理するクラス
-		// 当たったという処理をまとめたい
 		class BattleManager
 		{
+		public:
+			/**
+			 * プレイヤーがゴールしたかを取得
+			 */
+			inline static bool IsGoalReached() { return m_isGoalReached; }
+			/**
+			 * プレイヤーがゴールしたフラグを設定
+			 */
+			inline static void SetIsGoalReached(const bool isReached) { m_isGoalReached = isReached; }
+			/**
+			 * リザルトのシーケンス中かを取得
+			 */
+			inline static bool IsResultSequence() { return m_isResultSequence; }
+			/**
+			 * リザルトのシーケンス中フラグを設定
+			 */
+			inline static void SetIsResultSequence(const bool isResultSequence) { m_isResultSequence = isResultSequence; }
+
+
+		public:
+			/** 勝敗 */
+			enum class EnBattleResult
+			{
+				enBattleResult_None,   // 戦闘中
+				enBattleResult_Win,    // 勝ち
+				enBattleResult_Lose    // 負け
+			};
+			/** 勝敗を取得 */
+			inline static EnBattleResult GetBattleResult() { return m_battleResult; }
+
 		private:
-			BattleManager() {};
-			~BattleManager() {};
+			/** 勝敗を格納する変数 */
+			static EnBattleResult m_battleResult;
 
-
-		public:
-			void Update();
-
-
-
-
-		private:
-			static BattleManager* m_instance;
-
-
-		public:
-			static BattleManager* Create()
-			{
-				if (m_instance == nullptr) {
-					m_instance = new BattleManager();
-				}
-				return m_instance;
-			}
-			static void Delete()
-			{
-				if (m_instance != nullptr) {
-					delete m_instance;
-					m_instance = nullptr;
-				}
-			}
-			static BattleManager* GetInstance()
-			{
-				return m_instance;
-			}
-
-
-			/// <summary>
-			/// フラグの取得・設定
-			/// </summary>
-		public:
-			static bool GetIsBattleFinish()
-			{
-				return m_isBattleFinish;
-			}
-			static void SetIsBattleFinish(bool isFinish)
-			{
-				m_isBattleFinish = isFinish;
-			}
-			static bool GetIsStopCollisionManager()
-			{
-				return m_isStopCollisionManager;
-			}
-			static void SetIsStopCollisionManager(bool isStop)
-			{
-				m_isStopCollisionManager = isStop;
-			}
 
 
 			/// <summary>
@@ -136,38 +116,89 @@ namespace app
 			template<typename T>
 			void Register(T* object)
 			{
-				K2_ASSERT(false, "しょりついかわすれ");
+				K2_ASSERT(false, "処理追加忘れ");
 			}
 			template<typename T>
 			void Unregister(T* object)
 			{
-				K2_ASSERT(false, "しょりついかわすれ");
+				K2_ASSERT(false, "処理追加忘れ");
 			}
 
 
 		private:
-			static bool m_isBattleFinish;
-			static bool m_isStopCollisionManager;
+			/** プレイヤーがゴールしたか */
+			static bool m_isGoalReached;
+			/** UIを非表示にすべきか */
+			static bool m_isResultSequence;
 
-			actor::Player* m_player = nullptr;
-			actor::BossEnemy* m_bossEnemy = nullptr;
-			std::vector<actor::BasicEnemy*> m_basicEnemies;
-			std::vector<actor::DeformEnemy*> m_deformEnemies;
-
-			ui::UIGear* m_uiGear = nullptr;
-			ui::UIPlayerHp* m_uiPlayerLife = nullptr;
-			ui::UIDamageFlash* m_uiDamageFlash = nullptr;
-			ui::UIBossHp* m_uiBossLife = nullptr;
+			/** ギア取得数 */
 			int m_gotGearCount = 0;
+			/** 出現ギア数 */
 			int m_maxGearCount = 0;
-			bool m_canLaunch = false;
 
+			/** プレイヤー */
+			actor::Player* m_player = nullptr;
+			/** ボスエネミー */
+			actor::BossEnemy* m_bossEnemy = nullptr;
+			/** 基本エネミーリスト */
+			std::vector<actor::BasicEnemy*> m_basicEnemies;
+			/** 変形エネミーリスト */
+			std::vector<actor::DeformEnemy*> m_deformEnemies;
+			/** ロケット */
 			actor::Rocket* m_rocket = nullptr;
+			/** 宝箱リスト */
 			std::vector<actor::Treasure*> m_treasures;
+			///** その他汎用オブジェクトリスト */
+			//std::vector<IGameObject*> m_objects;
 
-			std::vector<IGameObject*> m_objects;
+			/** ギアUI */
+			ui::UIGear* m_uiGear = nullptr;
+			/** プレイヤーHPUI */
+			ui::UIPlayerHp* m_uiPlayerHp = nullptr;
+			/** ダメージフラッシュUI */
+			ui::UIDamageFlash* m_uiDamageFlash = nullptr;
+			/** ボスHPUI */
+			ui::UIBossHp* m_uiBossHp = nullptr;
+
+
+		private:
+			BattleManager() {};
+			~BattleManager() {};
+
+
+		public:
+			void Update();
+
+
+		private:
+			static BattleManager* m_instance;
+
+
+		public:
+			static BattleManager* Create()
+			{
+				if (m_instance == nullptr) {
+					m_instance = new BattleManager();
+				}
+				return m_instance;
+			}
+			static void Delete()
+			{
+				if (m_instance != nullptr) {
+					delete m_instance;
+					m_instance = nullptr;
+				}
+			}
+			static BattleManager* GetInstance()
+			{
+				return m_instance;
+			}
 		};
 
+
+
+
+		/********************************/
 
 
 		/// <summary>
@@ -178,9 +209,10 @@ namespace app
 		public:
 			BattleManagerObject();
 			~BattleManagerObject();
-			bool Start() override;
-			void Update() override;
-			void Render(RenderContext& renderContext) override {}	// Renderはない
+			bool Start() override final;
+			void Update() override final;
+			/** Renderは使用しない */
+			void Render(RenderContext& renderContext) override final {}
 
 
 		private:

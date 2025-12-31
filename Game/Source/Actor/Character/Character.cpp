@@ -4,6 +4,8 @@
  */
 #include "stdafx.h"
 #include "Character.h"
+#include "Source/Actor/StateMachineBase.h"
+#include "Collision/CollisionManager.h"
 
 
 namespace app
@@ -39,7 +41,22 @@ namespace app
 
 		void Character::Update()
 		{
-			Actor::Update();
+			/** ステートマシン更新 */
+			m_stateMachine->Update();
+
+			/** モデルと当たり判定の更新に必要な値を取得 */
+			m_transform.m_position = m_stateMachine->GetTransform().m_position;
+			m_transform.m_rotation = m_stateMachine->GetTransform().m_rotation;
+			m_upDirection = m_stateMachine->GetUpDirection();
+
+			/** 当たり判定の更新 */
+			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
+			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
+
+			/** モデルの更新 */
+			m_modelRender.SetPosition(m_transform.m_position);
+			m_modelRender.SetRotation(m_transform.m_rotation);
+			m_modelRender.Update();
 		}
 
 

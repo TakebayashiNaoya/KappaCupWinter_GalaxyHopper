@@ -21,7 +21,7 @@ namespace app
 		{
 		private:
 			/** ボスHP UI */
-			UIBossHp* m_uiBossLife = nullptr;
+			UIBossHp* m_uiBossHp = nullptr;
 
 
 		public:

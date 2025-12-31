@@ -11,6 +11,12 @@ namespace app
 {
 	namespace actor
 	{
+		namespace
+		{
+			constexpr float COLLIDER_OFFSET = 50.0f;							// ボディコライダーのオフセット値。
+		}
+
+
 		/** アニメーション設定 */
 		const Character::AnimationOption Player::PLAYER_ANIMATION_OPTIONS[] =
 		{
@@ -60,9 +66,22 @@ namespace app
 
 		void Player::Update()
 		{
-			Character::Update();
 			/** ステートマシン更新 */
-			//m_stateMachine->Update();
+			m_stateMachine->Update();
+
+			/** モデルと当たり判定の更新に必要な値を取得 */
+			m_transform.m_position = m_stateMachine->GetTransform().m_position;
+			m_transform.m_rotation = m_stateMachine->GetTransform().m_rotation;
+			m_upDirection = m_stateMachine->GetUpDirection();
+
+			/** 当たり判定の更新 */
+			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
+			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
+
+			/** モデルの更新 */
+			m_modelRender.SetPosition(m_transform.m_position);
+			m_modelRender.SetRotation(m_transform.m_rotation);
+			m_modelRender.Update();
 
 			/** 無敵タイマー更新 */
 			//InvincibleTimer();

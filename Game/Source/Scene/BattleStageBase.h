@@ -68,7 +68,6 @@ namespace app
 			enum enBattlePhase
 			{
 				enBattlePhase_Battle,				/** 戦闘中 */
-				enBattlePhase_BattleFinish,			/** 戦闘時の処理を呼び出す */
 				enBattlePhase_WaitFinishAnimation,	/** 戦闘終了アニメーションの完了待ち */
 				enBattlePhase_GameOver,				/** ゲームオーバー処理 */
 				enBattlePhase_GameClear,			/** ゲームクリア処理 */

@@ -84,11 +84,6 @@ namespace app
 
 		void BossEnemy::Update()
 		{
-			/** 戦闘終了時は更新しない */
-			if (battle::BattleManager::GetIsBattleFinish()) {
-				return;
-			}
-
 			/** ステートマシン更新 */
 			m_stateMachine->Update();
 

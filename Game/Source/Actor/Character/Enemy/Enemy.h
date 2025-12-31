@@ -10,6 +10,9 @@ namespace app
 {
 	namespace actor
 	{
+		class Player;
+
+
 		class Enemy : public Character
 		{
 		public:
@@ -17,12 +20,16 @@ namespace app
 			 * 削除すべきかを取得
 			 * バトルマネージャーがこれを見てDeleteGOする
 			 */
-			const bool ShouldDestroy() const { return m_shouldDestroy; }
+			inline const bool ShouldDestroy() const { return m_shouldDestroy; }
 			/**
 			 * 削除すべきかを設定
 			 * ステートで削除が決まったらこれをtrueにする
 			 */
-			void SetShouldDestroy(const bool shouldDestroy) { m_shouldDestroy = shouldDestroy; }
+			inline void SetShouldDestroy(const bool shouldDestroy) { m_shouldDestroy = shouldDestroy; }
+			/**
+			 * ターゲットのプレイヤーを設定
+			 */
+			inline void SetTargetPlayer(Player* player) { m_targetPlayer = player; }
 
 
 		public:
@@ -30,9 +37,11 @@ namespace app
 			virtual ~Enemy();
 
 
-		private:
+		protected:
 			/** 削除すべきか */
 			bool m_shouldDestroy = false;
+			/** プレイヤーの座標 */
+			Player* m_targetPlayer = nullptr;
 		};
 	}
 }

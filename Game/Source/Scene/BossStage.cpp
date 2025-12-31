@@ -21,8 +21,8 @@ namespace app
 		{
 			//DeleteGO(m_bossPlanet);
 
-			//BattleManager::GetInstance()->Unregister(m_uiBossLife);
-			//DeleteGO(m_uiBossLife);
+			//BattleManager::GetInstance()->Unregister(m_uiBossHp);
+			//DeleteGO(m_uiBossHp);
 
 			//BattleManager::GetInstance()->Unregister(m_bossEnemy);
 			//DeleteGO(m_bossEnemy);
@@ -41,15 +41,15 @@ namespace app
 			//// ロード明けで音量が上がるため、一旦音量を0にしておく。
 			//SoundManager::SetVolume(enSoundList_BossStageBGM, 0.0f);
 
-			//m_uiBossLife = NewGO<UIBossHp>(0, "UIBossHp");
-			//BattleManager::GetInstance()->Register(m_uiBossLife);
+			//m_uiBossHp = NewGO<UIBossHp>(0, "UIBossHp");
+			//BattleManager::GetInstance()->Register(m_uiBossHp);
 
 			return true;
 		}
 
 		void BossStage::OnUpdate()
 		{
-			//if (BattleManager::GetIsBattleFinish()) {
+			//if (BattleManager::IsWinnerDecided()) {
 			//	SoundManager::StopBGM(enSoundList_BossStageBGM, 0.0f);
 			//	return;
 			//}

@@ -54,7 +54,7 @@ namespace app
 
 		void FirstStage::OnUpdate()
 		{
-			//if (BattleManager::GetIsBattleFinish()) {
+			//if (BattleManager::IsWinnerDecided()) {
 			//	SoundManager::StopBGM(enSoundList_FirstStageBGM, 0.0f);
 			//	return;
 			//}

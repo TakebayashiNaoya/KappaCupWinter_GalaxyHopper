@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * DeformEnemy.cpp
- * •ÏŒ`ƒGƒlƒ~[‚ÌÀ‘•
+ * å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã®å®Ÿè£…
  */
 #include "stdafx.h"
 #include "DeformEnemy.h"
@@ -12,7 +12,7 @@ namespace app
 {
 	namespace actor
 	{
-		/** ƒAƒjƒ[ƒVƒ‡ƒ“İ’è */
+		/** ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³è¨­å®š */
 		const Character::AnimationOption DeformEnemy::TRANSFORM_ENEMY_ANIMATION_OPTIONS[] = {
 		   AnimationOption { std::string("Spider/idle"),	bool(true) },
 		   AnimationOption { std::string("Spider/walk"),	bool(true) },
@@ -26,22 +26,22 @@ namespace app
 			const std::string MODEL_PATH = "Spider/spider";
 			constexpr float MODEL_SCALE = 30.0f;
 
-			constexpr float HIT_COLLIDER_RADIUS = 40.0f;						/** “–‚½‚èƒRƒ‰ƒCƒ_[‚ÌƒTƒCƒY */
-			constexpr float HURT_COLLIDER_RADIUS = 80.0f;						/** ‚â‚ç‚êƒRƒ‰ƒCƒ_[‚ÌƒTƒCƒY */
-			constexpr float COLLIDER_OFFSET = 30.0f;							/** ƒRƒ‰ƒCƒ_[‚ÌƒIƒtƒZƒbƒg’l */
+			constexpr float HIT_COLLIDER_RADIUS = 40.0f;						/** å½“ãŸã‚Šã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚µã‚¤ã‚º */
+			constexpr float HURT_COLLIDER_RADIUS = 80.0f;						/** ã‚„ã‚‰ã‚Œã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚µã‚¤ã‚º */
+			constexpr float COLLIDER_OFFSET = 30.0f;							/** ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆå€¤ */
 		}
 
 
 		DeformEnemy::DeformEnemy()
 		{
-			/** ƒAƒjƒ[ƒVƒ‡ƒ“”ƒ`ƒFƒbƒN */
+			/** ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æ•°ãƒã‚§ãƒƒã‚¯ */
 			static_assert(ARRAYSIZE(TRANSFORM_ENEMY_ANIMATION_OPTIONS) == enAnimationClip_Num,
-				"ƒAƒjƒ[ƒVƒ‡ƒ“‚Ìƒtƒ@ƒCƒ‹”‚ÆƒNƒŠƒbƒv”‚ª‡‚Á‚Ä‚¢‚Ü‚¹‚ñB");
+				"ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã¨ã‚¯ãƒªãƒƒãƒ—æ•°ãŒåˆã£ã¦ã„ã¾ã›ã‚“ã€‚");
 
-			/** ƒXƒe[ƒgƒ}ƒVƒ“¶¬ */
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ç”Ÿæˆ */
 			m_stateMachine = std::make_unique<app::actor::DeformEnemyStateMachine>(this);
 
-			/** ƒXƒe[ƒ^ƒX¶¬ */
+			/** ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ç”Ÿæˆ */
 			m_status = CreateStatus<DeformEnemyStatus>();
 		}
 
@@ -53,17 +53,17 @@ namespace app
 
 		bool DeformEnemy::Start()
 		{
-			/** ƒ‚ƒfƒ‹‚ÆƒAƒjƒ[ƒVƒ‡ƒ“‚ğ‰Šú‰» */
+			/** ãƒ¢ãƒ‡ãƒ«ã¨ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’åˆæœŸåŒ– */
 			InitModel(enAnimationClip_Num, TRANSFORM_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
 
-			/** UŒ‚”»’è‚ÌƒRƒ‰ƒCƒ_[‚ğì¬ */
+			/** æ”»æ’ƒåˆ¤å®šã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ä½œæˆ */
 			m_hitCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
 				collision::enCollisionType_DeformEnemy,
 				HIT_COLLIDER_RADIUS,
 				app::EnCollisionAttr::enCollisionAttr_Enemy
 			);
-			/** ‚â‚ç‚ê”»’è‚ÌƒRƒ‰ƒCƒ_[‚ğì¬ */
+			/** ã‚„ã‚‰ã‚Œåˆ¤å®šã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ä½œæˆ */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
 				collision::enCollisionType_DeformEnemy,
@@ -79,24 +79,19 @@ namespace app
 
 		void DeformEnemy::Update()
 		{
-			/** í“¬I—¹‚ÍXV‚µ‚È‚¢ */
-			if (battle::BattleManager::GetIsBattleFinish()) {
-				return;
-			}
-
-			/** ƒXƒe[ƒgƒ}ƒVƒ“XV */
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³æ›´æ–° */
 			m_stateMachine->Update();
 
-			/** ƒ‚ƒfƒ‹‚Æ“–‚½‚è”»’è‚ÌXV‚É•K—v‚È’l‚ğæ“¾ */
+			/** ãƒ¢ãƒ‡ãƒ«ã¨å½“ãŸã‚Šåˆ¤å®šã®æ›´æ–°ã«å¿…è¦ãªå€¤ã‚’å–å¾— */
 			m_transform.m_position = m_stateMachine->GetTransform().m_position;
 			m_transform.m_rotation = m_stateMachine->GetTransform().m_rotation;
 			m_upDirection = m_stateMachine->GetUpDirection();
 
-			/** “–‚½‚è”»’è‚ÌXV */
+			/** å½“ãŸã‚Šåˆ¤å®šã®æ›´æ–° */
 			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
 			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
 
-			/** ƒ‚ƒfƒ‹‚ÌXV */
+			/** ãƒ¢ãƒ‡ãƒ«ã®æ›´æ–° */
 			m_modelRender.SetPosition(m_transform.m_position);
 			m_modelRender.SetRotation(m_transform.m_rotation);
 			m_modelRender.Update();

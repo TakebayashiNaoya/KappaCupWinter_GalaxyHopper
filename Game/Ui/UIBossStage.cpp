@@ -65,7 +65,7 @@ namespace app
 
 		UIBossStage::~UIBossStage()
 		{
-			DeleteGO(m_uiBossLife);
+			DeleteGO(m_uiBossHp);
 		}
 
 
@@ -77,7 +77,7 @@ namespace app
 			}
 
 			/** ボスHP UI生成 */
-			m_uiBossLife = NewGO<UIBossHp>(0, "UIBossHp");
+			m_uiBossHp = NewGO<UIBossHp>(0, "UIBossHp");
 
 			return true;
 		}
@@ -85,7 +85,7 @@ namespace app
 
 		void UIBossStage::SetBossHp(uint8_t currentHp, uint8_t maxHp)
 		{
-			m_uiBossLife->UpdateHp(currentHp, maxHp);
+			m_uiBossHp->UpdateHp(currentHp, maxHp);
 		}
 
 
@@ -159,7 +159,7 @@ namespace app
 			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
 				return;
 			}
-			if (battle::BattleManager::GetIsBattleFinish()) {
+			if (battle::BattleManager::IsWinnerDecided()) {
 				return;
 			}
 			m_bossHpCanvas->Render(rc);

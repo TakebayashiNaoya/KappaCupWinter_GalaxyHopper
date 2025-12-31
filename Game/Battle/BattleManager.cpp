@@ -1,4 +1,8 @@
-﻿#include "stdafx.h"
+﻿/**
+ * BattleManager.cpp
+ * バトルマネージャークラスの実装
+ */
+#include "stdafx.h"
 #include "BattleManager.h"
 #include "Source/Scene/SceneManager.h"
 #include "Source/Actor/Character/Player/Player.h"
@@ -23,32 +27,14 @@ namespace app
 			constexpr float ROCKET_SEARCH_RADIUS = 500.0f;	// ロケットのプレイヤー検出半径
 			constexpr float TREASURE_SEARCH_RADIUS = 200.0f;	// 宝箱のプレイヤー検出半径
 
-			/// <summary>
-			/// プレイヤーがエネミーに近づいたら、エネミーにプレイヤーの座標を伝え、発見フラグを立てる。
-			/// </summary>
-			/// <typeparam name="T"> 敵オブジェクトの型（vector）。</typeparam>
-			/// <param name="player"> プレイヤーのポインタ。</param>
-			/// <param name="enemys"> エネミーのvector型の変数。</param>
-			/// <param name="searchRadius">敵を検出するための半径。</param>
+
+			/** プレイヤーのアドレスをエネミーに伝えるテンプレート関数 */
 			template <class T>
-			void CheckEnemyDetection(actor::Player* player, std::vector<T*>& enemys, float searchRadius)
+			void SetTargetPlayerToEnemies(actor::Player* player, std::vector<T*>& enemys)
 			{
-				if (player == nullptr) {
-					return;
-				}
-
 				for (auto* enemy : enemys) {
-
-					if (enemy == nullptr) {
-						continue;
-					}
-
-					Vector3 distance = enemy->GetTransform().m_position - player->GetTransform().m_position;
-					if (distance.Length() < searchRadius) {
-						enemy->SetIsFoundPlayer(true, player->GetTransform().m_position);
-					}
-					else {
-						enemy->SetIsFoundPlayer(false, Vector3::Zero);
+					if (enemy) {
+						enemy->SetTargetPlayer(player);
 					}
 				}
 			}
@@ -62,11 +48,10 @@ namespace app
 				auto it = enemies.begin();
 				while (it != enemies.end()) {
 					auto* enemy = *it;
-
-					// ここで「死んでいますか？」と聞いて、死んでいたらトドメ（DeleteGO）を刺す
+					/** 死亡しているエネミーをDeleteGOし、リストからも削除 */
 					if (enemy && enemy->ShouldDestroy()) {
-						DeleteGO(enemy);        // ここで初めてDeleteGOする
-						it = enemies.erase(it); // リストからも削除
+						DeleteGO(enemy);
+						it = enemies.erase(it);
 					}
 					else {
 						++it;
@@ -77,52 +62,55 @@ namespace app
 
 
 		BattleManager* BattleManager::m_instance = nullptr;
-		bool BattleManager::m_isBattleFinish = false;
-		bool BattleManager::m_isStopCollisionManager = false;
+		bool BattleManager::m_isGoalReached = false;
+		bool BattleManager::m_isResultSequence = false;
+		BattleManager::EnBattleResult BattleManager::m_battleResult = EnBattleResult::enBattleResult_None;
 
 
 		void BattleManager::Update()
 		{
-			// シーン切り替えリクエストがある場合、バトル処理を全てスキップ。
+			/** シーン切り替えリクエストがある場合、バトル処理を全てスキップ */
 			if (scene::SceneManager::GetInstance()->GetIsSceneChangeRequested()) {
 				return;
 			}
 
-			// 死亡しているエネミーをDeleteGOし、リストからも削除。
-			UpdateAndRemoveDeadEnemies<actor::BasicEnemy, actor::BasicEnemyStatus>(m_basicEnemies);
-			UpdateAndRemoveDeadEnemies<actor::DeformEnemy, actor::DeformEnemyStatus>(m_deformEnemies);
+			/** 死亡しているエネミーをDeleteGOし、リストから削除 */
+			UpdateAndRemoveDeadEnemies(m_basicEnemies);
+			UpdateAndRemoveDeadEnemies(m_deformEnemies);
 
-			// ボスエネミーにプレイヤーの座標を伝える。
+			/** ボスエネミーにプレイヤーのアドレスを伝える */
 			if (m_bossEnemy && m_player) {
-				m_bossEnemy->SetIsFoundPlayer(true, m_player->GetTransform().m_position);
+				m_bossEnemy->SetTargetPlayer(m_player);
 			}
 
-			// プレイヤーがベーシックエネミーに近づいたら、ベーシックエネミーにプレイヤーの座標を伝える。
-			CheckEnemyDetection<actor::BasicEnemy>(m_player, m_basicEnemies, ENEMY_SEARCH_RADIUS);
+			/** 基本エネミーにプレイヤーのアドレスを伝える */
+			SetTargetPlayerToEnemies<actor::BasicEnemy>(m_player, m_basicEnemies);
 
-			// プレイヤーが変形エネミーに近づいたら、変形エネミーにプレイヤーの座標を伝える。
-			CheckEnemyDetection<actor::DeformEnemy>(m_player, m_deformEnemies, ENEMY_SEARCH_RADIUS);
+			/** 変形エネミーにプレイヤーのアドレスを伝える */
+			SetTargetPlayerToEnemies<actor::DeformEnemy>(m_player, m_deformEnemies);
 
-			// プレイヤーのライフをUIに反映。
-			if (m_uiPlayerLife && m_player) {
-				m_uiPlayerLife->SetPlayerHp(m_player->GetStatus<actor::PlayerStatus>()->GetHp());
+			/** プレイヤーのHPUIにプレイヤーのHPを渡す */
+			if (m_uiPlayerHp && m_player) {
+				m_uiPlayerHp->SetPlayerHp(m_player->GetStatus<actor::PlayerStatus>()->GetHp());
 			}
 
-			// ダメージフラッシュUIにプレイヤーのダメージ状態を反映。
+			/** ダメージフラッシュUIにプレイヤーのHPを渡す */
 			if (m_uiDamageFlash && m_player) {
 				m_uiDamageFlash->SetPlayerHp(m_player->GetStatus<actor::PlayerStatus>()->GetHp());
 			}
 
-			// ボスのライフをUIに反映。
-			if (m_uiBossLife && m_bossEnemy) {
+			/** ボスのHPUIにボスのHPを渡す */
+			if (m_uiBossHp && m_bossEnemy) {
 				uint8_t currentHp = m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetHp();
 				uint8_t maxHp = m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetMaxHp();
-				m_uiBossLife->UpdateHp(currentHp, maxHp);
+				m_uiBossHp->UpdateHp(currentHp, maxHp);
 			}
 
-			// プレイヤーが宝箱に近づいたら、宝箱を開ける。
-			if (m_player) {
-				for (auto* treasure : m_treasures) {
+			/** プレイヤーが宝箱に近づいたら、宝箱を開ける */
+			if (m_player)
+			{
+				for (auto* treasure : m_treasures)
+				{
 					if (treasure == nullptr) {
 						continue;
 					}
@@ -138,29 +126,50 @@ namespace app
 				}
 			}
 
-			// ギアの取得数をUIに反映。
+			/** ギアの取得数をUIに反映 */
 			if (m_uiGear) {
 				m_uiGear->SetCount(m_gotGearCount, m_maxGearCount);
 			}
 
-			// ギアを全て集めたらロケットを発射可能にする。
-			if (m_maxGearCount > 0 && m_gotGearCount == m_maxGearCount) {
-				m_canLaunch = true;
+			/** ギアを全て集めたらロケットがゴールとして機能するようにする */
+			if (m_maxGearCount > 0 && m_gotGearCount == m_maxGearCount)
+			{
+				/** プレイヤーがロケットに近づいたらゴールフラグを立てる */
+				if (m_rocket && m_player)
+				{
+					Vector3 lengthVec = m_rocket->GetTransform().m_position - m_player->GetTransform().m_position;
+					if (lengthVec.Length() < ROCKET_SEARCH_RADIUS)
+					{
+						if (m_rocket != nullptr) {
+							m_isGoalReached = true;
+							m_maxGearCount = 0;
+							m_gotGearCount = 0;
+						}
+					}
+				}
 			}
-			else {
-				m_canLaunch = false;
+			else
+			{
+				m_isGoalReached = false;
 			}
 
-			// プレイヤーがロケットに近づいたら、ロケットをゴール状態にする。
-			if (m_rocket && m_player && m_canLaunch) {
-				Vector3 lengthVec = m_rocket->GetTransform().m_position - m_player->GetTransform().m_position;
-				if (lengthVec.Length() < ROCKET_SEARCH_RADIUS) {
-					if (m_rocket != nullptr) {
-						m_rocket->SetIsGooled(true);
-						m_maxGearCount = 0;
-						m_gotGearCount = 0;
-						m_canLaunch = false;
-					}
+			/** 戦闘終了判定 */
+			if (m_player && m_player->GetStatus<actor::PlayerStatus>()->GetHp() <= 0) {
+				m_battleResult = EnBattleResult::enBattleResult_Lose;
+			}
+			else if (m_bossEnemy && m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetHp() <= 0) {
+				m_battleResult = EnBattleResult::enBattleResult_Win;
+			}
+
+			/** 戦闘終了後、敗者の死亡アニメーションが終わったらUIを非表示にする合図を出す */
+			if (m_battleResult == EnBattleResult::enBattleResult_Lose) {
+				if (m_player && m_player->GetModelRender()->IsPlayingAnimation() == false) {
+					m_isResultSequence = true;
+				}
+			}
+			else if (m_battleResult == EnBattleResult::enBattleResult_Win) {
+				if (m_bossEnemy && m_bossEnemy->GetModelRender()->IsPlayingAnimation() == false) {
+					m_isResultSequence = true;
 				}
 			}
 		}
@@ -246,12 +255,12 @@ namespace app
 
 		void BattleManager::Register(ui::UIPlayerHp* uiPlayerLife)
 		{
-			m_uiPlayerLife = uiPlayerLife;
+			m_uiPlayerHp = uiPlayerLife;
 		}
 
 		void BattleManager::Unregister(ui::UIPlayerHp* uiPlayerLife)
 		{
-			m_uiPlayerLife = nullptr;
+			m_uiPlayerHp = nullptr;
 		}
 
 
@@ -268,12 +277,12 @@ namespace app
 
 		void BattleManager::Register(ui::UIBossHp* uiBossLife)
 		{
-			m_uiBossLife = uiBossLife;
+			m_uiBossHp = uiBossLife;
 		}
 
 		void BattleManager::Unregister(ui::UIBossHp* uiBossLife)
 		{
-			m_uiBossLife = nullptr;
+			m_uiBossHp = nullptr;
 		}
 
 		void BattleManager::Register(actor::Rocket* rocket)

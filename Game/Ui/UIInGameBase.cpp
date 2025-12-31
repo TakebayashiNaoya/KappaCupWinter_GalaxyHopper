@@ -76,7 +76,7 @@ namespace app
 
 		UIInGameBase::~UIInGameBase()
 		{
-			DeleteGO(m_uiPlayerLife);
+			DeleteGO(m_uiPlayerHp);
 			DeleteGO(m_uiDamageFlash);
 			DeleteGO(m_uiControls);
 		}
@@ -85,7 +85,7 @@ namespace app
 		bool UIInGameBase::Start()
 		{
 			/** プレイヤーライフ生成 (NewGO) */
-			m_uiPlayerLife = NewGO<UIPlayerHp>(0, "UIPlayerHp");
+			m_uiPlayerHp = NewGO<UIPlayerHp>(0, "UIPlayerHp");
 
 			/** ダメージフラッシュ生成 */
 			m_uiDamageFlash = NewGO<UIDamageFlash>(0, "UIDamageFlash");
@@ -99,8 +99,8 @@ namespace app
 
 		void UIInGameBase::SetPlayerHp(int hp)
 		{
-			if (m_uiPlayerLife) {
-				m_uiPlayerLife->SetPlayerHp(hp);
+			if (m_uiPlayerHp) {
+				m_uiPlayerHp->SetPlayerHp(hp);
 			}
 			if (m_uiDamageFlash) {
 				m_uiDamageFlash->SetPlayerHp(hp);
@@ -156,7 +156,7 @@ namespace app
 			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
 				return;
 			}
-			if (battle::BattleManager::GetIsBattleFinish()) {
+			if (battle::BattleManager::IsWinnerDecided()) {
 				return;
 			}
 
@@ -216,7 +216,7 @@ namespace app
 			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
 				return;
 			}
-			if (battle::BattleManager::GetIsBattleFinish()) {
+			if (battle::BattleManager::IsWinnerDecided()) {
 				return;
 			}
 
@@ -295,7 +295,7 @@ namespace app
 			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
 				return;
 			}
-			if (battle::BattleManager::GetIsBattleFinish()) {
+			if (battle::BattleManager::IsWinnerDecided()) {
 				return;
 			}
 
