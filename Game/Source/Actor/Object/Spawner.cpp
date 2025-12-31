@@ -39,15 +39,15 @@ namespace app
 				return;
 			}
 
-			// エネミーが生きているかチェック
+			/** エネミーが存在しているなら、そのエネミーが死んでいるか確認する */
 			if (m_deformEnemy != nullptr)
 			{
-				// 死んでいたら、ポインタを手放す（削除はBattleManagerがやってくれる）
-				if (m_deformEnemy->GetStateMachine<DeformEnemyStateMachine>()->IsEqualCurrentState(DeformEnemyStateMachine::enDeformEnemyState_Dead)) {
+				/** 死んでいたらポインタを手放す（削除はBattleManagerが行う） */
+				if (m_deformEnemy->ShouldDestroy()) {
 					m_deformEnemy = nullptr;
 				}
 			}
-			// エネミーがいない（死んだ後）なら、リスポーンタイマーを動かす
+			/** エネミーがいない（死んだ後）なら、リスポーンタイマーを動かす */
 			else
 			{
 				m_respawnTimer += g_gameTime->GetFrameDeltaTime();
