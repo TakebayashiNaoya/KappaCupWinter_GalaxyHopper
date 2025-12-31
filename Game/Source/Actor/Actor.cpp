@@ -29,9 +29,6 @@ namespace app
 
 		void Actor::Update()
 		{
-			if (m_stateMachine) {
-				m_stateMachine->Update();
-			}
 		}
 
 
