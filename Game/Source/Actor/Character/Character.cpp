@@ -49,11 +49,18 @@ namespace app
 		}
 
 
+		/**
+		 * モデルとアニメーションの初期化を行う。
+		 * ・アニメーションクリップの数
+		 * ・アニメーションクリップのオプション配列
+		 * ・モデルファイルのパス
+		 * ・モデルの拡大率
+		 */
 		void Character::InitModel(
-			const uint8_t count,			/** アニメーションクリップの数 */
-			const AnimationOption* option,	/** アニメーションクリップのオプション配列 */
-			const std::string path,			/** モデルファイルのパス */
-			const float scale				/** モデルの拡大率 */
+			const uint8_t count,
+			const AnimationOption* option,
+			const std::string path,
+			const float scale
 		)
 		{
 			/** アニメーションクリップのリストを確保 */
