@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "BattleStageBase.h"
 #include "Source/Actor/Character/Player/Player.h"
-#include "Source/Actor/Character/Enemy/BossEnemy.h"
+#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 #include "UI/UIGameOver.h"
 #include "UI/UIGameClear.h"
 #include "Camera/GameCamera.h"
@@ -64,11 +64,11 @@ namespace app
 			{
 				// 1.プレイヤーかボスが死亡したら、勝敗のステートを設定する。
 			case enBattlePhase_Battle:
-				if (m_player && m_player->GetStateMachine()->IsEqualCurrentState(actor::PlayerStateMachine::enPlayerState_Dying)) {
+				if (m_player && m_player->GetStateMachine<actor::PlayerStateMachine>()->IsEqualCurrentState(actor::PlayerStateMachine::enPlayerState_Dying)) {
 					m_result = enResult_PlayerLose;
 					m_battlePhase = enBattlePhase_BattleFinish;
 				}
-				else if (m_bossEnemy && m_bossEnemy->GetStateMachine()->IsEqualCurrentState(actor::PlayerStateMachine::enPlayerState_Dying)) {
+				else if (m_bossEnemy && m_bossEnemy->GetStateMachine<actor::BossEnemyStateMachine>()->IsEqualCurrentState(actor::BossEnemyStateMachine::enBossEnemyState_Dying)) {
 					m_result = enResult_PlayerWin;
 					m_battlePhase = enBattlePhase_BattleFinish;
 				}
@@ -86,13 +86,13 @@ namespace app
 				//   ボスの死亡アニメーションが終わったらゲームクリアへ。
 			case enBattlePhase_WaitFinishAnimation:
 				if (m_result == enResult_PlayerLose) {
-					if (m_player && m_player->GetStateMachine()->IsEqualCurrentState(actor::PlayerStateMachine::enPlayerState_Dead)) {
+					if (m_player && m_player->GetStateMachine<actor::PlayerStateMachine>()->IsEqualCurrentState(actor::PlayerStateMachine::enPlayerState_Dead)) {
 						battle::BattleManager::SetIsBattleFinish(true);
 						m_battlePhase = enBattlePhase_GameOver;
 					}
 				}
 				else if (m_result == enResult_PlayerWin) {
-					if (m_bossEnemy && m_bossEnemy->GetIsDead()) {
+					if (m_bossEnemy && m_bossEnemy->GetStateMachine<actor::BossEnemyStateMachine>()->IsEqualCurrentState(actor::BossEnemyStateMachine::enBossEnemyState_Dead)) {
 						battle::BattleManager::SetIsBattleFinish(true);
 						m_battlePhase = enBattlePhase_GameClear;
 					}
