@@ -3,8 +3,8 @@
  * プレイヤーを管理するクラス
  */
 #pragma once
-#include "Character.h"
-#include "ActorStatus.h" 
+#include "Source/Actor/Character/Character.h"
+#include "Source/Actor/ActorStatus.h" 
 #include "PlayerStateMachine.h"
 
 namespace app
@@ -29,11 +29,6 @@ namespace app
 				enAnimationClip_Num,
 			};
 
-
-			/** プレイヤーステートマシンのゲッター */
-			PlayerStateMachine* GetStateMachine() const { return m_stateMachine.get(); }
-
-
 			/// <summary>
 			/// 毎フレームのXZ軸回転角度を取得
 			/// </summary>
@@ -52,9 +47,6 @@ namespace app
 
 
 		protected:
-			// ★削除: 入力処理（ComputeMoveDirection）はControllerに移譲したため不要
-
-		protected:
 			Quaternion	m_xzAdditionalRot;	// 毎フレームのXZ軸回転角度
 
 
@@ -70,12 +62,6 @@ namespace app
 
 
 		private:
-			/** ステータス */
-			std::unique_ptr<PlayerStatus> m_status;
-
-			// ステートマシン
-			std::unique_ptr<PlayerStateMachine> m_stateMachine;
-
 			// ダメージ関連
 			Vector3 m_knockBackDirection = Vector3::Zero;
 			float	m_knockBackTimer = 0.0f;

@@ -1,41 +1,52 @@
+ï»¿/**
+ * UIGameClear.h
+ * ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢UI
+ */
 #pragma once
 #include "UIResultBase.h"
 
-class UIGameClear : public UIResultBase
+
+namespace app
 {
-private:
-	enum enState
+	namespace ui
 	{
-		enState_JumpArc,		// A’n“_‚©‚çB’n“_‚Ö•ú•¨üƒWƒƒƒ“ƒv
-		enState_Bouncing,		// B’n“_‚Å‚»‚ÌêƒoƒEƒ“ƒh
-		enState_Wait,			// ‘Ò‹@
-		enState_Shrink,			// ûk
-		enState_LoadingWait,	// ƒ[ƒfƒBƒ“ƒO‘Ò‚¿
-		enState_End,			// I—¹
-	};
+		class UIGameClear : public UIResultBase
+		{
+		private:
+			enum enState
+			{
+				enState_JumpArc,		/** ãƒ­ã‚´ãŒã‚¸ãƒ£ãƒ³ãƒ—ã—ã¦ç€åœ°ã™ã‚‹ã¾ã§ã®ã‚¹ãƒ†ãƒ¼ãƒˆ */
+				enState_Bouncing,		/** ç€åœ°ç‚¹ã§ãƒã‚¦ãƒ³ãƒ‰ã™ã‚‹ã‚¹ãƒ†ãƒ¼ãƒˆ */
+				enState_Wait,			/** å¾…æ©Ÿ */
+				enState_Shrink,			/** åç¸® */
+				enState_LoadingWait,	/** ãƒ­ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°å¾…ã¡ */
+				enState_End,			/** çµ‚äº† */
+			};
 
-public:
-	UIGameClear();
-	~UIGameClear();
+		public:
+			UIGameClear();
+			~UIGameClear();
 
-private:
-	bool Start() override final;
-	void Update() override final;
-	void Render(RenderContext& rc) override final;
+		private:
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 
-private:
-	SpriteRender m_gameClearImage;
+		private:
+			SpriteRender m_gameClearImage;
 
-	Vector3 m_position = Vector3::Zero;
-	Vector3 m_scale = Vector3::One;
-	float m_alpha = 0.0f;
+			Vector3 m_position = Vector3::Zero;
+			Vector3 m_scale = Vector3::One;
+			float m_alpha = 0.0f;
 
-	Quaternion m_rotation = Quaternion::Identity;
-	float m_angle = 0.0f; // Œ»İ‚ÌŠp“xiƒ‰ƒWƒAƒ“j
+			Quaternion m_rotation = Quaternion::Identity;
+			float m_angle = 0.0f; // ç¾åœ¨ã®è§’åº¦ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
 
-	// •¨—‰‰Z—p
-	Vector3 m_velocity = Vector3::Zero; // 3ŸŒ³‚Ì‘¬“x
+			// ç‰©ç†æ¼”ç®—ç”¨
+			Vector3 m_velocity = Vector3::Zero; // 3æ¬¡å…ƒã®é€Ÿåº¦
 
-	float m_timer = 0.0f;
-	int m_state = 0;
-};
+			float m_timer = 0.0f;
+			int m_state = 0;
+		};
+	}
+}

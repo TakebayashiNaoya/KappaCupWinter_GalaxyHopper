@@ -19,12 +19,10 @@ namespace app
 					parameter.maxHp = j["maxHp"].get<uint8_t>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
-					parameter.radius = j["radius"].get<float>();
+					parameter.hurtRadius = j["hurtRadius"].get<float>();
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.jumpPower = j["jumpPower"].get<float>();
 				});
-			/** ステータス設定 */
-			Setup();
 		}
 
 
@@ -42,7 +40,7 @@ namespace app
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_dashSpeed = parameter->dashSpeed;
-			m_radius = parameter->radius;
+			m_hurtRadius = parameter->hurtRadius;
 			m_modelScale = parameter->modelScale;
 			m_jumpPower = parameter->jumpPower;
 		}
@@ -61,12 +59,10 @@ namespace app
 					parameter.maxHp = j["maxHp"].get<uint8_t>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
-					parameter.radius = j["radius"].get<float>();
+					parameter.hurtRadius = j["hurtRadius"].get<float>();
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
 				});
-			/** ステータス設定 */
-			Setup();
 		}
 
 
@@ -84,7 +80,7 @@ namespace app
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_dashSpeed = parameter->dashSpeed;
-			m_radius = parameter->radius;
+			m_hurtRadius = parameter->hurtRadius;
 			m_modelScale = parameter->modelScale;
 			m_hitRadius = parameter->hitRadius;
 		}
@@ -103,13 +99,11 @@ namespace app
 					parameter.maxHp = j["maxHp"].get<uint8_t>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
-					parameter.radius = j["radius"].get<float>();
+					parameter.hurtRadius = j["hurtRadius"].get<float>();
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
 					parameter.slideSpeed = j["slideSpeed"].get<float>();
 				});
-			/** ステータス設定 */
-			Setup();
 		}
 
 
@@ -127,7 +121,7 @@ namespace app
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_dashSpeed = parameter->dashSpeed;
-			m_radius = parameter->radius;
+			m_hurtRadius = parameter->hurtRadius;
 			m_modelScale = parameter->modelScale;
 			m_hitRadius = parameter->hitRadius;
 			m_slideSpeed = parameter->slideSpeed;
@@ -147,12 +141,10 @@ namespace app
 					parameter.maxHp = j["maxHp"].get<uint8_t>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
-					parameter.radius = j["radius"].get<float>();
+					parameter.hurtRadius = j["hurtRadius"].get<float>();
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
 				});
-			/** ステータス設定 */
-			Setup();
 		}
 
 
@@ -170,7 +162,7 @@ namespace app
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_dashSpeed = parameter->dashSpeed;
-			m_radius = parameter->radius;
+			m_hurtRadius = parameter->hurtRadius;
 			m_modelScale = parameter->modelScale;
 			m_hitRadius = parameter->hitRadius;
 		}

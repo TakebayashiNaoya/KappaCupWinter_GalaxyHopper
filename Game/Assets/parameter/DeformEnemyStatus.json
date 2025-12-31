@@ -4,7 +4,7 @@
     "maxHp": 2,
     "walkSpeed": 3.0,
     "dashSpeed": 3.0,
-    "radius": 80.0,
+    "hurtRadius": 80.0,
     "modelScale": 30.0,
     "hitRadius": 40.0,
     "slideSpeed": 15.0

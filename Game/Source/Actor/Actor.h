@@ -10,6 +10,9 @@ namespace app
 {
 	namespace actor
 	{
+		class StateMachineBase;
+
+
 		class Actor : public IGameObject
 		{
 		public:
@@ -17,12 +20,6 @@ namespace app
 			 * モデル描画機能を取得
 			 */
 			ModelRender* GetModelRender() { return &m_modelRender; }
-
-			/**
-			 * ステータスを取得する
-			 */
-			template<typename TStatus>
-			TStatus* GetStatus() { return dynamic_cast<TStatus*>(m_status); }
 
 			/**
 			 * トランスフォームを取得
@@ -50,6 +47,42 @@ namespace app
 			inline const Vector3& GetUpDirection() const { return m_upDirection; }
 
 
+		public:
+			/**
+			 * ステートマシンを取得
+			 */
+			template <typename T>
+			T* GetStateMachine() const
+			{
+				return dynamic_cast<T*>(m_stateMachine.get());
+			}
+			/**
+			 * ステータスを取得
+			 */
+			template <typename T>
+			T* GetStatus() const
+			{
+				return dynamic_cast<T*>(m_status.get());
+			}
+
+
+		protected:
+			/**
+			 * ユニークポインタを返すステータス生成関数
+			 */
+			template <typename TStatus>
+			static std::unique_ptr<TStatus> CreateStatus()
+			{
+				auto status = std::make_unique<TStatus>();
+				/**
+				 * 万が一親クラスのコンストラクタでSetupを呼んだ場合、子クラスでオーバーライドしたSetupは機能しないため、
+				 * 二段階初期化でSetupを呼び出す。
+				 */
+				status->Setup();
+				return status;
+			}
+
+
 		protected:
 			/** モデル描画 */
 			ModelRender m_modelRender;
@@ -57,16 +90,10 @@ namespace app
 			Transform m_transform;
 			/** 上方向ベクトル */
 			Vector3 m_upDirection = Vector3::Up;
+			/** ステートマシン */
+			std::unique_ptr<StateMachineBase> m_stateMachine;
 			/** ステータス */
-			ActorStatus* m_status = nullptr;
-
-
-		protected:
-			/**
-			 * 「惑星の中心→キャラ」のベクトルを計算し、正規化します。
-			 * ※派生先クラスのUpdate関数内で、StateMachineのUpdate関数を呼ぶ前に実行してください。
-			 */
-			void UpdateUpDirection();
+			std::unique_ptr<ActorStatus> m_status;
 
 
 		public:

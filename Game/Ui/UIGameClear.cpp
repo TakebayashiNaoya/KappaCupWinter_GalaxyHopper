@@ -1,220 +1,231 @@
+ï»¿/**
+ * UIGameClear.cpp
+ * ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢UIã®å®Ÿè£…
+ */
 #include "stdafx.h"
 #include "UIGameClear.h"
 #include <cmath> 
 #include "LoadingScreen.h"
 
-namespace
+
+namespace app
 {
-	const Vector3 START_POS = Vector3(0.0f, -400.0f, 0.0f);	// ƒXƒ^[ƒg’n“_
-	const Vector3 TARGET_POS = Vector3(0.0f, 300.0f, 0.0f);	// ’…’n’n“_
-
-	// ƒWƒƒƒ“ƒv‚Ì‚‚³İ’èiƒXƒ^[ƒg’n“_‚Ü‚½‚ÍƒS[ƒ‹’n“_‚Ì‚‚¢•û‚©‚çA‚³‚ç‚É‚±‚ê‚¾‚¯‚‚­”ò‚Ôj
-	constexpr float JUMP_HEIGHT_OFFSET = 200.0f;
-
-	// •¨—İ’èi¬‚³‚­‘¬‚­’µ‚Ë‚éİ’èj
-	constexpr float GRAVITY = 8000.0f;
-	constexpr float BOUNCE_COEFFICIENT = 0.7f;
-	constexpr float STOP_VELOCITY_THRESHOLD = 50.0f;
-
-	// ŠÔİ’è
-	constexpr float WAIT_TIME = 1.0f;
-	constexpr float SHRINK_TIME = 0.5f;
-
-	// ‰ñ“]İ’è 
-	// ûk’†‚É‰½‰ñ“]‚³‚¹‚é‚©B360“x(2PI) * ‰ñ“]” / ŠÔ
-	// Œv‰ñ‚è‚È‚Ì‚Åƒ}ƒCƒiƒX‚É‚µ‚Ü‚·B
-	// —á: 0.5•b‚Å2‰ñ“]‚³‚¹‚éê‡ -> 720“x / 0.5•b = 1440“x/•b
-	constexpr float SHRINK_ROTATE_SPEED = 1440.0f;
-	constexpr float PAI = 3.14159265f;
-}
-
-UIGameClear::UIGameClear()
-{
-	m_gameClearImage.Init("Assets/sprite/GameClear.dds", 1000.0f, 300.0f);
-	m_alpha = 0.0f;
-	m_gameClearImage.SetMulColor(Vector4(1.0f, 1.0f, 1.0f, m_alpha));
-}
-
-UIGameClear::~UIGameClear()
-{
-}
-
-bool UIGameClear::Start()
-{
-	// 1. ‰ŠúÀ•WƒZƒbƒg
-	m_position = START_POS;
-	m_scale = Vector3::One;
-	m_alpha = 0.0f;
-
-	// ‰ñ“]‰Šú‰» (NEW)
-	m_rotation = Quaternion::Identity;
-	m_angle = 0.0f;
-
-	// 2. •¨—ŒvZi‰‘¬“x‚ÌŒˆ’èj
-
-	// Å‚“’B“_iYÀ•Wj‚ğŒvZ
-	// ƒXƒ^[ƒg‚ÆƒS[ƒ‹A‚‚¢•û‚ğ‘I‚ñ‚ÅA‚»‚±‚©‚ç‚³‚ç‚ÉOFFSET•ª‚‚­‚·‚é
-	float startY = START_POS.y;
-	float targetY = TARGET_POS.y;
-	float peakY = (startY > targetY ? startY : targetY) + JUMP_HEIGHT_OFFSET;
-
-	// A. ã¸‚É‚©‚©‚éŠÔ (t_up) ‚Æ‰‘¬ (vy) ‚ğŒvZ
-	// v = sqrt(2 * g * h)
-	float heightUp = peakY - startY;
-	float velocityY0 = sqrtf(2.0f * GRAVITY * heightUp);
-	float timeUp = velocityY0 / GRAVITY;
-
-	// B. ‰º~‚É‚©‚©‚éŠÔ (t_down) ‚ğŒvZ
-	// h = 1/2 * g * t^2  =>  t = sqrt(2h / g)
-	float heightDown = peakY - targetY;
-	float timeDown = sqrtf(2.0f * heightDown / GRAVITY);
-
-	// C. ‡Œv‘Ø‹óŠÔ
-	float totalTime = timeUp + timeDown;
-
-	// D. ‰¡•ûŒü‚Ì‘¬“x (vx, vz) ‚ğŒvZ
-	// ‹——£ / ŠÔ = ‘¬“x
-	Vector3 distance = TARGET_POS - START_POS;
-	m_velocity.x = distance.x / totalTime;
-	m_velocity.z = distance.z / totalTime; // ‰œs‚«‚ª‚ ‚éê‡—p
-	m_velocity.y = velocityY0;             // c•ûŒü‚Ì‰‘¬
-
-	// ƒXƒe[ƒgŠJn
-	m_state = enState_JumpArc;
-
-	m_gameClearImage.SetRotation(m_rotation); // (NEW)
-	m_gameClearImage.SetPosition(m_position);
-	m_gameClearImage.Update();
-
-	SoundManager::Play(enSoundList_GameClear);
-
-	return true;
-}
-
-void UIGameClear::Update()
-{
-	float dt = g_gameTime->GetFrameDeltaTime();
-
-	switch (m_state)
+	namespace ui
 	{
-		// ƒƒS‚ªã¸‚µ‚ÄA’…’n‚·‚é‚Ü‚Å‚Ì•ú•¨üƒWƒƒƒ“ƒvB
-	case enState_JumpArc:
-	{
-		// 1. d—Í‰ÁZ (Y²‚Ì‚İ)
-		m_velocity.y -= GRAVITY * dt;
-
-		// 2. ˆÚ“® (X, Y, Z ‘S‚Ä“®‚­)
-		m_position += m_velocity * dt;
-
-		// 3. ƒtƒF[ƒhƒCƒ“‰‰o (ã¸’†‚Ì‚İ”Z‚­‚·‚é)
-		if (m_velocity.y > 0.0f) {
-			// Œ»İ‚ÌY‘¬“x / ‰‘¬ ‚ÌŠ„‡‚È‚Ç‚ÅŒvZA‚Ü‚½‚ÍƒVƒ“ƒvƒ‹‚Éã¸’†‚Í”Z‚­‚µ‚Ä‚¢‚­
-			// ‚±‚±‚Å‚ÍƒVƒ“ƒvƒ‹‚Éu•s“§–¾“x += ŠÔv‚Å”Z‚­‚µ‚Ü‚·
-			m_alpha += dt * 3.0f; // 0.3•b‚­‚ç‚¢‚Å‘S•\¦
-			if (m_alpha > 1.0f) m_alpha = 1.0f;
-		}
-
-		// 4. ’…’n”»’è
-		// uƒS[ƒ‹’n“_‚Ì‚‚³‚æ‚è’á‚­v‚©‚Âu—‰º’†(‘¬“x‚ªƒ}ƒCƒiƒX)v‚Ìê‡
-		if (m_position.y <= TARGET_POS.y && m_velocity.y < 0.0f)
+		namespace
 		{
-			// ‹­§“I‚ÉƒS[ƒ‹À•W‚Ö•â³
-			m_position = TARGET_POS;
+			const Vector3 START_POS = Vector3(0.0f, -400.0f, 0.0f);	// ã‚¹ã‚¿ãƒ¼ãƒˆåœ°ç‚¹
+			const Vector3 TARGET_POS = Vector3(0.0f, 300.0f, 0.0f);	// ç€åœ°åœ°ç‚¹
 
-			// ƒoƒEƒ“ƒhƒXƒe[ƒg‚ÖˆÚs
-			// ¦‰¡ˆÚ“®(X, Z)‚Í‚±‚±‚ÅƒXƒgƒbƒv‚³‚¹‚é
-			m_velocity.x = 0.0f;
-			m_velocity.z = 0.0f;
+			// ã‚¸ãƒ£ãƒ³ãƒ—ã®é«˜ã•è¨­å®šï¼ˆã‚¹ã‚¿ãƒ¼ãƒˆåœ°ç‚¹ã¾ãŸã¯ã‚´ãƒ¼ãƒ«åœ°ç‚¹ã®é«˜ã„æ–¹ã‹ã‚‰ã€ã•ã‚‰ã«ã“ã‚Œã ã‘é«˜ãé£›ã¶ï¼‰
+			constexpr float JUMP_HEIGHT_OFFSET = 200.0f;
 
-			// Y‘¬“x‚ğ”½“]EŒ¸Š
-			m_velocity.y *= -BOUNCE_COEFFICIENT;
+			// ç‰©ç†è¨­å®šï¼ˆå°ã•ãé€Ÿãè·³ã­ã‚‹è¨­å®šï¼‰
+			constexpr float GRAVITY = 8000.0f;
+			constexpr float BOUNCE_COEFFICIENT = 0.7f;
+			constexpr float STOP_VELOCITY_THRESHOLD = 50.0f;
 
-			m_state = enState_Bouncing;
+			// æ™‚é–“è¨­å®š
+			constexpr float WAIT_TIME = 1.0f;
+			constexpr float SHRINK_TIME = 0.5f;
+
+			// å›è»¢è¨­å®š 
+			// åç¸®ä¸­ã«ä½•å›è»¢ã•ã›ã‚‹ã‹ã€‚360åº¦(2PI) * å›è»¢æ•° / æ™‚é–“
+			// æ™‚è¨ˆå›ã‚Šãªã®ã§ãƒã‚¤ãƒŠã‚¹ã«ã—ã¾ã™ã€‚
+			// ä¾‹: 0.5ç§’ã§2å›è»¢ã•ã›ã‚‹å ´åˆ -> 720åº¦ / 0.5ç§’ = 1440åº¦/ç§’
+			constexpr float SHRINK_ROTATE_SPEED = 1440.0f;
+			constexpr float PAI = 3.14159265f;
 		}
-		break;
-	}
 
-	// ‚»‚ÌêƒoƒEƒ“ƒhB
-	case enState_Bouncing:
-	{
-		m_velocity.y -= GRAVITY * dt;
-		m_position.y += m_velocity.y * dt;
+		UIGameClear::UIGameClear()
+		{
+			m_gameClearImage.Init("Assets/sprite/GameClear.dds", 1000.0f, 300.0f);
+			m_alpha = 0.0f;
+			m_gameClearImage.SetMulColor(Vector4(1.0f, 1.0f, 1.0f, m_alpha));
+		}
 
-		// Ú’n”»’è
-		if (m_position.y <= TARGET_POS.y) {
-			m_position.y = TARGET_POS.y;
-			m_velocity.y *= -BOUNCE_COEFFICIENT;
+		UIGameClear::~UIGameClear()
+		{
+		}
 
-			// ‚Ù‚Ú~‚Ü‚Á‚½‚çI—¹
-			if (abs(m_velocity.y) < STOP_VELOCITY_THRESHOLD) {
-				m_velocity.y = 0.0f;
-				m_state = enState_Wait;
-				m_timer = 0.0f;
+		bool UIGameClear::Start()
+		{
+			// 1. åˆæœŸåº§æ¨™ã‚»ãƒƒãƒˆ
+			m_position = START_POS;
+			m_scale = Vector3::One;
+			m_alpha = 0.0f;
+
+			// å›è»¢åˆæœŸåŒ– (NEW)
+			m_rotation = Quaternion::Identity;
+			m_angle = 0.0f;
+
+			// 2. ç‰©ç†è¨ˆç®—ï¼ˆåˆé€Ÿåº¦ã®æ±ºå®šï¼‰
+
+			// æœ€é«˜åˆ°é”ç‚¹ï¼ˆYåº§æ¨™ï¼‰ã‚’è¨ˆç®—
+			// ã‚¹ã‚¿ãƒ¼ãƒˆã¨ã‚´ãƒ¼ãƒ«ã€é«˜ã„æ–¹ã‚’é¸ã‚“ã§ã€ãã“ã‹ã‚‰ã•ã‚‰ã«OFFSETåˆ†é«˜ãã™ã‚‹
+			float startY = START_POS.y;
+			float targetY = TARGET_POS.y;
+			float peakY = (startY > targetY ? startY : targetY) + JUMP_HEIGHT_OFFSET;
+
+			// A. ä¸Šæ˜‡ã«ã‹ã‹ã‚‹æ™‚é–“ (t_up) ã¨åˆé€Ÿ (vy) ã‚’è¨ˆç®—
+			// v = sqrt(2 * g * h)
+			float heightUp = peakY - startY;
+			float velocityY0 = sqrtf(2.0f * GRAVITY * heightUp);
+			float timeUp = velocityY0 / GRAVITY;
+
+			// B. ä¸‹é™ã«ã‹ã‹ã‚‹æ™‚é–“ (t_down) ã‚’è¨ˆç®—
+			// h = 1/2 * g * t^2  =>  t = sqrt(2h / g)
+			float heightDown = peakY - targetY;
+			float timeDown = sqrtf(2.0f * heightDown / GRAVITY);
+
+			// C. åˆè¨ˆæ»ç©ºæ™‚é–“
+			float totalTime = timeUp + timeDown;
+
+			// D. æ¨ªæ–¹å‘ã®é€Ÿåº¦ (vx, vz) ã‚’è¨ˆç®—
+			// è·é›¢ / æ™‚é–“ = é€Ÿåº¦
+			Vector3 distance = TARGET_POS - START_POS;
+			m_velocity.x = distance.x / totalTime;
+			m_velocity.z = distance.z / totalTime; // å¥¥è¡ŒããŒã‚ã‚‹å ´åˆç”¨
+			m_velocity.y = velocityY0;             // ç¸¦æ–¹å‘ã®åˆé€Ÿ
+
+			// ã‚¹ãƒ†ãƒ¼ãƒˆé–‹å§‹
+			m_state = enState_JumpArc;
+
+			m_gameClearImage.SetRotation(m_rotation); // (NEW)
+			m_gameClearImage.SetPosition(m_position);
+			m_gameClearImage.Update();
+
+			sound::SoundManager::Play(sound::enSoundList_GameClear);
+
+			return true;
+		}
+
+		void UIGameClear::Update()
+		{
+			float dt = g_gameTime->GetFrameDeltaTime();
+
+			switch (m_state)
+			{
+				// ãƒ­ã‚´ãŒä¸Šæ˜‡ã—ã¦ã€ç€åœ°ã™ã‚‹ã¾ã§ã®æ”¾ç‰©ç·šã‚¸ãƒ£ãƒ³ãƒ—ã€‚
+			case enState_JumpArc:
+			{
+				// 1. é‡åŠ›åŠ ç®— (Yè»¸ã®ã¿)
+				m_velocity.y -= GRAVITY * dt;
+
+				// 2. ç§»å‹• (X, Y, Z å…¨ã¦å‹•ã)
+				m_position += m_velocity * dt;
+
+				// 3. ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³æ¼”å‡º (ä¸Šæ˜‡ä¸­ã®ã¿æ¿ƒãã™ã‚‹)
+				if (m_velocity.y > 0.0f) {
+					// ç¾åœ¨ã®Yé€Ÿåº¦ / åˆé€Ÿ ã®å‰²åˆãªã©ã§è¨ˆç®—ã€ã¾ãŸã¯ã‚·ãƒ³ãƒ—ãƒ«ã«ä¸Šæ˜‡ä¸­ã¯æ¿ƒãã—ã¦ã„ã
+					// ã“ã“ã§ã¯ã‚·ãƒ³ãƒ—ãƒ«ã«ã€Œä¸é€æ˜åº¦ += æ™‚é–“ã€ã§æ¿ƒãã—ã¾ã™
+					m_alpha += dt * 3.0f; // 0.3ç§’ãã‚‰ã„ã§å…¨è¡¨ç¤º
+					if (m_alpha > 1.0f) m_alpha = 1.0f;
+				}
+
+				// 4. ç€åœ°åˆ¤å®š
+				// ã€Œã‚´ãƒ¼ãƒ«åœ°ç‚¹ã®é«˜ã•ã‚ˆã‚Šä½ãã€ã‹ã¤ã€Œè½ä¸‹ä¸­(é€Ÿåº¦ãŒãƒã‚¤ãƒŠã‚¹)ã€ã®å ´åˆ
+				if (m_position.y <= TARGET_POS.y && m_velocity.y < 0.0f)
+				{
+					// å¼·åˆ¶çš„ã«ã‚´ãƒ¼ãƒ«åº§æ¨™ã¸è£œæ­£
+					m_position = TARGET_POS;
+
+					// ãƒã‚¦ãƒ³ãƒ‰ã‚¹ãƒ†ãƒ¼ãƒˆã¸ç§»è¡Œ
+					// â€»æ¨ªç§»å‹•(X, Z)ã¯ã“ã“ã§ã‚¹ãƒˆãƒƒãƒ—ã•ã›ã‚‹
+					m_velocity.x = 0.0f;
+					m_velocity.z = 0.0f;
+
+					// Yé€Ÿåº¦ã‚’åè»¢ãƒ»æ¸›è¡°
+					m_velocity.y *= -BOUNCE_COEFFICIENT;
+
+					m_state = enState_Bouncing;
+				}
+				break;
 			}
+
+			// ãã®å ´ãƒã‚¦ãƒ³ãƒ‰ã€‚
+			case enState_Bouncing:
+			{
+				m_velocity.y -= GRAVITY * dt;
+				m_position.y += m_velocity.y * dt;
+
+				// æ¥åœ°åˆ¤å®š
+				if (m_position.y <= TARGET_POS.y) {
+					m_position.y = TARGET_POS.y;
+					m_velocity.y *= -BOUNCE_COEFFICIENT;
+
+					// ã»ã¼æ­¢ã¾ã£ãŸã‚‰çµ‚äº†
+					if (abs(m_velocity.y) < STOP_VELOCITY_THRESHOLD) {
+						m_velocity.y = 0.0f;
+						m_state = enState_Wait;
+						m_timer = 0.0f;
+					}
+				}
+				break;
+			}
+
+			case enState_Wait:
+			{
+				m_timer += dt;
+				if (m_timer >= WAIT_TIME) {
+					m_timer = 0.0f;
+					LoadingScreen::StartLoading();
+					m_state = enState_Shrink;
+				}
+				break;
+			}
+
+			// å›è»¢ã•ã›ãªãŒã‚‰ç¸®ã‚ã‚‹ã€‚
+			case enState_Shrink:
+			{
+				float shrinkAmount = dt / SHRINK_TIME;
+				m_scale.x -= shrinkAmount;
+				m_scale.y -= shrinkAmount;
+				m_scale.z -= shrinkAmount;
+
+				// å›è»¢å‡¦ç†ã€‚
+				float rotateRadSpeed = SHRINK_ROTATE_SPEED * (PAI / 180.0f);
+				m_angle -= rotateRadSpeed * dt;
+
+				// è§’åº¦ã‹ã‚‰ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã‚’ä½œæˆ (Zè»¸å›è»¢)ã€‚
+				float halfAngle = m_angle * 0.5f;
+				float qz = sinf(halfAngle);
+				float qw = cosf(halfAngle);
+				m_rotation = Quaternion(0.0f, 0.0f, qz, qw);
+
+				// å®Œå…¨ã«ç¸®ã‚“ã ã‚‰çµ‚äº†ã€‚
+				if (m_scale.x <= 0.0f) {
+					m_scale = Vector3::Zero;
+					m_state = enState_LoadingWait;
+				}
+				break;
+			}
+
+			case enState_LoadingWait:
+			{
+				if (LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
+					m_state = enState_End;
+				}
+				break;
+			}
+
+			case enState_End:
+			{
+				m_isEnd = true;
+				break;
+			}
+			}
+
+			m_gameClearImage.SetPosition(m_position);
+			m_gameClearImage.SetScale(m_scale);
+			m_gameClearImage.SetRotation(m_rotation);
+			m_gameClearImage.SetMulColor(Vector4(1.0f, 1.0f, 1.0f, m_alpha));
+			m_gameClearImage.Update();
 		}
-		break;
-	}
 
-	case enState_Wait:
-	{
-		m_timer += dt;
-		if (m_timer >= WAIT_TIME) {
-			m_timer = 0.0f;
-			LoadingScreen::StartLoading();
-			m_state = enState_Shrink;
+		void UIGameClear::Render(RenderContext& rc)
+		{
+			m_gameClearImage.Draw(rc);
 		}
-		break;
 	}
-
-	// ‰ñ“]‚³‚¹‚È‚ª‚çk‚ß‚éB
-	case enState_Shrink:
-	{
-		float shrinkAmount = dt / SHRINK_TIME;
-		m_scale.x -= shrinkAmount;
-		m_scale.y -= shrinkAmount;
-		m_scale.z -= shrinkAmount;
-
-		// ‰ñ“]ˆ—B
-		float rotateRadSpeed = SHRINK_ROTATE_SPEED * (PAI / 180.0f);
-		m_angle -= rotateRadSpeed * dt;
-
-		// Šp“x‚©‚çƒNƒH[ƒ^ƒjƒIƒ“‚ğì¬ (Z²‰ñ“])B
-		float halfAngle = m_angle * 0.5f;
-		float qz = sinf(halfAngle);
-		float qw = cosf(halfAngle);
-		m_rotation = Quaternion(0.0f, 0.0f, qz, qw);
-
-		// Š®‘S‚Ék‚ñ‚¾‚çI—¹B
-		if (m_scale.x <= 0.0f) {
-			m_scale = Vector3::Zero;
-			m_state = enState_LoadingWait;
-		}
-		break;
-	}
-
-	case enState_LoadingWait:
-	{
-		if (LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
-			m_state = enState_End;
-		}
-		break;
-	}
-
-	case enState_End:
-	{
-		m_isEnd = true;
-		break;
-	}
-	}
-
-	m_gameClearImage.SetPosition(m_position);
-	m_gameClearImage.SetScale(m_scale);
-	m_gameClearImage.SetRotation(m_rotation);
-	m_gameClearImage.SetMulColor(Vector4(1.0f, 1.0f, 1.0f, m_alpha));
-	m_gameClearImage.Update();
-}
-
-void UIGameClear::Render(RenderContext& rc)
-{
-	m_gameClearImage.Draw(rc);
 }

@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * StateMachine.cpp
- * ƒXƒe[ƒgƒ}ƒVƒ“‚ÌÀ‘•
+ * ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ã®å®Ÿè£…
  */
 #include "stdafx.h"
 #include "EnemyStateMachine.h"

@@ -39,8 +39,6 @@ namespace app
 
 		void Character::Update()
 		{
-			//上方向ベクトルの更新。
-			UpdateUpDirection();
 			Actor::Update();
 		}
 

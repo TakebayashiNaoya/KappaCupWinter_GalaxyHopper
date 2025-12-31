@@ -29,11 +29,11 @@ namespace app
 			static_assert(ARRAYSIZE(PLAYER_ANIMATION_OPTIONS) == enAnimationClip_Num,
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
-			/** ステータス生成 */
-			m_status = std::make_unique<PlayerStatus>();
-
 			/** ステートマシン生成 */
 			m_stateMachine = std::make_unique<PlayerStateMachine>(this);
+
+			/** ステータス生成 */
+			m_status = CreateStatus<PlayerStatus>();
 		}
 
 
@@ -50,7 +50,7 @@ namespace app
 			/** やられ判定のコライダーを作成 */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
-				collision::EnCollisionType::enCollisionType_Player,
+				collision::enCollisionType_Player,
 				GetStatus<PlayerStatus>()->GetHurtRadius(),
 				app::EnCollisionAttr::enCollisionAttr_Player
 			);
@@ -60,8 +60,9 @@ namespace app
 
 		void Player::Update()
 		{
+			Character::Update();
 			/** ステートマシン更新 */
-			m_stateMachine->Update();
+			//m_stateMachine->Update();
 
 			/** 無敵タイマー更新 */
 			//InvincibleTimer();

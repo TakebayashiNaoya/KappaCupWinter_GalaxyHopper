@@ -1,169 +1,179 @@
+ï»¿/**
+ * UIGameOver.cpp
+ * ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼UIã®å®Ÿè£…
+ */
 #include "stdafx.h"
 #include "UIGameOver.h"
-#include "Sound/SoundManager.h"
 
-namespace
+
+namespace app
 {
-	constexpr float FADE_IN_TIME = 1.0f;			// ƒtƒF[ƒhƒCƒ“‚É‚©‚©‚éŽžŠÔB
-	constexpr float IMAGE_CUTIN_TIME = 1.5f;		// ƒQ[ƒ€ƒI[ƒo[‰æ‘œ‚ð“®‚©‚·ŽžŠÔB
-	constexpr float IMAGE_FIRST_HEIGHT = 1500.0f;	// ƒQ[ƒ€ƒI[ƒo[‰æ‘œ‚Ì‰ŠúˆÊ’uB	
-	constexpr float ROTATION_COUNT = 4.0f;			// ‰ñ“]‚·‚é‰ñ”B
-	constexpr float PAI = 3.14159265f;				// ‰~Žü—¦B
-
-	constexpr float BEFORE_SLIP_WAIT_TIME = 1.0f;	// ƒXƒŠƒbƒv‘O‚Ì‘Ò‹@ŽžŠÔB
-	constexpr float AFTER_SLIP_WAIT_TIME = 1.0f;	// ƒXƒŠƒbƒvŒã‚Ì‘Ò‹@ŽžŠÔB
-
-	constexpr float SLIP_ROTATION_TIME = 0.1f;	// ‰½•b‚©‚¯‚ÄŒX‚¯‚é‚©
-	constexpr float SLIP_TARGET_ANGLE = 20.0f;	// ÅI“I‚É‰½“x‚Ü‚ÅŒX‚¯‚é‚©i“x”–@j
-	constexpr float SLIP_DROP_DISTANCE = 150.0f; // ŒX‚­‚Æ‚«‚É‰º‚É‚¸‚ê‚é‹——£
-}
-
-UIGameOver::UIGameOver()
-{
-	m_hideImage.Init("Assets/sprite/LoadingImage_Around.dds", 1920.0f, 1080.0f);
-	m_hideImage.SetMulColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
-	m_gameOverImage.Init("Assets/sprite/GameOver.dds", 1000.0f, 300.0f);
-	m_gameOverImageAlpha = 1.0f;
-}
-
-UIGameOver::~UIGameOver()
-{
-}
-
-bool UIGameOver::Start()
-{
-	m_position.y = IMAGE_FIRST_HEIGHT;
-	m_gameOverImage.SetPosition(m_position);
-	m_gameOverImage.Update();
-	return true;
-}
-
-void UIGameOver::Update()
-{
-	switch (m_state)
+	namespace ui
 	{
-	case enState_HideImageFadeIn:
-	{
-		// ƒtƒF[ƒhƒCƒ“ˆ—B
-		m_hideImageAlpha += g_gameTime->GetFrameDeltaTime() / FADE_IN_TIME;
-		if (m_hideImageAlpha >= 1.0f) {
-			m_hideImageAlpha = 1.0f;
-			sound::SoundManager::Play(enSoundList_GameOver);
-			m_state = enState_EntryImage;
-		}
-		m_hideImage.SetMulColor(Vector4(0.0f, 0.0f, 0.0f, m_hideImageAlpha));
-		m_hideImage.Update();
-		break;
-	}
+		namespace
+		{
+			constexpr float FADE_IN_TIME = 1.0f;			// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ã«ã‹ã‹ã‚‹æ™‚é–“ã€‚
+			constexpr float IMAGE_CUTIN_TIME = 1.5f;		// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ç”»åƒã‚’å‹•ã‹ã™æ™‚é–“ã€‚
+			constexpr float IMAGE_FIRST_HEIGHT = 1500.0f;	// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ç”»åƒã®åˆæœŸä½ç½®ã€‚	
+			constexpr float ROTATION_COUNT = 4.0f;			// å›žè»¢ã™ã‚‹å›žæ•°ã€‚
+			constexpr float PAI = 3.14159265f;				// å††å‘¨çŽ‡ã€‚
 
-	case enState_EntryImage:
-	{
-		// ƒQ[ƒ€ƒI[ƒo[‰æ‘œ‚ÌƒJƒbƒgƒCƒ“ˆ—B
-		m_entryTimer += g_gameTime->GetFrameDeltaTime() / IMAGE_CUTIN_TIME;
-		float entryRate = 1.0f - m_entryTimer;
+			constexpr float BEFORE_SLIP_WAIT_TIME = 1.0f;	// ã‚¹ãƒªãƒƒãƒ—å‰ã®å¾…æ©Ÿæ™‚é–“ã€‚
+			constexpr float AFTER_SLIP_WAIT_TIME = 1.0f;	// ã‚¹ãƒªãƒƒãƒ—å¾Œã®å¾…æ©Ÿæ™‚é–“ã€‚
 
-		m_position.y = IMAGE_FIRST_HEIGHT * entryRate;
-
-		float angle = entryRate * PAI * 2.0f * ROTATION_COUNT;
-
-		float halfAngle = angle * 0.5f;
-		float qz = sinf(halfAngle);
-		float qw = cosf(halfAngle);
-		m_rotation = Quaternion(0.0f, 0.0f, qz, qw);
-
-		if (m_entryTimer >= 1.0f) {
-			m_entryTimer = 1.0f;
-			entryRate = 0.0f;
-			m_rotation = Quaternion::Identity;
-			m_position = Vector3::Zero;
-			m_state = enState_WaitBeforeSlip;
-		}
-		break;
-	}
-
-	case enState_WaitBeforeSlip:
-	{
-		// ƒXƒŠƒbƒv‘O‚Ì‘Ò‹@ˆ—B
-		m_waitTimer += g_gameTime->GetFrameDeltaTime();
-		if (m_waitTimer >= BEFORE_SLIP_WAIT_TIME) {
-			m_waitTimer = 0.0f;
-			SoundManager::Play(enSoundList_GameOverSlip);
-			m_state = enState_SlipImage;
-		}
-		break;
-	}
-
-	case enState_SlipImage:
-	{
-		// 1. ƒ^ƒCƒ}[‰ÁŽZ
-		m_slipTimer += g_gameTime->GetFrameDeltaTime();
-
-		// 2. i’»—¦i0.0 ` 1.0j‚ðŒvŽZ
-		float rotateRate = m_slipTimer / SLIP_ROTATION_TIME;
-		if (rotateRate > 1.0f) {
-			rotateRate = 1.0f;
+			constexpr float SLIP_ROTATION_TIME = 0.1f;	// ä½•ç§’ã‹ã‘ã¦å‚¾ã‘ã‚‹ã‹
+			constexpr float SLIP_TARGET_ANGLE = 20.0f;	// æœ€çµ‚çš„ã«ä½•åº¦ã¾ã§å‚¾ã‘ã‚‹ã‹ï¼ˆåº¦æ•°æ³•ï¼‰
+			constexpr float SLIP_DROP_DISTANCE = 150.0f; // å‚¾ãã¨ãã«ä¸‹ã«ãšã‚Œã‚‹è·é›¢
 		}
 
-		// 3. ‰ñ“]ŒvŽZ
-		// i’»—¦‚É‰ž‚¶‚ÄŠp“x‚ð‚Â‚¯‚é
-		float currentDeg = SLIP_TARGET_ANGLE * rotateRate * -1.0f;
-		float angleRad = currentDeg * (PAI / 180.0f); // ƒ‰ƒWƒAƒ“•ÏŠ·
-
-		float halfAngle = angleRad * 0.5f;
-		float qz = sinf(halfAngle);
-		float qw = cosf(halfAngle);
-		m_rotation = Quaternion(0.0f, 0.0f, qz, qw);
-
-
-		// 4. ˆÚ“®ŒvŽZi‚±‚±‚ð’Ç‰Áj
-		// u0v‚©‚çuÝ’è‚µ‚½‹——£(ƒ}ƒCƒiƒX•ûŒü)v‚ÖA‰ñ“]‚Æ“¯‚¶ƒy[ƒX‚ÅˆÚ“®
-		m_position.y = -SLIP_DROP_DISTANCE * rotateRate;
-
-
-		// 5. I—¹”»’èirotateRate‚ª1‚É‚È‚Á‚½‚çj
-		if (rotateRate >= 1.0f) {
-			m_position.y = -SLIP_DROP_DISTANCE;
-			m_state = enState_WaitAfterSlip;
+		UIGameOver::UIGameOver()
+		{
+			m_hideImage.Init("Assets/sprite/LoadingImage_Around.dds", 1920.0f, 1080.0f);
+			m_hideImage.SetMulColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+			m_gameOverImage.Init("Assets/sprite/GameOver.dds", 1000.0f, 300.0f);
+			m_gameOverImageAlpha = 1.0f;
 		}
-		break;
-	}
 
-	case enState_WaitAfterSlip:
-	{
-		// ƒXƒŠƒbƒvŒã‚Ì‘Ò‹@ˆ—B
-		m_waitTimer += g_gameTime->GetFrameDeltaTime();
-		if (m_waitTimer >= AFTER_SLIP_WAIT_TIME) {
-			m_waitTimer = 0.0f;
-			m_state = enState_GameOverImageFadeOut;
+		UIGameOver::~UIGameOver()
+		{
 		}
-		break;
-	}
 
-	case enState_GameOverImageFadeOut:
-	{
-		// ƒQ[ƒ€ƒI[ƒo[‰æ‘œ‚ÌƒtƒF[ƒhƒAƒEƒgˆ—B
-		m_gameOverImageAlpha -= g_gameTime->GetFrameDeltaTime() / FADE_IN_TIME;
-		m_gameOverImage.SetMulColor(Vector4(m_gameOverImageAlpha, m_gameOverImageAlpha, m_gameOverImageAlpha, m_gameOverImageAlpha));
-		if (m_gameOverImageAlpha <= 0.0f) {
-			m_gameOverImageAlpha = 0.0f;
-			m_state = enState_End;
+		bool UIGameOver::Start()
+		{
+			m_position.y = IMAGE_FIRST_HEIGHT;
+			m_gameOverImage.SetPosition(m_position);
+			m_gameOverImage.Update();
+			return true;
 		}
-		break;
-	}
 
-	case enState_End:
-	{
-		m_isEnd = true;
-		break;
-	}
-	}
-	m_gameOverImage.SetRotation(m_rotation);
-	m_gameOverImage.SetPosition(m_position);
-	m_gameOverImage.Update();
+		void UIGameOver::Update()
+		{
+			switch (m_state)
+			{
+			case enState_HideImageFadeIn:
+			{
+				// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³å‡¦ç†ã€‚
+				m_hideImageAlpha += g_gameTime->GetFrameDeltaTime() / FADE_IN_TIME;
+				if (m_hideImageAlpha >= 1.0f) {
+					m_hideImageAlpha = 1.0f;
+					sound::SoundManager::Play(sound::enSoundList_GameOver);
+					m_state = enState_EntryImage;
+				}
+				m_hideImage.SetMulColor(Vector4(0.0f, 0.0f, 0.0f, m_hideImageAlpha));
+				m_hideImage.Update();
+				break;
+			}
 
-}
-void UIGameOver::Render(RenderContext& rc)
-{
-	m_hideImage.Draw(rc);
-	m_gameOverImage.Draw(rc);
+			case enState_EntryImage:
+			{
+				// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ç”»åƒã®ã‚«ãƒƒãƒˆã‚¤ãƒ³å‡¦ç†ã€‚
+				m_entryTimer += g_gameTime->GetFrameDeltaTime() / IMAGE_CUTIN_TIME;
+				float entryRate = 1.0f - m_entryTimer;
+
+				m_position.y = IMAGE_FIRST_HEIGHT * entryRate;
+
+				float angle = entryRate * PAI * 2.0f * ROTATION_COUNT;
+
+				float halfAngle = angle * 0.5f;
+				float qz = sinf(halfAngle);
+				float qw = cosf(halfAngle);
+				m_rotation = Quaternion(0.0f, 0.0f, qz, qw);
+
+				if (m_entryTimer >= 1.0f) {
+					m_entryTimer = 1.0f;
+					entryRate = 0.0f;
+					m_rotation = Quaternion::Identity;
+					m_position = Vector3::Zero;
+					m_state = enState_WaitBeforeSlip;
+				}
+				break;
+			}
+
+			case enState_WaitBeforeSlip:
+			{
+				// ã‚¹ãƒªãƒƒãƒ—å‰ã®å¾…æ©Ÿå‡¦ç†ã€‚
+				m_waitTimer += g_gameTime->GetFrameDeltaTime();
+				if (m_waitTimer >= BEFORE_SLIP_WAIT_TIME) {
+					m_waitTimer = 0.0f;
+					sound::SoundManager::Play(sound::enSoundList_GameOverSlip);
+					m_state = enState_SlipImage;
+				}
+				break;
+			}
+
+			case enState_SlipImage:
+			{
+				// 1. ã‚¿ã‚¤ãƒžãƒ¼åŠ ç®—
+				m_slipTimer += g_gameTime->GetFrameDeltaTime();
+
+				// 2. é€²æ—çŽ‡ï¼ˆ0.0 ï½ž 1.0ï¼‰ã‚’è¨ˆç®—
+				float rotateRate = m_slipTimer / SLIP_ROTATION_TIME;
+				if (rotateRate > 1.0f) {
+					rotateRate = 1.0f;
+				}
+
+				// 3. å›žè»¢è¨ˆç®—
+				// é€²æ—çŽ‡ã«å¿œã˜ã¦è§’åº¦ã‚’ã¤ã‘ã‚‹
+				float currentDeg = SLIP_TARGET_ANGLE * rotateRate * -1.0f;
+				float angleRad = currentDeg * (PAI / 180.0f); // ãƒ©ã‚¸ã‚¢ãƒ³å¤‰æ›
+
+				float halfAngle = angleRad * 0.5f;
+				float qz = sinf(halfAngle);
+				float qw = cosf(halfAngle);
+				m_rotation = Quaternion(0.0f, 0.0f, qz, qw);
+
+
+				// 4. ç§»å‹•è¨ˆç®—ï¼ˆã“ã“ã‚’è¿½åŠ ï¼‰
+				// ã€Œ0ã€ã‹ã‚‰ã€Œè¨­å®šã—ãŸè·é›¢(ãƒžã‚¤ãƒŠã‚¹æ–¹å‘)ã€ã¸ã€å›žè»¢ã¨åŒã˜ãƒšãƒ¼ã‚¹ã§ç§»å‹•
+				m_position.y = -SLIP_DROP_DISTANCE * rotateRate;
+
+
+				// 5. çµ‚äº†åˆ¤å®šï¼ˆrotateRateãŒ1ã«ãªã£ãŸã‚‰ï¼‰
+				if (rotateRate >= 1.0f) {
+					m_position.y = -SLIP_DROP_DISTANCE;
+					m_state = enState_WaitAfterSlip;
+				}
+				break;
+			}
+
+			case enState_WaitAfterSlip:
+			{
+				// ã‚¹ãƒªãƒƒãƒ—å¾Œã®å¾…æ©Ÿå‡¦ç†ã€‚
+				m_waitTimer += g_gameTime->GetFrameDeltaTime();
+				if (m_waitTimer >= AFTER_SLIP_WAIT_TIME) {
+					m_waitTimer = 0.0f;
+					m_state = enState_GameOverImageFadeOut;
+				}
+				break;
+			}
+
+			case enState_GameOverImageFadeOut:
+			{
+				// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ç”»åƒã®ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆå‡¦ç†ã€‚
+				m_gameOverImageAlpha -= g_gameTime->GetFrameDeltaTime() / FADE_IN_TIME;
+				m_gameOverImage.SetMulColor(Vector4(m_gameOverImageAlpha, m_gameOverImageAlpha, m_gameOverImageAlpha, m_gameOverImageAlpha));
+				if (m_gameOverImageAlpha <= 0.0f) {
+					m_gameOverImageAlpha = 0.0f;
+					m_state = enState_End;
+				}
+				break;
+			}
+
+			case enState_End:
+			{
+				m_isEnd = true;
+				break;
+			}
+			}
+			m_gameOverImage.SetRotation(m_rotation);
+			m_gameOverImage.SetPosition(m_position);
+			m_gameOverImage.Update();
+
+		}
+		void UIGameOver::Render(RenderContext& rc)
+		{
+			m_hideImage.Draw(rc);
+			m_gameOverImage.Draw(rc);
+		}
+	}
 }

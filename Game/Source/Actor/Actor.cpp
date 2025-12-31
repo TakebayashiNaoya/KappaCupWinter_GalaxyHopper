@@ -4,20 +4,13 @@
  */
 #include "stdafx.h"
 #include "Actor.h"
+#include "StateMachineBase.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		void Actor::UpdateUpDirection()
-		{
-			Vector3 planetCenter = Vector3::Zero;
-			m_upDirection = m_transform.m_position - planetCenter;
-			m_upDirection.Normalize();
-		}
-
-
 		Actor::Actor()
 		{
 		}
@@ -36,6 +29,9 @@ namespace app
 
 		void Actor::Update()
 		{
+			if (m_stateMachine) {
+				m_stateMachine->Update();
+			}
 		}
 
 
