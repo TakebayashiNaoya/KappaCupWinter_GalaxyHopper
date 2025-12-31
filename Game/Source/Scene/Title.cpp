@@ -6,8 +6,8 @@
 #include "Title.h"
 #include "LoadingScreen.h"
 #include "SceneManager.h"
-#include "Source/Actor/TitlePlayer.h"
-#include "Source/Actor/TitlePlanet.h"
+#include "Source/Actor/Character/Player/TitlePlayer.h"
+#include "Source/Actor/Planet/TitlePlanet.h"
 #include "Camera/TitleCamera.h"
 #include "UI/UITitle.h"
 

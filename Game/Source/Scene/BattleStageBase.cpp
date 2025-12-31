@@ -4,8 +4,8 @@
  */
 #include "stdafx.h"
 #include "BattleStageBase.h"
-#include "Source/Actor/Player.h"   
-#include "Source/Actor/BossEnemy.h"
+#include "Source/Actor/Character/Player/Player.h"
+#include "Source/Actor/Character/Enemy/BossEnemy.h"
 #include "UI/UIGameOver.h"
 #include "UI/UIGameClear.h"
 #include "Camera/GameCamera.h"
