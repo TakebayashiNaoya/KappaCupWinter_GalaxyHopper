@@ -3,8 +3,8 @@
  * プレイヤーを管理するクラス
  */
 #pragma once
-#include "Character.h"
-#include "ActorStatus.h" 
+#include "Source/Actor/Character/Character.h"
+#include "Source/Actor/ActorStatus.h" 
 #include "PlayerStateMachine.h"
 
 namespace app
@@ -28,10 +28,6 @@ namespace app
 				enAnimationClip_Die,		/** 死亡		*/
 				enAnimationClip_Num,
 			};
-
-
-			/** プレイヤーステートマシンの取得 */
-			PlayerStateMachine* GetStateMachine() const { return m_stateMachine.get(); }
 
 			/// <summary>
 			/// 毎フレームのXZ軸回転角度を取得

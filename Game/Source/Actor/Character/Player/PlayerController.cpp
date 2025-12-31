@@ -83,7 +83,7 @@ namespace app
 			}
 
 			/** プレイヤーのステートマシンを取得 */
-			auto* targetStateMachine = m_targetPlayer->GetStateMachine();
+			auto* targetStateMachine = m_targetPlayer->GetStateMachine<PlayerStateMachine>();
 
 			/** 着地時にAボタンを押した瞬間、ジャンプ初速を設定する */
 			if (targetStateMachine->IsOnGround() && g_pad[0]->IsTrigger(enButtonA)) {

@@ -31,6 +31,30 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{91035eeb-58d1-4327-8792-0b49120fdffe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Actor\Character">
+      <UniqueIdentifier>{d5a584bd-1241-4ef8-97a4-66e079403607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Object">
+      <UniqueIdentifier>{326ff101-d7fc-4cab-ad65-1f73b302b433}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Planet">
+      <UniqueIdentifier>{eb560d54-6580-4ace-b925-2aebfe48bf3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Character\Player">
+      <UniqueIdentifier>{918fc61b-7ba6-4058-a007-cd77610b3176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Character\Enemy">
+      <UniqueIdentifier>{7970a9c5-3483-4781-9eed-f5034422946a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Character\Enemy\BasicEnemy">
+      <UniqueIdentifier>{4bb60184-b124-474a-9a6d-93576c7488b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Character\Enemy\DeformEnemy">
+      <UniqueIdentifier>{1f11d2c4-06be-4788-8f9b-3d2a0af857aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actor\Character\Enemy\BossEnemy">
+      <UniqueIdentifier>{d0ab2268-08be-4b01-a6ee-abe3d2577ca4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -42,12 +66,6 @@
     <ClCompile Include="Core\ParameterManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Actor\PlayerController.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\Player.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Actor\ActorTypes.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
@@ -58,41 +76,8 @@
     <ClCompile Include="Source\Actor\ActorStatus.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Actor\Character.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Collision\CollisionManager.cpp">
       <Filter>Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\PlayerStateMachine.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\PlayerIState.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\EnemyStateMachine.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\FirstPlanet.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\PlanetBase.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\TitlePlanet.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\BossPlanet.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\BasicEnemyIState.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\DeformEnemyIState.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\BossEnemyIState.cpp">
-      <Filter>Source\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene\BattleStageBase.cpp">
       <Filter>Source\Scene</Filter>
@@ -108,9 +93,6 @@
     </ClCompile>
     <ClCompile Include="Source\Scene\Title.cpp">
       <Filter>Source\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\Enemy.cpp">
-      <Filter>Source\Actor</Filter>
     </ClCompile>
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Sound\SoundManager.cpp">
@@ -147,12 +129,6 @@
     <ClCompile Include="Camera\TitleCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Actor\StateMachineBase.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\TitlePlayer.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Ui\UIGameClear.cpp">
       <Filter>Ui</Filter>
     </ClCompile>
@@ -162,7 +138,55 @@
     <ClCompile Include="Ui\UIResultBase.cpp">
       <Filter>Ui</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Actor\BossEnemy.cpp">
+    <ClCompile Include="Source\Actor\Planet\BossPlanet.cpp">
+      <Filter>Source\Actor\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Planet\FirstPlanet.cpp">
+      <Filter>Source\Actor\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Planet\PlanetBase.cpp">
+      <Filter>Source\Actor\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Planet\TitlePlanet.cpp">
+      <Filter>Source\Actor\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Character.cpp">
+      <Filter>Source\Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Player\Player.cpp">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Player\PlayerController.cpp">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Player\PlayerIState.cpp">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Player\PlayerStateMachine.cpp">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Player\TitlePlayer.cpp">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Enemy\Enemy.cpp">
+      <Filter>Source\Actor\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Enemy\EnemyStateMachine.cpp">
+      <Filter>Source\Actor\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.cpp">
+      <Filter>Source\Actor\Character\Enemy\BasicEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemy.cpp">
+      <Filter>Source\Actor\Character\Enemy\BossEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemyIState.cpp">
+      <Filter>Source\Actor\Character\Enemy\BossEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Enemy\DeformEnemy\DeformEnemyIState.cpp">
+      <Filter>Source\Actor\Character\Enemy\DeformEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\StateMachineBase.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -175,12 +199,6 @@
     <ClInclude Include="Core\ParameterManager.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Actor\PlayerController.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\Player.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Actor\ActorTypes.h">
       <Filter>Source\Actor</Filter>
     </ClInclude>
@@ -191,41 +209,8 @@
     <ClInclude Include="Source\Actor\ActorStatus.h">
       <Filter>Source\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Actor\Character.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="Collision\CollisionManager.h">
       <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\PlayerStateMachine.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\PlayerIState.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\EnemyStateMachine.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\FirstPlanet.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\PlanetBase.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\TitlePlanet.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\BossPlanet.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\BasicEnemyIState.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\DeformEnemyIState.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\BossEnemyIState.h">
-      <Filter>Source\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Source\Scene\BattleStageBase.h">
       <Filter>Source\Scene</Filter>
@@ -241,9 +226,6 @@
     </ClInclude>
     <ClInclude Include="Source\Scene\Title.h">
       <Filter>Source\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\Enemy.h">
-      <Filter>Source\Actor</Filter>
     </ClInclude>
     <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="Sound\SoundManager.h">
@@ -280,12 +262,6 @@
     <ClInclude Include="Camera\TitleCamera.h">
       <Filter>Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Actor\StateMachineBase.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\TitlePlayer.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="Ui\UIGameClear.h">
       <Filter>Ui</Filter>
     </ClInclude>
@@ -295,7 +271,55 @@
     <ClInclude Include="Ui\UIResultBase.h">
       <Filter>Ui</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Actor\BossEnemy.h">
+    <ClInclude Include="Source\Actor\Planet\BossPlanet.h">
+      <Filter>Source\Actor\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Planet\FirstPlanet.h">
+      <Filter>Source\Actor\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Planet\PlanetBase.h">
+      <Filter>Source\Actor\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Planet\TitlePlanet.h">
+      <Filter>Source\Actor\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Character.h">
+      <Filter>Source\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Player\Player.h">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Player\PlayerController.h">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Player\PlayerIState.h">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Player\PlayerStateMachine.h">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Player\TitlePlayer.h">
+      <Filter>Source\Actor\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Enemy\Enemy.h">
+      <Filter>Source\Actor\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Enemy\EnemyStateMachine.h">
+      <Filter>Source\Actor\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.h">
+      <Filter>Source\Actor\Character\Enemy\BasicEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemy.h">
+      <Filter>Source\Actor\Character\Enemy\BossEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemyIState.h">
+      <Filter>Source\Actor\Character\Enemy\BossEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Enemy\DeformEnemy\DeformEnemyIState.h">
+      <Filter>Source\Actor\Character\Enemy\DeformEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\StateMachineBase.h">
       <Filter>Source\Actor</Filter>
     </ClInclude>
   </ItemGroup>

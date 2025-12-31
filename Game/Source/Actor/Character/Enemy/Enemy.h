@@ -2,7 +2,7 @@
 /// エネミーを管理するクラス。
 /// </summary>
 #pragma once
-#include "Character.h"
+#include "Source/Actor/Character/Character.h"
 
 
 namespace app

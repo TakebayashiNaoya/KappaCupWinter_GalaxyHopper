@@ -60,8 +60,9 @@ namespace app
 
 		void Player::Update()
 		{
+			Character::Update();
 			/** ステートマシン更新 */
-			m_stateMachine->Update();
+			//m_stateMachine->Update();
 
 			/** 無敵タイマー更新 */
 			//InvincibleTimer();

@@ -3,9 +3,9 @@
  * ボスエネミーを管理するクラス
  */
 #pragma once
-#include "Enemy.h"
-#include "ActorStatus.h" 
-#include "EnemyStateMachine.h"
+#include "Source/Actor/Character/Enemy/Enemy.h"
+#include "Source/Actor/ActorStatus.h" 
+#include "Source/Actor/Character/Enemy/EnemyStateMachine.h"
 
 
 namespace app
@@ -29,9 +29,6 @@ namespace app
 				enAnimationClip_Die,	/** 死亡		*/
 				enAnimationClip_Num,
 			};
-
-			/** ボスエネミーステートマシンの取得 */
-			BossEnemyStateMachine* GetStateMachine() const { return m_stateMachine.get(); }
 
 
 		public:

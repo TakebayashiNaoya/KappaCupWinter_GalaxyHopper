@@ -3,7 +3,7 @@
  * キャラクターとなる要素をもったクラス
  */
 #pragma once
-#include "Actor.h"
+#include "Source/Actor/Actor.h"
 
 
 class CharacterStatus;

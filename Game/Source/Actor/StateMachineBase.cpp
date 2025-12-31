@@ -4,9 +4,7 @@
  */
 #include "stdafx.h"
 #include "StateMachineBase.h"
-#include "Character.h"
-
-
+#include "Source/Actor/Character/Character.h"
 
 
 namespace app
