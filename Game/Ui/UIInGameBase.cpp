@@ -54,12 +54,12 @@ namespace app
 
 			/** ボタンA */
 			const Vector3		CTRL_BTN_A_POS = { 700.0f, -450.0f, 0.0f };
-			const float			CTRL_BTN_SIZE = 100.0f;
+			const float			CTRL_BTN_A_SIZE = 100.0f;
 			const char* const	PATH_CTRL_BTN_A = "Assets/sprite/ButtonA_2.dds";
 
 			/** ボタンB */
 			const Vector3		CTRL_BTN_B_POS = { 870.0f, -380.0f, 0.0f };
-			const float			CTRL_BTN_SIZE = 100.0f;
+			const float			CTRL_BTN_B_SIZE = 100.0f;
 			const char* const	PATH_CTRL_BTN_B = "Assets/sprite/ButtonB_2.dds";
 		}
 
@@ -274,11 +274,11 @@ namespace app
 
 			/** ボタンA */
 			auto* btnA = m_controlsCanvas->CreateUI<UIImage>();
-			btnA->Initialize(PATH_CTRL_BTN_A, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_A_POS);
+			btnA->Initialize(PATH_CTRL_BTN_A, CTRL_BTN_A_SIZE, CTRL_BTN_A_SIZE, CTRL_BTN_A_POS);
 
 			/** ボタンB */
 			auto* btnB = m_controlsCanvas->CreateUI<UIImage>();
-			btnB->Initialize(PATH_CTRL_BTN_B, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_B_POS);
+			btnB->Initialize(PATH_CTRL_BTN_B, CTRL_BTN_B_SIZE, CTRL_BTN_B_SIZE, CTRL_BTN_B_POS);
 
 			return true;
 		}
