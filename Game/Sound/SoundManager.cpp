@@ -1,6 +1,10 @@
-﻿#include "stdafx.h"
+﻿/**
+ * SoundManager.h
+ * サウンドマネージャーの実装
+ */
+#include "stdafx.h"
 #include "SoundManager.h"
-#include "Source/Actor/Player.h" 
+#include "Source/Actor/Character/Player/Player.h"
 
 
 namespace app
