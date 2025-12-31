@@ -235,7 +235,6 @@
     <ClCompile Include="Sound\SoundManager.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp" />
     <ClCompile Include="Source\Actor\ActorStatus.cpp" />
-    <ClCompile Include="Source\Actor\ActorTypes.cpp" />
     <ClCompile Include="Source\Actor\Character\Character.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemy.cpp" />
@@ -288,7 +287,6 @@
     <ClInclude Include="Sound\SoundManager.h" />
     <ClInclude Include="Source\Actor\Actor.h" />
     <ClInclude Include="Source\Actor\ActorStatus.h" />
-    <ClInclude Include="Source\Actor\ActorTypes.h" />
     <ClInclude Include="Source\Actor\Character\Character.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemy.h" />

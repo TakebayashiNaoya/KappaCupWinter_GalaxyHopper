@@ -66,9 +66,6 @@
     <ClCompile Include="Core\ParameterManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Actor\ActorTypes.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp">
       <Filter>Source\Actor</Filter>
@@ -113,9 +110,6 @@
     </ClCompile>
     <ClCompile Include="Ui\UIInGameBase.cpp">
       <Filter>Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Actor\Types.cpp">
-      <Filter>Source\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Ui\UIFirstStage.cpp">
       <Filter>Ui</Filter>
@@ -189,6 +183,9 @@
     <ClCompile Include="Source\Actor\StateMachineBase.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\Types.cpp">
+      <Filter>Source\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -198,9 +195,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Core\ParameterManager.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\ActorTypes.h">
-      <Filter>Source\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Source\Actor\Actor.h">
@@ -246,9 +240,6 @@
     </ClInclude>
     <ClInclude Include="Ui\UIInGameBase.h">
       <Filter>Ui</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Actor\Types.h">
-      <Filter>Source\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Ui\UIFirstStage.h">
       <Filter>Ui</Filter>
@@ -320,6 +311,9 @@
       <Filter>Source\Actor\Character\Enemy\DeformEnemy</Filter>
     </ClInclude>
     <ClInclude Include="Source\Actor\StateMachineBase.h">
+      <Filter>Source\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Types.h">
       <Filter>Source\Actor</Filter>
     </ClInclude>
   </ItemGroup>
