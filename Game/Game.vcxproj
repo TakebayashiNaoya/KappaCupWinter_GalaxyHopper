@@ -236,9 +236,11 @@
     <ClCompile Include="Source\Actor\Actor.cpp" />
     <ClCompile Include="Source\Actor\ActorStatus.cpp" />
     <ClCompile Include="Source\Actor\Character\Character.cpp" />
+    <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemy.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemy.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemyIState.cpp" />
+    <ClCompile Include="Source\Actor\Character\Enemy\DeformEnemy\DeformEnemy.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\DeformEnemy\DeformEnemyIState.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\Enemy.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\EnemyStateMachine.cpp" />
@@ -288,9 +290,11 @@
     <ClInclude Include="Source\Actor\Actor.h" />
     <ClInclude Include="Source\Actor\ActorStatus.h" />
     <ClInclude Include="Source\Actor\Character\Character.h" />
+    <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemy.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemy.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemyIState.h" />
+    <ClInclude Include="Source\Actor\Character\Enemy\DeformEnemy\DeformEnemy.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\DeformEnemy\DeformEnemyIState.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\Enemy.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\EnemyStateMachine.h" />
