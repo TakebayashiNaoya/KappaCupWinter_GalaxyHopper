@@ -73,6 +73,7 @@ namespace app
 				enBossEnemyState_Chase,
 				enBossEnemyState_Attack,
 				enBossEnemyState_Damage,
+				enBossEnemyState_Dying,
 				enBossEnemyState_Dead
 			};
 
