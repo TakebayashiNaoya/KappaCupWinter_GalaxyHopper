@@ -192,6 +192,15 @@
     <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemy.cpp">
       <Filter>Source\Actor\Character\Enemy\BasicEnemy</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\Object\Treasure.cpp">
+      <Filter>Source\Actor\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Object\Rocket.cpp">
+      <Filter>Source\Actor\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Object\Spawner.cpp">
+      <Filter>Source\Actor\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -327,6 +336,15 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemy.h">
       <Filter>Source\Actor\Character\Enemy\BasicEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Object\Treasure.h">
+      <Filter>Source\Actor\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Object\Rocket.h">
+      <Filter>Source\Actor\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Object\Spawner.h">
+      <Filter>Source\Actor\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
