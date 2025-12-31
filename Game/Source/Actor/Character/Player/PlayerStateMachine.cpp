@@ -29,7 +29,6 @@ namespace app
 
 		PlayerStateMachine::~PlayerStateMachine()
 		{
-			/** ステートの破棄は~StateMachineBase()で行っているので、ここでは必要ありません */
 		}
 
 

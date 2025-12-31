@@ -21,6 +21,8 @@ namespace app
 			/** アニメーション再生 */
 			void PlayAnimation(const int animationIndex) override final;
 
+
+		private:
 			/** ステートを識別するenum */
 			enum EnPlayerState
 			{
@@ -34,8 +36,6 @@ namespace app
 				enPlayerState_Num,
 			};
 
-
-		private:
 			/** 変更するステートを取得します。 */
 			IState* GetChangeState()  override final;
 
