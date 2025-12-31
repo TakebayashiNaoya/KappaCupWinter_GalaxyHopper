@@ -64,12 +64,6 @@ namespace app
 		}
 
 
-		void UIFirstStage::SetGearCount(int count)
-		{
-			m_uiGear->SetCount(count);
-		}
-
-
 
 
 		/********************************/
@@ -101,15 +95,13 @@ namespace app
 				GEAR_ICON_POS
 			);
 
-			/** 数字の生成 */
-			m_gotGearCountDigit = m_gearCanvas->CreateUI<UIDigit>();
-			m_gotGearCountDigit->Initialize(
-				PATH_GEAR_NUM_BASE,
-				GEAR_DIGIT_COUNT,
-				0,
-				GEAR_NUM_W,
-				GEAR_NUM_H,
-				GEAR_NUM_POS
+			/** 獲得数の生成 */
+			m_gotGearCountText = m_gearCanvas->CreateUI<UIText>();
+			m_gotGearCountText->Initialize(
+				L"0/0",
+				GEAR_NUM_POS,
+				1.5f,
+				Vector4::White
 			);
 
 			return true;
@@ -135,9 +127,9 @@ namespace app
 		}
 
 
-		void UIGear::SetCount(int count)
+		void UIGear::SetCount(int gotCount, int maxCount)
 		{
-			m_gotGearCountDigit->SetNumber(count);
+			m_gotGearCountText->SetText(L"%d/%d", gotCount, maxCount);
 		}
 	}
 }

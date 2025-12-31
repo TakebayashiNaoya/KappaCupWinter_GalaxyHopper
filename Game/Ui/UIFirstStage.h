@@ -28,9 +28,6 @@ namespace app
 			UIFirstStage();
 			~UIFirstStage();
 
-			/** ギア獲得数を設定する */
-			void SetGearCount(int count);
-
 
 		private:
 			bool Start() override final;
@@ -53,7 +50,7 @@ namespace app
 			std::unique_ptr<UICanvas> m_gearCanvas;
 
 			/** ギアの取得数 */
-			UIDigit* m_gotGearCountDigit = nullptr;
+			UIText* m_gotGearCountText = nullptr;
 
 
 		public:
@@ -61,7 +58,7 @@ namespace app
 			~UIGear();
 
 			/** 表示する数字を更新 */
-			void SetCount(int count);
+			void SetCount(int gotCount, int maxCount);
 
 
 		private:
