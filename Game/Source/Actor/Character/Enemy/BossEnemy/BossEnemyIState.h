@@ -11,7 +11,7 @@ namespace app
 	namespace actor
 	{
 		/**
-		 * 止まってる
+		 * 待機
 		 */
 		class BossEnemyIdleState : public IState
 		{

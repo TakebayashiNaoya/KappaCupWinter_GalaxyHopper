@@ -124,35 +124,14 @@ namespace app
 
 
 		protected:
+			/** ステートの持ち主（ステートマシンを持つゲームオブジェクト） */
+			IGameObject* m_owner = nullptr;
 			/** 全てのステートをID付きで保存する辞書 */
 			std::unordered_map<int, IState*> m_stateMap;
 			/** 現在実行中のステート */
 			IState* m_currentState = nullptr;
 			/** 次に変更するステート */
 			IState* m_nextState = nullptr;
-
-			/** トランスフォーム */
-			Transform m_transform;
-
-			/** 上方向ベクトル */
-			Vector3 m_upDirection = Vector3::Up;
-			/** 移動方向 */
-			Vector3 m_moveDirection = Vector3::Zero;
-			/** 移動速度（現在のフレーム） */
-			float m_moveSpeed = 0.0f;
-			/** 初速ジャンプ速度 */
-			float m_initialJumpSpeed = 0.0f;
-
-			/** ダッシュできるか */
-			bool m_isDash = false;
-			/** 攻撃できるか */
-			bool m_isAttack = false;
-
-			/** 落下している時間 */
-			float m_fallTimer = 0.0f;
-
-			/** ステートの持ち主（ステートマシンを持つゲームオブジェクト） */
-			IGameObject* m_owner = nullptr;
 
 
 		public:
@@ -254,7 +233,6 @@ namespace app
 			/** 地面に接地しているか */
 			bool IsOnGround();
 
-
 			/**
 			 * 移動処理
 			 * ※呼び出す前に必ずm_upDirection、m_moveDirection、m_moveSpeedを設定すること
@@ -264,38 +242,22 @@ namespace app
 
 
 		private:
-
-			//void CalcHorizontalVelocity(Vector3& outHorizontalVel, Vector3& outVerticalVel);
-
-			///**
-			// * 指定した速度での移動を試みます（レイ判定・埋まり補正・壁判定込み）
-			// * @param startPos  開始座標
-			// * @param velocity  移動したいベクトル
-			// * @param outIsWall 壁に当たって止まったか（出力）
-			// * @param outNormal 当たった壁の法線（出力）
-			// * @return 移動後の座標
-			// */
-			//Vector3 ExecuteMoveCheck(const Vector3& startPos, const Vector3& velocity, bool& outIsWall, Vector3& outNormal);
-
-			///**
-			// * 壁に沿った滑りベクトルを計算します
-			// */
-			//Vector3 CalcSlideVector(const Vector3& velocity, const Vector3& normal);
-
-			///**
-			// * 水平移動後の座標を計算して返します
-			// */
-			//Vector3 CalcHorizontalMove(const Vector3& currentPos, const Vector3& velocity);
-
-			///**
-			// * 垂直移動後の座標を計算して返します
-			// */
-			//Vector3 CalcVerticalMove(const Vector3& currentPos, Vector3& velocity);
-
-			///**
-			// * 次の回転姿勢を計算して返します
-			// */
-			//Quaternion CalcRotation(const Quaternion& currentRot, const Vector3& velocity);
+			/** トランスフォーム */
+			Transform m_transform;
+			/** 上方向ベクトル */
+			Vector3 m_upDirection = Vector3::Up;
+			/** 移動方向 */
+			Vector3 m_moveDirection = Vector3::Zero;
+			/** 移動速度 */
+			float m_moveSpeed = 0.0f;
+			/** 初速ジャンプ速度 */
+			float m_initialJumpSpeed = 0.0f;
+			/** 落下している時間 */
+			float m_fallTimer = 0.0f;
+			/** ダッシュできるか */
+			bool m_isDash = false;
+			/** 攻撃できるか */
+			bool m_isAttack = false;
 		};
 	}
 }
