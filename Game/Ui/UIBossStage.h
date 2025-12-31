@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * UIBossStage.h
- * ƒ{ƒXƒXƒe[ƒW—p‚ÌUIŠÇ—ƒNƒ‰ƒX
+ * ãƒœã‚¹ã‚¹ãƒ†ãƒ¼ã‚¸ç”¨ã®UIç®¡ç†ã‚¯ãƒ©ã‚¹
  */
 #pragma once
 #include "UIInGameBase.h"
@@ -14,13 +14,13 @@ namespace app
 
 
 		/**
-		 * ƒ{ƒXƒXƒe[ƒWUI
-		 * ‹¤’ÊUI‚É‰Á‚¦‚ÄAƒ{ƒXHP‚Ì•\¦‚ğs‚¤
+		 * ãƒœã‚¹ã‚¹ãƒ†ãƒ¼ã‚¸UI
+		 * å…±é€šUIã«åŠ ãˆã¦ã€ãƒœã‚¹HPã®è¡¨ç¤ºã‚’è¡Œã†
 		 */
 		class UIBossStage : public UIInGameBase
 		{
 		private:
-			/** ƒ{ƒXHP UI */
+			/** ãƒœã‚¹HP UI */
 			UIBossHp* m_uiBossLife = nullptr;
 
 
@@ -28,7 +28,7 @@ namespace app
 			UIBossStage();
 			~UIBossStage();
 
-			/** ƒ{ƒX‚ÌHP‚ğİ’è‚·‚é */
+			/** ãƒœã‚¹ã®HPã‚’è¨­å®šã™ã‚‹ */
 			void SetBossHp(uint8_t currentHp, uint8_t maxHp);
 
 
@@ -43,15 +43,15 @@ namespace app
 
 
 		/**
-		 * ƒ{ƒXHP•\¦UI
-		 * IGameObject‚ğŒp³‚µACanvas‚ğ‚Â
+		 * ãƒœã‚¹HPè¡¨ç¤ºUI
+		 * IGameObjectã‚’ç¶™æ‰¿ã—ã€Canvasã‚’æŒã¤
 		 */
 		class UIBossHp : public IGameObject
 		{
 		private:
-			/** UI•`‰æ—p‚ÌƒLƒƒƒ“ƒoƒX */
+			/** UIæç”»ç”¨ã®ã‚­ãƒ£ãƒ³ãƒã‚¹ */
 			std::unique_ptr<UICanvas> m_bossHpCanvas;
-			/** HPƒo[‘OŒi‰æ‘œ */
+			/** HPãƒãƒ¼å‰æ™¯ç”»åƒ */
 			UIImage* m_frontBarImage = nullptr;
 
 
@@ -59,7 +59,7 @@ namespace app
 			UIBossHp();
 			~UIBossHp();
 
-			/** HP‚ÌXViƒo[‚Ì’·‚³‚ÆF‚ğ•Ï‚¦‚éj */
+			/** HPã®æ›´æ–°ï¼ˆãƒãƒ¼ã®é•·ã•ã¨è‰²ã‚’å¤‰ãˆã‚‹ï¼‰ */
 			void UpdateHp(uint8_t currentHp, uint8_t maxHp);
 
 
