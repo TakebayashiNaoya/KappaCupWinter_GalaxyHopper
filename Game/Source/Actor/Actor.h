@@ -27,6 +27,16 @@ namespace app
 			inline Transform& GetTransform() { return m_transform; }
 
 			/**
+			 * トランスフォームを設定
+			 */
+			inline void SetTransform(const Vector3& position, const Quaternion& rotation, const Vector3& scale)
+			{
+				m_transform.m_position = position;
+				m_transform.m_rotation = rotation;
+				m_transform.m_scale = scale;
+			}
+
+			/**
 			 * 座標を設定
 			 */
 			inline void SetPosition(const Vector3& position) { m_transform.m_position = position; }
