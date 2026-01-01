@@ -21,7 +21,7 @@ namespace app
 		BattleStageBase::BattleStageBase()
 		{
 			/** バトルマネージャーの戦闘終了フラグをfalseにしておく */
-			battle::BattleManager::SetIsWinnerDecided(false);
+			battle::BattleManager::SetIsResultSequence(false);
 			/** バトルマネージャーのゴールフラグをfalseにしておく */
 			battle::BattleManager::SetIsGoalReached(false);
 			/** ロードタスク登録 */
@@ -111,11 +111,11 @@ namespace app
 			case enBattlePhase_WaitEnd:
 				if (m_uiResult->GetIsEnd()) {
 					// ロード画面へ移行。
-					if (LoadingScreen::GetState() != LoadingScreen::Loading) {
-						LoadingScreen::ChangeState(LoadingScreen::Loading);
+					if (LoadingScreen::GetState() != LoadingScreen::EnState::Loading) {
+						LoadingScreen::ChangeState(LoadingScreen::EnState::Loading);
 					}
 
-					if (LoadingScreen::GetState() == LoadingScreen::Loading) {
+					if (LoadingScreen::GetState() == LoadingScreen::EnState::Loading) {
 						// 黒画像が残ってしまっているので破棄する。
 						if (m_uiResult) {
 							DeleteGO(m_uiResult);

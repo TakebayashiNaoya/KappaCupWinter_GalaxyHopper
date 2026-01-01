@@ -56,7 +56,7 @@ namespace app
 			/** やられ判定のコライダーを作成 */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
-				collision::enCollisionType_Player,
+				collision::EnCollisionType::Player,
 				GetStatus<PlayerStatus>()->GetHurtRadius(),
 				app::EnCollisionAttr::enCollisionAttr_Player
 			);

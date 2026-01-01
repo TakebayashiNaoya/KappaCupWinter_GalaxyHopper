@@ -35,7 +35,7 @@ namespace app
 
 		void Spawner::Update()
 		{
-			if (battle::BattleManager::IsWinnerDecided()) {
+			if (battle::BattleManager::IsResultSequence()) {
 				return;
 			}
 

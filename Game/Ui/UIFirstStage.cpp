@@ -116,7 +116,7 @@ namespace app
 
 		void UIGear::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::Opened) {
+			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
 				return;
 			}
 			if (battle::BattleManager::GetInstance()->IsResultSequence()) {

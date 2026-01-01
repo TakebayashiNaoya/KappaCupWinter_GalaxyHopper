@@ -67,7 +67,7 @@ namespace app
 		/** ローディングアイコン */
 		SpriteRender m_loadingIcon;
 		/** ロード状態 */
-		EnState m_state = None;
+		EnState m_state = EnState::None;
 		/** アニメーション用タイマー */
 		float m_timer = 0.0f;
 

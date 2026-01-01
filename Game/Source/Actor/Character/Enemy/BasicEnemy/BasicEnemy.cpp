@@ -57,7 +57,7 @@ namespace app
 			/** 攻撃判定のコライダーを作成 */
 			m_hitCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
-				collision::enCollisionType_BasicEnemy,
+				collision::EnCollisionType::BasicEnemy,
 				HIT_COLLIDER_RADIUS,
 				EnCollisionAttr::enCollisionAttr_Enemy
 			);
@@ -65,7 +65,7 @@ namespace app
 			/** やられ判定のコライダーを作成 */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
-				collision::enCollisionType_BasicEnemy,
+				collision::EnCollisionType::BasicEnemy,
 				HURT_COLLIDER_RADIUS,
 				EnCollisionAttr::enCollisionAttr_Enemy
 			);

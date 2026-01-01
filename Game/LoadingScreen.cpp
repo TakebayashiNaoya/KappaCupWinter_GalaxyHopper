@@ -103,7 +103,7 @@ namespace app
 		if (m_instance != nullptr) {
 			return m_instance->m_state;
 		}
-		return None;
+		return EnState::None;
 	}
 
 
