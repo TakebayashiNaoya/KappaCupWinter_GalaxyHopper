@@ -61,10 +61,10 @@ namespace app
 
 			//if (m_rocket)
 			//{
-			//	if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::enState_Opened) {
+			//	if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::Opened) {
 			//		LoadingScreen::StartLoading();
 			//	}
-			//	if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
+			//	if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::Loading) {
 			//		SceneManager::GetInstance()->ChangeScene(SceneID::BossStage);
 			//	}
 			//}

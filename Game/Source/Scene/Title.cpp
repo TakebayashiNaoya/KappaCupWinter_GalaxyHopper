@@ -56,17 +56,17 @@ namespace app
 			if (g_pad[0]->IsTrigger(enButtonA)) {
 				sound::SoundManager::Play(sound::enSoundList_PushSE);
 				/** ロードオープン中にボタンを押したら、ロード完了へ */
-				if (LoadingScreen::GetState() == LoadingScreen::enState_Opening) {
-					LoadingScreen::ChangeState(LoadingScreen::enState_Opened);
+				if (LoadingScreen::GetState() == LoadingScreen::Opening) {
+					LoadingScreen::ChangeState(LoadingScreen::Opened);
 				}
 				/** ロード完了時にボタンを押したら、ロード開始へ */
-				else if (LoadingScreen::GetState() == LoadingScreen::enState_Opened) {
+				else if (LoadingScreen::GetState() == LoadingScreen::Opened) {
 					LoadingScreen::StartLoading();
 				}
 			}
 
 			/** Loading画面になったらシーン切り替えをリクエスト */
-			if (LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
+			if (LoadingScreen::GetState() == LoadingScreen::Loading) {
 				SceneManager::GetInstance()->ChangeScene(SceneID::FirstStage);
 			}
 		}

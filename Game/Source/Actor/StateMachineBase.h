@@ -159,7 +159,7 @@ namespace app
 		protected:
 			/**
 			 * ステートを追加するテンプレート関数
-			 * 例: AddState<IdleState>(enState_Idle);
+			 * 例: AddState<IdleState>(Idle);
 			 */
 			template<typename TState>
 			void AddState(const uint8_t stateId)

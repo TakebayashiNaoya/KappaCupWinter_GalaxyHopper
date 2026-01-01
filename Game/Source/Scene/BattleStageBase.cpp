@@ -111,11 +111,11 @@ namespace app
 			case enBattlePhase_WaitEnd:
 				if (m_uiResult->GetIsEnd()) {
 					// ロード画面へ移行。
-					if (LoadingScreen::GetState() != LoadingScreen::enState_Loading) {
-						LoadingScreen::ChangeState(LoadingScreen::enState_Loading);
+					if (LoadingScreen::GetState() != LoadingScreen::Loading) {
+						LoadingScreen::ChangeState(LoadingScreen::Loading);
 					}
 
-					if (LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
+					if (LoadingScreen::GetState() == LoadingScreen::Loading) {
 						// 黒画像が残ってしまっているので破棄する。
 						if (m_uiResult) {
 							DeleteGO(m_uiResult);

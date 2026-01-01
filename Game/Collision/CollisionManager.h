@@ -14,7 +14,7 @@ namespace app
 		/**
 		 * 判定を検証するペアの中身を区別するための列挙型
 		 */
-		enum EnCollisionType : uint8_t
+		enum class EnCollisionType : uint8_t
 		{
 			enCollisionType_None = 0,
 			enCollisionType_Player,

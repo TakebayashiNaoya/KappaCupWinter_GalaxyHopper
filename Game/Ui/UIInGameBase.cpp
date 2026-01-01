@@ -153,7 +153,7 @@ namespace app
 
 		void UIPlayerHp::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
 				return;
 			}
 			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
@@ -213,7 +213,7 @@ namespace app
 
 		void UIDamageFlash::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
 				return;
 			}
 			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
@@ -292,7 +292,7 @@ namespace app
 
 		void UIControls::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
 				return;
 			}
 			if (battle::BattleManager::GetInstance()->IsResultSequence()) {

@@ -203,7 +203,7 @@ namespace app
 
 			case enState_LoadingWait:
 			{
-				if (LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
+				if (LoadingScreen::GetState() == LoadingScreen::Loading) {
 					m_state = enState_End;
 				}
 				break;
