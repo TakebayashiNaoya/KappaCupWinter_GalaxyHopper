@@ -235,6 +235,7 @@
     <ClCompile Include="Sound\SoundManager.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp" />
     <ClCompile Include="Source\Actor\ActorStatus.cpp" />
+    <ClCompile Include="Source\Actor\ActorTypes.cpp" />
     <ClCompile Include="Source\Actor\Character\Character.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemy.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.cpp" />
@@ -257,7 +258,6 @@
     <ClCompile Include="Source\Actor\Planet\PlanetBase.cpp" />
     <ClCompile Include="Source\Actor\Planet\TitlePlanet.cpp" />
     <ClCompile Include="Source\Actor\StateMachineBase.cpp" />
-    <ClCompile Include="Source\Actor\Types.cpp" />
     <ClCompile Include="Source\Scene\BattleStageBase.cpp" />
     <ClCompile Include="Source\Scene\BossStage.cpp" />
     <ClCompile Include="Source\Scene\FirstStage.cpp" />
@@ -292,6 +292,7 @@
     <ClInclude Include="Sound\SoundManager.h" />
     <ClInclude Include="Source\Actor\Actor.h" />
     <ClInclude Include="Source\Actor\ActorStatus.h" />
+    <ClInclude Include="Source\Actor\ActorTypes.h" />
     <ClInclude Include="Source\Actor\Character\Character.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemy.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.h" />
@@ -314,7 +315,6 @@
     <ClInclude Include="Source\Actor\Planet\PlanetBase.h" />
     <ClInclude Include="Source\Actor\Planet\TitlePlanet.h" />
     <ClInclude Include="Source\Actor\StateMachineBase.h" />
-    <ClInclude Include="Source\Actor\Types.h" />
     <ClInclude Include="Source\Scene\BattleStageBase.h" />
     <ClInclude Include="Source\Scene\BossStage.h" />
     <ClInclude Include="Source\Scene\FirstStage.h" />

@@ -123,6 +123,22 @@ namespace app
 			inline void SetIsAttack(const bool isAttack) { m_isAttack = isAttack; }
 
 
+		public:
+			/**
+			 * アニメーション再生処理のテンプレート関数
+			 * 例: PlayAnimation(EnPlayerAnimClip::Idle);
+			 */
+			template <typename TEnum>
+			void PlayAnimation(TEnum animId)
+			{
+				/** Enumをintに変換して、実体関数にパス */
+				ExecutePlayAnimation(static_cast<int>(animId));
+			}
+		protected:
+			/** 派生先でオーナーのアニメーション再生処理を実装 */
+			virtual void ExecutePlayAnimation(const uint8_t animIndex) = 0;
+
+
 		protected:
 			/** ステートの持ち主（ステートマシンを持つゲームオブジェクト） */
 			IGameObject* m_owner = nullptr;
@@ -148,12 +164,6 @@ namespace app
 
 			/** ステート変更 */
 			void ChangeState();
-
-			/**
-			 * アニメーション再生
-			 * 継承先のステートマシンでキャラクターを指定して実装してください。
-			 */
-			virtual void PlayAnimation(const uint8_t animationIndex) = 0;
 
 
 		protected:

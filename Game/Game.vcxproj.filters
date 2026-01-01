@@ -183,9 +183,6 @@
     <ClCompile Include="Source\Actor\StateMachineBase.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Actor\Types.cpp">
-      <Filter>Source\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Actor\Character\Enemy\DeformEnemy\DeformEnemy.cpp">
       <Filter>Source\Actor\Character\Enemy\DeformEnemy</Filter>
     </ClCompile>
@@ -200,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="Source\Actor\Object\Spawner.cpp">
       <Filter>Source\Actor\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\ActorTypes.cpp">
+      <Filter>Source\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,9 +328,6 @@
     <ClInclude Include="Source\Actor\StateMachineBase.h">
       <Filter>Source\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Actor\Types.h">
-      <Filter>Source\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Actor\Character\Enemy\DeformEnemy\DeformEnemy.h">
       <Filter>Source\Actor\Character\Enemy\DeformEnemy</Filter>
     </ClInclude>
@@ -345,6 +342,9 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\Object\Spawner.h">
       <Filter>Source\Actor\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\ActorTypes.h">
+      <Filter>Source\Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

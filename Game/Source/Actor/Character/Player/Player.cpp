@@ -32,7 +32,7 @@ namespace app
 		Player::Player()
 		{
 			/** アニメーション数チェック */
-			static_assert(ARRAYSIZE(PLAYER_ANIMATION_OPTIONS) == enAnimationClip_Num,
+			static_assert(ARRAYSIZE(PLAYER_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnPlayerAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
 			/** ステートマシン生成 */
@@ -51,7 +51,7 @@ namespace app
 		bool Player::Start()
 		{
 			/** モデルとアニメーションの初期化 */
-			InitModel(enAnimationClip_Num, PLAYER_ANIMATION_OPTIONS, "Player/player", GetStatus<PlayerStatus>()->GetModelScale());
+			InitModel(static_cast<uint8_t>(EnPlayerAnimClip::Num), PLAYER_ANIMATION_OPTIONS, "Player/player", GetStatus<PlayerStatus>()->GetModelScale());
 
 			/** やられ判定のコライダーを作成 */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(

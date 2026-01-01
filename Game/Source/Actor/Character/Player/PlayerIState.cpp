@@ -14,7 +14,7 @@ namespace app
 		void PlayerIdleState::Enter()
 		{
 			/** 待機アニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Idle);
+			GetOwner<PlayerStateMachine>()->PlayAnimation(EnPlayerAnimClip::Idle);
 		}
 
 
@@ -36,7 +36,7 @@ namespace app
 		void PlayerWalkState::Enter()
 		{
 			/** 歩きアニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Walk);
+			GetOwner<PlayerStateMachine>()->PlayAnimation(EnPlayerAnimClip::Walk);
 		}
 
 
@@ -58,7 +58,7 @@ namespace app
 		void PlayerDashState::Enter()
 		{
 			/** 走りアニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Dash);
+			GetOwner<PlayerStateMachine>()->PlayAnimation(EnPlayerAnimClip::Dash);
 		}
 
 
@@ -80,7 +80,7 @@ namespace app
 		void PlayerJumpState::Enter()
 		{
 			/** ジャンプアニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Jump);
+			GetOwner<PlayerStateMachine>()->PlayAnimation(EnPlayerAnimClip::Jump);
 		}
 
 
@@ -102,7 +102,7 @@ namespace app
 		void PlayerDamageState::Enter()
 		{
 			/** 被弾アニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Damage);
+			GetOwner<PlayerStateMachine>()->PlayAnimation(EnPlayerAnimClip::Damage);
 			/** ダメージ処理 */
 			GetOwner<PlayerStateMachine>()->GetOwner<Player>()->GetStatus<PlayerStatus>()->Damage();
 		}
@@ -127,7 +127,7 @@ namespace app
 		void PlayerDyingState::Enter()
 		{
 			/** 死亡アニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Die);
+			GetOwner<PlayerStateMachine>()->PlayAnimation(EnPlayerAnimClip::Dying);
 		}
 
 

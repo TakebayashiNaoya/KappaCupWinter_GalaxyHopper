@@ -32,12 +32,6 @@ namespace app
 		}
 
 
-		void PlayerStateMachine::PlayAnimation(const uint8_t animationIndex)
-		{
-			GetOwner<Player>()->GetModelRender()->PlayAnimation(static_cast<Player::EnAnimationClip>(animationIndex));
-		}
-
-
 		IState* PlayerStateMachine::GetChangeState()
 		{
 			/** ダメージ状態に変更できるか */
@@ -80,6 +74,12 @@ namespace app
 				return true;
 			}
 			return false;
+		}
+
+
+		void PlayerStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
+		{
+			GetOwner<Player>()->GetModelRender()->PlayAnimation(animIndex);
 		}
 	}
 }

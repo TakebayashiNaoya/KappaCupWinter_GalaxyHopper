@@ -14,21 +14,6 @@ namespace app
 		class Player : public Character
 		{
 		public:
-			/**
-			 * アニメーションクリップ
-			 * 初期化時とIStateでアニメ再生に使用するのでpublicにしています。
-			 */
-			enum EnAnimationClip : uint8_t
-			{
-				enAnimationClip_Idle,		/** 待機		*/
-				enAnimationClip_Walk,		/** 歩き		*/
-				enAnimationClip_Dash,		/** 走り		*/
-				enAnimationClip_Jump,		/** ジャンプ	*/
-				enAnimationClip_Damage,		/** 被弾		*/
-				enAnimationClip_Die,		/** 死亡		*/
-				enAnimationClip_Num,
-			};
-
 			/// <summary>
 			/// 毎フレームのXZ軸回転角度を取得
 			/// </summary>
@@ -70,7 +55,7 @@ namespace app
 			float   m_invincibleTimer = 0.0f;
 
 			// アニメーション設定
-			static const AnimationOption PLAYER_ANIMATION_OPTIONS[enAnimationClip_Num];
+			static const AnimationOption PLAYER_ANIMATION_OPTIONS[];
 		};
 	}
 }

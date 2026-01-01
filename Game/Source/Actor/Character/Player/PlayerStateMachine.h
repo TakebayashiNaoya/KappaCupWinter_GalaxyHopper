@@ -18,9 +18,6 @@ namespace app
 			PlayerStateMachine(Player* owner);
 			virtual ~PlayerStateMachine();
 
-			/** アニメーション再生 */
-			void PlayAnimation(const uint8_t animationIndex) override final;
-
 
 		private:
 			/** ステートを識別するenum */
@@ -41,6 +38,9 @@ namespace app
 
 			/** ジャンプ状態に変更できるか */
 			bool CanChangeJump();
+
+			/** プレイヤーのアニメーション再生処理を実装 */
+			void ExecutePlayAnimation(const uint8_t animIndex) override final;
 		};
 	}
 }
