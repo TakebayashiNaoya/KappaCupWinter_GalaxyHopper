@@ -159,7 +159,7 @@ namespace app
 			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
 				return;
 			}
-			if (battle::BattleManager::IsWinnerDecided()) {
+			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
 				return;
 			}
 			m_bossHpCanvas->Render(rc);

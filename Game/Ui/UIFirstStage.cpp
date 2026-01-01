@@ -119,7 +119,7 @@ namespace app
 			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
 				return;
 			}
-			if (battle::BattleManager::IsWinnerDecided()) {
+			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
 				return;
 			}
 
