@@ -73,11 +73,11 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class BasicEnemyDeadState : public IState
+		class BasicEnemyDieState : public IState
 		{
 		public:
-			BasicEnemyDeadState(StateMachineBase* owner) : IState(owner) {};
-			~BasicEnemyDeadState() {};
+			BasicEnemyDieState(StateMachineBase* owner) : IState(owner) {};
+			~BasicEnemyDieState() {};
 
 			void Enter() override final;
 			void Update() override final;

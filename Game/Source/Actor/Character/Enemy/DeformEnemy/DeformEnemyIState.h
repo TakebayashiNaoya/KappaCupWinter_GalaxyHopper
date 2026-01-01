@@ -114,11 +114,11 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class DeformEnemyDeadState : public IState
+		class DeformEnemyDieState : public IState
 		{
 		public:
-			DeformEnemyDeadState(StateMachineBase* owner) : IState(owner) {};
-			~DeformEnemyDeadState() {};
+			DeformEnemyDieState(StateMachineBase* owner) : IState(owner) {};
+			~DeformEnemyDieState() {};
 
 			void Enter() override final;
 			void Update() override final;

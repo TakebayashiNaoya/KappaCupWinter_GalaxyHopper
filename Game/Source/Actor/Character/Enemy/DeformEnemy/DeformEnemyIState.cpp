@@ -110,17 +110,17 @@ namespace app
 		/********************************/
 
 
-		void DeformEnemyDeadState::Enter()
+		void DeformEnemyDieState::Enter()
 		{
 		}
 
 
-		void DeformEnemyDeadState::Update()
+		void DeformEnemyDieState::Update()
 		{
 		}
 
 
-		void DeformEnemyDeadState::Exit()
+		void DeformEnemyDieState::Exit()
 		{
 		}
 	}

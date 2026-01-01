@@ -35,7 +35,7 @@ namespace app
 				enBasicEnemyState_Idle,
 				enBasicEnemyState_Dash,
 				enBasicEnemyState_Cooldown,
-				enBasicEnemyState_Dead,
+				enBasicEnemyState_Die,
 				enBasicEnemyState_Num
 			};
 
@@ -71,7 +71,7 @@ namespace app
 				enDeformEnemyState_Flipping,
 				enDeformEnemyState_Flipped,
 				enDeformEnemyState_Sliding,
-				enDeformEnemyState_Dead,
+				enDeformEnemyState_Die,
 				enDeformEnemyState_Num
 			};
 

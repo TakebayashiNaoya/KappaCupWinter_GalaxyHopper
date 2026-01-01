@@ -70,17 +70,17 @@ namespace app
 		/********************************/
 
 
-		void BasicEnemyDeadState::Enter()
+		void BasicEnemyDieState::Enter()
 		{
 		}
 
 
-		void BasicEnemyDeadState::Update()
+		void BasicEnemyDieState::Update()
 		{
 		}
 
 
-		void BasicEnemyDeadState::Exit()
+		void BasicEnemyDieState::Exit()
 		{
 		}
 	}

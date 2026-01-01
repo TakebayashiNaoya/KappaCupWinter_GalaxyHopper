@@ -23,7 +23,7 @@ namespace app
 			AddState<BasicEnemyIdleState>(enBasicEnemyState_Idle);
 			AddState<BasicEnemyDashState>(enBasicEnemyState_Dash);
 			AddState<BasicEnemyCooldownState>(enBasicEnemyState_Cooldown);
-			AddState<BasicEnemyDeadState>(enBasicEnemyState_Dead);
+			AddState<BasicEnemyDieState>(enBasicEnemyState_Die);
 			K2_ASSERT(m_stateMap.size() == enBasicEnemyState_Num, "AddStateを呼んでください");
 
 			/** 初期ステート */
@@ -62,7 +62,7 @@ namespace app
 			AddState<DeformEnemyFlippingState>(enDeformEnemyState_Flipping);
 			AddState<DeformEnemyFlippedState>(enDeformEnemyState_Flipped);
 			AddState<DeformEnemySlidingState>(enDeformEnemyState_Sliding);
-			AddState<DeformEnemyDeadState>(enDeformEnemyState_Dead);
+			AddState<DeformEnemyDieState>(enDeformEnemyState_Die);
 			K2_ASSERT(m_stateMap.size() == enDeformEnemyState_Num, "AddStateを呼んでください");
 
 			/** 初期ステート */
