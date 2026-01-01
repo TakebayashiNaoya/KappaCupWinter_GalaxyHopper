@@ -24,9 +24,6 @@ namespace app
 			BasicEnemyStateMachine(BasicEnemy* owner);
 			virtual ~BasicEnemyStateMachine();
 
-			/** アニメーション再生 */
-			void PlayAnimation(const uint8_t animationIndex) override final;
-
 
 		private:
 			/** ステート */
@@ -41,6 +38,9 @@ namespace app
 
 			/** 変更するステートを取得します。 */
 			IState* GetChangeState() override final;
+
+			/** 基本エネミーのアニメーション再生処理を実装 */
+			void ExecutePlayAnimation(const uint8_t animIndex) override final;
 		};
 
 
@@ -58,9 +58,6 @@ namespace app
 			DeformEnemyStateMachine(DeformEnemy* owner);
 			virtual ~DeformEnemyStateMachine();
 
-			/** アニメーション再生 */
-			void PlayAnimation(const uint8_t animationIndex) override final;
-
 
 		private:
 			/** ステート */
@@ -77,6 +74,9 @@ namespace app
 
 			/** 変更するステートを取得します。 */
 			IState* GetChangeState() override final;
+
+			/** 変形エネミーのアニメーション再生処理を実装 */
+			void ExecutePlayAnimation(const uint8_t animIndex) override final;
 		};
 
 
@@ -93,9 +93,6 @@ namespace app
 		public:
 			BossEnemyStateMachine(BossEnemy* owner);
 			virtual ~BossEnemyStateMachine();
-
-			/** アニメーション再生 */
-			void PlayAnimation(const uint8_t animationIndex) override final;
 
 
 		private:
@@ -115,6 +112,9 @@ namespace app
 
 			/** 変更するステートを取得します。 */
 			IState* GetChangeState() override final;
+
+			/** ボスエネミーのアニメーション再生処理を実装 */
+			void ExecutePlayAnimation(const uint8_t animIndex) override final;
 		};
 	}
 }

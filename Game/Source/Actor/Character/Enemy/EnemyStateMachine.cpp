@@ -36,15 +36,15 @@ namespace app
 		}
 
 
-		void BasicEnemyStateMachine::PlayAnimation(const uint8_t animationIndex)
-		{
-			GetOwner<BasicEnemy>()->GetModelRender()->PlayAnimation(static_cast<BasicEnemy::EnAnimationClip>(animationIndex));
-		}
-
-
 		IState* BasicEnemyStateMachine::GetChangeState()
 		{
 			return nullptr;
+		}
+
+
+		void BasicEnemyStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
+		{
+			GetOwner<BasicEnemy>()->GetModelRender()->PlayAnimation(animIndex);
 		}
 
 
@@ -75,15 +75,15 @@ namespace app
 		}
 
 
-		void DeformEnemyStateMachine::PlayAnimation(const uint8_t animationIndex)
-		{
-			GetOwner<DeformEnemy>()->GetModelRender()->PlayAnimation(static_cast<DeformEnemy::EnAnimationClip>(animationIndex));
-		}
-
-
 		IState* DeformEnemyStateMachine::GetChangeState()
 		{
 			return nullptr;
+		}
+
+
+		void DeformEnemyStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
+		{
+			GetOwner<DeformEnemy>()->GetModelRender()->PlayAnimation(animIndex);
 		}
 
 
@@ -116,15 +116,14 @@ namespace app
 		}
 
 
-		void BossEnemyStateMachine::PlayAnimation(const uint8_t animationIndex)
-		{
-			GetOwner<BossEnemy>()->GetModelRender()->PlayAnimation(static_cast<BossEnemy::EnAnimationClip>(animationIndex));
-		}
-
-
 		IState* BossEnemyStateMachine::GetChangeState()
 		{
 			return nullptr;
+		}
+
+		void BossEnemyStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
+		{
+			GetOwner<BossEnemy>()->GetModelRender()->PlayAnimation(animIndex);
 		}
 	}
 }
