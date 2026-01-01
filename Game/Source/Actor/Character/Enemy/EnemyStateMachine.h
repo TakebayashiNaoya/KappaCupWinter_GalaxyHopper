@@ -25,12 +25,12 @@ namespace app
 			virtual ~BasicEnemyStateMachine();
 
 			/** アニメーション再生 */
-			void PlayAnimation(const int animationIndex) override final;
+			void PlayAnimation(const uint8_t animationIndex) override final;
 
 
 		private:
 			/** ステート */
-			enum EnBasicEnemyState
+			enum EnBasicEnemyState : uint8_t
 			{
 				enBasicEnemyState_Idle,
 				enBasicEnemyState_Dash,
@@ -59,12 +59,12 @@ namespace app
 			virtual ~DeformEnemyStateMachine();
 
 			/** アニメーション再生 */
-			void PlayAnimation(const int animationIndex) override final;
+			void PlayAnimation(const uint8_t animationIndex) override final;
 
 
 		private:
 			/** ステート */
-			enum EnDeformEnemyState
+			enum EnDeformEnemyState : uint8_t
 			{
 				enDeformEnemyState_Idle,
 				enDeformEnemyState_Walk,
@@ -95,12 +95,12 @@ namespace app
 			virtual ~BossEnemyStateMachine();
 
 			/** アニメーション再生 */
-			void PlayAnimation(const int animationIndex) override final;
+			void PlayAnimation(const uint8_t animationIndex) override final;
 
 
 		private:
 			/** ステート */
-			enum EnBossEnemyState
+			enum EnBossEnemyState : uint8_t
 			{
 				enBossEnemyState_Idle,
 				enBossEnemyState_Walk,

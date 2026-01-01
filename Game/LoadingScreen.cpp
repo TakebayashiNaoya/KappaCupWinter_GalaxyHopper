@@ -162,7 +162,7 @@ namespace app
 
 		/** 必要なときだけ各画像を描画 */
 		if (m_state == enState_Closing || m_state == enState_Opening) {
-			for (int i = 0; i < enImageParts_Num; ++i) {
+			for (uint8_t i = 0; i < enImageParts_Num; ++i) {
 				m_displayImages[i].Draw(rc);
 			}
 			return;
@@ -204,7 +204,7 @@ namespace app
 
 
 		/** 画像を更新 */
-		for (int i = 0; i < enImageParts_Num; ++i) {
+		for (uint8_t i = 0; i < enImageParts_Num; ++i) {
 			m_displayImages[i].Update();
 		}
 
@@ -231,7 +231,7 @@ namespace app
 		m_displayImages[enImageParts_Left].SetPosition({ currentLeftPos, 0.0f, 0.0f });
 
 		/** 全パーツ更新 */
-		for (int i = 0; i < enImageParts_Num; ++i) {
+		for (uint8_t i = 0; i < enImageParts_Num; ++i) {
 			m_displayImages[i].Update();
 		}
 	}

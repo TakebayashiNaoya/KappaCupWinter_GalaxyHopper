@@ -127,7 +127,7 @@ namespace app
 			/** ステートの持ち主（ステートマシンを持つゲームオブジェクト） */
 			IGameObject* m_owner = nullptr;
 			/** 全てのステートをID付きで保存する辞書 */
-			std::unordered_map<int, IState*> m_stateMap;
+			std::unordered_map<uint8_t, IState*> m_stateMap;
 			/** 現在実行中のステート */
 			IState* m_currentState = nullptr;
 			/** 次に変更するステート */
@@ -153,7 +153,7 @@ namespace app
 			 * アニメーション再生
 			 * 継承先のステートマシンでキャラクターを指定して実装してください。
 			 */
-			virtual void PlayAnimation(const int animationIndex) = 0;
+			virtual void PlayAnimation(const uint8_t animationIndex) = 0;
 
 
 		protected:
@@ -162,7 +162,7 @@ namespace app
 			 * 例: AddState<IdleState>(enState_Idle);
 			 */
 			template<typename TState>
-			void AddState(const int stateId)
+			void AddState(const uint8_t stateId)
 			{
 				/** 登録済みなら、古いものを削除しておく（メモリリーク防止） */
 				auto it = m_stateMap.find(stateId);
@@ -175,7 +175,7 @@ namespace app
 			}
 
 			/** 指定したIDのステートを取得します。 */
-			IState* FindState(const int stateId);
+			IState* FindState(const uint8_t stateId);
 
 
 		public:
@@ -193,7 +193,7 @@ namespace app
 			 * 現在のステートが何かによって処理を分岐したい場合に使用します。
 			 * 主にChangeState内で使用します。
 			 */
-			inline bool IsEqualCurrentState(const int state)
+			inline bool IsEqualCurrentState(const uint8_t state)
 			{
 				return m_currentState == m_stateMap[state];
 			}
@@ -203,7 +203,7 @@ namespace app
 			 * 次のステートが何かによって処理を分岐したい場合に使用します。
 			 * 主に各IStateのExit内で使用します。
 			 */
-			inline bool IsEqualNextState(const int state)
+			inline bool IsEqualNextState(const uint8_t state)
 			{
 				return m_nextState == m_stateMap[state];
 			}

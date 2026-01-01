@@ -101,8 +101,8 @@ namespace app
 
 			/** ボスのHPUIにボスのHPを渡す */
 			if (m_uiBossHp && m_bossEnemy) {
-				uint8_t currentHp = m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetHp();
-				uint8_t maxHp = m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetMaxHp();
+				int currentHp = m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetHp();
+				int maxHp = m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetMaxHp();
 				m_uiBossHp->UpdateHp(currentHp, maxHp);
 			}
 

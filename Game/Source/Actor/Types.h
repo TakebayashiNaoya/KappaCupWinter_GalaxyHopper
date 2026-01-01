@@ -3,7 +3,8 @@
 /// </summary>
 #pragma once
 
-enum enPlayerCondition {
+enum enPlayerCondition : uint8_t
+{
 	enPlayerCondition_Dead,		// 死亡。
 	enPlayerCondition_Danger,	// 危険。
 	enPlayerCondition_Caution,	// 注意。

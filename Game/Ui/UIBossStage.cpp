@@ -83,7 +83,7 @@ namespace app
 		}
 
 
-		void UIBossStage::SetBossHp(uint8_t currentHp, uint8_t maxHp)
+		void UIBossStage::SetBossHp(int currentHp, int maxHp)
 		{
 			m_uiBossHp->UpdateHp(currentHp, maxHp);
 		}
@@ -166,7 +166,7 @@ namespace app
 		}
 
 
-		void UIBossHp::UpdateHp(uint8_t currentHp, uint8_t maxHp)
+		void UIBossHp::UpdateHp(int currentHp, int maxHp)
 		{
 			if (!m_frontBarImage || maxHp <= 0) {
 				return;

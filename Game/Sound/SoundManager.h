@@ -19,7 +19,7 @@ namespace app
 	namespace sound
 	{
 		/** サウンドリスト */
-		enum EnSoundList
+		enum EnSoundList :uint8_t
 		{
 			enSoundList_TitleBGM,
 			enSoundList_FirstStageBGM,

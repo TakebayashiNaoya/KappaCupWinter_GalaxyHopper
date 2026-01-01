@@ -50,7 +50,7 @@ namespace app
 
 	private:
 		/** ロード画面を構成する画像パーツ */
-		enum EnImageParts
+		enum EnImageParts :uint8_t
 		{
 			enImageParts_Center,	/** 中央 */
 			enImageParts_Top,		/** 上　 */

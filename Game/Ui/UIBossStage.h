@@ -29,7 +29,7 @@ namespace app
 			~UIBossStage();
 
 			/** ボスのHPを設定する */
-			void SetBossHp(uint8_t currentHp, uint8_t maxHp);
+			void SetBossHp(int currentHp, int maxHp);
 
 
 		private:
@@ -60,7 +60,7 @@ namespace app
 			~UIBossHp();
 
 			/** HPの更新（バーの長さと色を変える） */
-			void UpdateHp(uint8_t currentHp, uint8_t maxHp);
+			void UpdateHp(int currentHp, int maxHp);
 
 
 		private:

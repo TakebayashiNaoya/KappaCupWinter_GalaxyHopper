@@ -16,7 +16,7 @@ namespace app
 			/** 外部ファイルを読み込み */
 			ParameterManager::Get().LoadParameter<MasterPlayerStatusParameter>("Assets/parameter/PlayerStatus.json", [](const nlohmann::json& j, MasterPlayerStatusParameter& parameter)
 				{
-					parameter.maxHp = j["maxHp"].get<uint8_t>();
+					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
 					parameter.hurtRadius = j["hurtRadius"].get<float>();
@@ -56,7 +56,7 @@ namespace app
 			/** 外部ファイルを読み込み */
 			ParameterManager::Get().LoadParameter<MasterBasicEnemyStatusParameter>("Assets/parameter/BasicEnemyStatus.json", [](const nlohmann::json& j, MasterBasicEnemyStatusParameter& parameter)
 				{
-					parameter.maxHp = j["maxHp"].get<uint8_t>();
+					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
 					parameter.hurtRadius = j["hurtRadius"].get<float>();
@@ -96,7 +96,7 @@ namespace app
 			/** 外部ファイルを読み込み */
 			ParameterManager::Get().LoadParameter<MasterDeformEnemyStatusParameter>("Assets/parameter/DeformEnemyStatus.json", [](const nlohmann::json& j, MasterDeformEnemyStatusParameter& parameter)
 				{
-					parameter.maxHp = j["maxHp"].get<uint8_t>();
+					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
 					parameter.hurtRadius = j["hurtRadius"].get<float>();
@@ -138,7 +138,7 @@ namespace app
 			/** 外部ファイルを読み込み */
 			ParameterManager::Get().LoadParameter<MasterBossEnemyStatusParameter>("Assets/parameter/BossEnemyStatus.json", [](const nlohmann::json& j, MasterBossEnemyStatusParameter& parameter)
 				{
-					parameter.maxHp = j["maxHp"].get<uint8_t>();
+					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
 					parameter.hurtRadius = j["hurtRadius"].get<float>();

@@ -19,12 +19,12 @@ namespace app
 			virtual ~PlayerStateMachine();
 
 			/** アニメーション再生 */
-			void PlayAnimation(const int animationIndex) override final;
+			void PlayAnimation(const uint8_t animationIndex) override final;
 
 
 		private:
 			/** ステートを識別するenum */
-			enum EnPlayerState
+			enum EnPlayerState : uint8_t
 			{
 				enPlayerState_Idle,
 				enPlayerState_Walk,

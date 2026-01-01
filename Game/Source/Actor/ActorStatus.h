@@ -36,9 +36,9 @@ namespace app
 		{
 		protected:
 			/** 現在のHP */
-			uint8_t m_hp = 0;
+			int m_hp = 0;
 			/** 最大HP */
-			uint8_t m_maxHp = 0;
+			int m_maxHp = 0;
 			/** 歩く移動速度 */
 			float m_walkSpeed = 0.0f;
 			/** 走る移動速度 */
@@ -64,11 +64,7 @@ namespace app
 				m_isDamage = false;
 			}
 
-			//void Damage(uint8_t damageAmount)
-			//{
-			//	m_hp -= damageAmount;
-			//	m_isDamage = true;
-			//}
+
 			void Damage()
 			{
 				m_hp--;
@@ -78,9 +74,9 @@ namespace app
 
 		public:
 			/** 現在のHPのゲッター */
-			uint8_t GetHp() const { return m_hp; }
+			int GetHp() const { return m_hp; }
 			/** 最大HPのゲッター */
-			uint8_t GetMaxHp() const { return m_maxHp; }
+			int GetMaxHp() const { return m_maxHp; }
 			/** スピードのゲッター */
 			float GetWalkSpeed() const { return m_walkSpeed; }
 			/** ダッシュスピードのゲッター */

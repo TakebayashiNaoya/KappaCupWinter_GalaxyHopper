@@ -33,7 +33,8 @@ namespace app
 			void Update() override final;
 			void Render(RenderContext& rc) override final;
 
-			enum EnAnimationClip {
+			enum EnAnimationClip : uint8_t
+			{
 				enAnimationClip_Idle,
 				enAnimationClip_Open,
 				enAnimationClip_Num
@@ -41,7 +42,8 @@ namespace app
 
 			AnimationClip m_animationClip[enAnimationClip_Num];
 
-			enum EnState {
+			enum EnState : uint8_t
+			{
 				enState_Init,
 				enState_Idle,
 				enState_Opened

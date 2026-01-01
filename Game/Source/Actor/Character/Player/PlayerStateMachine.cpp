@@ -32,7 +32,7 @@ namespace app
 		}
 
 
-		void PlayerStateMachine::PlayAnimation(const int animationIndex)
+		void PlayerStateMachine::PlayAnimation(const uint8_t animationIndex)
 		{
 			GetOwner<Player>()->GetModelRender()->PlayAnimation(static_cast<Player::EnAnimationClip>(animationIndex));
 		}

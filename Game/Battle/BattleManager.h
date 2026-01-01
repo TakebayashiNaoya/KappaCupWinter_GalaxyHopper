@@ -50,7 +50,7 @@ namespace app
 
 		public:
 			/** 勝敗 */
-			enum class EnBattleResult
+			enum class EnBattleResult : uint8_t
 			{
 				enBattleResult_None,   // 戦闘中
 				enBattleResult_Win,    // 勝ち

@@ -36,7 +36,7 @@ namespace app
 		}
 
 
-		void BasicEnemyStateMachine::PlayAnimation(const int animationIndex)
+		void BasicEnemyStateMachine::PlayAnimation(const uint8_t animationIndex)
 		{
 			GetOwner<BasicEnemy>()->GetModelRender()->PlayAnimation(static_cast<BasicEnemy::EnAnimationClip>(animationIndex));
 		}
@@ -75,7 +75,7 @@ namespace app
 		}
 
 
-		void DeformEnemyStateMachine::PlayAnimation(const int animationIndex)
+		void DeformEnemyStateMachine::PlayAnimation(const uint8_t animationIndex)
 		{
 			GetOwner<DeformEnemy>()->GetModelRender()->PlayAnimation(static_cast<DeformEnemy::EnAnimationClip>(animationIndex));
 		}
@@ -116,7 +116,7 @@ namespace app
 		}
 
 
-		void BossEnemyStateMachine::PlayAnimation(const int animationIndex)
+		void BossEnemyStateMachine::PlayAnimation(const uint8_t animationIndex)
 		{
 			GetOwner<BossEnemy>()->GetModelRender()->PlayAnimation(static_cast<BossEnemy::EnAnimationClip>(animationIndex));
 		}

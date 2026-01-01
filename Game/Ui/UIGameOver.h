@@ -13,7 +13,7 @@ namespace app
 		class UIGameOver :public UIResultBase
 		{
 		private:
-			enum enState
+			enum enState : uint8_t
 			{
 				enState_HideImageFadeIn,
 				enState_EntryImage,
@@ -46,7 +46,7 @@ namespace app
 			float m_entryTimer = 0.0f;
 			float m_waitTimer = 0.0f;
 			float m_slipTimer = 0.0f;
-			int m_state = 0;
+			uint8_t m_state = 0;
 		};
 	}
 }

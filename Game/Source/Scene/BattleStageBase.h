@@ -65,7 +65,7 @@ namespace app
 			 */
 		private:
 			/** 戦闘の状態を表す列挙型 */
-			enum enBattlePhase
+			enum enBattlePhase : uint8_t
 			{
 				enBattlePhase_Battle,				/** 戦闘中 */
 				enBattlePhase_WaitFinishAnimation,	/** 戦闘終了アニメーションの完了待ち */
@@ -77,7 +77,7 @@ namespace app
 			enBattlePhase m_battlePhase = enBattlePhase_Battle;
 
 			/** 勝敗結果を表す列挙型 */
-			enum enResult
+			enum enResult : uint8_t
 			{
 				enResult_None,
 				enResult_PlayerWin,
@@ -101,7 +101,7 @@ namespace app
 			/** 初期化するタスクのリスト */
 			std::vector<std::function<void()>> m_loadingTasks;
 			/** 現在実行中のタスク番号 */
-			int m_currentTaskIndex = 0;
+			uint8_t m_currentTaskIndex = 0;
 
 			/** バトルマネージャー */
 			battle::BattleManagerObject* m_battleManager = nullptr;
@@ -118,7 +118,7 @@ namespace app
 			/** スカイキューブ */
 			SkyCube* m_skyCube = nullptr;
 			/** スカイキューブのタイプ */
-			int m_skyCubeType = enSkyCubeType_Night;
+			uint8_t m_skyCubeType = enSkyCubeType_Night;
 		};
 	}
 }

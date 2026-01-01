@@ -559,7 +559,7 @@ namespace app
 		}
 
 
-		IState* StateMachineBase::FindState(const int stateId)
+		IState* StateMachineBase::FindState(const uint8_t stateId)
 		{
 			/** 指定したIDのステートが存在すればそのステートのポインタを返し、なければnullptrを返す */
 			auto it = m_stateMap.find(stateId);
@@ -600,7 +600,7 @@ namespace app
 		{
 			/** HPが0ならtrueを返します。 */
 			Character* character = GetOwner<Character>();
-			const uint8_t m_currentHp = character->GetStatus<CharacterStatus>()->GetHp();
+			const int m_currentHp = character->GetStatus<CharacterStatus>()->GetHp();
 			if (m_currentHp <= 0) {
 				return true;
 			}
@@ -611,7 +611,7 @@ namespace app
 		{
 			/** HPが0かつ、アニメーションが終了している場合にtrueを返します。 */
 			Character* character = GetOwner<Character>();
-			const uint8_t m_currentHp = character->GetStatus<CharacterStatus>()->GetHp();
+			const int m_currentHp = character->GetStatus<CharacterStatus>()->GetHp();
 			const bool isPlayingAnimation = character->GetModelRender()->IsPlayingAnimation();
 			if (m_currentHp <= 0 && isPlayingAnimation == false) {
 				return true;
