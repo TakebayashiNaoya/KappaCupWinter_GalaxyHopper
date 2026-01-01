@@ -64,7 +64,7 @@ namespace app
 		BattleManager* BattleManager::m_instance = nullptr;
 		bool BattleManager::m_isGoalReached = false;
 		bool BattleManager::m_isResultSequence = false;
-		BattleManager::EnBattleResult BattleManager::m_battleResult = EnBattleResult::enBattleResult_None;
+		BattleManager::EnBattleResult BattleManager::m_battleResult = EnBattleResult::Fighting;
 
 
 		void BattleManager::Update()
@@ -155,19 +155,19 @@ namespace app
 
 			/** 戦闘終了判定 */
 			if (m_player && m_player->GetStatus<actor::PlayerStatus>()->GetHp() <= 0) {
-				m_battleResult = EnBattleResult::enBattleResult_Lose;
+				m_battleResult = EnBattleResult::Lose;
 			}
 			else if (m_bossEnemy && m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetHp() <= 0) {
-				m_battleResult = EnBattleResult::enBattleResult_Win;
+				m_battleResult = EnBattleResult::Win;
 			}
 
 			/** 戦闘終了後、敗者の死亡アニメーションが終わったらUIを非表示にする合図を出す */
-			if (m_battleResult == EnBattleResult::enBattleResult_Lose) {
+			if (m_battleResult == EnBattleResult::Lose) {
 				if (m_player && m_player->GetModelRender()->IsPlayingAnimation() == false) {
 					m_isResultSequence = true;
 				}
 			}
-			else if (m_battleResult == EnBattleResult::enBattleResult_Win) {
+			else if (m_battleResult == EnBattleResult::Win) {
 				if (m_bossEnemy && m_bossEnemy->GetModelRender()->IsPlayingAnimation() == false) {
 					m_isResultSequence = true;
 				}

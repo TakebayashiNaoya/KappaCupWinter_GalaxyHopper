@@ -52,9 +52,9 @@ namespace app
 			/** 勝敗 */
 			enum class EnBattleResult : uint8_t
 			{
-				enBattleResult_None,   // 戦闘中
-				enBattleResult_Win,    // 勝ち
-				enBattleResult_Lose    // 負け
+				Fighting,   // 戦闘中
+				Win,		// 勝ち
+				Lose		// 負け
 			};
 			/** 勝敗を取得 */
 			inline static EnBattleResult GetBattleResult() { return m_battleResult; }
