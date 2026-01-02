@@ -35,11 +35,14 @@ namespace app
 			static_assert(ARRAYSIZE(PLAYER_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnPlayerAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
-			/** ステートマシン生成 */
-			m_stateMachine = std::make_unique<PlayerStateMachine>(this);
+			/** PlayerStatus型でステータス生成 */
+			auto status = CreateStatus<PlayerStatus>();
 
-			/** ステータス生成 */
-			m_status = CreateStatus<PlayerStatus>();
+			/** ステートマシンを生成し、自分（Player型）とステータス（PlayerStatus型）の生ポインタを渡す */
+			m_stateMachine = std::make_unique<PlayerStateMachine>(this, status.get());
+
+			/** ステータスをムーブして保持 */
+			m_status = std::move(status);
 		}
 
 

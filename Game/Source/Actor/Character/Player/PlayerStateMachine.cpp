@@ -9,9 +9,14 @@ namespace app
 	namespace actor
 	{
 		/** PlayerStateMachineの持ち主（Player）をStateMachineBaseに渡してください */
-		PlayerStateMachine::PlayerStateMachine(Player* owner)
+		PlayerStateMachine::PlayerStateMachine(Player* owner, PlayerStatus* status)
 			: StateMachineBase(owner)
 		{
+			/** オーナーをキャッシュ */
+			m_myPlayer = owner;
+			/** オーナーのステータスをキャッシュ */
+			m_myStatus = status;
+
 			/** ステートの生成 */
 			AddState<PlayerIdleState>(enPlayerState_Idle);
 			AddState<PlayerWalkState>(enPlayerState_Walk);
@@ -32,38 +37,47 @@ namespace app
 		}
 
 
+		//void PlayerStateMachine::PlayAnimation(EnPlayerAnimClip animId)
+		//{
+		//	m_myPlayer->GetModelRender()->PlayAnimation(static_cast<uint8_t>(animId));
+		//}
+
+
 		IState* PlayerStateMachine::GetChangeState()
 		{
-			/** ダメージ状態に変更できるか */
+			/** ダメージを受けたらダメージ状態へ */
 			if (CanChangeDamage()) {
 				return FindState(enPlayerState_Damage);
 			}
 
-			/** 死亡中状態なら */
+			/** 死亡中ならアニメーションが終わるまでステートを維持し、終わったら完全死亡状態へ */
 			if (IsEqualCurrentState(enPlayerState_Dying)) {
-				/** 死亡完了状態に変更できるか */
 				if (CanChangeDead()) {
 					return FindState(enPlayerState_Dead);
 				}
 			}
 
-			/** 死亡開始状態に変更できるか */
+			/** HPが0になっていたら死亡開始状態へ */
 			if (CanChangeDying()) {
 				return FindState(enPlayerState_Dying);
 			}
-			/** ジャンプ状態に変更できるか */
+
+			/** 足が着いていなければジャンプ状態へ */
 			if (CanChangeJump()) {
 				return FindState(enPlayerState_Jump);
 			}
-			/** 走る状態に変更できるか */
+
+			/** ダッシュ入力があり、かつ移動入力があるならダッシュ状態へ */
 			if (CanChangeDush()) {
 				return FindState(enPlayerState_Dash);
 			}
-			/** 歩く状態に変更できるか */
+
+			/** 移動入力があるなら歩き状態へ */
 			if (CanChangeWalk()) {
 				return FindState(enPlayerState_Walk);
 			}
-			/** どの状態にも変更できなければ、待機状態に戻る */
+
+			/** どれにも当てはまらなければ待機状態へ */
 			return FindState(enPlayerState_Idle);
 		}
 
@@ -74,12 +88,6 @@ namespace app
 				return true;
 			}
 			return false;
-		}
-
-
-		void PlayerStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
-		{
-			GetOwner<Player>()->GetModelRender()->PlayAnimation(animIndex);
 		}
 	}
 }

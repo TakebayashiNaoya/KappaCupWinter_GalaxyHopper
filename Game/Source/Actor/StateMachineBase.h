@@ -13,6 +13,7 @@ namespace app
 	namespace actor
 	{
 		class StateMachineBase;
+		class Actor;
 
 
 		/**
@@ -34,14 +35,12 @@ namespace app
 			virtual void Update() = 0;
 			/** 終了時に1回だけ呼ばれます。 */
 			virtual void Exit() = 0;
-
-			/** 持ち主を型キャストして取得する便利関数 */
-			template <typename T>
-			T* GetOwner()
-			{
-				return static_cast<T*>(m_owner);
-			}
 		};
+
+
+
+
+		/********************************/
 
 
 		/**
@@ -126,7 +125,7 @@ namespace app
 		public:
 			/**
 			 * アニメーション再生処理のテンプレート関数
-			 * 例: PlayAnimation(EnPlayerAnimClip::Idle);
+			 * 例: m_stateMachine->PlayAnimation(EnPlayerAnimClip::Idle);
 			 */
 			template <typename TEnum>
 			void PlayAnimation(TEnum animId)
@@ -134,14 +133,14 @@ namespace app
 				/** Enumをintに変換して、実体関数にパス */
 				ExecutePlayAnimation(static_cast<int>(animId));
 			}
-		protected:
-			/** 派生先でオーナーのアニメーション再生処理を実装 */
-			virtual void ExecutePlayAnimation(const uint8_t animIndex) = 0;
+		private:
+			/** オーナーのアニメーション再生処理を実装 */
+			void ExecutePlayAnimation(const uint8_t animIndex);
 
 
 		protected:
-			/** ステートの持ち主（ステートマシンを持つゲームオブジェクト） */
-			IGameObject* m_owner = nullptr;
+			/** ステートの持ち主（ステートマシンを持つActor） */
+			Actor* m_owner = nullptr;
 			/** 全てのステートをID付きで保存する辞書 */
 			std::unordered_map<uint8_t, IState*> m_stateMap;
 			/** 現在実行中のステート */
@@ -151,7 +150,7 @@ namespace app
 
 
 		public:
-			StateMachineBase(IGameObject* owner) : m_owner(owner) {};
+			StateMachineBase(Actor* owner, CharacterStatus* status);
 			virtual ~StateMachineBase();
 
 			/**
@@ -168,33 +167,28 @@ namespace app
 
 		protected:
 			/**
-			 * ステートを追加するテンプレート関数
-			 * 例: AddState<IdleState>(Idle);
+			 * ステータスを追加するテンプレート関数
+			 * NOTE: 派生先のステートマシンでラップして、ステートマシン（this）、オーナー、ステータスを渡す
+			 * 例:
+			 *	template <typename TState>
+			 *	void AddState(EnPlayerState stateId)
+			 *	{
+			 *		StateMachineBase::AddState<TState>(stateId, this, m_myPlayer, m_myStatus);
+			 *	}
 			 */
-			template<typename TState>
-			void AddState(const uint8_t stateId)
+			template<typename TState, typename... Args>
+			void AddState(const uint8_t stateId, Args... args)
 			{
-				/** 登録済みなら、古いものを削除しておく（メモリリーク防止） */
 				auto it = m_stateMap.find(stateId);
 				if (it != m_stateMap.end()) {
 					delete it->second;
 					K2_ASSERT(false, "IDが重複しています。");
 				}
-
-				m_stateMap[stateId] = new TState(this);
+				m_stateMap[stateId] = new TState(args...);
 			}
 
 			/** 指定したIDのステートを取得します。 */
 			IState* FindState(const uint8_t stateId);
-
-
-		public:
-			/** 持ち主を型キャストして取得する便利関数 */
-			template <typename T>
-			T* GetOwner()
-			{
-				return dynamic_cast<T*>(m_owner);
-			}
 
 
 		protected:
@@ -254,6 +248,9 @@ namespace app
 
 
 		private:
+			/** キャラクター用ステータス（キャストなしでHP等を見るため） */
+			CharacterStatus* m_status = nullptr;
+
 			/** トランスフォーム */
 			Transform m_transform;
 			/** 上方向ベクトル */

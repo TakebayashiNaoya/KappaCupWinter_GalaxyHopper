@@ -517,6 +517,19 @@ namespace app
 		}
 
 
+		void StateMachineBase::ExecutePlayAnimation(const uint8_t animIndex)
+		{
+			m_owner->GetModelRender()->PlayAnimation(animIndex);
+		}
+
+
+		StateMachineBase::StateMachineBase(Actor* owner, CharacterStatus* status)
+			: m_owner(owner)
+			, m_status(status)
+		{
+		}
+
+
 		StateMachineBase::~StateMachineBase()
 		{
 			/** メモリ解放 */
@@ -588,8 +601,7 @@ namespace app
 
 		bool StateMachineBase::CanChangeDamage()
 		{
-			Character* character = GetOwner<Character>();
-			bool isDamage = character->GetStatus<CharacterStatus>()->IsDamage();
+			bool isDamage = m_status->IsDamage();
 			if (isDamage) {
 				return true;
 			}
@@ -599,8 +611,7 @@ namespace app
 		bool StateMachineBase::CanChangeDying()
 		{
 			/** HPが0ならtrueを返します。 */
-			Character* character = GetOwner<Character>();
-			const int m_currentHp = character->GetStatus<CharacterStatus>()->GetHp();
+			const int m_currentHp = m_status->GetHp();
 			if (m_currentHp <= 0) {
 				return true;
 			}
@@ -610,8 +621,7 @@ namespace app
 		bool StateMachineBase::CanChangeDead()
 		{
 			/** HPが0かつ、アニメーションが終了している場合にtrueを返します。 */
-			Character* character = GetOwner<Character>();
-			const int m_currentHp = character->GetStatus<CharacterStatus>()->GetHp();
+			const int m_currentHp = m_status->GetHp();
 			const bool isPlayingAnimation = character->GetModelRender()->IsPlayingAnimation();
 			if (m_currentHp <= 0 && isPlayingAnimation == false) {
 				return true;

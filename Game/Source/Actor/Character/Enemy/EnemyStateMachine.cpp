@@ -44,7 +44,7 @@ namespace app
 
 		void BasicEnemyStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
 		{
-			GetOwner<BasicEnemy>()->GetModelRender()->PlayAnimation(animIndex);
+			GetOwnerChara<BasicEnemy>()->GetModelRender()->PlayAnimation(animIndex);
 		}
 
 
@@ -83,7 +83,7 @@ namespace app
 
 		void DeformEnemyStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
 		{
-			GetOwner<DeformEnemy>()->GetModelRender()->PlayAnimation(animIndex);
+			GetOwnerChara<DeformEnemy>()->GetModelRender()->PlayAnimation(animIndex);
 		}
 
 
@@ -123,7 +123,7 @@ namespace app
 
 		void BossEnemyStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
 		{
-			GetOwner<BossEnemy>()->GetModelRender()->PlayAnimation(animIndex);
+			GetOwnerChara<BossEnemy>()->GetModelRender()->PlayAnimation(animIndex);
 		}
 	}
 }

@@ -57,25 +57,6 @@ namespace app
 			inline const Vector3& GetUpDirection() const { return m_upDirection; }
 
 
-		public:
-			/**
-			 * ステートマシンを取得
-			 */
-			template <typename T>
-			T* GetStateMachine() const
-			{
-				return dynamic_cast<T*>(m_stateMachine.get());
-			}
-			/**
-			 * ステータスを取得
-			 */
-			template <typename T>
-			T* GetStatus() const
-			{
-				return dynamic_cast<T*>(m_status.get());
-			}
-
-
 		protected:
 			/**
 			 * ユニークポインタを返すステータス生成関数

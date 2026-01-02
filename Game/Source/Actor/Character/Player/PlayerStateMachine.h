@@ -15,7 +15,7 @@ namespace app
 		class PlayerStateMachine : public StateMachineBase
 		{
 		public:
-			PlayerStateMachine(Player* owner);
+			PlayerStateMachine(Player* owner, PlayerStatus* status);
 			virtual ~PlayerStateMachine();
 
 
@@ -39,8 +39,23 @@ namespace app
 			/** ジャンプ状態に変更できるか */
 			bool CanChangeJump();
 
-			/** プレイヤーのアニメーション再生処理を実装 */
-			void ExecutePlayAnimation(const uint8_t animIndex) override final;
+
+		private:
+			/** ステートを追加するテンプレート関数 */
+			template <typename TState>
+			void AddState(EnPlayerState stateId)
+			{
+				StateMachineBase::AddState<TState>(stateId, this, m_myPlayer, m_myStatus);
+			}
+
+
+		private:
+			/**
+			 * キャッシュ用のプレイヤーとステータス
+			 * ※頻繁にアクセスするため、キャスト不要で高速にアクセスできるように保持しておく
+			 */
+			Player* m_myPlayer = nullptr;
+			PlayerStatus* m_myStatus = nullptr;
 		};
 	}
 }
