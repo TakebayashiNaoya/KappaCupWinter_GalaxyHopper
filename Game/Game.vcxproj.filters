@@ -201,6 +201,9 @@
     <ClCompile Include="Source\Actor\ActorTypes.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\Character\CharacterStateMachine.cpp">
+      <Filter>Source\Actor\Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -345,6 +348,9 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\ActorTypes.h">
       <Filter>Source\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\CharacterStateMachine.h">
+      <Filter>Source\Actor\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

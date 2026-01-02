@@ -237,6 +237,7 @@
     <ClCompile Include="Source\Actor\ActorStatus.cpp" />
     <ClCompile Include="Source\Actor\ActorTypes.cpp" />
     <ClCompile Include="Source\Actor\Character\Character.cpp" />
+    <ClCompile Include="Source\Actor\Character\CharacterStateMachine.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemy.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.cpp" />
     <ClCompile Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemy.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="Source\Actor\ActorStatus.h" />
     <ClInclude Include="Source\Actor\ActorTypes.h" />
     <ClInclude Include="Source\Actor\Character\Character.h" />
+    <ClInclude Include="Source\Actor\Character\CharacterStateMachine.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemy.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.h" />
     <ClInclude Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemy.h" />
