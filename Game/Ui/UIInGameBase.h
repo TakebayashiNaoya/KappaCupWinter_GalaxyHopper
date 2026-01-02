@@ -4,7 +4,6 @@
  */
 #pragma once
 #include "UIBase.h"
-#include "Source/Actor/Types.h"
 #include <memory>
 
 
@@ -44,7 +43,7 @@ namespace app
 
 
 		protected:
-			/** 
+			/**
 			 * 全てのステージで共通のUIを生成する
 			 * 派生先のStartで必ず呼ぶこと
 			 */
