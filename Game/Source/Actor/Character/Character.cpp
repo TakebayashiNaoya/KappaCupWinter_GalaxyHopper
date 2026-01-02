@@ -4,7 +4,7 @@
  */
 #include "stdafx.h"
 #include "Character.h"
-#include "Source/Actor/StateMachineBase.h"
+#include "Source/Actor/Character/CharacterStateMachine.h"
 #include "Collision/CollisionManager.h"
 
 

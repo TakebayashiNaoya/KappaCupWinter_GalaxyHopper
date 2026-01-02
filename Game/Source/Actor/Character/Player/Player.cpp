@@ -13,7 +13,7 @@ namespace app
 	{
 		namespace
 		{
-			constexpr float COLLIDER_OFFSET = 50.0f;							// ボディコライダーのオフセット値。
+			constexpr float COLLIDER_OFFSET = 50.0f;		// ボディコライダーのオフセット値。
 		}
 
 
@@ -54,13 +54,13 @@ namespace app
 		bool Player::Start()
 		{
 			/** モデルとアニメーションの初期化 */
-			InitModel(static_cast<uint8_t>(EnPlayerAnimClip::Num), PLAYER_ANIMATION_OPTIONS, "Player/player", GetStatus<PlayerStatus>()->GetModelScale());
+			InitModel(static_cast<uint8_t>(EnPlayerAnimClip::Num), PLAYER_ANIMATION_OPTIONS, "Player/player", m_status->GetModelScale());
 
 			/** やられ判定のコライダーを作成 */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
 				collision::EnCollisionType::Player,
-				GetStatus<PlayerStatus>()->GetHurtRadius(),
+				m_status->GetHurtRadius(),
 				app::EnCollisionAttr::enCollisionAttr_Player
 			);
 			return true;

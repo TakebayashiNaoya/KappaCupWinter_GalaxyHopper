@@ -16,8 +16,10 @@ namespace app
 {
 	namespace actor
 	{
-		BasicEnemyStateMachine::BasicEnemyStateMachine(BasicEnemy* owner)
-			: StateMachineBase(owner)
+		BasicEnemyStateMachine::BasicEnemyStateMachine(BasicEnemy* owner, BasicEnemyStatus* status)
+			: CharacterStateMachine(owner, status)
+			, m_basicEnemy(owner)
+			, m_basicEnemyStatus(status)
 		{
 			/** ステートの生成 */
 			AddState<BasicEnemyIdleState>(enBasicEnemyState_Idle);
@@ -42,19 +44,15 @@ namespace app
 		}
 
 
-		void BasicEnemyStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
-		{
-			GetOwnerChara<BasicEnemy>()->GetModelRender()->PlayAnimation(animIndex);
-		}
-
-
 
 
 		/********************************/
 
 
-		DeformEnemyStateMachine::DeformEnemyStateMachine(DeformEnemy* owner)
-			: StateMachineBase(owner)
+		DeformEnemyStateMachine::DeformEnemyStateMachine(DeformEnemy* owner, DeformEnemyStatus* status)
+			: CharacterStateMachine(owner, status)
+			, m_deformEnemy(owner)
+			, m_deformEnemyStatus(status)
 		{
 			/** ステートの生成 */
 			AddState<DeformEnemyIdleState>(enDeformEnemyState_Idle);
@@ -81,19 +79,15 @@ namespace app
 		}
 
 
-		void DeformEnemyStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
-		{
-			GetOwnerChara<DeformEnemy>()->GetModelRender()->PlayAnimation(animIndex);
-		}
-
-
 
 
 		/********************************/
 
 
-		BossEnemyStateMachine::BossEnemyStateMachine(BossEnemy* owner)
-			: StateMachineBase(owner)
+		BossEnemyStateMachine::BossEnemyStateMachine(BossEnemy* owner, BossEnemyStatus* status)
+			: CharacterStateMachine(owner, status)
+			, m_bossEnemy(owner)
+			, m_bossEnemyStatus(status)
 		{
 			/** ステートの生成 */
 			AddState<BossEnemyIdleState>(enBossEnemyState_Idle);
@@ -119,11 +113,6 @@ namespace app
 		IState* BossEnemyStateMachine::GetChangeState()
 		{
 			return nullptr;
-		}
-
-		void BossEnemyStateMachine::ExecutePlayAnimation(const uint8_t animIndex)
-		{
-			GetOwnerChara<BossEnemy>()->GetModelRender()->PlayAnimation(animIndex);
 		}
 	}
 }

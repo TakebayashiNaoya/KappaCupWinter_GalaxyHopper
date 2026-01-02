@@ -2,7 +2,7 @@
 /// プレイヤーのステートマシン。
 /// </summary>
 #pragma once
-#include "Source/Actor/StateMachineBase.h"
+#include "Source/Actor/Character/CharacterStateMachine.h"
 
 
 namespace app
@@ -10,9 +10,9 @@ namespace app
 	namespace actor
 	{
 		class Player;
+		class PlayerStatus;
 
-
-		class PlayerStateMachine : public StateMachineBase
+		class PlayerStateMachine : public CharacterStateMachine
 		{
 		public:
 			PlayerStateMachine(Player* owner, PlayerStatus* status);

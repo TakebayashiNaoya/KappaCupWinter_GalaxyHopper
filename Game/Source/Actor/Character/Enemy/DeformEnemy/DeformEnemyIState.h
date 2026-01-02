@@ -10,13 +10,45 @@ namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
+		class DeformEnemyStateMachine;
+		class DeformEnemy;
+		class DeformEnemyStatus;
+
+
+		/**
+		 * デフォームエネミー専用のステート基底クラス
+		 */
+		class DeformEnemyStateBase : public IState
+		{
+		protected:
+			/** キャッシュ用ポインタ */
+			DeformEnemyStateMachine* m_stateMachine = nullptr;
+			DeformEnemy* m_deformEnemy = nullptr;
+			DeformEnemyStatus* m_status = nullptr;
+
+
+		public:
+			/** コンストラクタでステートマシン、デフォームエネミー、ステータスを受け取る */
+			DeformEnemyStateBase(DeformEnemyStateMachine* machine, DeformEnemy* deformEnemy, DeformEnemyStatus* status);
+			virtual ~DeformEnemyStateBase() {}
+		};
+
+
+
+
+		/********************************/
+
+
 		/**
 		 * 待機
 		 */
-		class DeformEnemyIdleState : public IState
+		class DeformEnemyIdleState : public DeformEnemyStateBase
 		{
 		public:
-			DeformEnemyIdleState(StateMachineBase* owner) : IState(owner) {};
+			DeformEnemyIdleState(DeformEnemyStateMachine* machine, DeformEnemy* deformEnemy, DeformEnemyStatus* status)
+				: DeformEnemyStateBase(machine, deformEnemy, status) {
+			};
 			~DeformEnemyIdleState() {};
 
 			void Enter() override final;
@@ -33,10 +65,12 @@ namespace app
 		/**
 		 * 歩く
 		 */
-		class DeformEnemyWalkState : public IState
+		class DeformEnemyWalkState : public DeformEnemyStateBase
 		{
 		public:
-			DeformEnemyWalkState(StateMachineBase* owner) : IState(owner) {};
+			DeformEnemyWalkState(DeformEnemyStateMachine* machine, DeformEnemy* deformEnemy, DeformEnemyStatus* status)
+				: DeformEnemyStateBase(machine, deformEnemy, status) {
+			};
 			~DeformEnemyWalkState() {};
 
 			void Enter() override final;
@@ -54,10 +88,12 @@ namespace app
 		 * ひっくり返る（アニメーションが入る）
 		 * 最初の一回踏まれたときだけ
 		 */
-		class DeformEnemyFlippingState : public IState
+		class DeformEnemyFlippingState : public DeformEnemyStateBase
 		{
 		public:
-			DeformEnemyFlippingState(StateMachineBase* owner) : IState(owner) {};
+			DeformEnemyFlippingState(DeformEnemyStateMachine* machine, DeformEnemy* deformEnemy, DeformEnemyStatus* status)
+				: DeformEnemyStateBase(machine, deformEnemy, status) {
+			};
 			~DeformEnemyFlippingState() {};
 
 			void Enter() override final;
@@ -74,10 +110,12 @@ namespace app
 		/**
 		 * ひっくり返った（アニメーションが入らない）
 		 */
-		class DeformEnemyFlippedState : public IState
+		class DeformEnemyFlippedState : public DeformEnemyStateBase
 		{
 		public:
-			DeformEnemyFlippedState(StateMachineBase* owner) : IState(owner) {};
+			DeformEnemyFlippedState(DeformEnemyStateMachine* machine, DeformEnemy* deformEnemy, DeformEnemyStatus* status)
+				: DeformEnemyStateBase(machine, deformEnemy, status) {
+			};
 			~DeformEnemyFlippedState() {};
 
 			void Enter() override final;
@@ -94,10 +132,12 @@ namespace app
 		/**
 		 * 滑走
 		 */
-		class DeformEnemySlidingState : public IState
+		class DeformEnemySlidingState : public DeformEnemyStateBase
 		{
 		public:
-			DeformEnemySlidingState(StateMachineBase* owner) : IState(owner) {};
+			DeformEnemySlidingState(DeformEnemyStateMachine* machine, DeformEnemy* deformEnemy, DeformEnemyStatus* status)
+				: DeformEnemyStateBase(machine, deformEnemy, status) {
+			};
 			~DeformEnemySlidingState() {};
 
 			void Enter() override final;
@@ -114,10 +154,12 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class DeformEnemyDieState : public IState
+		class DeformEnemyDieState : public DeformEnemyStateBase
 		{
 		public:
-			DeformEnemyDieState(StateMachineBase* owner) : IState(owner) {};
+			DeformEnemyDieState(DeformEnemyStateMachine* machine, DeformEnemy* deformEnemy, DeformEnemyStatus* status)
+				: DeformEnemyStateBase(machine, deformEnemy, status) {
+			};
 			~DeformEnemyDieState() {};
 
 			void Enter() override final;

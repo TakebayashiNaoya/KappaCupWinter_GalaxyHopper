@@ -10,7 +10,7 @@ namespace app
 	{
 		/** PlayerStateMachineの持ち主（Player）をStateMachineBaseに渡してください */
 		PlayerStateMachine::PlayerStateMachine(Player* owner, PlayerStatus* status)
-			: StateMachineBase(owner)
+			: CharacterStateMachine(owner, status)
 		{
 			/** オーナーをキャッシュ */
 			m_myPlayer = owner;

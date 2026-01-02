@@ -3,7 +3,7 @@
  * エネミーの状態遷移を管理するクラス群
  */
 #pragma once
-#include "Source/Actor/StateMachineBase.h"
+#include "Source/Actor/Character/CharacterStateMachine.h"
 
 
 namespace app
@@ -18,10 +18,10 @@ namespace app
 		/**
 		 * 基本エネミーのステートマシン
 		 */
-		class BasicEnemyStateMachine : public StateMachineBase
+		class BasicEnemyStateMachine : public CharacterStateMachine
 		{
 		public:
-			BasicEnemyStateMachine(BasicEnemy* owner);
+			BasicEnemyStateMachine(BasicEnemy* owner, BasicEnemyStatus* status);
 			virtual ~BasicEnemyStateMachine();
 
 
@@ -39,8 +39,11 @@ namespace app
 			/** 変更するステートを取得します。 */
 			IState* GetChangeState() override final;
 
-			/** 基本エネミーのアニメーション再生処理を実装 */
-			void ExecutePlayAnimation(const uint8_t animIndex) override final;
+
+		private:
+			/** キャッシュ用ポインタ */
+			BasicEnemy* m_basicEnemy = nullptr;
+			BasicEnemyStatus* m_basicEnemyStatus = nullptr;
 		};
 
 
@@ -52,10 +55,10 @@ namespace app
 		/**
 		 * 変形エネミーのステートマシン
 		 */
-		class DeformEnemyStateMachine : public StateMachineBase
+		class DeformEnemyStateMachine : public CharacterStateMachine
 		{
 		public:
-			DeformEnemyStateMachine(DeformEnemy* owner);
+			DeformEnemyStateMachine(DeformEnemy* owner, DeformEnemyStatus* status);
 			virtual ~DeformEnemyStateMachine();
 
 
@@ -75,8 +78,11 @@ namespace app
 			/** 変更するステートを取得します。 */
 			IState* GetChangeState() override final;
 
-			/** 変形エネミーのアニメーション再生処理を実装 */
-			void ExecutePlayAnimation(const uint8_t animIndex) override final;
+
+		private:
+			/** キャッシュ用ポインタ */
+			DeformEnemy* m_deformEnemy = nullptr;
+			DeformEnemyStatus* m_deformEnemyStatus = nullptr;
 		};
 
 
@@ -88,10 +94,10 @@ namespace app
 		/**
 		 * ボスエネミーのステートマシン
 		 */
-		class BossEnemyStateMachine : public StateMachineBase
+		class BossEnemyStateMachine : public CharacterStateMachine
 		{
 		public:
-			BossEnemyStateMachine(BossEnemy* owner);
+			BossEnemyStateMachine(BossEnemy* owner, BossEnemyStatus* status);
 			virtual ~BossEnemyStateMachine();
 
 
@@ -113,8 +119,11 @@ namespace app
 			/** 変更するステートを取得します。 */
 			IState* GetChangeState() override final;
 
-			/** ボスエネミーのアニメーション再生処理を実装 */
-			void ExecutePlayAnimation(const uint8_t animIndex) override final;
+
+		private:
+			/** キャッシュ用ポインタ */
+			BossEnemy* m_bossEnemy = nullptr;
+			BossEnemyStatus* m_bossEnemyStatus = nullptr;
 		};
 	}
 }

@@ -6,9 +6,6 @@
 #include "Source/Actor/Actor.h"
 
 
-class CharacterStatus;
-
-
 namespace app
 {
 	namespace actor

@@ -125,7 +125,7 @@ namespace app
 
 		protected:
 			/** キャラクター */
-			Character* m_character = nullptr;
+			Character* m_chara = nullptr;
 			/** キャラクターのステータス */
 			CharacterStatus* m_status = nullptr;
 

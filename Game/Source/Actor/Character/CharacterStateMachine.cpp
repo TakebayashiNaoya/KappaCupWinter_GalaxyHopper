@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "CharacterStateMachine.h"
 #include "Source/Actor/Character/Character.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app
@@ -519,7 +520,7 @@ namespace app
 
 		CharacterStateMachine::CharacterStateMachine(Character* owner, CharacterStatus* status)
 			: StateMachineBase(owner)
-			, m_character(owner)
+			, m_chara(owner)
 			, m_status(status)
 		{
 		}
@@ -571,7 +572,7 @@ namespace app
 		{
 			/** HPが0かつ、アニメーションが終了している場合にtrueを返します。 */
 			const int m_currentHp = m_status->GetHp();
-			const bool isPlayingAnimation = m_owner->GetModelRender()->IsPlayingAnimation();
+			const bool isPlayingAnimation = m_chara->GetModelRender()->IsPlayingAnimation();
 			if (m_currentHp <= 0 && isPlayingAnimation == false) {
 				return true;
 			}

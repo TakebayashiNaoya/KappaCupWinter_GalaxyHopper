@@ -10,6 +10,20 @@ namespace app
 {
 	namespace actor
 	{
+		DeformEnemyStateBase::DeformEnemyStateBase(DeformEnemyStateMachine* machine, DeformEnemy* deformEnemy, DeformEnemyStatus* status)
+			: IState(machine)
+		{
+			m_stateMachine = machine;
+			m_deformEnemy = deformEnemy;
+			m_status = status;
+		}
+
+
+
+
+		/********************************/
+
+
 		void DeformEnemyIdleState::Enter()
 		{
 		}

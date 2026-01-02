@@ -3,14 +3,15 @@
  * 見た目が存在するゲームオブジェクトの基底クラス
  */
 #pragma once
-#include "ActorStatus.h"
+ //#include "ActorStatus.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		class StateMachineBase;
+		class CharacterStateMachine;
+		class CharacterStatus;
 
 
 		class Actor : public IGameObject
@@ -57,6 +58,29 @@ namespace app
 			inline const Vector3& GetUpDirection() const { return m_upDirection; }
 
 
+		public:
+			/**
+			 * ステートマシンを取得するテンプレート関数
+			 * 例: auto* sm = player->GetStateMachine<PlayerStateMachine>();
+			 */
+			template <typename T>
+			T* GetStateMachine() const
+			{
+				// unique_ptrの中身(生ポインタ)を取り出し、指定された型にキャストして返す
+				return static_cast<T*>(m_stateMachine.get());
+			}
+
+			/**
+			 * ステータスを取得するテンプレート関数
+			 * 例: auto* status = player->GetStatus<PlayerStatus>();
+			 */
+			template <typename T>
+			T* GetStatus() const
+			{
+				return static_cast<T*>(m_status.get());
+			}
+
+
 		protected:
 			/**
 			 * ユニークポインタを返すステータス生成関数
@@ -82,9 +106,9 @@ namespace app
 			/** 上方向ベクトル */
 			Vector3 m_upDirection = Vector3::Up;
 			/** ステートマシン */
-			std::unique_ptr<StateMachineBase> m_stateMachine;
+			std::unique_ptr<CharacterStateMachine> m_stateMachine;
 			/** ステータス */
-			std::unique_ptr<ActorStatus> m_status;
+			std::unique_ptr<CharacterStatus> m_status;
 
 
 		public:
