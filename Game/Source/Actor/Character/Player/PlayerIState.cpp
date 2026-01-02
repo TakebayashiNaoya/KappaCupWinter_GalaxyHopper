@@ -127,7 +127,7 @@ namespace app
 		void PlayerDyingState::Enter()
 		{
 			/** 死亡アニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(EnPlayerAnimClip::Dying);
+			GetOwner<PlayerStateMachine>()->PlayAnimation(EnPlayerAnimClip::Die);
 		}
 
 

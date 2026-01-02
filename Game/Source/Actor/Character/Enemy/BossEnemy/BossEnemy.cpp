@@ -36,7 +36,7 @@ namespace app
 		BossEnemy::BossEnemy()
 		{
 			/** アニメーション数チェック */
-			static_assert(ARRAYSIZE(BOSS_ENEMY_ANIMATION_OPTIONS) == enAnimationClip_Num,
+			static_assert(ARRAYSIZE(BOSS_ENEMY_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnBossEnemyAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
 			/** ステートマシン生成 */
@@ -55,7 +55,7 @@ namespace app
 		bool BossEnemy::Start()
 		{
 			/** モデルとアニメーションを初期化 */
-			InitModel(enAnimationClip_Num, BOSS_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, GetStatus<BossEnemyStatus>()->GetModelScale());
+			InitModel(static_cast<uint8_t>(EnBossEnemyAnimClip::Num), BOSS_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, GetStatus<BossEnemyStatus>()->GetModelScale());
 
 			/** 攻撃判定のコライダーを作成 */
 			m_hitCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(

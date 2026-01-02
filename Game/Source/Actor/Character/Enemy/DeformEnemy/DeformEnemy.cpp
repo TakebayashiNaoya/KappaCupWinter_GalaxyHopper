@@ -35,7 +35,7 @@ namespace app
 		DeformEnemy::DeformEnemy()
 		{
 			/** アニメーション数チェック */
-			static_assert(ARRAYSIZE(TRANSFORM_ENEMY_ANIMATION_OPTIONS) == enAnimationClip_Num,
+			static_assert(ARRAYSIZE(TRANSFORM_ENEMY_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnDeformEnemyAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
 			/** ステートマシン生成 */
@@ -54,7 +54,7 @@ namespace app
 		bool DeformEnemy::Start()
 		{
 			/** モデルとアニメーションを初期化 */
-			InitModel(enAnimationClip_Num, TRANSFORM_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
+			InitModel(static_cast<uint8_t>(EnDeformEnemyAnimClip::Num), TRANSFORM_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
 
 			/** 攻撃判定のコライダーを作成 */
 			m_hitCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
