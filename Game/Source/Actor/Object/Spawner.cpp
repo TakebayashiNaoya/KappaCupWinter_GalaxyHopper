@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "Spawner.h"
 #include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
-#include "Source/Actor/Character/Enemy/EnemyStateMachine.h"
+#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
 
 
 namespace app
