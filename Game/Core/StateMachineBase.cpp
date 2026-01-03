@@ -4,27 +4,18 @@
  */
 #include "stdafx.h"
 #include "StateMachineBase.h"
-#include "Source/Actor/Actor.h"
 
 
 namespace app
 {
-	namespace actor
+	namespace core
 	{
-		StateMachineBase::StateMachineBase(Actor* owner)
-			: m_owner(owner)
-		{
-		};
-
-
 		StateMachineBase::~StateMachineBase()
 		{
 			/** メモリ解放 */
 			for (auto& pair : m_stateMap) {
-				/** マップに登録されているステートを削除 */
 				delete pair.second;
 			}
-			/** 入れ物自体を消去 */
 			m_stateMap.clear();
 		}
 
@@ -44,10 +35,7 @@ namespace app
 		{
 			/** 切り替え先のステートを取得 */
 			m_nextState = GetChangeState();
-			/**
-			 * ステートが切り替わった時（m_nextStateがnullptrじゃない時）かつ、
-			 * 今のステートと次のステートが同じではないとき
-			 */
+
 			if (m_nextState != nullptr && m_currentState != m_nextState) {
 				/** 今のステートを終了 */
 				if (m_currentState) m_currentState->Exit();
@@ -63,7 +51,6 @@ namespace app
 
 		IState* StateMachineBase::FindState(const uint8_t stateId)
 		{
-			/** 指定したIDのステートが存在すればそのステートのポインタを返し、なければnullptrを返す */
 			auto it = m_stateMap.find(stateId);
 			if (it != m_stateMap.end()) {
 				return it->second;
