@@ -65,11 +65,11 @@ namespace app
 			{
 				// 1.プレイヤーかボスが死亡したら、勝敗のステートを設定する。
 			case enBattlePhase_Battle:
-				if (m_player && m_player->GetStatus<actor::PlayerStatus>()->GetHp() <= 0) {
+				if (battle::BattleManager::GetBattleResult() == battle::BattleManager::EnBattleResult::Lose) {
 					m_result = enResult_PlayerLose;
 					m_battlePhase = enBattlePhase_WaitFinishAnimation;
 				}
-				else if (m_bossEnemy && m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetHp() <= 0) {
+				else if (battle::BattleManager::GetBattleResult() == battle::BattleManager::EnBattleResult::Win) {
 					m_result = enResult_PlayerWin;
 					m_battlePhase = enBattlePhase_WaitFinishAnimation;
 				}
