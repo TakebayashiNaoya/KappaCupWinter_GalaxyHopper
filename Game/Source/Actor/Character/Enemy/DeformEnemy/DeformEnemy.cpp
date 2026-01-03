@@ -6,7 +6,7 @@
 #include "DeformEnemy.h"
 #include "Collision/CollisionManager.h"
 #include "Source/Actor/ActorStatus.h"
-#include "Source/Actor/Character/Enemy/EnemyStateMachine.h"
+#include "DeformEnemyStateMachine.h"
 
 
 namespace app

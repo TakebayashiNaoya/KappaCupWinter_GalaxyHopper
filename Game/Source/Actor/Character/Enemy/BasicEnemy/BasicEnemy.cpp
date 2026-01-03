@@ -6,7 +6,8 @@
 #include "BasicEnemy.h"
 #include "Collision/CollisionManager.h"
 #include "Source/Actor/ActorStatus.h"
-#include "Source/Actor/Character/Enemy/EnemyStateMachine.h"
+#include "BasicEnemyStateMachine.h"
+
 
 namespace app
 {

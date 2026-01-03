@@ -1,8 +1,12 @@
-﻿#include "stdafx.h"
+﻿/**
+ * BossEnemy.cpp
+ * ボスエネミーの実装
+ */
+#include "stdafx.h"
 #include "BossEnemy.h"
 #include "Collision/CollisionManager.h"
 #include "Source/Actor/ActorStatus.h"
-#include "Source/Actor/Character/Enemy/EnemyStateMachine.h"
+#include "BossEnemyStateMachine.h"
 
 
 namespace app
