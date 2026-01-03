@@ -4,8 +4,6 @@
  */
 #pragma once
 #include "Source/Actor/Character/Enemy/Enemy.h"
-#include "Source/Actor/ActorStatus.h" 
-#include "Source/Actor/Character/Enemy/EnemyStateMachine.h"
 
 
 namespace app
@@ -17,6 +15,22 @@ namespace app
 		public:
 			BossEnemy();
 			~BossEnemy();
+
+
+		public:
+			/**
+			 * ボスエネミーのアニメーションクリップ
+			 */
+			enum class EnBossEnemyAnimClip : uint8_t
+			{
+				Idle,	/** 待機 */
+				Walk,	/** 歩き */
+				Dash,	/** 走り */
+				Attack,	/** 攻撃 */
+				Damage,	/** 被弾 */
+				Die,	/** 死亡 */
+				Num,
+			};
 
 
 		private:

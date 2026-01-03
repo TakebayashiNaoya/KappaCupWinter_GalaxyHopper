@@ -5,18 +5,19 @@
 #include "stdafx.h"
 #include "PlayerIState.h"
 #include "Player.h"
+#include "PlayerStateMachine.h"
 
 
 namespace app
 {
 	namespace actor
 	{
+		/** ステートマシン、プレイヤー、ステータスをキャッシュ */
 		PlayerStateBase::PlayerStateBase(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
-			: IState(machine)
+			: m_stateMachine(machine)
+			, m_player(player)
+			, m_status(status)
 		{
-			m_stateMachine = machine;
-			m_player = player;
-			m_status = status;
 		}
 
 
@@ -28,7 +29,7 @@ namespace app
 		void PlayerIdleState::Enter()
 		{
 			/** 待機アニメーション */
-			m_stateMachine->PlayAnimation(EnPlayerAnimClip::Idle);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Idle);
 		}
 
 
@@ -50,7 +51,7 @@ namespace app
 		void PlayerWalkState::Enter()
 		{
 			/** 歩きアニメーション */
-			m_stateMachine->PlayAnimation(EnPlayerAnimClip::Walk);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Walk);
 		}
 
 
@@ -72,7 +73,7 @@ namespace app
 		void PlayerDashState::Enter()
 		{
 			/** 走りアニメーション */
-			m_stateMachine->PlayAnimation(EnPlayerAnimClip::Dash);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Dash);
 		}
 
 
@@ -94,7 +95,7 @@ namespace app
 		void PlayerJumpState::Enter()
 		{
 			/** ジャンプアニメーション */
-			m_stateMachine->PlayAnimation(EnPlayerAnimClip::Jump);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Jump);
 		}
 
 
@@ -116,7 +117,7 @@ namespace app
 		void PlayerDamageState::Enter()
 		{
 			/** 被弾アニメーション */
-			m_stateMachine->PlayAnimation(EnPlayerAnimClip::Damage);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Damage);
 		}
 
 
@@ -138,7 +139,7 @@ namespace app
 		void PlayerDyingState::Enter()
 		{
 			/** 死亡アニメーション */
-			m_stateMachine->PlayAnimation(EnPlayerAnimClip::Die);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Die);
 		}
 
 

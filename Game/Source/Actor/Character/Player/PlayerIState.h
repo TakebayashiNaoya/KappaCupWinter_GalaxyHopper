@@ -3,13 +3,14 @@
  * プレイヤーの各ステート
  */
 #pragma once
-#include "Source/Actor/StateMachineBase.h"
+#include "Core/StateMachineBase.h"
 
 
 namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
 		class PlayerStateMachine;
 		class Player;
 		class PlayerStatus;
@@ -18,7 +19,7 @@ namespace app
 		/**
 		 * プレイヤー専用のステート基底クラス
 		 */
-		class PlayerStateBase : public IState
+		class PlayerStateBase : public core::IState
 		{
 		protected:
 			/** キャッシュ用ポインタ */

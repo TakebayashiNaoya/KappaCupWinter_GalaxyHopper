@@ -13,6 +13,19 @@ namespace app
 		class BasicEnemy : public Enemy
 		{
 		public:
+			/**
+			 * 基本エネミーのアニメーションクリップ
+			 */
+			enum class EnBasicEnemyAnimClip : uint8_t
+			{
+				Idle,	/** 待機 */
+				Walk,	/** 歩き */
+				Dash,	/** 走り */
+				Num,
+			};
+
+
+		public:
 			BasicEnemy();
 			~BasicEnemy();
 

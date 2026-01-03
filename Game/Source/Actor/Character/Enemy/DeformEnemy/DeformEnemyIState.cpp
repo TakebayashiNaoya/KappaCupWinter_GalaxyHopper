@@ -10,12 +10,12 @@ namespace app
 {
 	namespace actor
 	{
+		/** ステートマシン、デフォームエネミー、ステータスをキャッシュ */
 		DeformEnemyStateBase::DeformEnemyStateBase(DeformEnemyStateMachine* machine, DeformEnemy* deformEnemy, DeformEnemyStatus* status)
-			: IState(machine)
+			: m_stateMachine(machine)
+			, m_deformEnemy(deformEnemy)
+			, m_status(status)
 		{
-			m_stateMachine = machine;
-			m_deformEnemy = deformEnemy;
-			m_status = status;
 		}
 
 

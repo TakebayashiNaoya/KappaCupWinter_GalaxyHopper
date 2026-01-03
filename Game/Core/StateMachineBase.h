@@ -20,12 +20,8 @@ namespace app
 		 */
 		class IState
 		{
-		protected:
-			/** ステートの持ち主（ステートマシン） */
-			StateMachineBase* m_machine = nullptr;
-
 		public:
-			IState(StateMachineBase* machine) : m_machine(machine) {}
+			IState() {}
 			virtual ~IState() {}
 
 			/** 開始時に1回だけ呼ばれます。 */
@@ -73,6 +69,7 @@ namespace app
 		protected:
 			/**
 			 * ステートを追加するテンプレート関数
+			 * 派生先のステートマシンでラップして、ステートマシン、オーナー、ステータスを渡す
 			 */
 			template<typename TState, typename... Args>
 			void AddState(const uint8_t stateId, Args... args)

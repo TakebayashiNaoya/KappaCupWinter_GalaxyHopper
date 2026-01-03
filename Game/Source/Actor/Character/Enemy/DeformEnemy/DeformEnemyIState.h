@@ -3,7 +3,7 @@
  * デフォームエネミーの各ステート
  */
 #pragma once
-#include "Source/Actor/StateMachineBase.h"
+#include "Core/StateMachineBase.h"
 
 
 namespace app
@@ -19,7 +19,7 @@ namespace app
 		/**
 		 * デフォームエネミー専用のステート基底クラス
 		 */
-		class DeformEnemyStateBase : public IState
+		class DeformEnemyStateBase : public core::IState
 		{
 		protected:
 			/** キャッシュ用ポインタ */

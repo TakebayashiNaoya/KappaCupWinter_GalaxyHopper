@@ -9,9 +9,14 @@ namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
 		class Player;
 		class PlayerStatus;
 
+
+		/**
+		 * プレイヤー用ステートマシン
+		 */
 		class PlayerStateMachine : public CharacterStateMachine
 		{
 		public:
@@ -23,18 +28,18 @@ namespace app
 			/** ステートを識別するenum */
 			enum EnPlayerState : uint8_t
 			{
-				enPlayerState_Idle,
-				enPlayerState_Walk,
-				enPlayerState_Dash,
-				enPlayerState_Jump,
-				enPlayerState_Damage,
-				enPlayerState_Dying,
-				enPlayerState_Dead,
-				enPlayerState_Num,
+				Idle,
+				Walk,
+				Dash,
+				Jump,
+				Damage,
+				Dying,
+				Dead,
+				Num,
 			};
 
 			/** 変更するステートを取得します。 */
-			IState* GetChangeState()  override final;
+			core::IState* GetChangeState()  override final;
 
 			/** ジャンプ状態に変更できるか */
 			bool CanChangeJump();

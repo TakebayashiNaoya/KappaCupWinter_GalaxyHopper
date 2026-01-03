@@ -519,9 +519,9 @@ namespace app
 
 
 		CharacterStateMachine::CharacterStateMachine(Character* owner, CharacterStatus* status)
-			: StateMachineBase(owner)
-			, m_chara(owner)
-			, m_status(status)
+			: ActorStateMachine(owner, status)
+			, m_ownerChara(owner)
+			, m_charaStatus(status)
 		{
 		}
 
@@ -551,7 +551,7 @@ namespace app
 
 		bool CharacterStateMachine::CanChangeDamage()
 		{
-			if (m_status->IsDamage()) {
+			if (m_charaStatus->IsDamage()) {
 				return true;
 			}
 			return false;
@@ -561,7 +561,7 @@ namespace app
 		bool CharacterStateMachine::CanChangeDying()
 		{
 			/** HPが0ならtrueを返します。 */
-			if (m_status->GetHp() <= 0) {
+			if (m_charaStatus->GetHp() <= 0) {
 				return true;
 			}
 			return false;
@@ -571,8 +571,8 @@ namespace app
 		bool CharacterStateMachine::CanChangeDead()
 		{
 			/** HPが0かつ、アニメーションが終了している場合にtrueを返します。 */
-			const int m_currentHp = m_status->GetHp();
-			const bool isPlayingAnimation = m_chara->GetModelRender()->IsPlayingAnimation();
+			const int m_currentHp = m_charaStatus->GetHp();
+			const bool isPlayingAnimation = m_ownerChara->GetModelRender()->IsPlayingAnimation();
 			if (m_currentHp <= 0 && isPlayingAnimation == false) {
 				return true;
 			}

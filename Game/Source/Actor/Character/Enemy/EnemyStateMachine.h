@@ -10,9 +10,13 @@ namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
 		class BasicEnemy;
+		class BasicEnemyStatus;
 		class DeformEnemy;
+		class DeformEnemyStatus;
 		class BossEnemy;
+		class BossEnemyStatus;
 
 
 		/**
@@ -37,7 +41,16 @@ namespace app
 			};
 
 			/** 変更するステートを取得します。 */
-			IState* GetChangeState() override final;
+			core::IState* GetChangeState() override final;
+
+
+		private:
+			/** ステートを追加するテンプレート関数 */
+			template <typename TState>
+			void AddState(EnBasicEnemyState stateId)
+			{
+				StateMachineBase::AddState<TState>(stateId, this, m_basicEnemy, m_basicEnemyStatus);
+			}
 
 
 		private:
@@ -76,7 +89,16 @@ namespace app
 			};
 
 			/** 変更するステートを取得します。 */
-			IState* GetChangeState() override final;
+			core::IState* GetChangeState() override final;
+
+
+		private:
+			/** ステートを追加するテンプレート関数 */
+			template <typename TState>
+			void AddState(EnDeformEnemyState stateId)
+			{
+				StateMachineBase::AddState<TState>(stateId, this, m_deformEnemy, m_deformEnemyStatus);
+			}
 
 
 		private:
@@ -117,7 +139,16 @@ namespace app
 			};
 
 			/** 変更するステートを取得します。 */
-			IState* GetChangeState() override final;
+			core::IState* GetChangeState() override final;
+
+
+		private:
+			/** ステートを追加するテンプレート関数 */
+			template <typename TState>
+			void AddState(EnBossEnemyState stateId)
+			{
+				StateMachineBase::AddState<TState>(stateId, this, m_bossEnemy, m_bossEnemyStatus);
+			}
 
 
 		private:

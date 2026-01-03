@@ -3,20 +3,52 @@
  * ボスエネミーの各ステート
  */
 #pragma once
-#include "Source/Actor/StateMachineBase.h"
+#include "Core/StateMachineBase.h"
 
 
 namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
+		class BossEnemyStateMachine;
+		class BossEnemy;
+		class BossEnemyStatus;
+
+
+		/**
+		 * ボスエネミー専用のステート基底クラス
+		 */
+		class BossEnemyStateBase : public core::IState
+		{
+		protected:
+			/** キャッシュ用ポインタ */
+			BossEnemyStateMachine* m_stateMachine = nullptr;
+			BossEnemy* m_bossEnemy = nullptr;
+			BossEnemyStatus* m_status = nullptr;
+
+
+		public:
+			/** コンストラクタでステートマシン、ボスエネミー、ステータスを受け取る */
+			BossEnemyStateBase(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status);
+			virtual ~BossEnemyStateBase() {}
+		};
+
+
+
+
+		/********************************/
+
+
 		/**
 		 * 待機
 		 */
-		class BossEnemyIdleState : public IState
+		class BossEnemyIdleState : public BossEnemyStateBase
 		{
 		public:
-			BossEnemyIdleState(StateMachineBase* owner) : IState(owner) {};
+			BossEnemyIdleState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
+				: BossEnemyStateBase(machine, bossEnemy, status) {
+			};
 			~BossEnemyIdleState() {};
 
 			void Enter() override final;
@@ -32,10 +64,12 @@ namespace app
 		/**
 		 * 歩く
 		 */
-		class BossEnemyWalkState : public IState
+		class BossEnemyWalkState : public BossEnemyStateBase
 		{
 		public:
-			BossEnemyWalkState(StateMachineBase* owner) : IState(owner) {};
+			BossEnemyWalkState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
+				: BossEnemyStateBase(machine, bossEnemy, status) {
+			};
 			~BossEnemyWalkState() {};
 
 			void Enter() override final;
@@ -52,10 +86,12 @@ namespace app
 		/**
 		 * 走る
 		 */
-		class BossEnemyDashState : public IState
+		class BossEnemyDashState : public BossEnemyStateBase
 		{
 		public:
-			BossEnemyDashState(StateMachineBase* owner) : IState(owner) {};
+			BossEnemyDashState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
+				: BossEnemyStateBase(machine, bossEnemy, status) {
+			};
 			~BossEnemyDashState() {};
 
 			void Enter() override final;
@@ -72,10 +108,12 @@ namespace app
 		/**
 		 * 攻撃
 		 */
-		class BossEnemyAttackState : public IState
+		class BossEnemyAttackState : public BossEnemyStateBase
 		{
 		public:
-			BossEnemyAttackState(StateMachineBase* owner) : IState(owner) {};
+			BossEnemyAttackState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
+				: BossEnemyStateBase(machine, bossEnemy, status) {
+			};
 			~BossEnemyAttackState() {};
 
 			void Enter() override final;
@@ -92,10 +130,12 @@ namespace app
 		/**
 		 * クールダウン
 		 */
-		class BossEnemyCooldownState : public IState
+		class BossEnemyCooldownState : public BossEnemyStateBase
 		{
 		public:
-			BossEnemyCooldownState(StateMachineBase* owner) : IState(owner) {};
+			BossEnemyCooldownState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
+				: BossEnemyStateBase(machine, bossEnemy, status) {
+			};
 			~BossEnemyCooldownState() {};
 
 			void Enter() override final;
@@ -112,10 +152,12 @@ namespace app
 		/**
 		 * ダメージを受ける
 		 */
-		class BossEnemyDamageState : public IState
+		class BossEnemyDamageState : public BossEnemyStateBase
 		{
 		public:
-			BossEnemyDamageState(StateMachineBase* owner) : IState(owner) {};
+			BossEnemyDamageState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
+				: BossEnemyStateBase(machine, bossEnemy, status) {
+			};
 			~BossEnemyDamageState() {};
 
 			void Enter() override final;
@@ -132,10 +174,12 @@ namespace app
 		/**
 		 * 死んでいる最中
 		 */
-		class BossEnemyDyingState : public IState
+		class BossEnemyDyingState : public BossEnemyStateBase
 		{
 		public:
-			BossEnemyDyingState(StateMachineBase* owner) : IState(owner) {};
+			BossEnemyDyingState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
+				: BossEnemyStateBase(machine, bossEnemy, status) {
+			};
 			~BossEnemyDyingState() {};
 
 			void Enter() override final;
@@ -152,10 +196,12 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class BossEnemyDeadState : public IState
+		class BossEnemyDeadState : public BossEnemyStateBase
 		{
 		public:
-			BossEnemyDeadState(StateMachineBase* owner) : IState(owner) {};
+			BossEnemyDeadState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
+				: BossEnemyStateBase(machine, bossEnemy, status) {
+			};
 			~BossEnemyDeadState() {};
 
 			void Enter() override final;

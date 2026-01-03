@@ -5,6 +5,8 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "Collision/CollisionManager.h"
+#include "Source/Actor/ActorStatus.h" 
+#include "PlayerStateMachine.h"
 
 
 namespace app

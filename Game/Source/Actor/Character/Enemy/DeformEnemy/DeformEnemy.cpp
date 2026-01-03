@@ -4,8 +4,9 @@
  */
 #include "stdafx.h"
 #include "DeformEnemy.h"
-#include "Source/Actor/Character/Enemy/EnemyStateMachine.h"
 #include "Collision/CollisionManager.h"
+#include "Source/Actor/ActorStatus.h"
+#include "Source/Actor/Character/Enemy/EnemyStateMachine.h"
 
 
 namespace app
@@ -38,11 +39,14 @@ namespace app
 			static_assert(ARRAYSIZE(TRANSFORM_ENEMY_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnDeformEnemyAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
+			/** DeformEnemyStatus型でステータスを生成 */
+			auto status = CreateStatus<DeformEnemyStatus>();
+
 			/** ステートマシン生成 */
-			m_stateMachine = std::make_unique<app::actor::DeformEnemyStateMachine>(this);
+			m_stateMachine = std::make_unique<app::actor::DeformEnemyStateMachine>(this, status.get());
 
 			/** ステータス生成 */
-			m_status = CreateStatus<DeformEnemyStatus>();
+			m_status = std::move(status);
 		}
 
 

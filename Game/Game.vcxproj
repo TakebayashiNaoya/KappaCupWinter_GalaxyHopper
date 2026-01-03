@@ -228,12 +228,14 @@
     <ClCompile Include="Camera\TitleCamera.cpp" />
     <ClCompile Include="Collision\CollisionManager.cpp" />
     <ClCompile Include="Core\ParameterManager.cpp" />
+    <ClCompile Include="Core\StateMachineBase.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HierarchicalTransform.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sound\SoundManager.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp" />
+    <ClCompile Include="Source\Actor\ActorStateMachine.cpp" />
     <ClCompile Include="Source\Actor\ActorStatus.cpp" />
     <ClCompile Include="Source\Actor\ActorTypes.cpp" />
     <ClCompile Include="Source\Actor\Character\Character.cpp" />
@@ -258,7 +260,6 @@
     <ClCompile Include="Source\Actor\Planet\FirstPlanet.cpp" />
     <ClCompile Include="Source\Actor\Planet\PlanetBase.cpp" />
     <ClCompile Include="Source\Actor\Planet\TitlePlanet.cpp" />
-    <ClCompile Include="Source\Actor\StateMachineBase.cpp" />
     <ClCompile Include="Source\Scene\BattleStageBase.cpp" />
     <ClCompile Include="Source\Scene\BossStage.cpp" />
     <ClCompile Include="Source\Scene\FirstStage.cpp" />
@@ -287,11 +288,13 @@
     <ClInclude Include="Camera\TitleCamera.h" />
     <ClInclude Include="Collision\CollisionManager.h" />
     <ClInclude Include="Core\ParameterManager.h" />
+    <ClInclude Include="Core\StateMachineBase.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HierarchicalTransform.h" />
     <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="Sound\SoundManager.h" />
     <ClInclude Include="Source\Actor\Actor.h" />
+    <ClInclude Include="Source\Actor\ActorStateMachine.h" />
     <ClInclude Include="Source\Actor\ActorStatus.h" />
     <ClInclude Include="Source\Actor\ActorTypes.h" />
     <ClInclude Include="Source\Actor\Character\Character.h" />
@@ -316,7 +319,6 @@
     <ClInclude Include="Source\Actor\Planet\FirstPlanet.h" />
     <ClInclude Include="Source\Actor\Planet\PlanetBase.h" />
     <ClInclude Include="Source\Actor\Planet\TitlePlanet.h" />
-    <ClInclude Include="Source\Actor\StateMachineBase.h" />
     <ClInclude Include="Source\Scene\BattleStageBase.h" />
     <ClInclude Include="Source\Scene\BossStage.h" />
     <ClInclude Include="Source\Scene\FirstStage.h" />

@@ -4,8 +4,7 @@
  */
 #pragma once
 #include "Source/Actor/Character/Character.h"
-#include "Source/Actor/ActorStatus.h" 
-#include "PlayerStateMachine.h"
+
 
 namespace app
 {
@@ -13,6 +12,22 @@ namespace app
 	{
 		class Player : public Character
 		{
+		public:
+			/**
+			 * プレイヤーのアニメーションクリップ
+			 */
+			enum class EnPlayerAnimClip : uint8_t
+			{
+				Idle,	/** 待機	 */
+				Walk,	/** 歩き	 */
+				Dash,	/** 走り	 */
+				Jump,	/** ジャンプ */
+				Damage,	/** 被弾	 */
+				Die,	/** 死亡	 */
+				Num,
+			};
+
+
 		public:
 			/// <summary>
 			/// 毎フレームのXZ軸回転角度を取得

@@ -4,9 +4,10 @@
  */
 #include "stdafx.h"
 #include "EnemyStateMachine.h"
-#include "BasicEnemy/BasicEnemy.h"
-#include "DeformEnemy/DeformEnemy.h"
-#include "BossEnemy/BossEnemy.h"
+#include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
+#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
+#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
+#include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemyIState.h"
 #include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemyIState.h"
 #include "Source/Actor/Character/Enemy/BossEnemy/BossEnemyIState.h"
@@ -38,7 +39,7 @@ namespace app
 		}
 
 
-		IState* BasicEnemyStateMachine::GetChangeState()
+		core::IState* BasicEnemyStateMachine::GetChangeState()
 		{
 			return nullptr;
 		}
@@ -73,7 +74,7 @@ namespace app
 		}
 
 
-		IState* DeformEnemyStateMachine::GetChangeState()
+		core::IState* DeformEnemyStateMachine::GetChangeState()
 		{
 			return nullptr;
 		}
@@ -110,7 +111,7 @@ namespace app
 		}
 
 
-		IState* BossEnemyStateMachine::GetChangeState()
+		core::IState* BossEnemyStateMachine::GetChangeState()
 		{
 			return nullptr;
 		}

@@ -17,6 +17,20 @@ namespace app
 			~DeformEnemy();
 
 
+		public:
+			/**
+			 * 変形エネミーのアニメーションクリップ
+			 */
+			enum class EnDeformEnemyAnimClip : uint8_t
+			{
+				Idle,	/** 待機 */
+				Walk,	/** 歩き */
+				Dash,	/** 走り */
+				Die,	/** 死亡 */
+				Num,
+			};
+
+
 		private:
 			/** アニメーションクリップのオプション配列 */
 			static const Character::AnimationOption TRANSFORM_ENEMY_ANIMATION_OPTIONS[];

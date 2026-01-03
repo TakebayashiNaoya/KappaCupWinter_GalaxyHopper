@@ -59,6 +59,7 @@ namespace app
 
 
 		public:
+			/** 派生先のステートマシンが生成されたとき、その持ち主と持ち主のステータスをキャッシュする */
 			ActorStateMachine(Actor* actor, ActorStatus* status)
 				: m_actor(actor)
 				, m_actorStatus(status)
@@ -68,9 +69,9 @@ namespace app
 
 
 		protected:
-			/** 操作対象のActor */
+			/** 持ち主となるActor */
 			Actor* m_actor = nullptr;
-			/** Actor共通のステータス */
+			/** Actorのステータス */
 			ActorStatus* m_actorStatus = nullptr;
 			/** トランスフォーム */
 			Transform m_transform;
