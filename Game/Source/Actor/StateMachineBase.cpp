@@ -11,13 +11,10 @@ namespace app
 {
 	namespace actor
 	{
-		StateMachineBase::StateMachineBase(Actor* owner) : m_owner(owner) {};
-
-
-		void StateMachineBase::ExecutePlayAnimation(const uint8_t animIndex)
+		StateMachineBase::StateMachineBase(Actor* owner)
+			: m_owner(owner)
 		{
-			m_owner->GetModelRender()->PlayAnimation(animIndex);
-		}
+		};
 
 
 		StateMachineBase::~StateMachineBase()

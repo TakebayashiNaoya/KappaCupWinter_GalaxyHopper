@@ -5,12 +5,14 @@
 #pragma once
 #include <unordered_map>
 #include <cstdint>
+#include "Source/Actor/Actor.h"
 
 
 namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
 		class StateMachineBase;
 		class Actor;
 
@@ -56,12 +58,8 @@ namespace app
 			template <typename TEnum>
 			void PlayAnimation(TEnum animId)
 			{
-				/** Enumをintに変換して、実体関数にパス */
-				ExecutePlayAnimation(static_cast<int>(animId));
+				m_owner->GetModelRender()->PlayAnimation(static_cast<int>(animId));
 			}
-		private:
-			/** オーナーのアニメーション再生処理を実装 */
-			void ExecutePlayAnimation(const uint8_t animIndex);
 
 
 		protected:
