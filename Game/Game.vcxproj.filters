@@ -165,9 +165,6 @@
     <ClCompile Include="Source\Actor\Character\Enemy\Enemy.cpp">
       <Filter>Source\Actor\Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Actor\Character\Enemy\EnemyStateMachine.cpp">
-      <Filter>Source\Actor\Character\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.cpp">
       <Filter>Source\Actor\Character\Enemy\BasicEnemy</Filter>
     </ClCompile>
@@ -206,6 +203,15 @@
     </ClCompile>
     <ClCompile Include="Core\StateMachineBase.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyStateMachine.cpp">
+      <Filter>Source\Actor\Character\Enemy\BasicEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Enemy\DeformEnemy\DeformEnemyStateMachine.cpp">
+      <Filter>Source\Actor\Character\Enemy\DeformEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemyStateMachine.cpp">
+      <Filter>Source\Actor\Character\Enemy\BossEnemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -316,9 +322,6 @@
     <ClInclude Include="Source\Actor\Character\Enemy\Enemy.h">
       <Filter>Source\Actor\Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Actor\Character\Enemy\EnemyStateMachine.h">
-      <Filter>Source\Actor\Character\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyIState.h">
       <Filter>Source\Actor\Character\Enemy\BasicEnemy</Filter>
     </ClInclude>
@@ -357,6 +360,15 @@
     </ClInclude>
     <ClInclude Include="Core\StateMachineBase.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Enemy\BasicEnemy\BasicEnemyStateMachine.h">
+      <Filter>Source\Actor\Character\Enemy\BasicEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Enemy\DeformEnemy\DeformEnemyStateMachine.h">
+      <Filter>Source\Actor\Character\Enemy\DeformEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemyStateMachine.h">
+      <Filter>Source\Actor\Character\Enemy\BossEnemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

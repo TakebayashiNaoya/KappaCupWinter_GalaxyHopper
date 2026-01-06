@@ -551,7 +551,7 @@ namespace app
 
 		bool CharacterStateMachine::CanChangeDamage()
 		{
-			if (m_charaStatus->IsDamage()) {
+			if (m_charaStatus->GetHp() <= m_currentHp) {
 				return true;
 			}
 			return false;

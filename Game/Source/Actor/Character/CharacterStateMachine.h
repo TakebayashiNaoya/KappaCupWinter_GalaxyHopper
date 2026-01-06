@@ -86,12 +86,18 @@ namespace app
 			bool CanChangeWalk() const;
 			/** ダッシュ状態に変更できるか */
 			bool CanChangeDush() const;
-			/** ジャンプ状態に変更できるか */
+			/** ダメージ状態に変更できるか */
 			bool CanChangeDamage();
 			/** 死亡開始状態に変更できるか */
 			bool CanChangeDying();
 			/** 完全死亡状態に変更できるか */
 			bool CanChangeDead();
+
+			/**
+			 * ダメージ状態が終了したか
+			 * ダメージ状態の終了条件はキャラクターによって異なるため、派生先で実装する
+			 */
+			virtual bool IsDamageStateFinished() { return false; }
 
 
 		protected:
@@ -108,6 +114,8 @@ namespace app
 			float m_initialJumpSpeed = 0.0f;
 			/** 落下タイマー */
 			float m_fallTimer = 0.0f;
+			/** 現在のHP */
+			int m_currentHp = 0;
 			/** ダッシュできるか */
 			bool m_isDash = false;
 			/** 攻撃中か */
