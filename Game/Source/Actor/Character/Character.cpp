@@ -37,6 +37,8 @@ namespace app
 		{
 			/** ステータスをキャッシュ */
 			m_charaStatus = GetStatus<CharacterStatus>();
+
+			return true;
 		}
 
 
