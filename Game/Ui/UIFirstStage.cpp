@@ -1,11 +1,10 @@
-/**
+ï»¿/**
  * UIFirstStage.cpp
- * ƒtƒ@[ƒXƒgƒXƒe[ƒW—p‚ÌUIŠÇ—ƒNƒ‰ƒX‚ÌÀ‘•
+ * ãƒ•ã‚¡ãƒ¼ã‚¹ãƒˆã‚¹ãƒ†ãƒ¼ã‚¸ç”¨ã®UIç®¡ç†ã‚¯ãƒ©ã‚¹ã®å®Ÿè£…
  */
 #include "stdafx.h"
 #include "UIFirstStage.h"
 #include "LoadingScreen.h"
-#include "Battle/BattleManager.h"
 
 
 namespace app
@@ -15,20 +14,20 @@ namespace app
 		namespace
 		{
 			/**
-			 * UIGear—p’è”
+			 * UIGearç”¨å®šæ•°
 			 */
-			 /** ƒAƒCƒRƒ“ */
+			 /** ã‚¢ã‚¤ã‚³ãƒ³ */
 			const Vector3		GEAR_ICON_POS = { -850.0f, 450.0f, 0.0f };
 			const float			GEAR_ICON_SIZE = 150.0f;
 			const char* const	PATH_GEAR_ICON = "Assets/sprite/Gear.dds";
 
-			/** æ“¾” */
+			/** å–å¾—æ•° */
 			const Vector3		GEAR_NUM_POS = { -770.0f, 490.0f, 0.0f };
 			const float			GEAR_NUM_W = 50.0f;
 			const float			GEAR_NUM_H = 100.0f;
 			const int			GEAR_DIGIT_COUNT = 1;
 
-			/** UIDigit‚Í––”ö‚Ì”š‚ğ’uŠ·‚µ‚Ä“Ç‚İ‚Ş‚½‚ßA0”Ô‚ÌƒpƒX‚ğw’è‚·‚é */
+			/** UIDigitã¯æœ«å°¾ã®æ•°å­—ã‚’ç½®æ›ã—ã¦èª­ã¿è¾¼ã‚€ãŸã‚ã€0ç•ªã®ãƒ‘ã‚¹ã‚’æŒ‡å®šã™ã‚‹ */
 			const char* const	PATH_GEAR_NUM_BASE = "Assets/sprite/Numbers/0.dds";
 		}
 
@@ -51,21 +50,17 @@ namespace app
 
 		bool UIFirstStage::Start()
 		{
-			/** ‹¤’ÊUI‚ÌStart‚ğ•K‚¸ŒÄ‚Ô */
+			/** å…±é€šUIã®Startã‚’å¿…ãšå‘¼ã¶ */
 			if (!UIInGameBase::Start()) {
 				return false;
 			}
 
-			/** ƒMƒAUI‚ğ¶¬ */
+			/** ã‚®ã‚¢UIã‚’ç”Ÿæˆ */
 			m_uiGear = NewGO<UIGear>(0, "UIGear");
+			/** ãƒãƒˆãƒ«ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ç™»éŒ² */
+			battle::BattleManager::GetInstance()->Register(m_uiGear);
 
 			return true;
-		}
-
-
-		void UIFirstStage::SetGearCount(int count)
-		{
-			m_uiGear->SetCount(count);
 		}
 
 
@@ -75,7 +70,7 @@ namespace app
 
 
 		/**
-		 * ƒMƒA•\¦UI
+		 * ã‚®ã‚¢è¡¨ç¤ºUI
 		 */
 		UIGear::UIGear()
 		{
@@ -91,7 +86,7 @@ namespace app
 		{
 			m_gearCanvas = std::make_unique<UICanvas>();
 
-			/** ƒMƒAƒAƒCƒRƒ“‚Ì¶¬ */
+			/** ã‚®ã‚¢ã‚¢ã‚¤ã‚³ãƒ³ã®ç”Ÿæˆ */
 			auto* gear = m_gearCanvas->CreateUI<UIImage>();
 			gear->Initialize(
 				PATH_GEAR_ICON,
@@ -100,15 +95,13 @@ namespace app
 				GEAR_ICON_POS
 			);
 
-			/** ”š‚Ì¶¬ */
-			m_gotGearCountDigit = m_gearCanvas->CreateUI<UIDigit>();
-			m_gotGearCountDigit->Initialize(
-				PATH_GEAR_NUM_BASE,
-				GEAR_DIGIT_COUNT,
-				0,
-				GEAR_NUM_W,
-				GEAR_NUM_H,
-				GEAR_NUM_POS
+			/** ç²å¾—æ•°ã®ç”Ÿæˆ */
+			m_gotGearCountText = m_gearCanvas->CreateUI<UIText>();
+			m_gotGearCountText->Initialize(
+				L"0/0",
+				GEAR_NUM_POS,
+				1.5f,
+				Vector4::White
 			);
 
 			return true;
@@ -123,10 +116,10 @@ namespace app
 
 		void UIGear::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
 				return;
 			}
-			if (battle::BattleManager::GetIsBattleFinish()) {
+			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
 				return;
 			}
 
@@ -134,9 +127,9 @@ namespace app
 		}
 
 
-		void UIGear::SetCount(int count)
+		void UIGear::SetCount(int gotCount, int maxCount)
 		{
-			m_gotGearCountDigit->SetNumber(count);
+			m_gotGearCountText->SetText(L"%d/%d", gotCount, maxCount);
 		}
 	}
 }

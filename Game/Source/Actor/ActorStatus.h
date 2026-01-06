@@ -36,9 +36,9 @@ namespace app
 		{
 		protected:
 			/** 現在のHP */
-			uint8_t m_hp = 0;
+			int m_hp = 0;
 			/** 最大HP */
-			uint8_t m_maxHp = 0;
+			int m_maxHp = 0;
 			/** 歩く移動速度 */
 			float m_walkSpeed = 0.0f;
 			/** 走る移動速度 */
@@ -58,29 +58,18 @@ namespace app
 			/** 初期設定 */
 			virtual void Setup() override {}
 
-			void Update()
-			{
-				// ダメージフラグリセット
-				m_isDamage = false;
-			}
-
-			//void Damage(uint8_t damageAmount)
-			//{
-			//	m_hp -= damageAmount;
-			//	m_isDamage = true;
-			//}
-			void Damage()
+			/** ダメージを与える */
+			void TakeDamage()
 			{
 				m_hp--;
-				m_isDamage = true;
 			}
 
 
 		public:
 			/** 現在のHPのゲッター */
-			uint8_t GetHp() const { return m_hp; }
+			int GetHp() const { return m_hp; }
 			/** 最大HPのゲッター */
-			uint8_t GetMaxHp() const { return m_maxHp; }
+			int GetMaxHp() const { return m_maxHp; }
 			/** スピードのゲッター */
 			float GetWalkSpeed() const { return m_walkSpeed; }
 			/** ダッシュスピードのゲッター */
@@ -89,8 +78,6 @@ namespace app
 			float GetHurtRadius() const { return m_hurtRadius; }
 			/** モデルの拡大率のゲッター */
 			float GetModelScale() const { return m_modelScale; }
-			/** ダメージを受けたかどうかのゲッター */
-			bool IsDamage() const { return m_isDamage; }
 		};
 
 

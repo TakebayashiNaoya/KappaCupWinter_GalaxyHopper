@@ -4,8 +4,6 @@
  */
 #pragma once
 #include "Source/Actor/Character/Enemy/Enemy.h"
-#include "Source/Actor/ActorStatus.h" 
-#include "Source/Actor/Character/Enemy/EnemyStateMachine.h"
 
 
 namespace app
@@ -15,25 +13,24 @@ namespace app
 		class BossEnemy : public Enemy
 		{
 		public:
-			/**
-			 * アニメーションクリップ
-			 * 初期化時とIStateでアニメ再生に使用するのでpublicにしています。
-			 */
-			enum EnAnimationClip : uint8_t
-			{
-				enAnimationClip_Idle,	/** 待機		*/
-				enAnimationClip_Walk,	/** 歩き		*/
-				enAnimationClip_Run,	/** 走り		*/
-				enAnimationClip_Attack,	/** 攻撃		*/
-				enAnimationClip_Damage,	/** 被弾		*/
-				enAnimationClip_Die,	/** 死亡		*/
-				enAnimationClip_Num,
-			};
+			BossEnemy();
+			~BossEnemy();
 
 
 		public:
-			BossEnemy();
-			~BossEnemy();
+			/**
+			 * ボスエネミーのアニメーションクリップ
+			 */
+			enum class EnBossEnemyAnimClip : uint8_t
+			{
+				Idle,	/** 待機 */
+				Walk,	/** 歩き */
+				Dash,	/** 走り */
+				Attack,	/** 攻撃 */
+				Damage,	/** 被弾 */
+				Die,	/** 死亡 */
+				Num,
+			};
 
 
 		private:

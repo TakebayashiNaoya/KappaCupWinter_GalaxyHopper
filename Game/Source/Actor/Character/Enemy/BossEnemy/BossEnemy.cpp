@@ -1,7 +1,12 @@
-﻿#include "stdafx.h"
+﻿/**
+ * BossEnemy.cpp
+ * ボスエネミーの実装
+ */
+#include "stdafx.h"
 #include "BossEnemy.h"
-#include "Source/Actor/Character/Enemy/EnemyStateMachine.h"
 #include "Collision/CollisionManager.h"
+#include "Source/Actor/ActorStatus.h"
+#include "BossEnemyStateMachine.h"
 
 
 namespace app
@@ -36,14 +41,17 @@ namespace app
 		BossEnemy::BossEnemy()
 		{
 			/** アニメーション数チェック */
-			static_assert(ARRAYSIZE(BOSS_ENEMY_ANIMATION_OPTIONS) == enAnimationClip_Num,
+			static_assert(ARRAYSIZE(BOSS_ENEMY_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnBossEnemyAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
-			/** ステートマシン生成 */
-			m_stateMachine = std::make_unique<BossEnemyStateMachine>(this);
+			/** BossEnemyStatus型でステータス生成 */
+			auto status = CreateStatus<BossEnemyStatus>();
 
-			/** ステータス生成 */
-			m_status = CreateStatus<BossEnemyStatus>();
+			/** ステートマシン生成 */
+			m_stateMachine = std::make_unique<BossEnemyStateMachine>(this, status.get());
+
+			/** ステータスをムーブして保持 */
+			m_status = std::move(status);
 		}
 
 
@@ -55,12 +63,12 @@ namespace app
 		bool BossEnemy::Start()
 		{
 			/** モデルとアニメーションを初期化 */
-			InitModel(enAnimationClip_Num, BOSS_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, GetStatus<BossEnemyStatus>()->GetModelScale());
+			InitModel(static_cast<uint8_t>(EnBossEnemyAnimClip::Num), BOSS_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, GetStatus<BossEnemyStatus>()->GetModelScale());
 
 			/** 攻撃判定のコライダーを作成 */
 			m_hitCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
-				collision::enCollisionType_BossEnemy,
+				collision::EnCollisionType::BossEnemy,
 				HIT_COLLIDER_RADIUS,
 				app::EnCollisionAttr::enCollisionAttr_Enemy
 			);
@@ -68,7 +76,7 @@ namespace app
 			/** やられ判定のコライダーを作成 */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
-				collision::enCollisionType_BossEnemy,
+				collision::EnCollisionType::BossEnemy,
 				HURT_COLLIDER_RADIUS,
 				app::EnCollisionAttr::enCollisionAttr_Enemy
 			);
@@ -84,11 +92,6 @@ namespace app
 
 		void BossEnemy::Update()
 		{
-			/** 戦闘終了時は更新しない */
-			if (battle::BattleManager::GetIsBattleFinish()) {
-				return;
-			}
-
 			/** ステートマシン更新 */
 			m_stateMachine->Update();
 
@@ -129,7 +132,7 @@ namespace app
 				/** 攻撃用コライダーを作成 */
 				m_attackHitCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 					this,
-					collision::enCollisionType_BossEnemy,
+					collision::EnCollisionType::BossEnemy,
 					ATTACK_RADIUS,
 					app::EnCollisionAttr::enCollisionAttr_Enemy
 				);

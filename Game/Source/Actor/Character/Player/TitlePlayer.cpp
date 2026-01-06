@@ -47,7 +47,7 @@ namespace app
 		bool TitlePlayer::Start()
 		{
 			/** モデルとアニメーションを初期化 */
-			InitModel(enAnimationClip_Num, TITLE_PLAYER_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
+			InitModel(static_cast<uint8_t>(EnPlayerAnimClip::Num), TITLE_PLAYER_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
 
 			/** 星に埋もれないように初期位置を調整 */
 			m_transform.m_position = SPAWN_POSITION;
@@ -64,7 +64,7 @@ namespace app
 			}
 
 			/** 歩きアニメーションを再生 */
-			m_modelRender.PlayAnimation(enAnimationClip_Walk);
+			m_modelRender.PlayAnimation(static_cast<uint8_t>(EnPlayerAnimClip::Walk));
 			/** モデルの更新 */
 			m_modelRender.SetPosition(m_transform.m_position);
 			m_modelRender.Update();

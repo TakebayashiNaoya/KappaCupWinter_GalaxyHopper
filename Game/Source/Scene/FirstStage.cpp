@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "FirstStage.h"
-#include "Source/Actor/FirstPlanet.h"
-#include "Source/Actor/Player.h"
+#include "Source/Actor/Planet/FirstPlanet.h"
+#include "Source/Actor/Character/Player/Player.h"
 //#include "Source/Actor/BasicEnemy.h"
 //#include "Source/Actor/DeformEnemy.h"
 //#include "Source/Actor/Rocket.h"
@@ -54,17 +54,17 @@ namespace app
 
 		void FirstStage::OnUpdate()
 		{
-			//if (BattleManager::GetIsBattleFinish()) {
+			//if (BattleManager::IsWinnerDecided()) {
 			//	SoundManager::StopBGM(enSoundList_FirstStageBGM, 0.0f);
 			//	return;
 			//}
 
 			//if (m_rocket)
 			//{
-			//	if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::enState_Opened) {
+			//	if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::Opened) {
 			//		LoadingScreen::StartLoading();
 			//	}
-			//	if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
+			//	if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::Loading) {
 			//		SceneManager::GetInstance()->ChangeScene(SceneID::BossStage);
 			//	}
 			//}

@@ -4,7 +4,6 @@
  */
 #pragma once
 #include "UIBase.h"
-#include "Source/Actor/Types.h"
 #include <memory>
 
 
@@ -28,7 +27,7 @@ namespace app
 			 * 各UIはIGameObjectとして管理する
 			 */
 			 /** プレイヤー体力UI */
-			UIPlayerHp* m_uiPlayerLife = nullptr;
+			UIPlayerHp* m_uiPlayerHp = nullptr;
 			/** ダメージフラッシュUI */
 			UIDamageFlash* m_uiDamageFlash = nullptr;
 			/** 操作説明UI */
@@ -44,7 +43,7 @@ namespace app
 
 
 		protected:
-			/** 
+			/**
 			 * 全てのステージで共通のUIを生成する
 			 * 派生先のStartで必ず呼ぶこと
 			 */

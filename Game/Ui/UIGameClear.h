@@ -13,7 +13,7 @@ namespace app
 		class UIGameClear : public UIResultBase
 		{
 		private:
-			enum enState
+			enum enState : uint8_t
 			{
 				enState_JumpArc,		/** ロゴがジャンプして着地するまでのステート */
 				enState_Bouncing,		/** 着地点でバウンドするステート */
@@ -46,7 +46,7 @@ namespace app
 			Vector3 m_velocity = Vector3::Zero; // 3次元の速度
 
 			float m_timer = 0.0f;
-			int m_state = 0;
+			uint8_t m_state = 0;
 		};
 	}
 }

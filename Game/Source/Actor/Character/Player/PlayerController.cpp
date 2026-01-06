@@ -5,6 +5,8 @@
 #include "stdafx.h"
 #include "PlayerController.h"
 #include "Player.h"
+#include "PlayerStateMachine.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app

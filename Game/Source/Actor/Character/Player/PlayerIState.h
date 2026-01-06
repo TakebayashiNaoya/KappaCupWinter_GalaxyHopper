@@ -3,20 +3,52 @@
  * プレイヤーの各ステート
  */
 #pragma once
-#include "Source/Actor/StateMachineBase.h"
+#include "Core/StateMachineBase.h"
 
 
 namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
+		class PlayerStateMachine;
+		class Player;
+		class PlayerStatus;
+
+
+		/**
+		 * プレイヤー専用のステート基底クラス
+		 */
+		class PlayerStateBase : public core::IState
+		{
+		protected:
+			/** キャッシュ用ポインタ */
+			PlayerStateMachine* m_stateMachine = nullptr;
+			Player* m_player = nullptr;
+			PlayerStatus* m_status = nullptr;
+
+
+		public:
+			/** コンストラクタでステートマシン、プレイヤー、ステータスを受け取る */
+			PlayerStateBase(PlayerStateMachine* machine, Player* player, PlayerStatus* status);
+			virtual ~PlayerStateBase() {}
+		};
+
+
+
+
+		/********************************/
+
+
 		/**
 		 * 止まってる
 		 */
-		class PlayerIdleState : public IState
+		class PlayerIdleState : public PlayerStateBase
 		{
 		public:
-			PlayerIdleState(StateMachineBase* owner) : IState(owner) {};
+			PlayerIdleState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
+				: PlayerStateBase(machine, player, status) {
+			};
 			~PlayerIdleState() {};
 
 			void Enter() override final;
@@ -33,10 +65,12 @@ namespace app
 		/**
 		 * 歩く
 		 */
-		class PlayerWalkState : public app::actor::IState
+		class PlayerWalkState : public PlayerStateBase
 		{
 		public:
-			PlayerWalkState(StateMachineBase* owner) : IState(owner) {};
+			PlayerWalkState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
+				: PlayerStateBase(machine, player, status) {
+			};
 			~PlayerWalkState() {};
 
 			void Enter() override final;
@@ -53,10 +87,12 @@ namespace app
 		/**
 		 * 走る
 		 */
-		class PlayerDashState : public app::actor::IState
+		class PlayerDashState : public PlayerStateBase
 		{
 		public:
-			PlayerDashState(StateMachineBase* owner) : IState(owner) {};
+			PlayerDashState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
+				: PlayerStateBase(machine, player, status) {
+			};
 			~PlayerDashState() {};
 
 			void Enter() override final;
@@ -73,10 +109,12 @@ namespace app
 		/**
 		 * ジャンプ
 		 */
-		class PlayerJumpState : public app::actor::IState
+		class PlayerJumpState : public PlayerStateBase
 		{
 		public:
-			PlayerJumpState(StateMachineBase* owner) : IState(owner) {};
+			PlayerJumpState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
+				: PlayerStateBase(machine, player, status) {
+			};
 			~PlayerJumpState() {};
 
 			void Enter() override final;
@@ -93,10 +131,12 @@ namespace app
 		/**
 		 * ダメージを受ける
 		 */
-		class PlayerDamageState : public app::actor::IState
+		class PlayerDamageState : public PlayerStateBase
 		{
 		public:
-			PlayerDamageState(StateMachineBase* owner) : IState(owner) {};
+			PlayerDamageState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
+				: PlayerStateBase(machine, player, status) {
+			};
 			~PlayerDamageState() {};
 
 			void Enter() override final;
@@ -113,10 +153,12 @@ namespace app
 		/**
 		 * 死んでいる最中
 		 */
-		class PlayerDyingState : public app::actor::IState
+		class PlayerDyingState : public PlayerStateBase
 		{
 		public:
-			PlayerDyingState(StateMachineBase* owner) : IState(owner) {};
+			PlayerDyingState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
+				: PlayerStateBase(machine, player, status) {
+			};
 			~PlayerDyingState() {};
 
 			void Enter() override final;
@@ -133,10 +175,12 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class PlayerDeadState : public app::actor::IState
+		class PlayerDeadState : public PlayerStateBase
 		{
 		public:
-			PlayerDeadState(StateMachineBase* owner) : IState(owner) {};
+			PlayerDeadState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
+				: PlayerStateBase(machine, player, status) {
+			};
 			~PlayerDeadState() {};
 
 			void Enter() override final;

@@ -54,12 +54,12 @@ namespace app
 
 			/** ボタンA */
 			const Vector3		CTRL_BTN_A_POS = { 700.0f, -450.0f, 0.0f };
-			const float			CTRL_BTN_SIZE = 100.0f;
+			const float			CTRL_BTN_A_SIZE = 100.0f;
 			const char* const	PATH_CTRL_BTN_A = "Assets/sprite/ButtonA_2.dds";
 
 			/** ボタンB */
 			const Vector3		CTRL_BTN_B_POS = { 870.0f, -380.0f, 0.0f };
-			const float			CTRL_BTN_SIZE = 100.0f;
+			const float			CTRL_BTN_B_SIZE = 100.0f;
 			const char* const	PATH_CTRL_BTN_B = "Assets/sprite/ButtonB_2.dds";
 		}
 
@@ -76,7 +76,7 @@ namespace app
 
 		UIInGameBase::~UIInGameBase()
 		{
-			DeleteGO(m_uiPlayerLife);
+			DeleteGO(m_uiPlayerHp);
 			DeleteGO(m_uiDamageFlash);
 			DeleteGO(m_uiControls);
 		}
@@ -85,7 +85,7 @@ namespace app
 		bool UIInGameBase::Start()
 		{
 			/** プレイヤーライフ生成 (NewGO) */
-			m_uiPlayerLife = NewGO<UIPlayerHp>(0, "UIPlayerHp");
+			m_uiPlayerHp = NewGO<UIPlayerHp>(0, "UIPlayerHp");
 
 			/** ダメージフラッシュ生成 */
 			m_uiDamageFlash = NewGO<UIDamageFlash>(0, "UIDamageFlash");
@@ -99,8 +99,8 @@ namespace app
 
 		void UIInGameBase::SetPlayerHp(int hp)
 		{
-			if (m_uiPlayerLife) {
-				m_uiPlayerLife->SetPlayerHp(hp);
+			if (m_uiPlayerHp) {
+				m_uiPlayerHp->SetPlayerHp(hp);
 			}
 			if (m_uiDamageFlash) {
 				m_uiDamageFlash->SetPlayerHp(hp);
@@ -153,10 +153,10 @@ namespace app
 
 		void UIPlayerHp::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
 				return;
 			}
-			if (battle::BattleManager::GetIsBattleFinish()) {
+			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
 				return;
 			}
 
@@ -213,10 +213,10 @@ namespace app
 
 		void UIDamageFlash::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
 				return;
 			}
-			if (battle::BattleManager::GetIsBattleFinish()) {
+			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
 				return;
 			}
 
@@ -228,10 +228,10 @@ namespace app
 		{
 			auto* render = m_damageFlashImage->GetSpriteRender();
 
-			if (hp == enPlayerCondition_Danger) {
+			if (hp == 1) {
 				render->Init(PATH_FLASH_DANGER, FLASH_W, FLASH_H);
 			}
-			else if (hp == enPlayerCondition_Caution) {
+			else if (hp == 2) {
 				render->Init(PATH_FLASH_CAUTION, FLASH_W, FLASH_H);
 			}
 			else {
@@ -274,11 +274,11 @@ namespace app
 
 			/** ボタンA */
 			auto* btnA = m_controlsCanvas->CreateUI<UIImage>();
-			btnA->Initialize(PATH_CTRL_BTN_A, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_A_POS);
+			btnA->Initialize(PATH_CTRL_BTN_A, CTRL_BTN_A_SIZE, CTRL_BTN_A_SIZE, CTRL_BTN_A_POS);
 
 			/** ボタンB */
 			auto* btnB = m_controlsCanvas->CreateUI<UIImage>();
-			btnB->Initialize(PATH_CTRL_BTN_B, CTRL_BTN_SIZE, CTRL_BTN_SIZE, CTRL_BTN_B_POS);
+			btnB->Initialize(PATH_CTRL_BTN_B, CTRL_BTN_B_SIZE, CTRL_BTN_B_SIZE, CTRL_BTN_B_POS);
 
 			return true;
 		}
@@ -292,10 +292,10 @@ namespace app
 
 		void UIControls::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
 				return;
 			}
-			if (battle::BattleManager::GetIsBattleFinish()) {
+			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
 				return;
 			}
 

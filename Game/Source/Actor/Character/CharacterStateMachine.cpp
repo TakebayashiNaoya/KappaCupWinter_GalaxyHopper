@@ -1,10 +1,11 @@
 ﻿/**
- * StateMachineBase.cpp
- * ステートマシンの実装
+ * CharacterStateMachine.cpp
+ * キャラクター用ステートマシンの実装（物理演算・判定）
  */
 #include "stdafx.h"
-#include "StateMachineBase.h"
+#include "CharacterStateMachine.h"
 #include "Source/Actor/Character/Character.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app
@@ -517,60 +518,20 @@ namespace app
 		}
 
 
-		StateMachineBase::~StateMachineBase()
+		CharacterStateMachine::CharacterStateMachine(Character* owner, CharacterStatus* status)
+			: ActorStateMachine(owner, status)
+			, m_ownerChara(owner)
+			, m_charaStatus(status)
 		{
-			/** メモリ解放 */
-			for (auto& pair : m_stateMap) {
-				/** マップに登録されているステートを削除 */
-				delete pair.second;
-			}
-			/** 入れ物自体を消去 */
-			m_stateMap.clear();
 		}
 
 
-		void StateMachineBase::Update()
+		CharacterStateMachine::~CharacterStateMachine()
 		{
-			/** ステートの切り替え */
-			ChangeState();
-			/** 現在のステートの更新 */
-			m_currentState->Update();
 		}
 
 
-		void StateMachineBase::ChangeState()
-		{
-			/** 切り替え先のステートを取得 */
-			m_nextState = GetChangeState();
-			/**
-			 * ステートが切り替わった時（m_nextStateがnullptrじゃない時）かつ、
-			 * 今のステートと次のステートが同じではないとき
-			 */
-			if (m_nextState != nullptr && m_currentState != m_nextState) {
-				/** 今のステートを終了 */
-				m_currentState->Exit();
-				/** 新しいステートに変更 */
-				m_currentState = m_nextState;
-				/** 新しいステートを開始 */
-				m_currentState->Enter();
-				/** 次のステートを無にする */
-				m_nextState = nullptr;
-			}
-		}
-
-
-		IState* StateMachineBase::FindState(const int stateId)
-		{
-			/** 指定したIDのステートが存在すればそのステートのポインタを返し、なければnullptrを返す */
-			auto it = m_stateMap.find(stateId);
-			if (it != m_stateMap.end()) {
-				return it->second;
-			}
-			return nullptr;
-		}
-
-
-		bool StateMachineBase::CanChangeWalk() const
+		bool CharacterStateMachine::CanChangeWalk() const
 		{
 			if (m_moveDirection.Length() > MIN_MOVE_EPSILON) {
 				return true;
@@ -578,7 +539,8 @@ namespace app
 			return false;
 		}
 
-		bool StateMachineBase::CanChangeDush() const
+
+		bool CharacterStateMachine::CanChangeDush() const
 		{
 			if (m_isDash && m_moveDirection.Length() > MIN_MOVE_EPSILON) {
 				return true;
@@ -586,33 +548,31 @@ namespace app
 			return false;
 		}
 
-		bool StateMachineBase::CanChangeDamage()
+
+		bool CharacterStateMachine::CanChangeDamage()
 		{
-			Character* character = GetOwner<Character>();
-			bool isDamage = character->GetStatus<CharacterStatus>()->IsDamage();
-			if (isDamage) {
+			if (m_charaStatus->GetHp() <= m_currentHp) {
 				return true;
 			}
 			return false;
 		}
 
-		bool StateMachineBase::CanChangeDying()
+
+		bool CharacterStateMachine::CanChangeDying()
 		{
 			/** HPが0ならtrueを返します。 */
-			Character* character = GetOwner<Character>();
-			const uint8_t m_currentHp = character->GetStatus<CharacterStatus>()->GetHp();
-			if (m_currentHp <= 0) {
+			if (m_charaStatus->GetHp() <= 0) {
 				return true;
 			}
 			return false;
 		}
 
-		bool StateMachineBase::CanChangeDead()
+
+		bool CharacterStateMachine::CanChangeDead()
 		{
 			/** HPが0かつ、アニメーションが終了している場合にtrueを返します。 */
-			Character* character = GetOwner<Character>();
-			const uint8_t m_currentHp = character->GetStatus<CharacterStatus>()->GetHp();
-			const bool isPlayingAnimation = character->GetModelRender()->IsPlayingAnimation();
+			const int m_currentHp = m_charaStatus->GetHp();
+			const bool isPlayingAnimation = m_ownerChara->GetModelRender()->IsPlayingAnimation();
 			if (m_currentHp <= 0 && isPlayingAnimation == false) {
 				return true;
 			}
@@ -620,7 +580,7 @@ namespace app
 		}
 
 
-		bool StateMachineBase::IsOnGround()
+		bool CharacterStateMachine::IsOnGround()
 		{
 			/**
 			 * 移動処理でhitPositionをm_positionに代入しており、レイの判定が不安定になるため、
@@ -641,7 +601,7 @@ namespace app
 		}
 
 
-		void StateMachineBase::ProcessMovement()
+		void CharacterStateMachine::ProcessMovement()
 		{
 			/** 移動方向ベクトルを正規化 */
 			m_moveDirection.Normalize();

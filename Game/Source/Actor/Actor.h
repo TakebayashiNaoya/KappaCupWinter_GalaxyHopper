@@ -3,16 +3,20 @@
  * 見た目が存在するゲームオブジェクトの基底クラス
  */
 #pragma once
-#include "ActorStatus.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		class StateMachineBase;
+		/** 前方宣言 */
+		class ActorStateMachine;
+		class ActorStatus;
 
 
+		/**
+		 * 見た目が存在するゲームオブジェクトの基底クラス
+		 */
 		class Actor : public IGameObject
 		{
 		public:
@@ -25,6 +29,16 @@ namespace app
 			 * トランスフォームを取得
 			 */
 			inline Transform& GetTransform() { return m_transform; }
+
+			/**
+			 * トランスフォームを設定
+			 */
+			inline void SetTransform(const Vector3& position, const Quaternion& rotation, const Vector3& scale)
+			{
+				m_transform.m_position = position;
+				m_transform.m_rotation = rotation;
+				m_transform.m_scale = scale;
+			}
 
 			/**
 			 * 座標を設定
@@ -49,20 +63,24 @@ namespace app
 
 		public:
 			/**
-			 * ステートマシンを取得
+			 * ステートマシンを取得するテンプレート関数
+			 * 例: auto* sm = player->GetStateMachine<PlayerStateMachine>();
 			 */
 			template <typename T>
 			T* GetStateMachine() const
 			{
-				return dynamic_cast<T*>(m_stateMachine.get());
+				// unique_ptrの中身(生ポインタ)を取り出し、指定された型にキャストして返す
+				return static_cast<T*>(m_stateMachine.get());
 			}
+
 			/**
-			 * ステータスを取得
+			 * ステータスを取得するテンプレート関数
+			 * 例: auto* status = player->GetStatus<PlayerStatus>();
 			 */
 			template <typename T>
 			T* GetStatus() const
 			{
-				return dynamic_cast<T*>(m_status.get());
+				return static_cast<T*>(m_status.get());
 			}
 
 
@@ -91,7 +109,7 @@ namespace app
 			/** 上方向ベクトル */
 			Vector3 m_upDirection = Vector3::Up;
 			/** ステートマシン */
-			std::unique_ptr<StateMachineBase> m_stateMachine;
+			std::unique_ptr<ActorStateMachine> m_stateMachine;
 			/** ステータス */
 			std::unique_ptr<ActorStatus> m_status;
 

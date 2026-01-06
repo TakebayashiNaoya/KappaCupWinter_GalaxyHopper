@@ -5,16 +5,31 @@
 #include "stdafx.h"
 #include "PlayerIState.h"
 #include "Player.h"
+#include "PlayerStateMachine.h"
 
 
 namespace app
 {
 	namespace actor
 	{
+		/** ステートマシン、プレイヤー、ステータスをキャッシュ */
+		PlayerStateBase::PlayerStateBase(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
+			: m_stateMachine(machine)
+			, m_player(player)
+			, m_status(status)
+		{
+		}
+
+
+
+
+		/********************************/
+
+
 		void PlayerIdleState::Enter()
 		{
 			/** 待機アニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Idle);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Idle);
 		}
 
 
@@ -36,7 +51,7 @@ namespace app
 		void PlayerWalkState::Enter()
 		{
 			/** 歩きアニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Walk);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Walk);
 		}
 
 
@@ -58,7 +73,7 @@ namespace app
 		void PlayerDashState::Enter()
 		{
 			/** 走りアニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Dash);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Dash);
 		}
 
 
@@ -80,7 +95,7 @@ namespace app
 		void PlayerJumpState::Enter()
 		{
 			/** ジャンプアニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Jump);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Jump);
 		}
 
 
@@ -102,9 +117,7 @@ namespace app
 		void PlayerDamageState::Enter()
 		{
 			/** 被弾アニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Damage);
-			/** ダメージ処理 */
-			GetOwner<PlayerStateMachine>()->GetOwner<Player>()->GetStatus<PlayerStatus>()->Damage();
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Damage);
 		}
 
 
@@ -115,7 +128,6 @@ namespace app
 
 		void PlayerDamageState::Exit()
 		{
-			GetOwner<PlayerStateMachine>()->GetOwner<Player>()->ResetKnockBackTimer();
 		}
 
 
@@ -127,7 +139,7 @@ namespace app
 		void PlayerDyingState::Enter()
 		{
 			/** 死亡アニメーション */
-			GetOwner<PlayerStateMachine>()->PlayAnimation(Player::enAnimationClip_Die);
+			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Die);
 		}
 
 

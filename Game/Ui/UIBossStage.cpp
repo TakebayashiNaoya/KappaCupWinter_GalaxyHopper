@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * UIBossStage.cpp
- * ƒ{ƒXƒXƒe[ƒW—p‚ÌUIŠÇ—ƒNƒ‰ƒX‚ÌÀ‘•
+ * ãƒœã‚¹ã‚¹ãƒ†ãƒ¼ã‚¸ç”¨ã®UIç®¡ç†ã‚¯ãƒ©ã‚¹ã®å®Ÿè£…
  */
 #include "stdafx.h"
 #include "UIBossStage.h"
@@ -15,38 +15,38 @@ namespace app
 		namespace
 		{
 			/**
-			 * UIBossLife—p’è”
+			 * UIBossLifeç”¨å®šæ•°
 			 */
 
-			 /** ƒ{ƒX–¼ */
+			 /** ãƒœã‚¹å */
 			const Vector3		NAME_POS = { 0.0f, 480.0f, 0.0f };
 			const float			NAME_W = 180.0f;
 			const float			NAME_H = 50.0f;
 			const char* const	NAME_PATH = "Assets/sprite/Boss.dds";
 
-			/** HPƒo[”wŒi */
+			/** HPãƒãƒ¼èƒŒæ™¯ */
 			const Vector3		BAR_BACK_POS = { 0.0f, 400.0f, 0.0f };
 			const float			BAR_BACK_W = 1071.0f;
 			const float			BAR_BACK_H = 107.0f;
 			const char* const	BAR_BACK_PATH = "Assets/sprite/BossHpBarBack.dds";
 
-			/** HPƒo[‘OŒi */
+			/** HPãƒãƒ¼å‰æ™¯ */
 			const Vector3		BAR_FRONT_POS = { -420.0f, 400.0f, 0.0f };
 			const float			BAR_FRONT_W = 937.0f;
 			const float			BAR_FRONT_H = 37.0f;
 			const char* const	BAR_FRONT_PATH = "Assets/sprite/BossHpBarFront.dds";
 
-			/** ƒsƒ{ƒbƒgİ’èi¶’†‰›j */
+			/** ãƒ”ãƒœãƒƒãƒˆè¨­å®šï¼ˆå·¦ä¸­å¤®ï¼‰ */
 			const Vector2		PIVOT_LEFT_CENTER = { 0.0f, 0.5f };
 
-			/** HPƒo[‚ÌF’è‹` */
+			/** HPãƒãƒ¼ã®è‰²å®šç¾© */
 			const Vector4		COLOR_GREEN = { 0.0f, 1.0f, 0.0f, 1.0f };
 			const Vector4		COLOR_YELLOW = { 1.0f, 1.0f, 0.0f, 1.0f };
 			const Vector4		COLOR_RED = { 1.0f, 0.0f, 0.0f, 1.0f };
 
-			/** HPƒo[‚ÌF‚ª•Ï‰»‚·‚éHP‚ÌŠ„‡ */
-			constexpr float		HP_MIDDLE = 0.5f;	/** ‰©F‚É•Ï‰»‚·‚éHPc—Ê*/
-			constexpr float		HP_LOW = 0.2f;		/** ÔF‚É•Ï‰»‚·‚éHPc—Ê*/
+			/** HPãƒãƒ¼ã®è‰²ãŒå¤‰åŒ–ã™ã‚‹HPã®å‰²åˆ */
+			constexpr float		HP_MIDDLE = 0.5f;	/** é»„è‰²ã«å¤‰åŒ–ã™ã‚‹HPæ®‹é‡*/
+			constexpr float		HP_LOW = 0.2f;		/** èµ¤è‰²ã«å¤‰åŒ–ã™ã‚‹HPæ®‹é‡*/
 		}
 
 
@@ -56,7 +56,7 @@ namespace app
 
 
 		/**
-		 * ƒ{ƒXƒXƒe[ƒW—pUI
+		 * ãƒœã‚¹ã‚¹ãƒ†ãƒ¼ã‚¸ç”¨UI
 		 */
 		UIBossStage::UIBossStage()
 		{
@@ -65,27 +65,27 @@ namespace app
 
 		UIBossStage::~UIBossStage()
 		{
-			DeleteGO(m_uiBossLife);
+			DeleteGO(m_uiBossHp);
 		}
 
 
 		bool UIBossStage::Start()
 		{
-			/** eƒNƒ‰ƒXi‹¤’ÊUIj‚ÌStart */
+			/** è¦ªã‚¯ãƒ©ã‚¹ï¼ˆå…±é€šUIï¼‰ã®Start */
 			if (!UIInGameBase::Start()) {
 				return false;
 			}
 
-			/** ƒ{ƒXHP UI¶¬ */
-			m_uiBossLife = NewGO<UIBossHp>(0, "UIBossHp");
+			/** ãƒœã‚¹HP UIç”Ÿæˆ */
+			m_uiBossHp = NewGO<UIBossHp>(0, "UIBossHp");
 
 			return true;
 		}
 
 
-		void UIBossStage::SetBossHp(uint8_t currentHp, uint8_t maxHp)
+		void UIBossStage::SetBossHp(int currentHp, int maxHp)
 		{
-			m_uiBossLife->UpdateHp(currentHp, maxHp);
+			m_uiBossHp->UpdateHp(currentHp, maxHp);
 		}
 
 
@@ -95,7 +95,7 @@ namespace app
 
 
 		/**
-		 * ƒ{ƒXHP•\¦UI
+		 * ãƒœã‚¹HPè¡¨ç¤ºUI
 		 */
 		UIBossHp::UIBossHp()
 		{
@@ -109,10 +109,10 @@ namespace app
 
 		bool UIBossHp::Start()
 		{
-			/** ƒLƒƒƒ“ƒoƒX¶¬ */
+			/** ã‚­ãƒ£ãƒ³ãƒã‚¹ç”Ÿæˆ */
 			m_bossHpCanvas = std::make_unique<UICanvas>();
 
-			/** ƒ{ƒX–¼‚Ì‰æ‘œ¶¬ */
+			/** ãƒœã‚¹åã®ç”»åƒç”Ÿæˆ */
 			auto* bossName = m_bossHpCanvas->CreateUI<UIImage>();
 			bossName->Initialize(
 				NAME_PATH,
@@ -121,7 +121,7 @@ namespace app
 				NAME_POS
 			);
 
-			/** HPƒo[”wŒi‰æ‘œ‚Ì¶¬ */
+			/** HPãƒãƒ¼èƒŒæ™¯ç”»åƒã®ç”Ÿæˆ */
 			auto* backBar = m_bossHpCanvas->CreateUI<UIImage>();
 			backBar->Initialize(
 				BAR_BACK_PATH,
@@ -130,11 +130,11 @@ namespace app
 				BAR_BACK_POS
 			);
 
-			/** HPƒo[‘OŒi‚Ì¶¬ */
+			/** HPãƒãƒ¼å‰æ™¯ã®ç”Ÿæˆ */
 			m_frontBarImage = m_bossHpCanvas->CreateUI<UIImage>();
-			/** ¶’[‚ğŠî€‚ÉLk‚³‚¹‚é‚½‚ßAƒsƒ{ƒbƒg‚ğ¶’†‰›‚Éİ’è */
+			/** å·¦ç«¯ã‚’åŸºæº–ã«ä¼¸ç¸®ã•ã›ã‚‹ãŸã‚ã€ãƒ”ãƒœãƒƒãƒˆã‚’å·¦ä¸­å¤®ã«è¨­å®š */
 			m_frontBarImage->GetSpriteRender()->SetPivot(PIVOT_LEFT_CENTER);
-			/** ‰ŠúƒJƒ‰[i—Îj */
+			/** åˆæœŸã‚«ãƒ©ãƒ¼ï¼ˆç·‘ï¼‰ */
 			m_frontBarImage->GetSpriteRender()->SetMulColor(COLOR_GREEN);
 			m_frontBarImage->Initialize(
 				BAR_FRONT_PATH,
@@ -156,28 +156,28 @@ namespace app
 
 		void UIBossHp::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::enState_Opened) {
+			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
 				return;
 			}
-			if (battle::BattleManager::GetIsBattleFinish()) {
+			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
 				return;
 			}
 			m_bossHpCanvas->Render(rc);
 		}
 
 
-		void UIBossHp::UpdateHp(uint8_t currentHp, uint8_t maxHp)
+		void UIBossHp::UpdateHp(int currentHp, int maxHp)
 		{
 			if (!m_frontBarImage || maxHp <= 0) {
 				return;
 			}
 
-			/** HPŠ„‡ŒvZ */
+			/** HPå‰²åˆè¨ˆç®— */
 			float hpRatio = static_cast<float>(currentHp) / static_cast<float>(maxHp);
-			/** HPƒo[‚Ì’·‚³XV */
+			/** HPãƒãƒ¼ã®é•·ã•æ›´æ–° */
 			m_frontBarImage->GetSpriteRender()->SetScale(Vector3(hpRatio, 1.0f, 1.0f));
 
-			/** FXV */
+			/** è‰²æ›´æ–° */
 			Vector4 color = COLOR_RED;
 			if (hpRatio > HP_MIDDLE) {
 				color = COLOR_GREEN;

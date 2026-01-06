@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CollisionManager.h"
-#include "Source/Actor/Character.h"
+#include "Source/Actor/Character/Character.h"
 
 
 namespace app

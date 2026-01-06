@@ -1,6 +1,10 @@
-﻿#include "stdafx.h"
+﻿/**
+ * SoundManager.h
+ * サウンドマネージャーの実装
+ */
+#include "stdafx.h"
 #include "SoundManager.h"
-#include "Source/Actor/Player.h" 
+#include "Source/Actor/Character/Player/Player.h"
 
 
 namespace app
@@ -84,7 +88,7 @@ namespace app
 		void SoundManager::Init()
 		{
 			/** 一括ロード */
-			for (int i = 0; i < enSoundList_Num; i++) {
+			for (uint8_t i = 0; i < enSoundList_Num; i++) {
 				std::string fullPath = SOUND_DIR + m_soundDefs[i].fileName + EXTENSION;
 				g_soundEngine->ResistWaveFileBank(i, fullPath.c_str());
 			}

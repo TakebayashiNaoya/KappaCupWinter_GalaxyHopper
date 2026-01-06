@@ -44,7 +44,7 @@ namespace app
 	void LoadingScreen::StartLoading()
 	{
 		if (m_instance != nullptr) {
-			m_instance->m_state = enState_Closing;
+			m_instance->m_state = EnState::Closing;
 
 			/** ロード画面が閉まり始めるタイミングで、全BGMをフェードアウトさせる */
 			sound::SoundManager::StopAllBGM(CROSE_DURATION);
@@ -55,7 +55,7 @@ namespace app
 	void LoadingScreen::FinishLoading()
 	{
 		if (m_instance != nullptr) {
-			m_instance->m_state = enState_Opening;
+			m_instance->m_state = EnState::Opening;
 
 			/** ロード明けのアニメーション時間に合わせてフェードインさせる */
 			sound::SoundManager::FadeInAllBGM(OPEN_DURATION);
@@ -67,14 +67,14 @@ namespace app
 	{
 		UpdateIrisTransform(0.0f);
 		sound::SoundManager::StopAllBGM(0.0f);
-		m_state = enState_Loading;
+		m_state = EnState::Loading;
 	}
 
 
 	void LoadingScreen::SnapToOpened()
 	{
 		UpdateIrisTransform(1.0f);
-		m_state = enState_Opened;
+		m_state = EnState::Opened;
 	}
 
 
@@ -88,11 +88,11 @@ namespace app
 		m_instance->m_timer = 0.0f;
 
 		// ローディング画面レイアウトに強制変更。
-		if (state == enState_Loading) {
+		if (state == EnState::Loading) {
 			m_instance->SnapToLoading();
 			sound::SoundManager::StopAllBGM(0.0f);
 		}
-		else if (state == enState_Opened) {
+		else if (state == EnState::Opened) {
 			m_instance->SnapToOpened();
 		}
 	}
@@ -103,7 +103,7 @@ namespace app
 		if (m_instance != nullptr) {
 			return m_instance->m_state;
 		}
-		return enState_None;
+		return EnState::None;
 	}
 
 
@@ -134,18 +134,18 @@ namespace app
 	{
 		switch (m_state)
 		{
-		case enState_Closing:
-			UpdateAnimation(1.0f, 0.0f, CROSE_DURATION, enState_Loading);
+		case EnState::Closing:
+			UpdateAnimation(1.0f, 0.0f, CROSE_DURATION, EnState::Loading);
 			break;
 
-		case enState_Loading:
+		case EnState::Loading:
 			break;
 
-		case enState_Opening:
-			UpdateAnimation(0.0f, 1.0f, OPEN_DURATION, enState_Opened);
+		case EnState::Opening:
+			UpdateAnimation(0.0f, 1.0f, OPEN_DURATION, EnState::Opened);
 			break;
 
-		case enState_Opened:
+		case EnState::Opened:
 			break;
 
 		default:
@@ -161,15 +161,15 @@ namespace app
 		}
 
 		/** 必要なときだけ各画像を描画 */
-		if (m_state == enState_Closing || m_state == enState_Opening) {
-			for (int i = 0; i < enImageParts_Num; ++i) {
+		if (m_state == EnState::Closing || m_state == EnState::Opening) {
+			for (uint8_t i = 0; i < enImageParts_Num; ++i) {
 				m_displayImages[i].Draw(rc);
 			}
 			return;
 		}
 
 		/** ローディング中はローディングアイコンを描画 */
-		if (m_state == enState_Loading) {
+		if (m_state == EnState::Loading) {
 			m_loadingIcon.Draw(rc);
 		}
 	}
@@ -204,7 +204,7 @@ namespace app
 
 
 		/** 画像を更新 */
-		for (int i = 0; i < enImageParts_Num; ++i) {
+		for (uint8_t i = 0; i < enImageParts_Num; ++i) {
 			m_displayImages[i].Update();
 		}
 
@@ -231,7 +231,7 @@ namespace app
 		m_displayImages[enImageParts_Left].SetPosition({ currentLeftPos, 0.0f, 0.0f });
 
 		/** 全パーツ更新 */
-		for (int i = 0; i < enImageParts_Num; ++i) {
+		for (uint8_t i = 0; i < enImageParts_Num; ++i) {
 			m_displayImages[i].Update();
 		}
 	}

@@ -49,7 +49,7 @@ namespace app
 			void InitSky();
 
 			SkyCube* m_skyCube = nullptr;
-			int m_skyCubeType = enSkyCubeType_SpaceToon_2;
+			uint8_t m_skyCubeType = enSkyCubeType_SpaceToon_2;
 		};
 	}
 }

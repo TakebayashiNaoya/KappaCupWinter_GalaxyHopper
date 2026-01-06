@@ -6,8 +6,8 @@
 #include "Title.h"
 #include "LoadingScreen.h"
 #include "SceneManager.h"
-#include "Source/Actor/TitlePlayer.h"
-#include "Source/Actor/TitlePlanet.h"
+#include "Source/Actor/Character/Player/TitlePlayer.h"
+#include "Source/Actor/Planet/TitlePlanet.h"
 #include "Camera/TitleCamera.h"
 #include "UI/UITitle.h"
 
@@ -56,17 +56,17 @@ namespace app
 			if (g_pad[0]->IsTrigger(enButtonA)) {
 				sound::SoundManager::Play(sound::enSoundList_PushSE);
 				/** ロードオープン中にボタンを押したら、ロード完了へ */
-				if (LoadingScreen::GetState() == LoadingScreen::enState_Opening) {
-					LoadingScreen::ChangeState(LoadingScreen::enState_Opened);
+				if (LoadingScreen::GetState() == LoadingScreen::EnState::Opening) {
+					LoadingScreen::ChangeState(LoadingScreen::EnState::Opened);
 				}
 				/** ロード完了時にボタンを押したら、ロード開始へ */
-				else if (LoadingScreen::GetState() == LoadingScreen::enState_Opened) {
+				else if (LoadingScreen::GetState() == LoadingScreen::EnState::Opened) {
 					LoadingScreen::StartLoading();
 				}
 			}
 
 			/** Loading画面になったらシーン切り替えをリクエスト */
-			if (LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
+			if (LoadingScreen::GetState() == LoadingScreen::EnState::Loading) {
 				SceneManager::GetInstance()->ChangeScene(SceneID::FirstStage);
 			}
 		}

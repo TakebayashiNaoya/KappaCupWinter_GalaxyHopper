@@ -4,8 +4,7 @@
  */
 #pragma once
 #include "Source/Actor/Character/Character.h"
-#include "Source/Actor/ActorStatus.h" 
-#include "PlayerStateMachine.h"
+
 
 namespace app
 {
@@ -15,20 +14,21 @@ namespace app
 		{
 		public:
 			/**
-			 * アニメーションクリップ
-			 * 初期化時とIStateでアニメ再生に使用するのでpublicにしています。
+			 * プレイヤーのアニメーションクリップ
 			 */
-			enum EnAnimationClip : uint8_t
+			enum class EnPlayerAnimClip : uint8_t
 			{
-				enAnimationClip_Idle,		/** 待機		*/
-				enAnimationClip_Walk,		/** 歩き		*/
-				enAnimationClip_Dash,		/** 走り		*/
-				enAnimationClip_Jump,		/** ジャンプ	*/
-				enAnimationClip_Damage,		/** 被弾		*/
-				enAnimationClip_Die,		/** 死亡		*/
-				enAnimationClip_Num,
+				Idle,	/** 待機	 */
+				Walk,	/** 歩き	 */
+				Dash,	/** 走り	 */
+				Jump,	/** ジャンプ */
+				Damage,	/** 被弾	 */
+				Die,	/** 死亡	 */
+				Num,
 			};
 
+
+		public:
 			/// <summary>
 			/// 毎フレームのXZ軸回転角度を取得
 			/// </summary>
@@ -70,7 +70,7 @@ namespace app
 			float   m_invincibleTimer = 0.0f;
 
 			// アニメーション設定
-			static const AnimationOption PLAYER_ANIMATION_OPTIONS[enAnimationClip_Num];
+			static const AnimationOption PLAYER_ANIMATION_OPTIONS[];
 		};
 	}
 }

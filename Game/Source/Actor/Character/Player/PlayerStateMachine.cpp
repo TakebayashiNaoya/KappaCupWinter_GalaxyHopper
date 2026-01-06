@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "PlayerStateMachine.h"
 #include "Player.h"
+#include "Source/Actor/ActorStatus.h"
 #include "PlayerIState.h"
 
 
@@ -8,70 +9,74 @@ namespace app
 {
 	namespace actor
 	{
-		/** PlayerStateMachineの持ち主（Player）をStateMachineBaseに渡してください */
-		PlayerStateMachine::PlayerStateMachine(Player* owner)
-			: StateMachineBase(owner)
+		/** 持ち主（Player）とステータス（PlayerStatus）をCharacterStateMachineに渡す */
+		PlayerStateMachine::PlayerStateMachine(Player* owner, PlayerStatus* status)
+			: CharacterStateMachine(owner, status)
+			, m_myPlayer(owner)
+			, m_myStatus(status)
 		{
 			/** ステートの生成 */
-			AddState<PlayerIdleState>(enPlayerState_Idle);
-			AddState<PlayerWalkState>(enPlayerState_Walk);
-			AddState<PlayerDashState>(enPlayerState_Dash);
-			AddState<PlayerJumpState>(enPlayerState_Jump);
-			AddState<PlayerDamageState>(enPlayerState_Damage);
-			AddState<PlayerDyingState>(enPlayerState_Dying);
-			AddState<PlayerDeadState>(enPlayerState_Dead);
-			K2_ASSERT(m_stateMap.size() == enPlayerState_Num, "AddStateを呼んでください");
+			AddState<PlayerIdleState>(Idle);
+			AddState<PlayerWalkState>(Walk);
+			AddState<PlayerDashState>(Dash);
+			AddState<PlayerJumpState>(Jump);
+			AddState<PlayerDamageState>(Damage);
+			AddState<PlayerDyingState>(Dying);
+			AddState<PlayerDeadState>(Dead);
+			K2_ASSERT(m_stateMap.size() == Num, "AddStateを呼んでください");
 
 			/** 初期ステート */
-			m_currentState = m_stateMap[enPlayerState_Idle];
+			m_currentState = m_stateMap[Idle];
 		}
 
 
 		PlayerStateMachine::~PlayerStateMachine()
 		{
-			/** ステートの破棄は~StateMachineBase()で行っているので、ここでは必要ありません */
 		}
 
 
-		void PlayerStateMachine::PlayAnimation(const int animationIndex)
+		core::IState* PlayerStateMachine::GetChangeState()
 		{
-			GetOwner<Player>()->GetModelRender()->PlayAnimation(static_cast<Player::EnAnimationClip>(animationIndex));
-		}
-
-
-		IState* PlayerStateMachine::GetChangeState()
-		{
-			/** ダメージ状態に変更できるか */
+			/** ダメージを受けたらダメージ状態へ */
 			if (CanChangeDamage()) {
-				return FindState(enPlayerState_Damage);
+				return FindState(Damage);
 			}
-
-			/** 死亡中状態なら */
-			if (IsEqualCurrentState(enPlayerState_Dying)) {
-				/** 死亡完了状態に変更できるか */
-				if (CanChangeDead()) {
-					return FindState(enPlayerState_Dead);
+			/** 条件が満たされるまでダメージ状態を維持 */
+			if (IsEqualCurrentState(Damage)) {
+				if (!IsDamageStateFinished()) {
+					return nullptr;
 				}
 			}
 
-			/** 死亡開始状態に変更できるか */
+			/** 死亡中ならアニメーションが終わるまでステートを維持し、終わったら完全死亡状態へ */
+			if (IsEqualCurrentState(Dying)) {
+				if (CanChangeDead()) {
+					return FindState(Dead);
+				}
+			}
+
+			/** HPが0になっていたら死亡開始状態へ */
 			if (CanChangeDying()) {
-				return FindState(enPlayerState_Dying);
+				return FindState(Dying);
 			}
-			/** ジャンプ状態に変更できるか */
+
+			/** 足が着いていなければジャンプ状態へ */
 			if (CanChangeJump()) {
-				return FindState(enPlayerState_Jump);
+				return FindState(Jump);
 			}
-			/** 走る状態に変更できるか */
+
+			/** ダッシュ入力があり、かつ移動入力があるならダッシュ状態へ */
 			if (CanChangeDush()) {
-				return FindState(enPlayerState_Dash);
+				return FindState(Dash);
 			}
-			/** 歩く状態に変更できるか */
+
+			/** 移動入力があるなら歩き状態へ */
 			if (CanChangeWalk()) {
-				return FindState(enPlayerState_Walk);
+				return FindState(Walk);
 			}
-			/** どの状態にも変更できなければ、待機状態に戻る */
-			return FindState(enPlayerState_Idle);
+
+			/** どれにも当てはまらなければ待機状態へ */
+			return FindState(Idle);
 		}
 
 
@@ -80,6 +85,12 @@ namespace app
 			if (IsOnGround() == false) {
 				return true;
 			}
+			return false;
+		}
+
+
+		bool PlayerStateMachine::IsDamageStateFinished()
+		{
 			return false;
 		}
 	}

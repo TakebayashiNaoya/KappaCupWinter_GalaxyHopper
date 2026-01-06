@@ -8,13 +8,13 @@ namespace app
 		/**
 		 * ロード画面の状態
 		 */
-		enum EnState
+		enum class EnState : uint8_t
 		{
-			enState_Closing,
-			enState_Loading,
-			enState_Opening,
-			enState_Opened,
-			enState_None
+			Closing,
+			Loading,
+			Opening,
+			Opened,
+			None
 		};
 
 		/**
@@ -50,7 +50,7 @@ namespace app
 
 	private:
 		/** ロード画面を構成する画像パーツ */
-		enum EnImageParts
+		enum EnImageParts :uint8_t
 		{
 			enImageParts_Center,	/** 中央 */
 			enImageParts_Top,		/** 上　 */
@@ -67,7 +67,7 @@ namespace app
 		/** ローディングアイコン */
 		SpriteRender m_loadingIcon;
 		/** ロード状態 */
-		EnState m_state = enState_None;
+		EnState m_state = EnState::None;
 		/** アニメーション用タイマー */
 		float m_timer = 0.0f;
 

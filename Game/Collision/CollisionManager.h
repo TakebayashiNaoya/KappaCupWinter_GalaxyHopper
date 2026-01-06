@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-
 namespace app
 {
 	namespace actor
@@ -14,15 +13,15 @@ namespace app
 		/**
 		 * 判定を検証するペアの中身を区別するための列挙型
 		 */
-		enum EnCollisionType : uint8_t
+		enum class EnCollisionType : uint8_t
 		{
-			enCollisionType_None = 0,
-			enCollisionType_Player,
-			enCollisionType_BasicEnemy,
-			enCollisionType_DeformEnemy,
-			enCollisionType_BossEnemy,
+			None = 0,
+			Player,
+			BasicEnemy,
+			DeformEnemy,
+			BossEnemy,
 			//
-			enCollisionType_Num,
+			Num,
 		};
 
 
@@ -31,7 +30,7 @@ namespace app
 		 */
 		struct CollisionInformation
 		{
-			EnCollisionType m_type = enCollisionType_None;
+			EnCollisionType m_type = EnCollisionType::None;
 			CollisionObject* m_collision = nullptr;
 			IGameObject* m_object = nullptr;
 			//

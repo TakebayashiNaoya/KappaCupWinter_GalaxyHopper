@@ -4,9 +4,7 @@
  */
 #pragma once
 #include "Source/Actor/Actor.h"
-
-
-class CharacterStatus;
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app
@@ -39,14 +37,14 @@ namespace app
 
 
 		protected:
-			/// <summary>
-			/// アニメーションファイルのオプションを管理する構造体。
-			/// 継承先の.cppで定義すること。
-			/// </summary>
+			/**
+			 * アニメーションファイルのオプションを管理する構造体。
+			 * 継承先の.cppで定義すること。
+			 */
 			struct AnimationOption
 			{
-				std::string fileName;	// ファイルパス。
-				bool is_loop = false;	// リピートするかどうか。（true=する、false=しない）
+				std::string fileName;	/** ファイルパス */
+				bool is_loop = false;	/** リピートするかどうか（true = する、false = しない） */
 			};
 
 
@@ -54,11 +52,15 @@ namespace app
 			 * モデルとアニメーションの初期化を行う。
 			 */
 			void InitModel(
-				const uint8_t count,				/** アニメーションクリップの数 */
+				const uint8_t count,			/** アニメーションクリップの数 */
 				const AnimationOption* option,	/** アニメーションクリップのオプション配列 */
 				const std::string path,			/** モデルファイルのパス */
 				const float scale				/** モデルの拡大率 */
 			);
+
+
+		private:
+			CharacterStatus* m_charaStatus = nullptr;
 		};
 	}
 }

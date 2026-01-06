@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * UIFirstStage.h
- * ƒtƒ@[ƒXƒgƒXƒe[ƒW—p‚ÌUIŠÇ—ƒNƒ‰ƒX
+ * ãƒ•ã‚¡ãƒ¼ã‚¹ãƒˆã‚¹ãƒ†ãƒ¼ã‚¸ç”¨ã®UIç®¡ç†ã‚¯ãƒ©ã‚¹
  */
 #pragma once
 #include "UIInGameBase.h"
@@ -14,22 +14,19 @@ namespace app
 
 
 		/**
-		 * ƒtƒ@[ƒXƒgƒXƒe[ƒWUI
-		 * ‹¤’ÊUI‚É‰Á‚¦‚ÄAƒMƒA”‚Ì•\¦‚ğs‚¤
+		 * ãƒ•ã‚¡ãƒ¼ã‚¹ãƒˆã‚¹ãƒ†ãƒ¼ã‚¸UI
+		 * å…±é€šUIã«åŠ ãˆã¦ã€ã‚®ã‚¢æ•°ã®è¡¨ç¤ºã‚’è¡Œã†
 		 */
 		class UIFirstStage : public UIInGameBase
 		{
 		private:
-			/** ƒMƒAUIiIGameObjectj */
+			/** ã‚®ã‚¢UIï¼ˆIGameObjectï¼‰ */
 			UIGear* m_uiGear = nullptr;
 
 
 		public:
 			UIFirstStage();
 			~UIFirstStage();
-
-			/** ƒMƒAŠl“¾”‚ğİ’è‚·‚é */
-			void SetGearCount(int count);
 
 
 		private:
@@ -43,25 +40,25 @@ namespace app
 
 
 		/**
-		 * ƒMƒA•\¦UI
-		 * IGameObject‚ğŒp³‚µACanvas‚ğ‚Â
+		 * ã‚®ã‚¢è¡¨ç¤ºUI
+		 * IGameObjectã‚’ç¶™æ‰¿ã—ã€Canvasã‚’æŒã¤
 		 */
 		class UIGear : public IGameObject
 		{
 		private:
-			/** UI•`‰æ—p‚ÌƒLƒƒƒ“ƒoƒX */
+			/** UIæç”»ç”¨ã®ã‚­ãƒ£ãƒ³ãƒã‚¹ */
 			std::unique_ptr<UICanvas> m_gearCanvas;
 
-			/** ƒMƒA‚Ìæ“¾” */
-			UIDigit* m_gotGearCountDigit = nullptr;
+			/** ã‚®ã‚¢ã®å–å¾—æ•° */
+			UIText* m_gotGearCountText = nullptr;
 
 
 		public:
 			UIGear();
 			~UIGear();
 
-			/** •\¦‚·‚é”š‚ğXV */
-			void SetCount(int count);
+			/** è¡¨ç¤ºã™ã‚‹æ•°å­—ã‚’æ›´æ–° */
+			void SetCount(int gotCount, int maxCount);
 
 
 		private:

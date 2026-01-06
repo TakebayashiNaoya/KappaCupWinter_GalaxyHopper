@@ -5,12 +5,20 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "Collision/CollisionManager.h"
+#include "Source/Actor/ActorStatus.h" 
+#include "PlayerStateMachine.h"
 
 
 namespace app
 {
 	namespace actor
 	{
+		namespace
+		{
+			constexpr float COLLIDER_OFFSET = 50.0f;		// ボディコライダーのオフセット値。
+		}
+
+
 		/** アニメーション設定 */
 		const Character::AnimationOption Player::PLAYER_ANIMATION_OPTIONS[] =
 		{
@@ -26,14 +34,17 @@ namespace app
 		Player::Player()
 		{
 			/** アニメーション数チェック */
-			static_assert(ARRAYSIZE(PLAYER_ANIMATION_OPTIONS) == enAnimationClip_Num,
+			static_assert(ARRAYSIZE(PLAYER_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnPlayerAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
-			/** ステートマシン生成 */
-			m_stateMachine = std::make_unique<PlayerStateMachine>(this);
+			/** PlayerStatus型でステータス生成 */
+			auto status = CreateStatus<PlayerStatus>();
 
-			/** ステータス生成 */
-			m_status = CreateStatus<PlayerStatus>();
+			/** ステートマシンを生成し、自分（Player型）とステータス（PlayerStatus型）の生ポインタを渡す */
+			m_stateMachine = std::make_unique<PlayerStateMachine>(this, status.get());
+
+			/** ステータスをムーブして保持 */
+			m_status = std::move(status);
 		}
 
 
@@ -45,13 +56,13 @@ namespace app
 		bool Player::Start()
 		{
 			/** モデルとアニメーションの初期化 */
-			InitModel(enAnimationClip_Num, PLAYER_ANIMATION_OPTIONS, "Player/player", GetStatus<PlayerStatus>()->GetModelScale());
+			InitModel(static_cast<uint8_t>(EnPlayerAnimClip::Num), PLAYER_ANIMATION_OPTIONS, "Player/player", m_status->GetModelScale());
 
 			/** やられ判定のコライダーを作成 */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
-				collision::enCollisionType_Player,
-				GetStatus<PlayerStatus>()->GetHurtRadius(),
+				collision::EnCollisionType::Player,
+				m_status->GetHurtRadius(),
 				app::EnCollisionAttr::enCollisionAttr_Player
 			);
 			return true;
@@ -60,9 +71,22 @@ namespace app
 
 		void Player::Update()
 		{
-			Character::Update();
 			/** ステートマシン更新 */
-			//m_stateMachine->Update();
+			m_stateMachine->Update();
+
+			/** モデルと当たり判定の更新に必要な値を取得 */
+			m_transform.m_position = m_stateMachine->GetTransform().m_position;
+			m_transform.m_rotation = m_stateMachine->GetTransform().m_rotation;
+			m_upDirection = m_stateMachine->GetUpDirection();
+
+			/** 当たり判定の更新 */
+			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
+			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
+
+			/** モデルの更新 */
+			m_modelRender.SetPosition(m_transform.m_position);
+			m_modelRender.SetRotation(m_transform.m_rotation);
+			m_modelRender.Update();
 
 			/** 無敵タイマー更新 */
 			//InvincibleTimer();

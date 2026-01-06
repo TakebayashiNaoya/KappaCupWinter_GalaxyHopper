@@ -29,7 +29,7 @@ namespace app
 		private:
 			BossPlanet* m_bossPlanet = nullptr;
 			std::vector<Spawner*> m_spawners;
-			UIBossHp* m_uiBossLife = nullptr;
+			UIBossHp* m_uiBossHp = nullptr;
 		};
 	}
 }

@@ -27,7 +27,7 @@ struct MasterPlayerStatusParameter : public IMasterParameter
 {
 	appParameter(MasterPlayerStatusParameter);
 	//
-	uint8_t maxHp;
+	int maxHp;
 	float walkSpeed;
 	float dashSpeed;
 	float hurtRadius;
@@ -39,7 +39,7 @@ struct MasterBasicEnemyStatusParameter : public IMasterParameter
 {
 	appParameter(MasterBasicEnemyStatusParameter);
 	//
-	uint8_t maxHp;
+	int maxHp;
 	float walkSpeed;
 	float dashSpeed;
 	float hurtRadius;
@@ -51,7 +51,7 @@ struct MasterDeformEnemyStatusParameter : public IMasterParameter
 {
 	appParameter(MasterDeformEnemyStatusParameter);
 	//
-	uint8_t maxHp;
+	int maxHp;
 	float walkSpeed;
 	float dashSpeed;
 	float hurtRadius;
@@ -64,7 +64,7 @@ struct MasterBossEnemyStatusParameter : public IMasterParameter
 {
 	appParameter(MasterBossEnemyStatusParameter);
 	//
-	uint8_t maxHp;
+	int maxHp;
 	float walkSpeed;
 	float dashSpeed;
 	float hurtRadius;
@@ -144,7 +144,7 @@ public:
 	 * データを取得する関数
 	 */
 	template <typename T>
-	const T* GetParameter(int index = 0) const
+	const T* GetParameter(uint8_t index = 0) const
 	{
 		auto it = m_parameterMap.find(T::ID());
 		if (it != m_parameterMap.end()) {

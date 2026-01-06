@@ -1,10 +1,14 @@
-﻿#pragma once
+﻿/**
+ * SoundManager.h
+ * サウンドマネージャー
+ */
+#pragma once
 #include <map>
 #include <list>
 #include <vector>
 #include <string>
 
-// エンジンのクラスを前方宣言
+ /** エンジンのクラスを前方宣言 */
 namespace nsK2EngineLow {
 	class SoundSource;
 }
@@ -15,7 +19,7 @@ namespace app
 	namespace sound
 	{
 		/** サウンドリスト */
-		enum EnSoundList
+		enum EnSoundList :uint8_t
 		{
 			enSoundList_TitleBGM,
 			enSoundList_FirstStageBGM,

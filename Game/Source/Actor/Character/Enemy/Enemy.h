@@ -1,6 +1,7 @@
-﻿/// <summary>
-/// エネミーを管理するクラス。
-/// </summary>
+﻿/**
+ * Enemy.h
+ * エネミーの基底クラス
+ */
 #pragma once
 #include "Source/Actor/Character/Character.h"
 
@@ -9,50 +10,38 @@ namespace app
 {
 	namespace actor
 	{
+		class Player;
+
+
 		class Enemy : public Character
 		{
 		public:
+			/**
+			 * 削除すべきかを取得
+			 * バトルマネージャーがこれを見てDeleteGOする
+			 */
+			inline const bool ShouldDestroy() const { return m_shouldDestroy; }
+			/**
+			 * 削除すべきかを設定
+			 * ステートで削除が決まったらこれをtrueにする
+			 */
+			inline void SetShouldDestroy(const bool shouldDestroy) { m_shouldDestroy = shouldDestroy; }
+			/**
+			 * ターゲットのプレイヤーを設定
+			 */
+			inline void SetTargetPlayer(Player* player) { m_targetPlayer = player; }
+
+
+		public:
+			Enemy();
 			virtual ~Enemy();
-
-			/// <summary>
-			/// プレイヤーが見つかったかどうかを取得します。
-			/// </summary>
-			/// <returns> プレイヤーが見つかったらtrueを返す。</returns>
-			const bool& GetIsFoundPlayer() const
-			{
-				return m_isFoundPlayer;
-			}
-			/// <summary>
-			/// プレイヤーが見つかったかどうかと、その座標を設定します。
-			/// </summary>
-			/// <param name="isFound"> プレイヤーが見つかったらtrueを入れる。</param>
-			/// <param name="playerPos"> プレイヤー最終座標を更新する。</param>
-			void SetIsFoundPlayer(const bool isFound, const Vector3& playerPos)
-			{
-				m_isFoundPlayer = isFound;
-				m_playerFoundPos = playerPos;
-			}
-
-			/// <summary>
-			/// 攻撃方向を設定します。
-			/// </summary>
-			/// <param name="direction"> 攻撃方向。</param>
-			void SetAttackDirection(const Vector3& direction);
-			/// <summary>
-			/// 攻撃方向をリセットします。
-			/// </summary>
-			void ResetAttackDirection()
-			{
-				m_attackDirection = Vector3::Zero;
-			}
 
 
 		protected:
-			bool m_isFoundPlayer = false;
-			Vector3 m_playerFoundPos = Vector3::Zero;
-			bool m_isDead = false;						// 死亡状態かどうか。
-			Vector3 m_attackDirection = Vector3::Zero;	// 攻撃方向。
-			bool m_isAttack = false;					// 攻撃中かどうか。
+			/** 削除すべきか */
+			bool m_shouldDestroy = false;
+			/** プレイヤーの座標 */
+			Player* m_targetPlayer = nullptr;
 		};
 	}
 }

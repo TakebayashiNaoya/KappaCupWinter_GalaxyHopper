@@ -4,16 +4,14 @@
  */
 #include "stdafx.h"
 #include "BattleStageBase.h"
-#include "Source/Actor/Player.h"   
-#include "Source/Actor/BossEnemy.h"
+#include "Source/Actor/Character/Player/Player.h"
+#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 #include "UI/UIGameOver.h"
 #include "UI/UIGameClear.h"
 #include "Camera/GameCamera.h"
 #include "UI/UIFirstStage.h"
 #include "Collision/CollisionManager.h"
 #include "LoadingScreen.h"
-#include "nature/SkyCube.h"
-#include "battle/BattleManager.h"
 
 
 namespace app
@@ -23,12 +21,13 @@ namespace app
 		BattleStageBase::BattleStageBase()
 		{
 			/** バトルマネージャーの戦闘終了フラグをfalseにしておく */
-			battle::BattleManager::SetIsBattleFinish(false);
-			/** バトルマネージャーのコリジョンマネージャーストップフラグをfalseにしておく */
-			battle::BattleManager::SetIsStopCollisionManager(false);
+			battle::BattleManager::SetIsResultSequence(false);
+			/** バトルマネージャーのゴールフラグをfalseにしておく */
+			battle::BattleManager::SetIsGoalReached(false);
 			/** ロードタスク登録 */
 			RegisterLoadingTasks();
 		}
+
 
 		BattleStageBase::~BattleStageBase()
 		{
@@ -43,10 +42,12 @@ namespace app
 			DeleteGO(m_gameCamera);
 		}
 
+
 		bool BattleStageBase::Start()
 		{
 			return true;
 		}
+
 
 		void BattleStageBase::Update()
 		{
@@ -64,21 +65,14 @@ namespace app
 			{
 				// 1.プレイヤーかボスが死亡したら、勝敗のステートを設定する。
 			case enBattlePhase_Battle:
-				if (m_player && m_player->GetStateMachine()->IsEqualCurrentState(actor::PlayerStateMachine::enPlayerState_Dying)) {
+				if (battle::BattleManager::GetBattleResult() == battle::BattleManager::EnBattleResult::Lose) {
 					m_result = enResult_PlayerLose;
-					m_battlePhase = enBattlePhase_BattleFinish;
+					m_battlePhase = enBattlePhase_WaitFinishAnimation;
 				}
-				else if (m_bossEnemy && m_bossEnemy->GetStateMachine()->IsEqualCurrentState(actor::PlayerStateMachine::enPlayerState_Dying)) {
+				else if (battle::BattleManager::GetBattleResult() == battle::BattleManager::EnBattleResult::Win) {
 					m_result = enResult_PlayerWin;
-					m_battlePhase = enBattlePhase_BattleFinish;
+					m_battlePhase = enBattlePhase_WaitFinishAnimation;
 				}
-				break;
-
-
-				// 2.相打ちにならないようにコリジョンマネージャーを破棄する。
-			case enBattlePhase_BattleFinish:
-				battle::BattleManager::SetIsStopCollisionManager(true);
-				m_battlePhase = enBattlePhase_WaitFinishAnimation;
 				break;
 
 
@@ -86,14 +80,12 @@ namespace app
 				//   ボスの死亡アニメーションが終わったらゲームクリアへ。
 			case enBattlePhase_WaitFinishAnimation:
 				if (m_result == enResult_PlayerLose) {
-					if (m_player && m_player->GetStateMachine()->IsEqualCurrentState(actor::PlayerStateMachine::enPlayerState_Dead)) {
-						battle::BattleManager::SetIsBattleFinish(true);
+					if (m_player && m_player->GetModelRender()->IsPlayingAnimation() == false) {
 						m_battlePhase = enBattlePhase_GameOver;
 					}
 				}
 				else if (m_result == enResult_PlayerWin) {
-					if (m_bossEnemy && m_bossEnemy->GetIsDead()) {
-						battle::BattleManager::SetIsBattleFinish(true);
+					if (m_bossEnemy && m_bossEnemy->GetModelRender()->IsPlayingAnimation() == false) {
 						m_battlePhase = enBattlePhase_GameClear;
 					}
 				}
@@ -119,11 +111,11 @@ namespace app
 			case enBattlePhase_WaitEnd:
 				if (m_uiResult->GetIsEnd()) {
 					// ロード画面へ移行。
-					if (LoadingScreen::GetState() != LoadingScreen::enState_Loading) {
-						LoadingScreen::ChangeState(LoadingScreen::enState_Loading);
+					if (LoadingScreen::GetState() != LoadingScreen::EnState::Loading) {
+						LoadingScreen::ChangeState(LoadingScreen::EnState::Loading);
 					}
 
-					if (LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
+					if (LoadingScreen::GetState() == LoadingScreen::EnState::Loading) {
 						// 黒画像が残ってしまっているので破棄する。
 						if (m_uiResult) {
 							DeleteGO(m_uiResult);
@@ -148,6 +140,7 @@ namespace app
 				m_currentTaskIndex++;
 			}
 		}
+
 
 		void BattleStageBase::RegisterLoadingTasks()
 		{

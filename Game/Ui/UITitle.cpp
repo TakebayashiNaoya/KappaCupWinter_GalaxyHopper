@@ -51,7 +51,7 @@ namespace app
 
 		void UITitle::Update()
 		{
-			if (LoadingScreen::GetState() == LoadingScreen::enState_Loading) {
+			if (LoadingScreen::GetState() == LoadingScreen::EnState::Loading) {
 				DeleteGO(this);
 			}
 		}
@@ -99,7 +99,7 @@ namespace app
 		void UITitleLogo::Render(RenderContext& rc)
 		{
 			/** ロード画面が完全に開いている時だけ描画 */
-			if (LoadingScreen::GetState() == LoadingScreen::enState_Opened) {
+			if (LoadingScreen::GetState() == LoadingScreen::EnState::Opened) {
 				m_canvas->Render(rc);
 			}
 		}

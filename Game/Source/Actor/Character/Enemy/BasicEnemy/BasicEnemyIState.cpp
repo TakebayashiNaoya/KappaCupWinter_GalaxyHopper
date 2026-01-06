@@ -10,6 +10,20 @@ namespace app
 {
 	namespace actor
 	{
+		/** ステートマシン、エネミー、ステータスをキャッシュ */
+		BasicEnemyStateBase::BasicEnemyStateBase(BasicEnemyStateMachine* machine, BasicEnemy* enemy, BasicEnemyStatus* status)
+			: m_stateMachine(machine)
+			, m_enemy(enemy)
+			, m_status(status)
+		{
+		}
+
+
+
+
+		/********************************/
+
+
 		void BasicEnemyIdleState::Enter()
 		{
 		}
@@ -50,17 +64,17 @@ namespace app
 		/********************************/
 
 
-		void BasicEnemyWaitState::Enter()
+		void BasicEnemyCooldownState::Enter()
 		{
 		}
 
 
-		void BasicEnemyWaitState::Update()
+		void BasicEnemyCooldownState::Update()
 		{
 		}
 
 
-		void BasicEnemyWaitState::Exit()
+		void BasicEnemyCooldownState::Exit()
 		{
 		}
 
@@ -70,17 +84,17 @@ namespace app
 		/********************************/
 
 
-		void BasicEnemyDeadState::Enter()
+		void BasicEnemyDieState::Enter()
 		{
 		}
 
 
-		void BasicEnemyDeadState::Update()
+		void BasicEnemyDieState::Update()
 		{
 		}
 
 
-		void BasicEnemyDeadState::Exit()
+		void BasicEnemyDieState::Exit()
 		{
 		}
 	}

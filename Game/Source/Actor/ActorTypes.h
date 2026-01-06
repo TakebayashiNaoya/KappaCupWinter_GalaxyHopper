@@ -1,18 +1,29 @@
-/**
+﻿/**
  * ActorTypes.h
- * アクター用の定数やEnum定義
+ * アクター関連の定義
  */
 #pragma once
 
+
  /**
-  * プレイヤーのアニメーションの種類
+  * プレイヤーの体力状態
   */
-enum class PlayerAnimationType
+enum enPlayerCondition : uint8_t
 {
-	Idle,		// 待機
-	Walk,		// 歩き
-	Run,		// 走り
-	Down,		// ダウン
-	Dead,		// 死亡
-	Num,
+	enPlayerCondition_Dead,		// 死亡。
+	enPlayerCondition_Danger,	// 危険。
+	enPlayerCondition_Caution,	// 注意。
+	enPlayerCondition_Fine,		// 全快。
+	enPlayerCondition_Num,
 };
+
+
+
+
+
+
+
+
+
+
+
