@@ -4,7 +4,9 @@
  */
 #include "stdafx.h"
 #include "Actor.h"
-#include "StateMachineBase.h"
+ /** ステートマシンとステータスをdeleteするために必要 */
+#include "Source/Actor/ActorStateMachine.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app

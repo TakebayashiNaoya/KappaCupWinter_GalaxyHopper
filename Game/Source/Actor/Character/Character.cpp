@@ -35,7 +35,8 @@ namespace app
 
 		bool Character::Start()
 		{
-			return Actor::Start();
+			/** ステータスをキャッシュ */
+			m_charaStatus = GetStatus<CharacterStatus>();
 		}
 
 
@@ -50,8 +51,12 @@ namespace app
 			m_upDirection = m_stateMachine->GetUpDirection();
 
 			/** 当たり判定の更新 */
-			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
-			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
+			if (m_hitCollider) {
+				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
+			}
+			if (m_hurtCollider) {
+				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
+			}
 
 			/** モデルの更新 */
 			m_modelRender.SetPosition(m_transform.m_position);

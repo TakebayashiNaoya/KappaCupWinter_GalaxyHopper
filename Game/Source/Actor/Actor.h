@@ -3,17 +3,20 @@
  * 見た目が存在するゲームオブジェクトの基底クラス
  */
 #pragma once
- //#include "ActorStatus.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		class CharacterStateMachine;
-		class CharacterStatus;
+		/** 前方宣言 */
+		class ActorStateMachine;
+		class ActorStatus;
 
 
+		/**
+		 * 見た目が存在するゲームオブジェクトの基底クラス
+		 */
 		class Actor : public IGameObject
 		{
 		public:
@@ -106,9 +109,9 @@ namespace app
 			/** 上方向ベクトル */
 			Vector3 m_upDirection = Vector3::Up;
 			/** ステートマシン */
-			std::unique_ptr<CharacterStateMachine> m_stateMachine;
+			std::unique_ptr<ActorStateMachine> m_stateMachine;
 			/** ステータス */
-			std::unique_ptr<CharacterStatus> m_status;
+			std::unique_ptr<ActorStatus> m_status;
 
 
 		public:

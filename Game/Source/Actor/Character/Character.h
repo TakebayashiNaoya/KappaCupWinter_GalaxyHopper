@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "Source/Actor/Actor.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app
@@ -56,6 +57,10 @@ namespace app
 				const std::string path,			/** モデルファイルのパス */
 				const float scale				/** モデルの拡大率 */
 			);
+
+
+		private:
+			CharacterStatus* m_charaStatus = nullptr;
 		};
 	}
 }
