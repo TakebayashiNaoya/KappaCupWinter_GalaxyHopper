@@ -55,14 +55,17 @@ namespace app
 
 		bool Player::Start()
 		{
+			/** PlayerStatusにキャストする */
+			auto status = GetStatus<PlayerStatus>();
+
 			/** モデルとアニメーションの初期化 */
-			InitModel(static_cast<uint8_t>(EnPlayerAnimClip::Num), PLAYER_ANIMATION_OPTIONS, "Player/player", m_status->GetModelScale());
+			InitModel(static_cast<uint8_t>(EnPlayerAnimClip::Num), PLAYER_ANIMATION_OPTIONS, "Player/player", status->GetModelScale());
 
 			/** やられ判定のコライダーを作成 */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
 				collision::EnCollisionType::Player,
-				m_status->GetHurtRadius(),
+				status->GetHurtRadius(),
 				app::EnCollisionAttr::enCollisionAttr_Player
 			);
 			return true;
@@ -71,23 +74,6 @@ namespace app
 
 		void Player::Update()
 		{
-			/** ステートマシン更新 */
-			m_stateMachine->Update();
-
-			/** モデルと当たり判定の更新に必要な値を取得 */
-			m_transform.m_position = m_stateMachine->GetTransform().m_position;
-			m_transform.m_rotation = m_stateMachine->GetTransform().m_rotation;
-			m_upDirection = m_stateMachine->GetUpDirection();
-
-			/** 当たり判定の更新 */
-			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
-			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
-
-			/** モデルの更新 */
-			m_modelRender.SetPosition(m_transform.m_position);
-			m_modelRender.SetRotation(m_transform.m_rotation);
-			m_modelRender.Update();
-
 			/** 無敵タイマー更新 */
 			//InvincibleTimer();
 		}

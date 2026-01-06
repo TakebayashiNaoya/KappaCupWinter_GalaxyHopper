@@ -60,6 +60,7 @@ namespace app
 
 
 		private:
+			/** キャラクターステータスのキャッシュ */
 			CharacterStatus* m_charaStatus = nullptr;
 		};
 	}
