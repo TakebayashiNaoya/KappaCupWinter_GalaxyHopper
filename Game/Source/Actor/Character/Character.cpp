@@ -67,12 +67,6 @@ namespace app
 		}
 
 
-		void Character::Render(RenderContext& renderContect)
-		{
-			Actor::Render(renderContect);
-		}
-
-
 		/**
 		 * モデルとアニメーションの初期化を行う。
 		 * ・アニメーションクリップの数

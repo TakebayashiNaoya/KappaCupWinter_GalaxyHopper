@@ -120,9 +120,9 @@ namespace app
 
 
 		protected:
-			virtual bool Start() override;
-			virtual void Update() override;
-			virtual void Render(RenderContext& renderContect) override;
+			virtual bool Start() override { return true; }
+			virtual void Update() override {}
+			virtual void Render(RenderContext& rc) override {};
 		};
 	}
 }

@@ -77,7 +77,7 @@ namespace app
 
 		void Player::Render(RenderContext& rc)
 		{
-			Character::Render(rc);
+			m_modelRender.Draw(rc);
 		}
 	}
 }
