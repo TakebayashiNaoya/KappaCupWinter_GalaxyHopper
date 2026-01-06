@@ -41,6 +41,12 @@ namespace app
 			if (CanChangeDamage()) {
 				return FindState(Damage);
 			}
+			/** 条件が満たされるまでダメージ状態を維持 */
+			if (IsEqualCurrentState(Damage)) {
+				if (!IsDamageStateFinished()) {
+					return nullptr;
+				}
+			}
 
 			/** 死亡中ならアニメーションが終わるまでステートを維持し、終わったら完全死亡状態へ */
 			if (IsEqualCurrentState(Dying)) {
@@ -79,6 +85,12 @@ namespace app
 			if (IsOnGround() == false) {
 				return true;
 			}
+			return false;
+		}
+
+
+		bool PlayerStateMachine::IsDamageStateFinished()
+		{
 			return false;
 		}
 	}

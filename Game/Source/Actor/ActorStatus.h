@@ -58,17 +58,10 @@ namespace app
 			/** 初期設定 */
 			virtual void Setup() override {}
 
-			void Update()
-			{
-				// ダメージフラグリセット
-				m_isDamage = false;
-			}
-
-
-			void Damage()
+			/** ダメージを与える */
+			void TakeDamage()
 			{
 				m_hp--;
-				m_isDamage = true;
 			}
 
 
@@ -85,8 +78,6 @@ namespace app
 			float GetHurtRadius() const { return m_hurtRadius; }
 			/** モデルの拡大率のゲッター */
 			float GetModelScale() const { return m_modelScale; }
-			/** ダメージを受けたかどうかのゲッター */
-			bool IsDamage() const { return m_isDamage; }
 		};
 
 

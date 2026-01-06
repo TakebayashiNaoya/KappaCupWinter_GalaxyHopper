@@ -44,6 +44,9 @@ namespace app
 			/** ジャンプ状態に変更できるか */
 			bool CanChangeJump();
 
+			/** ダメージ状態が終了したか */
+			bool IsDamageStateFinished() override final;
+
 
 		private:
 			/** ステートを追加するテンプレート関数 */
