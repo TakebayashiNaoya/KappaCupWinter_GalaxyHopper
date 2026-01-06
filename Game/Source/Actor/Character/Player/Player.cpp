@@ -13,12 +13,6 @@ namespace app
 {
 	namespace actor
 	{
-		namespace
-		{
-			constexpr float COLLIDER_OFFSET = 50.0f;		// ボディコライダーのオフセット値。
-		}
-
-
 		/** アニメーション設定 */
 		const Character::AnimationOption Player::PLAYER_ANIMATION_OPTIONS[] =
 		{
@@ -74,6 +68,9 @@ namespace app
 
 		void Player::Update()
 		{
+			/** キャラクター共通の更新処理を呼び出す */
+			Character::Update();
+
 			/** 無敵タイマー更新 */
 			//InvincibleTimer();
 		}

@@ -3,9 +3,10 @@
     "comment": "プレイヤーのステータス",
     "maxHp": 3,
     "walkSpeed": 10.0,
-    "dashSpeed": 15.0,
     "hurtRadius": 30.0,
     "modelScale": 70.0,
+    "colliderOffset": 50.0,
+    "dashSpeed": 15.0,
     "jumpPower": 30.0
   }
 ]

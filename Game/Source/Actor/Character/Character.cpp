@@ -52,10 +52,10 @@ namespace app
 
 			/** 当たり判定の更新 */
 			if (m_hitCollider) {
-				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
+				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, m_charaStatus->GetColliderOffset());
 			}
 			if (m_hurtCollider) {
-				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
+				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, m_charaStatus->GetColliderOffset());
 			}
 
 			/** モデルの更新 */

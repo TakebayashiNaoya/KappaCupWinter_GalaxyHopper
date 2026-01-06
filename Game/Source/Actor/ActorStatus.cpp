@@ -18,9 +18,10 @@ namespace app
 				{
 					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
-					parameter.dashSpeed = j["dashSpeed"].get<float>();
 					parameter.hurtRadius = j["hurtRadius"].get<float>();
 					parameter.modelScale = j["modelScale"].get<float>();
+					parameter.colliderOffset = j["colliderOffset"].get<float>();
+					parameter.dashSpeed = j["dashSpeed"].get<float>();
 					parameter.jumpPower = j["jumpPower"].get<float>();
 				});
 		}
@@ -39,9 +40,10 @@ namespace app
 			const auto* parameter = ParameterManager::Get().GetParameter<MasterPlayerStatusParameter>();
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
-			m_dashSpeed = parameter->dashSpeed;
 			m_hurtRadius = parameter->hurtRadius;
 			m_modelScale = parameter->modelScale;
+			m_colliderOffset = parameter->colliderOffset;
+			m_dashSpeed = parameter->dashSpeed;
 			m_jumpPower = parameter->jumpPower;
 		}
 
@@ -58,9 +60,9 @@ namespace app
 				{
 					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
-					parameter.dashSpeed = j["dashSpeed"].get<float>();
 					parameter.hurtRadius = j["hurtRadius"].get<float>();
 					parameter.modelScale = j["modelScale"].get<float>();
+					parameter.colliderOffset = j["colliderOffset"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
 				});
 		}
@@ -79,9 +81,9 @@ namespace app
 			const auto* parameter = ParameterManager::Get().GetParameter<MasterBasicEnemyStatusParameter>();
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
-			m_dashSpeed = parameter->dashSpeed;
 			m_hurtRadius = parameter->hurtRadius;
 			m_modelScale = parameter->modelScale;
+			m_colliderOffset = parameter->colliderOffset;
 			m_hitRadius = parameter->hitRadius;
 		}
 
@@ -98,9 +100,9 @@ namespace app
 				{
 					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
-					parameter.dashSpeed = j["dashSpeed"].get<float>();
 					parameter.hurtRadius = j["hurtRadius"].get<float>();
 					parameter.modelScale = j["modelScale"].get<float>();
+					parameter.colliderOffset = j["colliderOffset"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
 					parameter.slideSpeed = j["slideSpeed"].get<float>();
 				});
@@ -120,9 +122,9 @@ namespace app
 			const auto* parameter = ParameterManager::Get().GetParameter<MasterDeformEnemyStatusParameter>();
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
-			m_dashSpeed = parameter->dashSpeed;
 			m_hurtRadius = parameter->hurtRadius;
 			m_modelScale = parameter->modelScale;
+			m_colliderOffset = parameter->colliderOffset;
 			m_hitRadius = parameter->hitRadius;
 			m_slideSpeed = parameter->slideSpeed;
 		}
@@ -140,10 +142,11 @@ namespace app
 				{
 					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
-					parameter.dashSpeed = j["dashSpeed"].get<float>();
 					parameter.hurtRadius = j["hurtRadius"].get<float>();
 					parameter.modelScale = j["modelScale"].get<float>();
+					parameter.colliderOffset = j["colliderOffset"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
+					parameter.dashSpeed = j["dashSpeed"].get<float>();
 				});
 		}
 
@@ -161,10 +164,11 @@ namespace app
 			const auto* parameter = ParameterManager::Get().GetParameter<MasterBossEnemyStatusParameter>();
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
-			m_dashSpeed = parameter->dashSpeed;
 			m_hurtRadius = parameter->hurtRadius;
 			m_modelScale = parameter->modelScale;
+			m_colliderOffset = parameter->colliderOffset;
 			m_hitRadius = parameter->hitRadius;
+			m_dashSpeed = parameter->dashSpeed;
 		}
 	}
 }

@@ -29,9 +29,10 @@ struct MasterPlayerStatusParameter : public IMasterParameter
 	//
 	int maxHp;
 	float walkSpeed;
-	float dashSpeed;
 	float hurtRadius;
 	float modelScale;
+	float colliderOffset;
+	float dashSpeed;
 	float jumpPower;
 };
 
@@ -41,9 +42,9 @@ struct MasterBasicEnemyStatusParameter : public IMasterParameter
 	//
 	int maxHp;
 	float walkSpeed;
-	float dashSpeed;
 	float hurtRadius;
 	float modelScale;
+	float colliderOffset;
 	float hitRadius;
 };
 
@@ -53,9 +54,9 @@ struct MasterDeformEnemyStatusParameter : public IMasterParameter
 	//
 	int maxHp;
 	float walkSpeed;
-	float dashSpeed;
 	float hurtRadius;
 	float modelScale;
+	float colliderOffset;
 	float hitRadius;
 	float slideSpeed;
 };
@@ -66,10 +67,11 @@ struct MasterBossEnemyStatusParameter : public IMasterParameter
 	//
 	int maxHp;
 	float walkSpeed;
-	float dashSpeed;
 	float hurtRadius;
 	float modelScale;
+	float colliderOffset;
 	float hitRadius;
+	float dashSpeed;
 };
 
 
