@@ -62,7 +62,8 @@ namespace app
 		}
 
 
-		PlayerController::PlayerController()
+		PlayerController::PlayerController(Player* player)
+			: m_targetPlayer(player)
 		{
 		}
 
@@ -74,6 +75,8 @@ namespace app
 
 		bool PlayerController::Start()
 		{
+			m_stateMachine = m_targetPlayer->GetStateMachine<PlayerStateMachine>();
+			m_playerStatus = m_targetPlayer->GetStatus<PlayerStatus>();
 			return true;
 		}
 
@@ -84,19 +87,16 @@ namespace app
 				return;
 			}
 
-			/** プレイヤーのステートマシンを取得 */
-			auto* targetStateMachine = m_targetPlayer->GetStateMachine<PlayerStateMachine>();
-
 			/** 着地時にAボタンを押した瞬間、ジャンプ初速を設定する */
-			if (targetStateMachine->IsOnGround() && g_pad[0]->IsTrigger(enButtonA)) {
-				targetStateMachine->SetInitialJumpSpeed(m_targetPlayer->GetStatus<PlayerStatus>()->GetJumpPower());
+			if (m_stateMachine->IsOnGround() && g_pad[0]->IsTrigger(enButtonA)) {
+				m_stateMachine->SetInitialJumpSpeed(m_playerStatus->GetJumpPower());
 			}
 
 			/** Bボタンを押している間ダッシュ */
-			targetStateMachine->SetIsDash(g_pad[0]->IsPress(enButtonB));
+			m_stateMachine->SetIsDash(g_pad[0]->IsPress(enButtonB));
 
 			/** Lスティック入力があれば移動方向を設定する */
-			targetStateMachine->SetMoveDirection(CalcMoveDirection(targetStateMachine));
+			m_stateMachine->SetMoveDirection(CalcMoveDirection(m_stateMachine));
 		}
 
 	}
