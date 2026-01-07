@@ -142,6 +142,11 @@ namespace app
 			void Enter() override final;
 			void Update() override final;
 			void Exit() override final;
+
+
+		private:
+			/** ダメージ状態の経過時間計測タイマー */
+			float m_damageTimer = 0.0f;
 		};
 
 
