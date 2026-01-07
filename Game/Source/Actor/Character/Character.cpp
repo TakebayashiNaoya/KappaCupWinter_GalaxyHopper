@@ -37,6 +37,8 @@ namespace app
 		{
 			/** ステータスをキャッシュ */
 			m_charaStatus = GetStatus<CharacterStatus>();
+
+			return true;
 		}
 
 
@@ -52,22 +54,16 @@ namespace app
 
 			/** 当たり判定の更新 */
 			if (m_hitCollider) {
-				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
+				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, m_charaStatus->GetColliderOffset());
 			}
 			if (m_hurtCollider) {
-				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
+				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, m_charaStatus->GetColliderOffset());
 			}
 
 			/** モデルの更新 */
 			m_modelRender.SetPosition(m_transform.m_position);
 			m_modelRender.SetRotation(m_transform.m_rotation);
 			m_modelRender.Update();
-		}
-
-
-		void Character::Render(RenderContext& renderContect)
-		{
-			Actor::Render(renderContect);
 		}
 
 

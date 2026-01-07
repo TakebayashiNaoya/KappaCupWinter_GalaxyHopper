@@ -41,14 +41,12 @@ namespace app
 			int m_maxHp = 0;
 			/** 歩く移動速度 */
 			float m_walkSpeed = 0.0f;
-			/** 走る移動速度 */
-			float m_dashSpeed = 0.0f;
 			/** ダメージを受ける当たり判定の半径 */
 			float m_hurtRadius = 0.0f;
 			/** モデルの拡大率 */
 			float m_modelScale = 0.0f;
-			/** ダメージを受けたかどうか */
-			bool m_isDamage = false;
+			/** コライダーのオフセット値 */
+			float m_colliderOffset = 0.0f;
 
 
 		public:
@@ -72,12 +70,12 @@ namespace app
 			int GetMaxHp() const { return m_maxHp; }
 			/** スピードのゲッター */
 			float GetWalkSpeed() const { return m_walkSpeed; }
-			/** ダッシュスピードのゲッター */
-			float GetDashSpeed() const { return m_dashSpeed; }
 			/** 半径のゲッター */
 			float GetHurtRadius() const { return m_hurtRadius; }
 			/** モデルの拡大率のゲッター */
 			float GetModelScale() const { return m_modelScale; }
+			/** コライダーのオフセット値のゲッター */
+			float GetColliderOffset() const { return m_colliderOffset; }
 		};
 
 
@@ -92,6 +90,8 @@ namespace app
 		class PlayerStatus : public CharacterStatus
 		{
 		private:
+			/** 走る移動速度 */
+			float m_dashSpeed = 0.0f;
 			/** ジャンプ力 */
 			float m_jumpPower = 0.0f;
 
@@ -105,6 +105,8 @@ namespace app
 
 
 		public:
+			/** ダッシュスピードのゲッター */
+			float GetDashSpeed() const { return m_dashSpeed; }
 			/** ジャンプ力のゲッター */
 			float GetJumpPower() const { return m_jumpPower; }
 		};
@@ -193,12 +195,22 @@ namespace app
 		 */
 		class BossEnemyStatus : public EnemyStatus
 		{
+		private:
+			/** 走る移動速度 */
+			float m_dashSpeed = 0.0f;
+
+
 		public:
 			BossEnemyStatus();
 			~BossEnemyStatus();
 
 			/** 初期化 */
 			virtual void Setup() override;
+
+
+		public:
+			/** ダッシュスピードのゲッター */
+			float GetDashSpeed() const { return m_dashSpeed; }
 		};
 	}
 }

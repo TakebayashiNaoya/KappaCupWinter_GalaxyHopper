@@ -38,6 +38,12 @@ namespace app
 
 
 		protected:
+			bool Start() override { return true; };
+			void Update() override {};
+			void Render(RenderContext& rc) override {};
+
+
+		protected:
 			/** 削除すべきか */
 			bool m_shouldDestroy = false;
 			/** プレイヤーの座標 */

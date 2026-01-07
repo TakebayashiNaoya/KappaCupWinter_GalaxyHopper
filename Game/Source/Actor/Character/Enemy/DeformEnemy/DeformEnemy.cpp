@@ -57,21 +57,24 @@ namespace app
 
 		bool DeformEnemy::Start()
 		{
+			/** DeformEnemyStatusにキャストする */
+			auto status = GetStatus<DeformEnemyStatus>();
+
 			/** モデルとアニメーションを初期化 */
-			InitModel(static_cast<uint8_t>(EnDeformEnemyAnimClip::Num), TRANSFORM_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
+			InitModel(static_cast<uint8_t>(EnDeformEnemyAnimClip::Num), TRANSFORM_ENEMY_ANIMATION_OPTIONS, MODEL_PATH, status->GetModelScale());
 
 			/** 攻撃判定のコライダーを作成 */
 			m_hitCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
 				collision::EnCollisionType::DeformEnemy,
-				HIT_COLLIDER_RADIUS,
+				status->GetHitRadius(),
 				app::EnCollisionAttr::enCollisionAttr_Enemy
 			);
 			/** やられ判定のコライダーを作成 */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(
 				this,
 				collision::EnCollisionType::DeformEnemy,
-				HURT_COLLIDER_RADIUS,
+				status->GetHurtRadius(),
 				app::EnCollisionAttr::enCollisionAttr_Enemy
 			);
 
@@ -83,22 +86,8 @@ namespace app
 
 		void DeformEnemy::Update()
 		{
-			/** ステートマシン更新 */
-			m_stateMachine->Update();
-
-			/** モデルと当たり判定の更新に必要な値を取得 */
-			m_transform.m_position = m_stateMachine->GetTransform().m_position;
-			m_transform.m_rotation = m_stateMachine->GetTransform().m_rotation;
-			m_upDirection = m_stateMachine->GetUpDirection();
-
-			/** 当たり判定の更新 */
-			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, COLLIDER_OFFSET);
-			collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, COLLIDER_OFFSET);
-
-			/** モデルの更新 */
-			m_modelRender.SetPosition(m_transform.m_position);
-			m_modelRender.SetRotation(m_transform.m_rotation);
-			m_modelRender.Update();
+			/** キャラクター共通の更新処理を呼び出す */
+			Character::Update();
 		}
 
 
