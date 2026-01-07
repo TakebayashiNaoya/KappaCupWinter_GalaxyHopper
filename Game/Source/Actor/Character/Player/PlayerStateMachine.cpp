@@ -91,6 +91,10 @@ namespace app
 
 		bool PlayerStateMachine::IsDamageStateFinished()
 		{
+			/** ノックバックによる移動速度が0以下になったらダメージ状態終了 */
+			if (m_moveSpeed <= 0.0f) {
+				return true;
+			}
 			return false;
 		}
 	}

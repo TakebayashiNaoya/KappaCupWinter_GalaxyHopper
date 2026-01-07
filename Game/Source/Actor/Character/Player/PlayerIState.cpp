@@ -118,6 +118,8 @@ namespace app
 		{
 			/** 被弾アニメーション */
 			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Damage);
+			/** 入力をはじく */
+			m_stateMachine->SetIsInputBlocked(true);
 		}
 
 
@@ -128,6 +130,8 @@ namespace app
 
 		void PlayerDamageState::Exit()
 		{
+			/** 入力を受け付ける */
+			m_stateMachine->SetIsInputBlocked(false);
 		}
 
 

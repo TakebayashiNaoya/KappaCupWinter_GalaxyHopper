@@ -87,6 +87,11 @@ namespace app
 				return;
 			}
 
+			/** 入力がブロックされていたら何もしない */
+			if (m_stateMachine->IsInputBlocked()) {
+				return;
+			}
+
 			/** 着地時にAボタンを押した瞬間、ジャンプ初速を設定する */
 			if (m_stateMachine->IsOnGround() && g_pad[0]->IsTrigger(enButtonA)) {
 				m_stateMachine->SetInitialJumpSpeed(m_playerStatus->GetJumpPower());

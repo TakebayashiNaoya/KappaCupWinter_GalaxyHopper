@@ -64,6 +64,11 @@ namespace app
 			 */
 			Player* m_myPlayer = nullptr;
 			PlayerStatus* m_myStatus = nullptr;
+
+
+		private:
+			/** ダメージ状態の経過時間 */
+			float m_damageStateTimer = 0.0f;
 		};
 	}
 }
