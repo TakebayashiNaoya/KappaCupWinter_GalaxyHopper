@@ -3,6 +3,7 @@
  * 見た目が存在するゲームオブジェクトの基底クラス
  */
 #pragma once
+#include "actorStatus.h"
 
 
 namespace app
