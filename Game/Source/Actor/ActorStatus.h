@@ -94,6 +94,10 @@ namespace app
 			float m_dashSpeed = 0.0f;
 			/** ジャンプ力 */
 			float m_jumpPower = 0.0f;
+			/** ノックバックの衝撃力 */
+			float m_knockbackPower = 0.0f;
+			/** ノックバックの継続時間 */
+			float m_knockbackDuration = 1.0f;
 
 
 		public:
@@ -109,6 +113,10 @@ namespace app
 			float GetDashSpeed() const { return m_dashSpeed; }
 			/** ジャンプ力のゲッター */
 			float GetJumpPower() const { return m_jumpPower; }
+			/** ノックバックの衝撃力のゲッター */
+			float GetKnockbackPower() const { return m_knockbackPower; }
+			/** ノックバックの継続時間のゲッター */
+			float GetKnockbackDuration() const { return m_knockbackDuration; }
 		};
 
 

@@ -3,13 +3,13 @@
  * パラメータ管理クラスの定義
  */
 #pragma once
+#include "../json/json.hpp"
+#include "../Util/CRC32.h" 
+#include <fstream>
+#include <functional>
 #include <map>
 #include <string>
 #include <vector>
-#include <functional>
-#include <fstream>
-#include "../json/json.hpp"
-#include "../Util/CRC32.h" 
 
  /**
   * パラメータ定義用マクロ（参考コードと同じもの）
@@ -34,6 +34,8 @@ struct MasterPlayerStatusParameter : public IMasterParameter
 	float colliderOffset;
 	float dashSpeed;
 	float jumpPower;
+	float knockbackPower;
+	float knockbackDuration;
 };
 
 struct MasterBasicEnemyStatusParameter : public IMasterParameter

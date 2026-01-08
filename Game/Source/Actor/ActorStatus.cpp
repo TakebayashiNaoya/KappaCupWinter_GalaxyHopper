@@ -23,6 +23,8 @@ namespace app
 					parameter.colliderOffset = j["colliderOffset"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
 					parameter.jumpPower = j["jumpPower"].get<float>();
+					parameter.knockbackPower = j["knockbackPower"].get<float>();
+					parameter.knockbackDuration = j["knockbackDuration"].get<float>();
 				});
 		}
 
@@ -45,6 +47,8 @@ namespace app
 			m_colliderOffset = parameter->colliderOffset;
 			m_dashSpeed = parameter->dashSpeed;
 			m_jumpPower = parameter->jumpPower;
+			m_knockbackPower = parameter->knockbackPower;
+			m_knockbackDuration = parameter->knockbackDuration;
 		}
 
 

@@ -7,6 +7,8 @@
     "modelScale": 70.0,
     "colliderOffset": 50.0,
     "dashSpeed": 15.0,
-    "jumpPower": 30.0
+    "jumpPower": 30.0,
+    "knockbackPower": 15.0,
+    "knockbackDuration": 1.0
   }
 ]
