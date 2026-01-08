@@ -15,14 +15,7 @@ namespace app
 		class PlayerController : public IGameObject
 		{
 		public:
-			/**
-			 * 操作するキャラクターを設定
-			 */
-			void SetTargetPlayer(Player* target) { m_targetPlayer = target; }
-
-
-		public:
-			PlayerController();
+			PlayerController(Player* player);
 			~PlayerController();
 
 
@@ -34,6 +27,10 @@ namespace app
 		private:
 			/** 操作対象のプレイヤー（肉体） */
 			Player* m_targetPlayer = nullptr;
+			/** プレイヤーのステートマシン */
+			PlayerStateMachine* m_stateMachine = nullptr;
+			/** プレイヤーのステータス */
+			PlayerStatus* m_playerStatus = nullptr;
 		};
 	}
 }

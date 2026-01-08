@@ -118,16 +118,41 @@ namespace app
 		{
 			/** 被弾アニメーション */
 			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Damage);
+			/** 入力をはじく */
+			m_stateMachine->SetIsInputBlocked(true);
 		}
 
 
 		void PlayerDamageState::Update()
 		{
+			// 定数の定義（ヘッダーや定数ファイルにあると想定）
+			const float KNOCKBACK_INITIAL_SPEED = 15.0f; // 初速
+			const float DAMAGE_DURATION = 1.0;      // ダメージ状態の継続時間（秒）
+
+			/** タイマーの更新 */
+			m_damageTimer += g_gameTime->GetFrameDeltaTime();
+
+			/** 時間比率の算出 */
+			float timeRatio = m_damageTimer / DAMAGE_DURATION;
+			if (timeRatio > 1.0f) {
+				timeRatio = 1.0f;
+			}
+
+			/** ノックバック速度を算出 */
+			float moveSpeed = KNOCKBACK_INITIAL_SPEED * (1.0f - timeRatio);
+			if (m_damageTimer >= DAMAGE_DURATION) {
+				moveSpeed = 0.0f;
+			}
+
+			/** ノックバック速度の適用 */
+			m_stateMachine->SetMoveSpeed(moveSpeed);
 		}
 
 
 		void PlayerDamageState::Exit()
 		{
+			/** 入力を受け付ける */
+			m_stateMachine->SetIsInputBlocked(false);
 		}
 
 

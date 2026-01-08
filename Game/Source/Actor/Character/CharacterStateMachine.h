@@ -66,6 +66,15 @@ namespace app
 			 */
 			inline void SetIsAttack(const bool isAttack) { m_isAttack = isAttack; }
 
+			/**
+			 * 入力をはじくかを取得
+			 */
+			inline bool IsInputBlocked() const { return m_isInputBlocked; }
+			/**
+			 * 入力をはじくかを設定
+			 */
+			inline void SetIsInputBlocked(const bool isInputBlocked) { m_isInputBlocked = isInputBlocked; }
+
 
 		public:
 			/** 地面に接地しているか */
@@ -120,6 +129,8 @@ namespace app
 			bool m_isDash = false;
 			/** 攻撃中か */
 			bool m_isAttack = false;
+			/** 入力をはじくか */
+			bool m_isInputBlocked = false;
 		};
 	}
 }
