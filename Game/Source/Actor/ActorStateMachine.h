@@ -54,15 +54,14 @@ namespace app
 			template <typename TEnum>
 			void PlayAnimation(TEnum animId)
 			{
-				m_actor->GetModelRender()->PlayAnimation(static_cast<int>(animId));
+				m_ownerActor->GetModelRender()->PlayAnimation(static_cast<int>(animId));
 			}
 
 
 		public:
 			/** 派生先のステートマシンが生成されたとき、その持ち主と持ち主のステータスをキャッシュする */
-			ActorStateMachine(Actor* actor, ActorStatus* status)
-				: m_actor(actor)
-				, m_actorStatus(status)
+			ActorStateMachine(Actor* actor)
+				: m_ownerActor(actor)
 			{
 			}
 			virtual ~ActorStateMachine() {}
@@ -70,13 +69,19 @@ namespace app
 
 		protected:
 			/** 持ち主となるActor */
-			Actor* m_actor = nullptr;
-			/** Actorのステータス */
-			ActorStatus* m_actorStatus = nullptr;
+			Actor* m_ownerActor = nullptr;
 			/** トランスフォーム */
 			Transform m_transform;
 			/** 上方向ベクトル */
 			Vector3 m_upDirection = Vector3::Up;
+
+
+			/** 持ち主のアクターを指定した型にキャストして取得 */
+			template <typename T>
+			T* GetOwnerActor() const
+			{
+				return dynamic_cast<T*>(m_ownerActor);
+			}
 		};
 	}
 }

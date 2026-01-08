@@ -72,11 +72,6 @@ namespace app
 				const std::string path,			/** モデルファイルのパス */
 				const float scale				/** モデルの拡大率 */
 			);
-
-
-		private:
-			/** キャラクターステータスのキャッシュ */
-			CharacterStatus* m_charaStatus = nullptr;
 		};
 	}
 }

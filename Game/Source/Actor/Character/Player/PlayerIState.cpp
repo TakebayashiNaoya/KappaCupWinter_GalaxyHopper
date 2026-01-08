@@ -3,8 +3,8 @@
  * プレイヤーの各ステート実装
  */
 #include "stdafx.h"
-#include "PlayerIState.h"
 #include "Player.h"
+#include "PlayerIState.h"
 #include "PlayerStateMachine.h"
 
 
@@ -12,24 +12,10 @@ namespace app
 {
 	namespace actor
 	{
-		/** ステートマシン、プレイヤー、ステータスをキャッシュ */
-		PlayerStateBase::PlayerStateBase(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
-			: m_stateMachine(machine)
-			, m_player(player)
-			, m_status(status)
-		{
-		}
-
-
-
-
-		/********************************/
-
-
 		void PlayerIdleState::Enter()
 		{
 			/** 待機アニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Idle);
+			GetOwnerMachine<PlayerStateMachine>()->PlayAnimation(Player::EnPlayerAnimClip::Idle);
 		}
 
 
@@ -51,7 +37,7 @@ namespace app
 		void PlayerWalkState::Enter()
 		{
 			/** 歩きアニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Walk);
+			GetOwnerMachine<PlayerStateMachine>()->PlayAnimation(Player::EnPlayerAnimClip::Walk);
 		}
 
 
@@ -73,7 +59,7 @@ namespace app
 		void PlayerDashState::Enter()
 		{
 			/** 走りアニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Dash);
+			GetOwnerMachine<PlayerStateMachine>()->PlayAnimation(Player::EnPlayerAnimClip::Dash);
 		}
 
 
@@ -95,7 +81,7 @@ namespace app
 		void PlayerJumpState::Enter()
 		{
 			/** ジャンプアニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Jump);
+			GetOwnerMachine<PlayerStateMachine>()->PlayAnimation(Player::EnPlayerAnimClip::Jump);
 		}
 
 
@@ -117,30 +103,26 @@ namespace app
 		void PlayerDamageState::Enter()
 		{
 			/** 被弾アニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Damage);
+			GetOwnerMachine<PlayerStateMachine>()->PlayAnimation(Player::EnPlayerAnimClip::Damage);
 			/** 入力をはじく */
-			m_stateMachine->SetIsInputBlocked(true);
+			GetOwnerMachine<PlayerStateMachine>()->SetIsInputBlocked(true);
 		}
 
 
 		void PlayerDamageState::Update()
 		{
-			// 定数の定義（ヘッダーや定数ファイルにあると想定）
-			const float KNOCKBACK_INITIAL_SPEED = 15.0f; // 初速
-			const float DAMAGE_DURATION = 1.0;      // ダメージ状態の継続時間（秒）
-
 			/** タイマーの更新 */
 			m_damageTimer += g_gameTime->GetFrameDeltaTime();
 
 			/** 時間比率の算出 */
-			float timeRatio = m_damageTimer / DAMAGE_DURATION;
+			float timeRatio = m_damageTimer / m_status->GetKnockbackDuration();
 			if (timeRatio > 1.0f) {
 				timeRatio = 1.0f;
 			}
 
 			/** ノックバック速度を算出 */
-			float moveSpeed = KNOCKBACK_INITIAL_SPEED * (1.0f - timeRatio);
-			if (m_damageTimer >= DAMAGE_DURATION) {
+			float moveSpeed = m_status->GetKnockbackPower() * (1.0f - timeRatio);
+			if (m_damageTimer >= m_status->GetKnockbackDuration()) {
 				moveSpeed = 0.0f;
 			}
 

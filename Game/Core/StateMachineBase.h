@@ -3,8 +3,8 @@
  * 純粋な状態遷移を管理する基底クラス群
  */
 #pragma once
-#include <unordered_map>
 #include <cstdint>
+#include <unordered_map>
 
 
 namespace app
@@ -21,7 +21,7 @@ namespace app
 		class IState
 		{
 		public:
-			IState() {}
+			IState(StateMachineBase* owner) : m_owner(owner) {}
 			virtual ~IState() {}
 
 			/** 開始時に1回だけ呼ばれます。 */
@@ -30,6 +30,25 @@ namespace app
 			virtual void Update() = 0;
 			/** 終了時に1回だけ呼ばれます。 */
 			virtual void Exit() = 0;
+
+
+		protected:
+			/** 自身のオーナーであるステートマシンを取得 */
+			template <typename T>
+			T* GetOwnerMachine() const
+			{
+				T* casted = dynamic_cast<T*>(m_owner);
+
+				/** 中身があるのにキャストしたらnullptrになる場合、型指定が間違っている */
+				if (m_owner && !casted) {
+					assert(false && "GetOwnerMachine: 型指定が間違っています");
+				}
+				return casted;
+			}
+
+
+		private:
+			StateMachineBase* m_owner;
 		};
 
 
@@ -72,14 +91,14 @@ namespace app
 			 * 派生先のステートマシンでラップして、ステートマシン、オーナー、ステータスを渡す
 			 */
 			template<typename TState, typename... Args>
-			void AddState(const uint8_t stateId, Args... args)
+			void AddState(const uint8_t stateId)
 			{
 				auto it = m_stateMap.find(stateId);
 				if (it != m_stateMap.end()) {
 					delete it->second;
 					K2_ASSERT(false, "IDが重複しています。");
 				}
-				m_stateMap[stateId] = new TState(args...);
+				m_stateMap[stateId] = new TState(this);
 			}
 
 			/** 指定したIDのステートを取得します。 */

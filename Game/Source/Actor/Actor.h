@@ -70,8 +70,13 @@ namespace app
 			template <typename T>
 			T* GetStateMachine() const
 			{
-				// unique_ptrの中身(生ポインタ)を取り出し、指定された型にキャストして返す
-				return static_cast<T*>(m_stateMachine.get());
+				T* casted = dynamic_cast<T*>(m_stateMachine.get());
+
+				/** 中身があるのにキャストしたらnullptrになる場合、型指定が間違っている */
+				if (m_stateMachine && !casted) {
+					assert(false && "GetStateMachine: 型指定が間違っています");
+				}
+				return casted;
 			}
 
 			/**
@@ -81,7 +86,13 @@ namespace app
 			template <typename T>
 			T* GetStatus() const
 			{
-				return static_cast<T*>(m_status.get());
+				T* casted = dynamic_cast<T*>(m_status.get());
+
+				/** 中身があるのにキャストしたらnullptrになる場合、型指定が間違っている */
+				if (m_status && !casted) {
+					assert(false && "GetStatus: 型指定が間違っています");
+				}
+				return casted;
 			}
 
 

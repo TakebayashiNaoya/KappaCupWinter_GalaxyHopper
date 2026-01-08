@@ -49,6 +49,15 @@ namespace app
 			inline void SetInitialJumpSpeed(const float initialJumpSpeed) { m_initialJumpSpeed = initialJumpSpeed; }
 
 			/**
+			 * 落下タイマーを取得
+			 */
+			inline float GetFallTimer() const { return m_fallTimer; }
+			/**
+			 * 落下タイマーを設定
+			 */
+			inline void SetFallTimer(const float fallTimer) { m_fallTimer = fallTimer; }
+
+			/**
 			 * ダッシュできるかを取得
 			 */
 			inline bool IsDash() const { return m_isDash; }
@@ -86,7 +95,7 @@ namespace app
 
 		public:
 			/** 派生先のステートマシンが生成されたとき、その持ち主と持ち主のステータスをキャッシュする */
-			CharacterStateMachine(Character* character, CharacterStatus* status);
+			CharacterStateMachine(Character* character);
 			virtual ~CharacterStateMachine();
 
 
@@ -110,11 +119,6 @@ namespace app
 
 
 		protected:
-			/** 持ち主となるキャラクター */
-			Character* m_ownerChara = nullptr;
-			/** キャラクターのステータス */
-			CharacterStatus* m_charaStatus = nullptr;
-
 			/** 移動方向 */
 			Vector3 m_moveDirection = Vector3::Zero;
 			/** 移動速度 */

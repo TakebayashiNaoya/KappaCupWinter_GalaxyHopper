@@ -1,6 +1,12 @@
 ﻿#include "stdafx.h"
 #include "CollisionManager.h"
+#include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/Character.h"
+#include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
+#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
+#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
+#include "Source/Actor/Character/Player/Player.h"
+#include "Source/Actor/Character/Player/PlayerStateMachine.h"
 
 
 namespace app
@@ -147,7 +153,46 @@ namespace app
 
 		bool CollisionHitManager::UpdateHitPlayerBasicEnemy(CollisionPair& pair)
 		{
-			return false;
+			actor::Player* player = GetTargetObject<actor::Player>(pair, EnCollisionType::Player);
+			if (player == nullptr) {
+				return false;
+			}
+
+			actor::BasicEnemy* basicEnemy = GetTargetObject<actor::BasicEnemy>(pair, EnCollisionType::BasicEnemy);
+			if (basicEnemy == nullptr) {
+				return false;
+			}
+
+
+			/** プレイヤーの攻撃 */
+			if (player->GetAttackHitCollider()->IsHit(basicEnemy->GetHurtCollider())) {
+				/** ジャンプの初速を設定 */
+				player->GetStateMachine<actor::PlayerStateMachine>()->SetInitialJumpSpeed(player->GetStatus<actor::PlayerStatus>()->GetJumpPower());
+				/** 落下タイマーをリセット */
+				player->GetStateMachine<actor::PlayerStateMachine>()->SetFallTimer(0.0f);
+				/** エネミーにダメージを与える */
+				basicEnemy->GetStatus<actor::BasicEnemyStatus>()->TakeDamage();
+				/** 踏んだ時のSEを再生 */
+				sound::SoundManager::Play(sound::enSoundList_Stomp);
+				return true;
+			}
+
+			/** プレイヤーが無敵中の場合、エネミーの攻撃は無効にする */
+			if (player->GetIsInvincible()) {
+				return true;
+			}
+
+			/** エネミーの攻撃 */
+			if (basicEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
+				/** プレイヤーにダメージを与える */
+				player->GetStatus<actor::PlayerStatus>()->TakeDamage();
+				player->ComputeKnockBackDirection(basicEnemy->GetPosition());
+				basicEnemy->SetIsCoolDown(true);
+				sound::SoundManager::Play(sound::enSoundList_PlayerDamage);
+				return true;
+			}
+
+			return true;
 		}
 
 

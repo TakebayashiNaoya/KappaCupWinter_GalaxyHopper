@@ -11,7 +11,6 @@ namespace app
 	{
 		/** 前方宣言 */
 		class Player;
-		class PlayerStatus;
 
 
 		/**
@@ -20,7 +19,20 @@ namespace app
 		class PlayerStateMachine : public CharacterStateMachine
 		{
 		public:
-			PlayerStateMachine(Player* owner, PlayerStatus* status);
+			/** 持ち主のアクターを指定した型にキャストして取得 */
+			Player* GetPlayer() const
+			{
+				return dynamic_cast<Player*>(m_ownerActor);
+			}
+
+			/** 持ち主のアクターを指定した型にキャストして取得 */
+			PlayerStatus* GetPlayerStatus() const
+			{
+				return dynamic_cast<PlayerStatus*>(GetPlayer()->GetStatus<PlayerStatus>());
+			}
+
+		public:
+			PlayerStateMachine(Player* owner);
 			virtual ~PlayerStateMachine();
 
 
@@ -53,17 +65,8 @@ namespace app
 			template <typename TState>
 			void AddState(EnPlayerState stateId)
 			{
-				StateMachineBase::AddState<TState>(stateId, this, m_myPlayer, m_myStatus);
+				StateMachineBase::AddState<TState>(stateId);
 			}
-
-
-		private:
-			/**
-			 * キャッシュ用のプレイヤーとステータス
-			 * ※頻繁にアクセスするため、キャスト不要で高速にアクセスできるように保持しておく
-			 */
-			Player* m_myPlayer = nullptr;
-			PlayerStatus* m_myStatus = nullptr;
 		};
 	}
 }

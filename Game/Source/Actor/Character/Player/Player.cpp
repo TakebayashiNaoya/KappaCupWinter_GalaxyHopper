@@ -3,10 +3,10 @@
  * プレイヤーを管理するクラス
  */
 #include "stdafx.h"
-#include "Player.h"
 #include "Collision/CollisionManager.h"
-#include "Source/Actor/ActorStatus.h" 
+#include "Player.h"
 #include "PlayerStateMachine.h"
+#include "Source/Actor/ActorStatus.h" 
 
 
 namespace app
@@ -31,14 +31,11 @@ namespace app
 			static_assert(ARRAYSIZE(PLAYER_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnPlayerAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
-			/** PlayerStatus型でステータス生成 */
-			auto status = CreateStatus<PlayerStatus>();
+			/** ステートマシンを生成 */
+			m_stateMachine = std::make_unique<PlayerStateMachine>(this);
 
-			/** ステートマシンを生成し、自分（Player型）とステータス（PlayerStatus型）の生ポインタを渡す */
-			m_stateMachine = std::make_unique<PlayerStateMachine>(this, status.get());
-
-			/** ステータスをムーブして保持 */
-			m_status = std::move(status);
+			/** ステータスを生成 */
+			m_status = std::make_unique<PlayerStatus>();
 		}
 
 

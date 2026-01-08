@@ -10,44 +10,14 @@ namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class PlayerStateMachine;
-		class Player;
-		class PlayerStatus;
-
-
-		/**
-		 * プレイヤー専用のステート基底クラス
-		 */
-		class PlayerStateBase : public core::IState
-		{
-		protected:
-			/** キャッシュ用ポインタ */
-			PlayerStateMachine* m_stateMachine = nullptr;
-			Player* m_player = nullptr;
-			PlayerStatus* m_status = nullptr;
-
-
-		public:
-			/** コンストラクタでステートマシン、プレイヤー、ステータスを受け取る */
-			PlayerStateBase(PlayerStateMachine* machine, Player* player, PlayerStatus* status);
-			virtual ~PlayerStateBase() {}
-		};
-
-
-
-
-		/********************************/
-
-
 		/**
 		 * 止まってる
 		 */
-		class PlayerIdleState : public PlayerStateBase
+		class PlayerIdleState : public core::IState
 		{
 		public:
-			PlayerIdleState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
-				: PlayerStateBase(machine, player, status) {
+			PlayerIdleState(PlayerStateMachine* owner)
+				: core::IState(owner) {
 			};
 			~PlayerIdleState() {};
 
@@ -65,11 +35,11 @@ namespace app
 		/**
 		 * 歩く
 		 */
-		class PlayerWalkState : public PlayerStateBase
+		class PlayerWalkState : public core::IState
 		{
 		public:
-			PlayerWalkState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
-				: PlayerStateBase(machine, player, status) {
+			PlayerWalkState(PlayerStateMachine* owner)
+				: core::IState(owner) {
 			};
 			~PlayerWalkState() {};
 
@@ -87,11 +57,11 @@ namespace app
 		/**
 		 * 走る
 		 */
-		class PlayerDashState : public PlayerStateBase
+		class PlayerDashState : public core::IState
 		{
 		public:
-			PlayerDashState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
-				: PlayerStateBase(machine, player, status) {
+			PlayerDashState(PlayerStateMachine* owner)
+				: core::IState(owner) {
 			};
 			~PlayerDashState() {};
 
@@ -109,11 +79,11 @@ namespace app
 		/**
 		 * ジャンプ
 		 */
-		class PlayerJumpState : public PlayerStateBase
+		class PlayerJumpState : public core::IState
 		{
 		public:
-			PlayerJumpState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
-				: PlayerStateBase(machine, player, status) {
+			PlayerJumpState(PlayerStateMachine* owner)
+				: core::IState(owner) {
 			};
 			~PlayerJumpState() {};
 
@@ -131,11 +101,11 @@ namespace app
 		/**
 		 * ダメージを受ける
 		 */
-		class PlayerDamageState : public PlayerStateBase
+		class PlayerDamageState : public core::IState
 		{
 		public:
-			PlayerDamageState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
-				: PlayerStateBase(machine, player, status) {
+			PlayerDamageState(PlayerStateMachine* owner)
+				: core::IState(owner) {
 			};
 			~PlayerDamageState() {};
 
@@ -158,11 +128,11 @@ namespace app
 		/**
 		 * 死んでいる最中
 		 */
-		class PlayerDyingState : public PlayerStateBase
+		class PlayerDyingState : public core::IState
 		{
 		public:
-			PlayerDyingState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
-				: PlayerStateBase(machine, player, status) {
+			PlayerDyingState(PlayerStateMachine* owner)
+				: core::IState(owner) {
 			};
 			~PlayerDyingState() {};
 
@@ -180,11 +150,11 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class PlayerDeadState : public PlayerStateBase
+		class PlayerDeadState : public core::IState
 		{
 		public:
-			PlayerDeadState(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
-				: PlayerStateBase(machine, player, status) {
+			PlayerDeadState(PlayerStateMachine* owner)
+				: core::IState(owner) {
 			};
 			~PlayerDeadState() {};
 

@@ -4,8 +4,8 @@
  */
 #include "stdafx.h"
 #include "Character.h"
-#include "Source/Actor/Character/CharacterStateMachine.h"
 #include "Collision/CollisionManager.h"
+#include "Source/Actor/Character/CharacterStateMachine.h"
 
 
 namespace app
@@ -35,9 +35,6 @@ namespace app
 
 		bool Character::Start()
 		{
-			/** ステータスをキャッシュ */
-			m_charaStatus = GetStatus<CharacterStatus>();
-
 			return true;
 		}
 
@@ -47,6 +44,9 @@ namespace app
 			/** ステートマシン更新 */
 			m_stateMachine->Update();
 
+			/** ステータスをキャッシュ */
+			auto charaStatus = GetStatus<CharacterStatus>();
+
 			/** モデルと当たり判定の更新に必要な値を取得 */
 			m_transform.m_position = m_stateMachine->GetTransform().m_position;
 			m_transform.m_rotation = m_stateMachine->GetTransform().m_rotation;
@@ -54,10 +54,10 @@ namespace app
 
 			/** 当たり判定の更新 */
 			if (m_hitCollider) {
-				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, m_charaStatus->GetColliderOffset());
+				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hitCollider, charaStatus->GetColliderOffset());
 			}
 			if (m_hurtCollider) {
-				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, m_charaStatus->GetColliderOffset());
+				collision::CollisionHitManager::GetInstance()->UpdateCollider(this, m_hurtCollider, charaStatus->GetColliderOffset());
 			}
 
 			/** モデルの更新 */
