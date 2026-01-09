@@ -19,6 +19,21 @@ namespace app
 		class PlayerStateMachine : public CharacterStateMachine
 		{
 			/**
+			 * コリジョンマネージャーからノックバック方向を受け取るための関数群
+			 */
+		public:
+			/**
+			 * ノックバック方向を取得
+			 */
+			inline const Vector3& GetKnockBackDirection() const { return m_knockBackDirection; }
+			/**
+			 * ノックバック方向を設定
+			 */
+			inline void SetKnockBackDirection(const Vector3& dir) { m_knockBackDirection = dir; }
+
+
+
+			/**
 			 * IState用の関数群
 			 */
 		public:
@@ -61,6 +76,11 @@ namespace app
 
 			/** ダメージ状態が終了したか */
 			bool IsDamageStateFinished() override final;
+
+
+		private:
+			/** ノックバックする方向 */
+			Vector3 m_knockBackDirection = Vector3::Zero;
 		};
 	}
 }

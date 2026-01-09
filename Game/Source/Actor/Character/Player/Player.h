@@ -40,11 +40,6 @@ namespace app
 			const bool GetIsInvincible() const { return m_isInvincible; }
 			void SetIsInvincible(const bool isInvincible) { m_isInvincible = isInvincible; }
 
-			/// <summary>
-			/// ノックバックタイマーをリセット
-			/// </summary>
-			void ResetKnockBackTimer() { m_knockBackTimer = 0.0f; }
-
 
 		protected:
 			Quaternion	m_xzAdditionalRot;	// 毎フレームのXZ軸回転角度
@@ -63,8 +58,6 @@ namespace app
 
 		private:
 			// ダメージ関連
-			Vector3 m_knockBackDirection = Vector3::Zero;
-			float	m_knockBackTimer = 0.0f;
 			bool	m_isBlinking = false;
 			bool	m_isInvincible = false;
 			float   m_invincibleTimer = 0.0f;

@@ -186,7 +186,11 @@ namespace app
 			if (basicEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
 				/** プレイヤーにダメージを与える */
 				player->GetStatus<actor::PlayerStatus>()->TakeDamage();
-				player->ComputeKnockBackDirection(basicEnemy->GetPosition());
+				/** ノックバック方向を計算・設定 */
+				Vector3 knockBackDir = player->GetTransform().m_position - basicEnemy->GetTransform().m_position;
+				knockBackDir.Normalize();
+				player->GetStateMachine<actor::PlayerStateMachine>()->SetKnockBackDirection(knockBackDir);
+
 				basicEnemy->SetIsCoolDown(true);
 				sound::SoundManager::Play(sound::enSoundList_PlayerDamage);
 				return true;

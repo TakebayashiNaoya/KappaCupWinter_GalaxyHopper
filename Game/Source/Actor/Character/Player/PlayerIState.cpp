@@ -110,6 +110,10 @@ namespace app
 			machine->PlayAnimation(Player::EnPlayerAnimClip::Damage);
 			/** 入力をはじく */
 			machine->SetIsInputBlocked(true);
+			/** タイマーリセット */
+			m_damageTimer = 0.0f;
+
+			machine->SetMoveDirection(machine->GetKnockBackDirection());
 		}
 
 
@@ -139,6 +143,8 @@ namespace app
 		{
 			/** 入力を受け付ける */
 			machine->SetIsInputBlocked(false);
+			/** 念のためノックバックの向きを初期化 */
+			machine->SetKnockBackDirection(Vector3::Zero);
 		}
 
 
