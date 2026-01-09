@@ -47,6 +47,9 @@ namespace app
 			inline void SetUpDirection(const Vector3& upDir) { m_upDirection = upDir; }
 
 
+			/**
+			 * IState用の関数群
+			 */
 		public:
 			/**
 			 * アニメーション再生処理のテンプレート関数
@@ -56,10 +59,22 @@ namespace app
 			{
 				m_ownerActor->GetModelRender()->PlayAnimation(static_cast<int>(animId));
 			}
+			/**
+			 * キャラクターを取得する関数
+			 * NOTE:オーナーは派生先のステートマシンごとに決まっているはず
+			 *		派生先でオーバーライドし、適切な型にstatic_castして返すように実装する
+			 */
+			virtual Actor* GetOwner() const = 0;
+			/**
+			 * オーナーを経由してステータスを取得する関数
+			 * NOTE:ステータスは派生先のステートマシンごとに決まっているはず
+			 *		派生先でオーバーライドし、適切な型にstatic_castして返すように実装する
+			 */
+			virtual ActorStatus* GetStatus() const = 0;
 
 
 		public:
-			/** 派生先のステートマシンが生成されたとき、その持ち主と持ち主のステータスをキャッシュする */
+			/** 派生先のステートマシンが生成されたとき、その持ち主をキャッシュする */
 			ActorStateMachine(Actor* actor)
 				: m_ownerActor(actor)
 			{
@@ -74,14 +89,6 @@ namespace app
 			Transform m_transform;
 			/** 上方向ベクトル */
 			Vector3 m_upDirection = Vector3::Up;
-
-
-			/** 持ち主のアクターを指定した型にキャストして取得 */
-			template <typename T>
-			T* GetOwnerActor() const
-			{
-				return dynamic_cast<T*>(m_ownerActor);
-			}
 		};
 	}
 }

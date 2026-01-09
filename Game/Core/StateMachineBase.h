@@ -35,13 +35,13 @@ namespace app
 		protected:
 			/** 自身のオーナーであるステートマシンを取得 */
 			template <typename T>
-			T* GetOwnerMachine() const
+			T* GetStateMachine() const
 			{
 				T* casted = dynamic_cast<T*>(m_owner);
 
 				/** 中身があるのにキャストしたらnullptrになる場合、型指定が間違っている */
 				if (m_owner && !casted) {
-					assert(false && "GetOwnerMachine: 型指定が間違っています");
+					assert(false && "GetStateMachine: 型指定が間違っています");
 				}
 				return casted;
 			}
@@ -90,7 +90,7 @@ namespace app
 			 * ステートを追加するテンプレート関数
 			 * 派生先のステートマシンでラップして、ステートマシン、オーナー、ステータスを渡す
 			 */
-			template<typename TState, typename... Args>
+			template<typename TState>
 			void AddState(const uint8_t stateId)
 			{
 				auto it = m_stateMap.find(stateId);

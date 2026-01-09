@@ -18,18 +18,21 @@ namespace app
 		 */
 		class PlayerStateMachine : public CharacterStateMachine
 		{
+			/**
+			 * IState用の関数群
+			 */
 		public:
-			/** 持ち主のアクターを指定した型にキャストして取得 */
-			Player* GetPlayer() const
+			/** オーナーを取得 */
+			Player* GetOwner() const override final
 			{
-				return dynamic_cast<Player*>(m_ownerActor);
+				return static_cast<Player*>(m_ownerActor);
+			}
+			/** オーナーのステータスを取得 */
+			PlayerStatus* GetStatus() const override final
+			{
+				return static_cast<PlayerStatus*>(GetOwner()->GetStatus<PlayerStatus>());
 			}
 
-			/** 持ち主のアクターを指定した型にキャストして取得 */
-			PlayerStatus* GetPlayerStatus() const
-			{
-				return dynamic_cast<PlayerStatus*>(GetPlayer()->GetStatus<PlayerStatus>());
-			}
 
 		public:
 			PlayerStateMachine(Player* owner);
@@ -58,15 +61,6 @@ namespace app
 
 			/** ダメージ状態が終了したか */
 			bool IsDamageStateFinished() override final;
-
-
-		private:
-			/** ステートを追加するテンプレート関数 */
-			template <typename TState>
-			void AddState(EnPlayerState stateId)
-			{
-				StateMachineBase::AddState<TState>(stateId);
-			}
 		};
 	}
 }

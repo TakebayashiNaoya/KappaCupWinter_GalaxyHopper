@@ -8,6 +8,10 @@
 #include "PlayerStateMachine.h"
 
 
+ /** ステートマシンを取得するマクロ */
+#define machine GetStateMachine<PlayerStateMachine>()
+
+
 namespace app
 {
 	namespace actor
@@ -15,7 +19,7 @@ namespace app
 		void PlayerIdleState::Enter()
 		{
 			/** 待機アニメーション */
-			GetOwnerMachine<PlayerStateMachine>()->PlayAnimation(Player::EnPlayerAnimClip::Idle);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Idle);
 		}
 
 
@@ -37,7 +41,7 @@ namespace app
 		void PlayerWalkState::Enter()
 		{
 			/** 歩きアニメーション */
-			GetOwnerMachine<PlayerStateMachine>()->PlayAnimation(Player::EnPlayerAnimClip::Walk);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Walk);
 		}
 
 
@@ -59,7 +63,7 @@ namespace app
 		void PlayerDashState::Enter()
 		{
 			/** 走りアニメーション */
-			GetOwnerMachine<PlayerStateMachine>()->PlayAnimation(Player::EnPlayerAnimClip::Dash);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Dash);
 		}
 
 
@@ -81,7 +85,7 @@ namespace app
 		void PlayerJumpState::Enter()
 		{
 			/** ジャンプアニメーション */
-			GetOwnerMachine<PlayerStateMachine>()->PlayAnimation(Player::EnPlayerAnimClip::Jump);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Jump);
 		}
 
 
@@ -103,9 +107,9 @@ namespace app
 		void PlayerDamageState::Enter()
 		{
 			/** 被弾アニメーション */
-			GetOwnerMachine<PlayerStateMachine>()->PlayAnimation(Player::EnPlayerAnimClip::Damage);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Damage);
 			/** 入力をはじく */
-			GetOwnerMachine<PlayerStateMachine>()->SetIsInputBlocked(true);
+			machine->SetIsInputBlocked(true);
 		}
 
 
@@ -115,26 +119,26 @@ namespace app
 			m_damageTimer += g_gameTime->GetFrameDeltaTime();
 
 			/** 時間比率の算出 */
-			float timeRatio = m_damageTimer / m_status->GetKnockbackDuration();
+			float timeRatio = m_damageTimer / machine->GetStatus()->GetKnockbackDuration();
 			if (timeRatio > 1.0f) {
 				timeRatio = 1.0f;
 			}
 
 			/** ノックバック速度を算出 */
-			float moveSpeed = m_status->GetKnockbackPower() * (1.0f - timeRatio);
-			if (m_damageTimer >= m_status->GetKnockbackDuration()) {
+			float moveSpeed = machine->GetStatus()->GetKnockbackPower() * (1.0f - timeRatio);
+			if (m_damageTimer >= machine->GetStatus()->GetKnockbackDuration()) {
 				moveSpeed = 0.0f;
 			}
 
 			/** ノックバック速度の適用 */
-			m_stateMachine->SetMoveSpeed(moveSpeed);
+			machine->SetMoveSpeed(moveSpeed);
 		}
 
 
 		void PlayerDamageState::Exit()
 		{
 			/** 入力を受け付ける */
-			m_stateMachine->SetIsInputBlocked(false);
+			machine->SetIsInputBlocked(false);
 		}
 
 
@@ -146,7 +150,7 @@ namespace app
 		void PlayerDyingState::Enter()
 		{
 			/** 死亡アニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Die);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Die);
 		}
 
 
