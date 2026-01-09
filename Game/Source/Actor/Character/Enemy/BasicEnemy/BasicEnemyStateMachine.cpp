@@ -3,20 +3,18 @@
  * 基本エネミーのステートマシンの実装
  */
 #include "stdafx.h"
-#include "BasicEnemyStateMachine.h"
 #include "BasicEnemy.h"
-#include "Source/Actor/ActorStatus.h"
 #include "BasicEnemyIState.h"
+#include "BasicEnemyStateMachine.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		BasicEnemyStateMachine::BasicEnemyStateMachine(BasicEnemy* owner, BasicEnemyStatus* status)
-			: CharacterStateMachine(owner, status)
-			, m_basicEnemy(owner)
-			, m_basicEnemyStatus(status)
+		BasicEnemyStateMachine::BasicEnemyStateMachine(BasicEnemy* owner)
+			: CharacterStateMachine(owner)
 		{
 			/** ステートの生成 */
 			AddState<BasicEnemyIdleState>(enBasicEnemyState_Idle);

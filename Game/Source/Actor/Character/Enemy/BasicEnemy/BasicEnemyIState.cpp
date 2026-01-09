@@ -4,26 +4,13 @@
  */
 #include "stdafx.h"
 #include "BasicEnemyIState.h"
+#include "BasicEnemyStateMachine.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		/** ステートマシン、エネミー、ステータスをキャッシュ */
-		BasicEnemyStateBase::BasicEnemyStateBase(BasicEnemyStateMachine* machine, BasicEnemy* enemy, BasicEnemyStatus* status)
-			: m_stateMachine(machine)
-			, m_enemy(enemy)
-			, m_status(status)
-		{
-		}
-
-
-
-
-		/********************************/
-
-
 		void BasicEnemyIdleState::Enter()
 		{
 		}

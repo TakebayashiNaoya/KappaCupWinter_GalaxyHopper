@@ -4,9 +4,9 @@
  */
 #include "stdafx.h"
 #include "BasicEnemy.h"
+#include "BasicEnemyStateMachine.h"
 #include "Collision/CollisionManager.h"
 #include "Source/Actor/ActorStatus.h"
-#include "BasicEnemyStateMachine.h"
 
 
 namespace app
@@ -38,14 +38,11 @@ namespace app
 			static_assert(ARRAYSIZE(BASIC_ENEMY_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnBasicEnemyAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
-			/** BasicEnemyStatus型でステータス生成 */
-			auto status = CreateStatus<BasicEnemyStatus>();
-
 			/** ステートマシン生成 */
-			m_stateMachine = std::make_unique<BasicEnemyStateMachine>(this, status.get());
+			m_stateMachine = std::make_unique<BasicEnemyStateMachine>(this);
 
 			/** ステータスをムーブして保持 */
-			m_status = std::move(status);
+			m_status = CreateStatus<BasicEnemyStatus>();;
 		}
 
 

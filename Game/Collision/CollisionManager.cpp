@@ -3,6 +3,7 @@
 #include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/Character.h"
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
+#include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemyStateMachine.h"
 #include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 #include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
 #include "Source/Actor/Character/Player/Player.h"
@@ -165,7 +166,8 @@ namespace app
 
 
 			/** プレイヤーの攻撃 */
-			if (player->GetAttackHitCollider()->IsHit(basicEnemy->GetHurtCollider())) {
+			if (player->GetAttackHitCollider()->IsHit(basicEnemy->GetHurtCollider()))
+			{
 				/** ジャンプの初速を設定 */
 				player->GetStateMachine<actor::PlayerStateMachine>()->SetInitialJumpSpeed(player->GetStatus<actor::PlayerStatus>()->GetJumpPower());
 				/** 落下タイマーをリセット */
@@ -183,15 +185,16 @@ namespace app
 			}
 
 			/** エネミーの攻撃 */
-			if (basicEnemy->GetHitCollider()->IsHit(player->GetHurtCollider())) {
+			if (basicEnemy->GetHitCollider()->IsHit(player->GetHurtCollider()))
+			{
 				/** プレイヤーにダメージを与える */
 				player->GetStatus<actor::PlayerStatus>()->TakeDamage();
 				/** ノックバック方向を計算・設定 */
 				Vector3 knockBackDir = player->GetTransform().m_position - basicEnemy->GetTransform().m_position;
 				knockBackDir.Normalize();
 				player->GetStateMachine<actor::PlayerStateMachine>()->SetKnockBackDirection(knockBackDir);
-
-				basicEnemy->SetIsCoolDown(true);
+				/** エネミーをクールダウン状態にする */
+				basicEnemy->GetStateMachine<actor::BasicEnemyStateMachine>()->SetIsCooldown(true);
 				sound::SoundManager::Play(sound::enSoundList_PlayerDamage);
 				return true;
 			}

@@ -10,18 +10,24 @@ namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class BasicEnemy;
-		class BasicEnemyStatus;
-
-
 		/**
 		 * 基本エネミーのステートマシン
 		 */
 		class BasicEnemyStateMachine : public CharacterStateMachine
 		{
 		public:
-			BasicEnemyStateMachine(BasicEnemy* owner, BasicEnemyStatus* status);
+			/**
+			 * クールダウン中かを取得
+			 */
+			inline void SetIsCooldown(const bool isCooldown) { m_isCooldown = isCooldown; }
+			/**
+			 * クールダウン中かを設定
+			 */
+			inline bool IsCooldown() const { return m_isCooldown; }
+
+
+		public:
+			BasicEnemyStateMachine(BasicEnemy* owner);
 			virtual ~BasicEnemyStateMachine();
 
 
@@ -41,18 +47,8 @@ namespace app
 
 
 		private:
-			/** ステートを追加するテンプレート関数 */
-			template <typename TState>
-			void AddState(EnBasicEnemyState stateId)
-			{
-				StateMachineBase::AddState<TState>(stateId, this, m_basicEnemy, m_basicEnemyStatus);
-			}
-
-
-		private:
-			/** キャッシュ用ポインタ */
-			BasicEnemy* m_basicEnemy = nullptr;
-			BasicEnemyStatus* m_basicEnemyStatus = nullptr;
+			/** クールダウン中か */
+			bool m_isCooldown = false;
 		};
 	}
 }

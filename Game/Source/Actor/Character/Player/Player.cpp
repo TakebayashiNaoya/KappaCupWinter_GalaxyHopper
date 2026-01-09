@@ -35,7 +35,7 @@ namespace app
 			m_stateMachine = std::make_unique<PlayerStateMachine>(this);
 
 			/** ステータスを生成 */
-			m_status = std::make_unique<PlayerStatus>();
+			m_status = CreateStatus<PlayerStatus>();
 		}
 
 

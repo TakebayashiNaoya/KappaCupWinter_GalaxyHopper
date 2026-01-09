@@ -10,6 +10,10 @@ namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
+		class PlayerStateMachine;
+
+
 		/**
 		 * 止まってる
 		 */
