@@ -26,10 +26,6 @@ namespace app
 			 * ステートで削除が決まったらこれをtrueにする
 			 */
 			inline void SetShouldDestroy(const bool shouldDestroy) { m_shouldDestroy = shouldDestroy; }
-			/**
-			 * ターゲットのプレイヤーを設定
-			 */
-			inline void SetTargetPlayer(Player* player) { m_targetPlayer = player; }
 
 
 		public:
@@ -46,8 +42,6 @@ namespace app
 		protected:
 			/** 削除すべきか */
 			bool m_shouldDestroy = false;
-			/** プレイヤーの座標 */
-			Player* m_targetPlayer = nullptr;
 		};
 	}
 }
