@@ -4,17 +4,17 @@
  */
 #include "stdafx.h"
 #include "BattleManager.h"
-#include "Source/Scene/SceneManager.h"
-#include "Source/Actor/Character/Player/Player.h"
-#include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
-#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
-#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 #include "Source/Actor/ActorStatus.h"
-#include "Ui/UIInGameBase.h"
-#include "UI/UIFirstStage.h"
-#include "UI/UIBossStage.h"
+#include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
+#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
+#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
+#include "Source/Actor/Character/Player/Player.h"
 #include "Source/Actor/Object/Rocket.h"
 #include "Source/Actor/Object/Treasure.h"
+#include "Source/Scene/SceneManager.h"
+#include "UI/UIBossStage.h"
+#include "UI/UIFirstStage.h"
+#include "Ui/UIInGameBase.h"
 
 
 namespace app
