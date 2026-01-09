@@ -13,6 +13,21 @@ namespace app
 	{
 		class Character : public Actor
 		{
+		public:
+			/**
+			 * やられ判定を取得
+			 */
+			inline CollisionObject* GetHurtCollider() const { return m_hurtCollider; }
+			/**
+			 * 体の当たり判定を取得
+			 */
+			inline CollisionObject* GetHitCollider() const { return m_hitCollider; }
+			/**
+			 * 一時的な攻撃判定を取得
+			 */
+			inline CollisionObject* GetAttackHitCollider() const { return m_attackHitCollider; }
+
+
 		protected:
 			/** アニメーションクリップのリスト */
 			std::vector<AnimationClip*> m_animationClipList;
@@ -57,11 +72,6 @@ namespace app
 				const std::string path,			/** モデルファイルのパス */
 				const float scale				/** モデルの拡大率 */
 			);
-
-
-		private:
-			/** キャラクターステータスのキャッシュ */
-			CharacterStatus* m_charaStatus = nullptr;
 		};
 	}
 }

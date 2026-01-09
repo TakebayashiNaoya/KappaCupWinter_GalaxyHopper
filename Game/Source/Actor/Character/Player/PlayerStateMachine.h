@@ -11,7 +11,6 @@ namespace app
 	{
 		/** 前方宣言 */
 		class Player;
-		class PlayerStatus;
 
 
 		/**
@@ -19,8 +18,39 @@ namespace app
 		 */
 		class PlayerStateMachine : public CharacterStateMachine
 		{
+			/**
+			 * コリジョンマネージャーからノックバック方向を受け取るための関数群
+			 */
 		public:
-			PlayerStateMachine(Player* owner, PlayerStatus* status);
+			/**
+			 * ノックバック方向を取得
+			 */
+			inline const Vector3& GetKnockBackDirection() const { return m_knockBackDirection; }
+			/**
+			 * ノックバック方向を設定
+			 */
+			inline void SetKnockBackDirection(const Vector3& dir) { m_knockBackDirection = dir; }
+
+
+
+			/**
+			 * IState用の関数群
+			 */
+		public:
+			/** オーナーを取得 */
+			Player* GetOwner() const override final
+			{
+				return static_cast<Player*>(m_ownerActor);
+			}
+			/** オーナーのステータスを取得 */
+			PlayerStatus* GetStatus() const override final
+			{
+				return static_cast<PlayerStatus*>(GetOwner()->GetStatus<PlayerStatus>());
+			}
+
+
+		public:
+			PlayerStateMachine(Player* owner);
 			virtual ~PlayerStateMachine();
 
 
@@ -49,21 +79,8 @@ namespace app
 
 
 		private:
-			/** ステートを追加するテンプレート関数 */
-			template <typename TState>
-			void AddState(EnPlayerState stateId)
-			{
-				StateMachineBase::AddState<TState>(stateId, this, m_myPlayer, m_myStatus);
-			}
-
-
-		private:
-			/**
-			 * キャッシュ用のプレイヤーとステータス
-			 * ※頻繁にアクセスするため、キャスト不要で高速にアクセスできるように保持しておく
-			 */
-			Player* m_myPlayer = nullptr;
-			PlayerStatus* m_myStatus = nullptr;
+			/** ノックバックする方向 */
+			Vector3 m_knockBackDirection = Vector3::Zero;
 		};
 	}
 }

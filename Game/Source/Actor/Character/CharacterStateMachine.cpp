@@ -4,8 +4,8 @@
  */
 #include "stdafx.h"
 #include "CharacterStateMachine.h"
-#include "Source/Actor/Character/Character.h"
 #include "Source/Actor/ActorStatus.h"
+#include "Source/Actor/Character/Character.h"
 
 
 namespace app
@@ -518,10 +518,8 @@ namespace app
 		}
 
 
-		CharacterStateMachine::CharacterStateMachine(Character* owner, CharacterStatus* status)
-			: ActorStateMachine(owner, status)
-			, m_ownerChara(owner)
-			, m_charaStatus(status)
+		CharacterStateMachine::CharacterStateMachine(Character* owner)
+			: ActorStateMachine(owner)
 		{
 		}
 
@@ -551,7 +549,7 @@ namespace app
 
 		bool CharacterStateMachine::CanChangeDamage()
 		{
-			if (m_charaStatus->GetHp() <= m_currentHp) {
+			if (m_ownerActor->GetStatus<CharacterStatus>()->GetHp() <= m_currentHp) {
 				return true;
 			}
 			return false;
@@ -561,7 +559,8 @@ namespace app
 		bool CharacterStateMachine::CanChangeDying()
 		{
 			/** HPが0ならtrueを返します。 */
-			if (m_charaStatus->GetHp() <= 0) {
+			const int hp = m_ownerActor->GetStatus<CharacterStatus>()->GetHp();
+			if (hp <= 0) {
 				return true;
 			}
 			return false;
@@ -571,9 +570,9 @@ namespace app
 		bool CharacterStateMachine::CanChangeDead()
 		{
 			/** HPが0かつ、アニメーションが終了している場合にtrueを返します。 */
-			const int m_currentHp = m_charaStatus->GetHp();
-			const bool isPlayingAnimation = m_ownerChara->GetModelRender()->IsPlayingAnimation();
-			if (m_currentHp <= 0 && isPlayingAnimation == false) {
+			const int hp = m_ownerActor->GetStatus<CharacterStatus>()->GetHp();
+			const bool isPlayingAnimation = m_ownerActor->GetModelRender()->IsPlayingAnimation();
+			if (hp <= 0 && isPlayingAnimation == false) {
 				return true;
 			}
 			return false;

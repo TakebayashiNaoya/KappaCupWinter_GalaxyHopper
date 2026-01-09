@@ -3,33 +3,23 @@
  * プレイヤーの各ステート実装
  */
 #include "stdafx.h"
-#include "PlayerIState.h"
 #include "Player.h"
+#include "PlayerIState.h"
 #include "PlayerStateMachine.h"
+
+
+ /** ステートマシンを取得するマクロ */
+#define machine GetStateMachine<PlayerStateMachine>()
 
 
 namespace app
 {
 	namespace actor
 	{
-		/** ステートマシン、プレイヤー、ステータスをキャッシュ */
-		PlayerStateBase::PlayerStateBase(PlayerStateMachine* machine, Player* player, PlayerStatus* status)
-			: m_stateMachine(machine)
-			, m_player(player)
-			, m_status(status)
-		{
-		}
-
-
-
-
-		/********************************/
-
-
 		void PlayerIdleState::Enter()
 		{
 			/** 待機アニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Idle);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Idle);
 		}
 
 
@@ -51,7 +41,7 @@ namespace app
 		void PlayerWalkState::Enter()
 		{
 			/** 歩きアニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Walk);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Walk);
 		}
 
 
@@ -73,7 +63,7 @@ namespace app
 		void PlayerDashState::Enter()
 		{
 			/** 走りアニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Dash);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Dash);
 		}
 
 
@@ -95,7 +85,7 @@ namespace app
 		void PlayerJumpState::Enter()
 		{
 			/** ジャンプアニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Jump);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Jump);
 		}
 
 
@@ -117,42 +107,44 @@ namespace app
 		void PlayerDamageState::Enter()
 		{
 			/** 被弾アニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Damage);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Damage);
 			/** 入力をはじく */
-			m_stateMachine->SetIsInputBlocked(true);
+			machine->SetIsInputBlocked(true);
+			/** タイマーリセット */
+			m_damageTimer = 0.0f;
+			/** 移動方向にノックバック方向を設定 */
+			machine->SetMoveDirection(machine->GetKnockBackDirection());
 		}
 
 
 		void PlayerDamageState::Update()
 		{
-			// 定数の定義（ヘッダーや定数ファイルにあると想定）
-			const float KNOCKBACK_INITIAL_SPEED = 15.0f; // 初速
-			const float DAMAGE_DURATION = 1.0;      // ダメージ状態の継続時間（秒）
-
 			/** タイマーの更新 */
 			m_damageTimer += g_gameTime->GetFrameDeltaTime();
 
 			/** 時間比率の算出 */
-			float timeRatio = m_damageTimer / DAMAGE_DURATION;
+			float timeRatio = m_damageTimer / machine->GetStatus()->GetKnockbackDuration();
 			if (timeRatio > 1.0f) {
 				timeRatio = 1.0f;
 			}
 
 			/** ノックバック速度を算出 */
-			float moveSpeed = KNOCKBACK_INITIAL_SPEED * (1.0f - timeRatio);
-			if (m_damageTimer >= DAMAGE_DURATION) {
+			float moveSpeed = machine->GetStatus()->GetKnockbackPower() * (1.0f - timeRatio);
+			if (m_damageTimer >= machine->GetStatus()->GetKnockbackDuration()) {
 				moveSpeed = 0.0f;
 			}
 
 			/** ノックバック速度の適用 */
-			m_stateMachine->SetMoveSpeed(moveSpeed);
+			machine->SetMoveSpeed(moveSpeed);
 		}
 
 
 		void PlayerDamageState::Exit()
 		{
 			/** 入力を受け付ける */
-			m_stateMachine->SetIsInputBlocked(false);
+			machine->SetIsInputBlocked(false);
+			/** 念のためノックバックの向きを初期化 */
+			machine->SetKnockBackDirection(Vector3::Zero);
 		}
 
 
@@ -164,7 +156,7 @@ namespace app
 		void PlayerDyingState::Enter()
 		{
 			/** 死亡アニメーション */
-			m_stateMachine->PlayAnimation(Player::EnPlayerAnimClip::Die);
+			machine->PlayAnimation(Player::EnPlayerAnimClip::Die);
 		}
 
 

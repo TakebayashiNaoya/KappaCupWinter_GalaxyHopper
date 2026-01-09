@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
-#include "PlayerStateMachine.h"
 #include "Player.h"
-#include "Source/Actor/ActorStatus.h"
 #include "PlayerIState.h"
+#include "PlayerStateMachine.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app
@@ -10,10 +10,8 @@ namespace app
 	namespace actor
 	{
 		/** 持ち主（Player）とステータス（PlayerStatus）をCharacterStateMachineに渡す */
-		PlayerStateMachine::PlayerStateMachine(Player* owner, PlayerStatus* status)
-			: CharacterStateMachine(owner, status)
-			, m_myPlayer(owner)
-			, m_myStatus(status)
+		PlayerStateMachine::PlayerStateMachine(Player* owner)
+			:CharacterStateMachine(owner)
 		{
 			/** ステートの生成 */
 			AddState<PlayerIdleState>(Idle);

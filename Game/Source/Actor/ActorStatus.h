@@ -34,19 +34,19 @@ namespace app
 		 */
 		class CharacterStatus : public ActorStatus
 		{
-		protected:
-			/** 現在のHP */
-			int m_hp = 0;
-			/** 最大HP */
-			int m_maxHp = 0;
-			/** 歩く移動速度 */
-			float m_walkSpeed = 0.0f;
-			/** ダメージを受ける当たり判定の半径 */
-			float m_hurtRadius = 0.0f;
-			/** モデルの拡大率 */
-			float m_modelScale = 0.0f;
-			/** コライダーのオフセット値 */
-			float m_colliderOffset = 0.0f;
+		public:
+			/** 現在のHPの取得 */
+			inline const int GetHp() const { return m_hp; }
+			/** 最大HPの取得*/
+			inline const int GetMaxHp() const { return m_maxHp; }
+			/** スピードの取得*/
+			inline const float GetWalkSpeed() const { return m_walkSpeed; }
+			/** 半径の取得*/
+			inline const float GetHurtRadius() const { return m_hurtRadius; }
+			/** モデルの拡大率の取得*/
+			inline const float GetModelScale() const { return m_modelScale; }
+			/** コライダーのオフセット値の取得*/
+			inline const float GetColliderOffset() const { return m_colliderOffset; }
 
 
 		public:
@@ -63,19 +63,19 @@ namespace app
 			}
 
 
-		public:
-			/** 現在のHPのゲッター */
-			int GetHp() const { return m_hp; }
-			/** 最大HPのゲッター */
-			int GetMaxHp() const { return m_maxHp; }
-			/** スピードのゲッター */
-			float GetWalkSpeed() const { return m_walkSpeed; }
-			/** 半径のゲッター */
-			float GetHurtRadius() const { return m_hurtRadius; }
-			/** モデルの拡大率のゲッター */
-			float GetModelScale() const { return m_modelScale; }
-			/** コライダーのオフセット値のゲッター */
-			float GetColliderOffset() const { return m_colliderOffset; }
+		protected:
+			/** 現在のHP */
+			int m_hp = 0;
+			/** 最大HP */
+			int m_maxHp = 0;
+			/** 歩く移動速度 */
+			float m_walkSpeed = 0.0f;
+			/** ダメージを受ける当たり判定の半径 */
+			float m_hurtRadius = 0.0f;
+			/** モデルの拡大率 */
+			float m_modelScale = 0.0f;
+			/** コライダーのオフセット値 */
+			float m_colliderOffset = 0.0f;
 		};
 
 
@@ -89,11 +89,15 @@ namespace app
 		 */
 		class PlayerStatus : public CharacterStatus
 		{
-		private:
-			/** 走る移動速度 */
-			float m_dashSpeed = 0.0f;
-			/** ジャンプ力 */
-			float m_jumpPower = 0.0f;
+		public:
+			/** ダッシュスピードの取得*/
+			inline const float GetDashSpeed() const { return m_dashSpeed; }
+			/** ジャンプ力の取得*/
+			inline const float GetJumpPower() const { return m_jumpPower; }
+			/** ノックバックの衝撃力の取得*/
+			inline const float GetKnockbackPower() const { return m_knockbackPower; }
+			/** ノックバックの継続時間の取得*/
+			inline const float GetKnockbackDuration() const { return m_knockbackDuration; }
 
 
 		public:
@@ -104,11 +108,15 @@ namespace app
 			virtual void Setup() override;
 
 
-		public:
-			/** ダッシュスピードのゲッター */
-			float GetDashSpeed() const { return m_dashSpeed; }
-			/** ジャンプ力のゲッター */
-			float GetJumpPower() const { return m_jumpPower; }
+		private:
+			/** 走る移動速度 */
+			float m_dashSpeed = 0.0f;
+			/** ジャンプ力 */
+			float m_jumpPower = 0.0f;
+			/** ノックバックの衝撃力 */
+			float m_knockbackPower = 0.0f;
+			/** ノックバックの継続時間 */
+			float m_knockbackDuration = 1.0f;
 		};
 
 
@@ -122,9 +130,9 @@ namespace app
 		 */
 		class EnemyStatus : public CharacterStatus
 		{
-		protected:
-			/** ダメージを与える当たり判定の半径 */
-			float m_hitRadius = 0.0f;
+		public:
+			/** ダメージを与える当たり判定の半径の取得*/
+			inline const float GetHitRadius() const { return m_hitRadius; }
 
 
 		public:
@@ -134,9 +142,9 @@ namespace app
 			virtual void Setup() override {}
 
 
-		public:
-			/** 半径のゲッター **/
-			float GetHitRadius() const { return m_hitRadius; }
+		protected:
+			/** ダメージを与える当たり判定の半径 */
+			float m_hitRadius = 0.0f;
 		};
 
 
@@ -166,9 +174,10 @@ namespace app
 
 		class DeformEnemyStatus : public BasicEnemyStatus
 		{
-		private:
-			/** 滑走スピード */
-			float m_slideSpeed = 0.0f;
+
+		public:
+			/** 滑走スピードの取得*/
+			inline const float GetSlideSpeed() const { return m_slideSpeed; }
 
 
 		public:
@@ -179,9 +188,9 @@ namespace app
 			virtual void Setup() override;
 
 
-		public:
-			/** 滑走スピードのゲッター */
-			float GetSlideSpeed() const { return m_slideSpeed; }
+		private:
+			/** 滑走スピード */
+			float m_slideSpeed = 0.0f;
 		};
 
 
@@ -195,9 +204,9 @@ namespace app
 		 */
 		class BossEnemyStatus : public EnemyStatus
 		{
-		private:
-			/** 走る移動速度 */
-			float m_dashSpeed = 0.0f;
+		public:
+			/** ダッシュスピードの取得*/
+			inline const float GetDashSpeed() const { return m_dashSpeed; }
 
 
 		public:
@@ -208,9 +217,9 @@ namespace app
 			virtual void Setup() override;
 
 
-		public:
-			/** ダッシュスピードのゲッター */
-			float GetDashSpeed() const { return m_dashSpeed; }
+		private:
+			/** 走る移動速度 */
+			float m_dashSpeed = 0.0f;
 		};
 	}
 }
