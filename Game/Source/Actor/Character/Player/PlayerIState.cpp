@@ -112,7 +112,7 @@ namespace app
 			machine->SetIsInputBlocked(true);
 			/** タイマーリセット */
 			m_damageTimer = 0.0f;
-
+			/** 移動方向にノックバック方向を設定 */
 			machine->SetMoveDirection(machine->GetKnockBackDirection());
 		}
 
