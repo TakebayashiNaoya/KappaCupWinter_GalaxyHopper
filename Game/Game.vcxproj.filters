@@ -213,6 +213,9 @@
     <ClCompile Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemyStateMachine.cpp">
       <Filter>Source\Actor\Character\Enemy\BossEnemy</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\Character\Enemy\EnemyController.cpp">
+      <Filter>Source\Actor\Character\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -369,6 +372,9 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\Character\Enemy\BossEnemy\BossEnemyStateMachine.h">
       <Filter>Source\Actor\Character\Enemy\BossEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Character\Enemy\EnemyController.h">
+      <Filter>Source\Actor\Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
