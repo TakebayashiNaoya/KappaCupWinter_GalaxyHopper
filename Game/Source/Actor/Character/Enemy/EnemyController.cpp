@@ -20,7 +20,7 @@ namespace app
 		{
 			/** 引数に入れた文字列をNameに置き換えるルールを作成 */
 #define		REGISTER_AI_STATE(Name) \
-			RegisterState(enAIStateID_##Name, Enter##Name, Update##Name, Exit##Name, Check##Name);
+			RegisterState(enAIState_##Name, Enter##Name, Update##Name, Exit##Name, Check##Name);
 			/** ヘッダーで定義したNPC_STATE_LIST(V)のVの部分に、さっき作ったREGISTER_AI_STATEを当てはめる */
 			ENEMY_STATE_LIST(REGISTER_AI_STATE);
 			/** マクロ解放 */
