@@ -64,7 +64,7 @@ namespace app
 			/** 操作対象のプレイヤー */
 			Player* m_target = nullptr;
 			/** 現在の思考パターンID */
-			EnAIState m_currentState = enAIStateID_Idle;
+			EnAIState m_currentState = enAIState_Idle;
 			/** 初期化済みフラグ */
 			bool m_isInitialized = false;
 
