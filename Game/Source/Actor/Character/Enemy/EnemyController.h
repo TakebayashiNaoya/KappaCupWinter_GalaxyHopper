@@ -1,11 +1,14 @@
-/**
+ï»¿/**
  * EnemyController.h
- * ƒGƒlƒ~[‚ğ‘€ì‚·‚éu“ª”]vƒNƒ‰ƒX
+ * ã‚¨ãƒãƒŸãƒ¼ã‚’æ“ä½œã™ã‚‹ã€Œé ­è„³ã€ã‚¯ãƒ©ã‚¹
  */
 #pragma once
 
 
- /** vlƒpƒ^[ƒ“‚ÌƒŠƒXƒgƒ}ƒNƒ’è‹` */
+ /**
+  * æ€è€ƒãƒ‘ã‚¿ãƒ¼ãƒ³ã®ãƒªã‚¹ãƒˆãƒã‚¯ãƒ­å®šç¾©
+  * â€»ã“ã“ã«æ–°ã—ã„æ€è€ƒãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’è¿½åŠ ã™ã‚‹ã“ã¨
+  */
 #define ENEMY_STATE_LIST(V) \
 	V(Idle) \
 
@@ -16,13 +19,13 @@ namespace app
 	{
 		class EnemyController : public IGameObject
 		{
-			/** ‘O•ûéŒ¾ */
+			/** å‰æ–¹å®£è¨€ */
 			class Player;
 
 
 		public:
 			/**
-			 * ‘€ì‘ÎÛ‚Ìİ’è
+			 * æ“ä½œå¯¾è±¡ã®è¨­å®š
 			 */
 			void SetTarget(Player* target)
 			{
@@ -30,7 +33,7 @@ namespace app
 			}
 
 			/**
-			 * ‰Šú‰»
+			 * åˆæœŸåŒ–
 			 */
 			static void Initialize();
 
@@ -41,16 +44,16 @@ namespace app
 
 
 		private:
-			/** vlƒpƒ^[ƒ“‚ÌID */
+			/** æ€è€ƒãƒ‘ã‚¿ãƒ¼ãƒ³ã®ID */
 			enum EnAIState : uint8_t
 			{
-				/** vlƒpƒ^[ƒ“‚Ì—ñ‹“‘Ì’è‹`(©“®¶¬) */
+				/** æ€è€ƒãƒ‘ã‚¿ãƒ¼ãƒ³ã®åˆ—æŒ™ä½“å®šç¾©(è‡ªå‹•ç”Ÿæˆ) */
 #define			MAKE_ENUM(Name) enAIState_##Name,
 				ENEMY_STATE_LIST(MAKE_ENUM)
 #undef			MAKE_ENUM
 
-				enAIState_Max,			/** Å‘å” */
-				enAIState_Invalid = -1,	/** –³Œø’l */
+				enAIState_Max,			/** æœ€å¤§æ•° */
+				enAIState_Invalid = -1,	/** ç„¡åŠ¹å€¤ */
 			};
 
 
@@ -61,11 +64,11 @@ namespace app
 
 
 		private:
-			/** ‘€ì‘ÎÛ‚ÌƒvƒŒƒCƒ„[ */
+			/** æ“ä½œå¯¾è±¡ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ */
 			Player* m_target = nullptr;
-			/** Œ»İ‚Ìvlƒpƒ^[ƒ“ID */
+			/** ç¾åœ¨ã®æ€è€ƒãƒ‘ã‚¿ãƒ¼ãƒ³ID */
 			EnAIState m_currentState = enAIState_Idle;
-			/** ‰Šú‰»Ï‚İƒtƒ‰ƒO */
+			/** åˆæœŸåŒ–æ¸ˆã¿ãƒ•ãƒ©ã‚° */
 			bool m_isInitialized = false;
 
 
@@ -75,7 +78,7 @@ namespace app
 
 
 		private:
-			/** ŠÖ”ƒ|ƒCƒ“ƒ^‚ÌŒ^’è‹`i‹Lq‚ğŠy‚É‚·‚é‚½‚ßj */
+			/** é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®å‹å®šç¾©ï¼ˆè¨˜è¿°ã‚’æ¥½ã«ã™ã‚‹ãŸã‚ï¼‰ */
 			using EnterFunc = void (*)(EnemyController*);
 			using UpdateFunc = void (*)(EnemyController*);
 			using ExitFunc = void (*)(EnemyController*);
@@ -83,50 +86,50 @@ namespace app
 
 
 		private:
-			/** AIvlˆ— */
+			/** AIæ€è€ƒå‡¦ç† */
 			struct AIState
 			{
 				/**
-				 * ‰Šú‰»
-				 * ‚±‚Ìvl‚É“ü‚Á‚½uŠÔ‚É1‰ñŒÄ‚Î‚ê‚é
+				 * åˆæœŸåŒ–
+				 * ã“ã®æ€è€ƒã«å…¥ã£ãŸç¬é–“ã«1å›å‘¼ã°ã‚Œã‚‹
 				 */
 				EnterFunc enter;
 				/**
-				 * XV
-				 * ‚±‚Ìvl’†A–ˆƒtƒŒ[ƒ€ŒÄ‚Î‚ê‚éi“ü—Í¶¬‚È‚Çj
+				 * æ›´æ–°
+				 * ã“ã®æ€è€ƒä¸­ã€æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å‘¼ã°ã‚Œã‚‹ï¼ˆå…¥åŠ›ç”Ÿæˆãªã©ï¼‰
 				 */
 				UpdateFunc update;
 				/**
-				 * Œã•Ğ•t‚¯
-				 * ‚±‚Ìvl‚©‚ç”²‚¯‚éuŠÔ‚É1‰ñŒÄ‚Î‚ê‚é
+				 * å¾Œç‰‡ä»˜ã‘
+				 * ã“ã®æ€è€ƒã‹ã‚‰æŠœã‘ã‚‹ç¬é–“ã«1å›å‘¼ã°ã‚Œã‚‹
 				 */
 				ExitFunc exit;
 				/**
-				 * ‘JˆÚ”»’è
-				 * Ÿ‚ÌvlID‚ğ•Ô‚·i‘JˆÚ‚µ‚È‚¢ê‡‚Í -1 ‚ğ•Ô‚·j
+				 * é·ç§»åˆ¤å®š
+				 * æ¬¡ã®æ€è€ƒIDã‚’è¿”ã™ï¼ˆé·ç§»ã—ãªã„å ´åˆã¯ -1 ã‚’è¿”ã™ï¼‰
 				 */
 				CheckFunc check;
 			};
 
 
 		private:
-			/** ƒXƒe[ƒg‚ğ‘JˆÚ‚³‚¹‚éˆ— */
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆã‚’é·ç§»ã•ã›ã‚‹å‡¦ç† */
 			void ChangeState(EnAIState nextState);
 
 
 		private:
-			/** ƒXƒe[ƒg‚Ìƒ}ƒbƒv */
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆã®ãƒãƒƒãƒ— */
 			static std::map<EnAIState, AIState> m_stateMap;
 
 
 		private:
-			/** ƒXƒe[ƒg‚ğ“o˜^‚·‚éŠÖ” */
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆã‚’ç™»éŒ²ã™ã‚‹é–¢æ•° */
 			static void RegisterState(const EnAIState id, EnterFunc enter, UpdateFunc update, ExitFunc exit, CheckFunc check);
-			/** AIState‚ğ’T‚· */
+			/** AIStateã‚’æ¢ã™ */
 			AIState* FindAIState(const EnAIState id);
-			/** ‰½‚à‚µ‚È‚¢ƒ_ƒ~[ŠÖ” */
+			/** ä½•ã‚‚ã—ãªã„ãƒ€ãƒŸãƒ¼é–¢æ•° */
 			static void DoNothing(EnemyController*) {}
-			/** ‘JˆÚ‚È‚µ */
+			/** é·ç§»ãªã— */
 			static int CheckNothing(EnemyController*) { return -1; }
 
 
@@ -136,8 +139,8 @@ namespace app
 
 
 			/**
-			 * ŠeƒXƒe[ƒgŠÖ”‚ÌéŒ¾(©“®¶¬)
-			 * ¦ˆ—‚Ícpp‚É‹Lq‚·‚é‚±‚Æ
+			 * å„ã‚¹ãƒ†ãƒ¼ãƒˆé–¢æ•°ã®å®£è¨€(è‡ªå‹•ç”Ÿæˆ)
+			 * â€»å‡¦ç†ã¯cppã«è¨˜è¿°ã™ã‚‹ã“ã¨
 			 */
 #define		DECLARE_AI_FUNCS(Name) \
 			static void Enter##Name(EnemyController* npc); \

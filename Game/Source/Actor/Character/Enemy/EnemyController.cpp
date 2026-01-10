@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * EnemyController.cpp
- * ƒGƒlƒ~[‚ğ‘€ì‚·‚éu“ª”]vƒNƒ‰ƒX‚ÌÀ‘•
+ * ã‚¨ãƒãƒŸãƒ¼ã‚’æ“ä½œã™ã‚‹ã€Œé ­è„³ã€ã‚¯ãƒ©ã‚¹ã®å®Ÿè£…
  */
 #include "stdafx.h"
  //#include "actor/StateMachine.h"
@@ -12,18 +12,18 @@ namespace app
 {
 	namespace actor
 	{
-		/** Static•Ï”‚Ì‰Šú‰» */
+		/** Staticå¤‰æ•°ã®åˆæœŸåŒ– */
 		std::map<EnemyController::EnAIState, EnemyController::AIState> EnemyController::m_stateMap;
 
 
 		void EnemyController::Initialize()
 		{
-			/** ˆø”‚É“ü‚ê‚½•¶š—ñ‚ğName‚É’u‚«Š·‚¦‚éƒ‹[ƒ‹‚ğì¬ */
+			/** å¼•æ•°ã«å…¥ã‚ŒãŸæ–‡å­—åˆ—ã‚’Nameã®å ´æ‰€ã«ç½®ãæ›ãˆã‚‹ãƒ«ãƒ¼ãƒ«ã‚’ä½œæˆ */
 #define		REGISTER_AI_STATE(Name) \
 			RegisterState(enAIState_##Name, Enter##Name, Update##Name, Exit##Name, Check##Name);
-			/** ƒwƒbƒ_[‚Å’è‹`‚µ‚½NPC_STATE_LIST(V)‚ÌV‚Ì•”•ª‚ÉA‚³‚Á‚«ì‚Á‚½REGISTER_AI_STATE‚ğ“–‚Ä‚Í‚ß‚é */
+			/** ãƒ˜ãƒƒãƒ€ãƒ¼ã§å®šç¾©ã—ãŸNPC_STATE_LIST(V)ã®Vã®éƒ¨åˆ†ã«ã€ã•ã£ãä½œã£ãŸREGISTER_AI_STATEã‚’å½“ã¦ã¯ã‚ã‚‹ */
 			ENEMY_STATE_LIST(REGISTER_AI_STATE);
-			/** ƒ}ƒNƒ‰ğ•ú */
+			/** ãƒã‚¯ãƒ­è§£æ”¾ */
 #undef		REGISTER_AI_STATE
 		}
 
@@ -46,28 +46,28 @@ namespace app
 
 		void EnemyController::Update()
 		{
-			/** ‘OƒtƒŒ[ƒ€‚ÌˆÊ’u‚ğ•Û‘¶ */
+			/** å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®ä½ç½®ã‚’ä¿å­˜ */
 			auto* currentState = FindAIState(m_currentState);
 			if (currentState == nullptr) {
-				K2_ASSERT(false, "‘ÎÛ‚Ìˆ—‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ\n");
+				K2_ASSERT(false, "å¯¾è±¡ã®å‡¦ç†ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“\n");
 				return;
 			}
 
-			/** ‰‰ñ‹N“®‚ÌEnterˆ— */
+			/** åˆå›èµ·å‹•æ™‚ã®Enterå‡¦ç† */
 			if (!m_isInitialized) {
 				currentState->enter(this);
 				m_isInitialized = true;
 			}
 
-			/** ‘JˆÚ”»’è */
+			/** é·ç§»åˆ¤å®š */
 			const int nextState = currentState->check(this);
-			/** ‘JˆÚ‚ª•K—v‚Èê‡‚Ìˆ— */
+			/** é·ç§»ãŒå¿…è¦ãªå ´åˆã®å‡¦ç† */
 			if (nextState != -1 && nextState != m_currentState) {
 				ChangeState((EnAIState)nextState);
 				currentState = FindAIState(m_currentState);
 			}
 
-			/** Œ»İ‚ÌƒXƒe[ƒg‚ÌXVˆ— */
+			/** ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆã®æ›´æ–°å‡¦ç† */
 			currentState->update(this);
 
 			//prePosition = m_target->m_transform.m_position;
@@ -86,12 +86,12 @@ namespace app
 
 		void EnemyController::ChangeState(EnAIState nextState)
 		{
-			/** •s³‚ÈƒXƒe[ƒgID‚È‚ç‰½‚à‚µ‚È‚¢ */
+			/** ä¸æ­£ãªã‚¹ãƒ†ãƒ¼ãƒˆIDãªã‚‰ä½•ã‚‚ã—ãªã„ */
 			if (nextState < enAIState_Invalid || nextState >= enAIState_Max) {
 				return;
 			}
 
-			/** Œ»İ‚ÌƒXƒe[ƒg‚ÌI—¹ˆ—¨Ÿ‚ÌƒXƒe[ƒg‚ÌŠJnˆ— */
+			/** ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆã®çµ‚äº†å‡¦ç†â†’æ¬¡ã®ã‚¹ãƒ†ãƒ¼ãƒˆã®é–‹å§‹å‡¦ç† */
 			auto* currentState = FindAIState(m_currentState);
 			currentState->exit(this);
 			m_currentState = nextState;
@@ -103,12 +103,12 @@ namespace app
 		void EnemyController::RegisterState(const EnAIState id, EnterFunc enter, UpdateFunc update, ExitFunc exit, CheckFunc check)
 		{
 			AIState state;
-			/** ˆø”‚ª nullptr ‚È‚çƒ_ƒ~[ŠÖ”‚ğ“ü‚ê‚éi‚±‚ê‚ÅŒÄ‚Ño‚µ‘¤‚Å‚Ìnullptrƒ`ƒFƒbƒN‚ª•s—v‚É‚È‚éj */
+			/** å¼•æ•°ãŒ nullptr ãªã‚‰ãƒ€ãƒŸãƒ¼é–¢æ•°ã‚’å…¥ã‚Œã‚‹ï¼ˆã“ã‚Œã§å‘¼ã³å‡ºã—å´ã§ã®nullptrãƒã‚§ãƒƒã‚¯ãŒä¸è¦ã«ãªã‚‹ï¼‰ */
 			state.enter = (enter != nullptr) ? enter : DoNothing;
 			state.update = (update != nullptr) ? update : DoNothing;
 			state.exit = (exit != nullptr) ? exit : DoNothing;
 			state.check = (check != nullptr) ? check : CheckNothing;
-			/** map‚É“o˜^ */
+			/** mapã«ç™»éŒ² */
 			m_stateMap.emplace(id, state);
 		}
 
