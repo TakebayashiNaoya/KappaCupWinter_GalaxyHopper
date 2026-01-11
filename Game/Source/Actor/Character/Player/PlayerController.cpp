@@ -63,7 +63,7 @@ namespace app
 
 
 		PlayerController::PlayerController(Player* player)
-			: m_targetPlayer(player)
+			: m_ownerPlayer(player)
 		{
 		}
 
@@ -75,15 +75,15 @@ namespace app
 
 		bool PlayerController::Start()
 		{
-			m_stateMachine = m_targetPlayer->GetStateMachine<PlayerStateMachine>();
-			m_playerStatus = m_targetPlayer->GetStatus<PlayerStatus>();
+			m_stateMachine = m_ownerPlayer->GetStateMachine<PlayerStateMachine>();
+			m_playerStatus = m_ownerPlayer->GetStatus<PlayerStatus>();
 			return true;
 		}
 
 
 		void PlayerController::Update()
 		{
-			if (m_targetPlayer == nullptr) {
+			if (m_ownerPlayer == nullptr) {
 				return;
 			}
 
