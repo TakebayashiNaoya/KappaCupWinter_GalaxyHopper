@@ -11,6 +11,7 @@
   */
 #define ENEMY_STATE_LIST(V) \
 	V(Idle) \
+	V(Search) 
 
 
 namespace app
@@ -20,16 +21,29 @@ namespace app
 		class EnemyController : public IGameObject
 		{
 			/** 前方宣言 */
+			class Enemy;
 			class Player;
+
+
+		public:
+			/** エネミーの操作タイプ */
+			enum class EnAIType : uint8_t
+			{
+				None,
+				BasicEnemy,
+				DeformEnemy,
+				BossEnemy,
+			};
 
 
 		public:
 			/**
 			 * 操作対象の設定
 			 */
-			void SetTarget(Player* target)
+			void SetOwner(Enemy* owner, EnAIType type)
 			{
-				m_target = target;
+				m_owner = owner;
+				m_aiType = type;
 			}
 
 			/**
@@ -64,13 +78,18 @@ namespace app
 
 
 		private:
-			/** 操作対象のプレイヤー */
+			/** 操作対象のエネミー */
+			Enemy* m_owner = nullptr;
+			/** エネミーの操作タイプ */
+			EnAIType m_aiType = EnAIType::None;
+			/** ターゲット */
 			Player* m_target = nullptr;
 			/** 現在の思考パターンID */
 			EnAIState m_currentState = enAIState_Idle;
-			/** 初期化済みフラグ */
+			/** 初期化済みか */
 			bool m_isInitialized = false;
-
+			/** ターゲットを見つけたか */
+			bool m_isFoundTarget = false;
 
 
 
