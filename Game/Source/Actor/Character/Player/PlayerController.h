@@ -15,7 +15,17 @@ namespace app
 		class PlayerController : public IGameObject
 		{
 		public:
-			PlayerController(Player* player);
+			/**
+			 * 操作対象のプレイヤーを設定
+			 */
+			void SetOwnerPlayer(Player* player)
+			{
+				m_ownerPlayer = player;
+			}
+
+
+		public:
+			PlayerController();
 			~PlayerController();
 
 

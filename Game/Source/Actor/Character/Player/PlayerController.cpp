@@ -3,8 +3,8 @@
  * コントローラー入力をプレイヤーの動きに変換する
  */
 #include "stdafx.h"
-#include "PlayerController.h"
 #include "Player.h"
+#include "PlayerController.h"
 #include "PlayerStateMachine.h"
 #include "Source/Actor/ActorStatus.h"
 
@@ -62,8 +62,7 @@ namespace app
 		}
 
 
-		PlayerController::PlayerController(Player* player)
-			: m_ownerPlayer(player)
+		PlayerController::PlayerController()
 		{
 		}
 
