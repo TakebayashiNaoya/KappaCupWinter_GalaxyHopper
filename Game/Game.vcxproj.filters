@@ -377,4 +377,7 @@
       <Filter>Source\Actor\Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
+  </ItemGroup>
 </Project>
