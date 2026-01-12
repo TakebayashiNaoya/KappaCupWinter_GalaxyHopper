@@ -145,30 +145,5 @@ namespace app
 		int EnemyController::CheckIdle(EnemyController* npc)
 		{
 		}
-
-
-
-
-		/********************************/
-
-
-		void EnemyController::EnterSearch(EnemyController* npc)
-		{
-		}
-
-
-		void EnemyController::UpdateSearch(EnemyController* npc)
-		{
-		}
-
-
-		void EnemyController::ExitSearch(EnemyController* npc)
-		{
-		}
-
-
-		int EnemyController::CheckSearch(EnemyController* npc)
-		{
-		}
 	}
 }
