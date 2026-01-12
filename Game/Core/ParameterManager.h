@@ -48,6 +48,7 @@ struct MasterBasicEnemyStatusParameter : public IMasterParameter
 	float modelScale;
 	float colliderOffset;
 	float hitRadius;
+	float searchRange;
 };
 
 struct MasterDeformEnemyStatusParameter : public IMasterParameter
@@ -60,6 +61,7 @@ struct MasterDeformEnemyStatusParameter : public IMasterParameter
 	float modelScale;
 	float colliderOffset;
 	float hitRadius;
+	float searchRange;
 	float slideSpeed;
 };
 
@@ -73,6 +75,7 @@ struct MasterBossEnemyStatusParameter : public IMasterParameter
 	float modelScale;
 	float colliderOffset;
 	float hitRadius;
+	float searchRange;
 	float dashSpeed;
 };
 

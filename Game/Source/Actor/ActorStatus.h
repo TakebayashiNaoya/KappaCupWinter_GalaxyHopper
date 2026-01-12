@@ -133,6 +133,9 @@ namespace app
 		public:
 			/** ダメージを与える当たり判定の半径の取得*/
 			inline const float GetHitRadius() const { return m_hitRadius; }
+			/** ターゲットの索敵距離の取得 */
+			inline const float GetSearchRange() const { return m_searchRange; }
+
 
 
 		public:
@@ -145,6 +148,8 @@ namespace app
 		protected:
 			/** ダメージを与える当たり判定の半径 */
 			float m_hitRadius = 0.0f;
+			/** ターゲットの索敵距離 */
+			float m_searchRange = 0.0f;
 		};
 
 

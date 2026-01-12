@@ -6,6 +6,7 @@
     "hurtRadius": 100.0,
     "modelScale": 70.0,
     "colliderOffset": 50.0,
-    "hitRadius": 50.0
+    "hitRadius": 50.0,
+    "searchRange": 500.0
   }
 ]

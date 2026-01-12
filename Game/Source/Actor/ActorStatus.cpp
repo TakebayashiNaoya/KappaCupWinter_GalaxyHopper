@@ -68,6 +68,7 @@ namespace app
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.colliderOffset = j["colliderOffset"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
+					parameter.searchRange = j["searchRange"].get<float>();
 				});
 		}
 
@@ -89,6 +90,7 @@ namespace app
 			m_modelScale = parameter->modelScale;
 			m_colliderOffset = parameter->colliderOffset;
 			m_hitRadius = parameter->hitRadius;
+			m_searchRange = parameter->searchRange;
 		}
 
 
@@ -108,6 +110,7 @@ namespace app
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.colliderOffset = j["colliderOffset"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
+					parameter.searchRange = j["searchRange"].get<float>();
 					parameter.slideSpeed = j["slideSpeed"].get<float>();
 				});
 		}
@@ -130,6 +133,7 @@ namespace app
 			m_modelScale = parameter->modelScale;
 			m_colliderOffset = parameter->colliderOffset;
 			m_hitRadius = parameter->hitRadius;
+			m_searchRange = parameter->searchRange;
 			m_slideSpeed = parameter->slideSpeed;
 		}
 
@@ -150,6 +154,7 @@ namespace app
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.colliderOffset = j["colliderOffset"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
+					parameter.searchRange = j["searchRange"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
 				});
 		}
@@ -172,6 +177,7 @@ namespace app
 			m_modelScale = parameter->modelScale;
 			m_colliderOffset = parameter->colliderOffset;
 			m_hitRadius = parameter->hitRadius;
+			m_searchRange = parameter->searchRange;
 			m_dashSpeed = parameter->dashSpeed;
 		}
 	}
