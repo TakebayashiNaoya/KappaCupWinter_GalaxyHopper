@@ -134,6 +134,17 @@ namespace app
 
 		void EnemyController::UpdateIdle(EnemyController* npc)
 		{
+			/** ターゲットが未設定ならプレイヤーを探す */
+			if (npc->m_target == nullptr) {
+				Player* target = FindGO<Player>("Player");
+			};
+			/** ターゲットが見つからなかったら何もしない */
+			if (npc->m_target == nullptr) return;
+			/** ターゲットが死んでいたらターゲットから解除する */
+			if (npc->m_target->GetStatus<PlayerStatus>()->GetHp() <= 0) {
+				npc->m_target = nullptr;
+				return;
+			}
 		}
 
 

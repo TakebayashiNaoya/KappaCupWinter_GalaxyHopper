@@ -17,13 +17,16 @@ namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
+		class Enemy;
+		class Player;
+
+
+		/**
+		 * エネミー操作クラス
+		 */
 		class EnemyController : public IGameObject
 		{
-			/** 前方宣言 */
-			class Enemy;
-			class Player;
-
-
 		public:
 			/** エネミーの操作タイプ */
 			enum class EnAIType : uint8_t
@@ -43,6 +46,14 @@ namespace app
 			{
 				m_owner = owner;
 				m_aiType = type;
+			}
+
+			/**
+			 * ターゲットの設定
+			 */
+			void SetTarget(Player* target)
+			{
+				m_target = target;
 			}
 
 			/**
