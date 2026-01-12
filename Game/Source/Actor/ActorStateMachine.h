@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * ActorStateMachine.h
- * Actorê—p‚ÌƒXƒe[ƒgƒ}ƒVƒ“
+ * Actorå°‚ç”¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³
  */
 #pragma once
 #include "Core/StateMachineBase.h"
@@ -11,48 +11,48 @@ namespace app
 {
 	namespace actor
 	{
-		/** ‘O•ûéŒ¾ */
+		/** å‰æ–¹å®£è¨€ */
 		class ActorStatus;
 
 
 		/**
-		 * Actor—pƒXƒe[ƒgƒ}ƒVƒ“
+		 * Actorç”¨ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³
 		 */
 		class ActorStateMachine : public core::StateMachineBase
 		{
 		public:
 			/**
-			 * ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚ğæ“¾
+			 * ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã‚’å–å¾—
 			 */
 			inline Transform& GetTransform() { return m_transform; }
 			/**
-			 * À•W‚ğİ’è
+			 * åº§æ¨™ã‚’è¨­å®š
 			 */
 			inline void SetPosition(const Vector3& position) { m_transform.m_position = position; }
 			/**
-			 * ‰ñ“]‚ğİ’è
+			 * å›è»¢ã‚’è¨­å®š
 			 */
 			inline void SetRotation(const Quaternion& rotation) { m_transform.m_rotation = rotation; }
 			/**
-			 * Šgk‚ğİ’è
+			 * æ‹¡ç¸®ã‚’è¨­å®š
 			 */
 			inline void SetScale(const Vector3& scale) { m_transform.m_scale = scale; }
 			/**
-			 * ã•ûŒüƒxƒNƒgƒ‹‚Ìæ“¾
+			 * ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã®å–å¾—
 			 */
 			inline const Vector3& GetUpDirection() const { return m_upDirection; }
 			/**
-			 * ã•ûŒüƒxƒNƒgƒ‹‚Ìİ’è
+			 * ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã®è¨­å®š
 			 */
 			inline void SetUpDirection(const Vector3& upDir) { m_upDirection = upDir; }
 
 
 			/**
-			 * IState—p‚ÌŠÖ”ŒQ
+			 * IStateç”¨ã®é–¢æ•°ç¾¤
 			 */
 		public:
 			/**
-			 * ƒAƒjƒ[ƒVƒ‡ƒ“Ä¶ˆ—‚Ìƒeƒ“ƒvƒŒ[ƒgŠÖ”
+			 * ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å†ç”Ÿå‡¦ç†ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆé–¢æ•°
 			 */
 			template <typename TEnum>
 			void PlayAnimation(TEnum animId)
@@ -60,21 +60,21 @@ namespace app
 				m_ownerActor->GetModelRender()->PlayAnimation(static_cast<int>(animId));
 			}
 			/**
-			 * ƒLƒƒƒ‰ƒNƒ^[‚ğæ“¾‚·‚éŠÖ”
-			 * NOTE:ƒI[ƒi[‚Í”h¶æ‚ÌƒXƒe[ƒgƒ}ƒVƒ“‚²‚Æ‚ÉŒˆ‚Ü‚Á‚Ä‚¢‚é‚Í‚¸
-			 *		”h¶æ‚ÅƒI[ƒo[ƒ‰ƒCƒh‚µA“KØ‚ÈŒ^‚Éstatic_cast‚µ‚Ä•Ô‚·‚æ‚¤‚ÉÀ‘•‚·‚é
+			 * ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’å–å¾—ã™ã‚‹é–¢æ•°
+			 * NOTE:ã‚ªãƒ¼ãƒŠãƒ¼ã¯æ´¾ç”Ÿå…ˆã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ã”ã¨ã«æ±ºã¾ã£ã¦ã„ã‚‹ã¯ãš
+			 *		æ´¾ç”Ÿå…ˆã§ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã€é©åˆ‡ãªå‹ã«static_castã—ã¦è¿”ã™ã‚ˆã†ã«å®Ÿè£…ã™ã‚‹
 			 */
 			virtual Actor* GetOwner() const = 0;
 			/**
-			 * ƒI[ƒi[‚ğŒo—R‚µ‚ÄƒXƒe[ƒ^ƒX‚ğæ“¾‚·‚éŠÖ”
-			 * NOTE:ƒXƒe[ƒ^ƒX‚Í”h¶æ‚ÌƒXƒe[ƒgƒ}ƒVƒ“‚²‚Æ‚ÉŒˆ‚Ü‚Á‚Ä‚¢‚é‚Í‚¸
-			 *		”h¶æ‚ÅƒI[ƒo[ƒ‰ƒCƒh‚µA“KØ‚ÈŒ^‚Éstatic_cast‚µ‚Ä•Ô‚·‚æ‚¤‚ÉÀ‘•‚·‚é
+			 * ã‚ªãƒ¼ãƒŠãƒ¼ã‚’çµŒç”±ã—ã¦ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å–å¾—ã™ã‚‹é–¢æ•°
+			 * NOTE:ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã¯æ´¾ç”Ÿå…ˆã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ã”ã¨ã«æ±ºã¾ã£ã¦ã„ã‚‹ã¯ãš
+			 *		æ´¾ç”Ÿå…ˆã§ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã€é©åˆ‡ãªå‹ã«static_castã—ã¦è¿”ã™ã‚ˆã†ã«å®Ÿè£…ã™ã‚‹
 			 */
 			virtual ActorStatus* GetStatus() const = 0;
 
 
 		public:
-			/** ”h¶æ‚ÌƒXƒe[ƒgƒ}ƒVƒ“‚ª¶¬‚³‚ê‚½‚Æ‚«A‚»‚Ì‚¿å‚ğƒLƒƒƒbƒVƒ…‚·‚é */
+			/** æ´¾ç”Ÿå…ˆã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ãŒç”Ÿæˆã•ã‚ŒãŸã¨ãã€ãã®æŒã¡ä¸»ã‚’ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã™ã‚‹ */
 			ActorStateMachine(Actor* actor)
 				: m_ownerActor(actor)
 			{
@@ -83,11 +83,11 @@ namespace app
 
 
 		protected:
-			/** ‚¿å‚Æ‚È‚éActor */
+			/** æŒã¡ä¸»ã¨ãªã‚‹Actor */
 			Actor* m_ownerActor = nullptr;
-			/** ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€ */
+			/** ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ  */
 			Transform m_transform;
-			/** ã•ûŒüƒxƒNƒgƒ‹ */
+			/** ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ« */
 			Vector3 m_upDirection = Vector3::Up;
 		};
 	}
