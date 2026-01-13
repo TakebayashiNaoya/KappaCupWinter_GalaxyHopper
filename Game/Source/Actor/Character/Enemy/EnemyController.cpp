@@ -137,13 +137,14 @@ namespace app
 		{
 			/** ターゲットが未設定ならプレイヤーを探す */
 			if (npc->m_target == nullptr) {
-				Player* target = FindGO<Player>("Player");
+				npc->m_target = FindGO<Player>("Player");
 			};
 			/** ターゲットが見つからなかったら何もしない */
 			if (npc->m_target == nullptr) return;
 			/** ターゲットが死んでいたらターゲットから解除する */
 			if (npc->m_target->GetStatus<PlayerStatus>()->GetHp() <= 0) {
 				npc->m_target = nullptr;
+				npc->m_isFoundTarget = false;
 				return;
 			}
 			/** ターゲットまでのベクトルを算出 */
@@ -153,6 +154,10 @@ namespace app
 			/** ターゲットとの距離が一定以下ならターゲット発見のフラグを立てる */
 			float searchRange = npc->m_target->GetStatus<EnemyStatus>()->GetSearchRange();
 			if (targetDistance.Length() < searchRange) {
+				npc->m_isFoundTarget = true;
+			}
+			/** ボスであれば問答無用で発見フラグを立てる */
+			else if (npc->m_aiType == EnAIType::BossEnemy) {
 				npc->m_isFoundTarget = true;
 			}
 			else {
@@ -180,9 +185,14 @@ namespace app
 			case EnAIType::BasicEnemy:
 			case EnAIType::BossEnemy:
 				return enAIState_Chase;
+
 				/** 変形エネミーは逃げる */
 			case EnAIType::DeformEnemy:
 				return enAIState_Flee;
+
+				/** それ以外は無効 */
+			default:
+				return enAIState_Invalid;
 			}
 		}
 
@@ -199,6 +209,12 @@ namespace app
 
 		void EnemyController::UpdateChase(EnemyController* npc)
 		{
+			/** ターゲットが死んでいたらターゲットから解除する */
+			if (npc->m_target->GetStatus<PlayerStatus>()->GetHp() <= 0) {
+				npc->m_target = nullptr;
+				npc->m_isFoundTarget = false;
+				return;
+			}
 		}
 
 
@@ -210,5 +226,29 @@ namespace app
 		int EnemyController::CheckChase(EnemyController* npc)
 		{
 		}
+
+
+
+
+		/********************************/
+
+
+		void EnemyController::EnterFlee(EnemyController* npc)
+		{
+		}
+
+
+		void EnemyController::UpdateFlee(EnemyController* npc)
+		{
+		}
+
+
+		void EnemyController::ExitFlee(EnemyController* npc)
+		{
+		}
+
+
+		int EnemyController::CheckFlee(EnemyController* npc)
+		{
+		}
 	}
-}
