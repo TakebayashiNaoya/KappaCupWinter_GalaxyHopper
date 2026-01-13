@@ -80,6 +80,25 @@ namespace app
 		}
 
 
+		bool EnemyController::CheckTargetLost(EnemyController* npc)
+		{
+			/** ターゲットが存在しない場合 */
+			if (npc->m_target == nullptr) {
+				npc->m_isFoundTarget = false;
+				return true;
+			}
+
+			/** ターゲットが死んでいる場合 */
+			if (npc->m_target->GetStatus<PlayerStatus>()->GetHp() <= 0) {
+				npc->m_target = nullptr;
+				npc->m_isFoundTarget = false;
+				return true;
+			}
+
+			return false;
+		}
+
+
 
 
 		/********************************/
@@ -130,6 +149,9 @@ namespace app
 
 		void EnemyController::EnterIdle(EnemyController* npc)
 		{
+			/** ターゲット情報をリセットしておく */
+			npc->m_target = nullptr;
+			npc->m_isFoundTarget = false;
 		}
 
 
@@ -139,14 +161,12 @@ namespace app
 			if (npc->m_target == nullptr) {
 				npc->m_target = FindGO<Player>("Player");
 			};
-			/** ターゲットが見つからなかったら何もしない */
-			if (npc->m_target == nullptr) return;
+
 			/** ターゲットが死んでいたらターゲットから解除する */
-			if (npc->m_target->GetStatus<PlayerStatus>()->GetHp() <= 0) {
-				npc->m_target = nullptr;
-				npc->m_isFoundTarget = false;
+			if (npc->CheckTargetLost(npc)) {
 				return;
 			}
+
 			/** ターゲットまでのベクトルを算出 */
 			Vector3 targetPosition = npc->m_target->GetTransform().m_position;
 			Vector3 ownerPosition = npc->m_owner->GetTransform().m_position;
@@ -209,10 +229,8 @@ namespace app
 
 		void EnemyController::UpdateChase(EnemyController* npc)
 		{
-			/** ターゲットが死んでいたらターゲットから解除する */
-			if (npc->m_target->GetStatus<PlayerStatus>()->GetHp() <= 0) {
-				npc->m_target = nullptr;
-				npc->m_isFoundTarget = false;
+			/** ターゲットが死んでいたらターゲット情報をリセット */
+			if (CheckTargetLost(npc)) {
 				return;
 			}
 		}
@@ -225,6 +243,10 @@ namespace app
 
 		int EnemyController::CheckChase(EnemyController* npc)
 		{
+			/** ターゲットを見失ったらアイドル状態へ移行 */
+			if (npc->m_isFoundTarget == false) {
+				return enAIState_Idle;
+			}
 		}
 
 

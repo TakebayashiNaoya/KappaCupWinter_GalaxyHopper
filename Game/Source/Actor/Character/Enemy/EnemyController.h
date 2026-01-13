@@ -88,6 +88,11 @@ namespace app
 			void Update() override final;
 			void Render(RenderContext& rc) override final;
 
+			/**
+			 * ターゲットが存在しないか死んでいるなら、ターゲット情報をリセットしてtrueを返す
+			 */
+			static bool CheckTargetLost(EnemyController* npc);
+
 
 		private:
 			/** 操作対象のエネミー */
