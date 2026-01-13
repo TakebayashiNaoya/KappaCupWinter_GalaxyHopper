@@ -6,6 +6,7 @@
  //#include "actor/StateMachine.h"
 #include "EnemyController.h"
 #include "Source/Actor/Character/Player/Player.h"
+#include "Source/Actor/Character/Enemy/Enemy.h"
 
 
 namespace app
@@ -145,6 +146,18 @@ namespace app
 				npc->m_target = nullptr;
 				return;
 			}
+			/** ターゲットまでのベクトルを算出 */
+			Vector3 targetPosition = npc->m_target->GetTransform().m_position;
+			Vector3 ownerPosition = npc->m_owner->GetTransform().m_position;
+			Vector3 targetDistance = targetPosition - ownerPosition;
+			/** ターゲットとの距離が一定以下ならターゲット発見のフラグを立てる */
+			float searchRange = npc->m_target->GetStatus<EnemyStatus>()->GetSearchRange();
+			if (targetDistance.Length() < searchRange) {
+				npc->m_isFoundTarget = true;
+			}
+			else {
+				npc->m_isFoundTarget = false;
+			}
 		}
 
 
@@ -154,6 +167,47 @@ namespace app
 
 
 		int EnemyController::CheckIdle(EnemyController* npc)
+		{
+			/** ターゲットを発見していたら追跡状態へ移行 */
+			if (npc->m_isFoundTarget == false) {
+				return enAIState_Invalid;
+			}
+
+			/** エネミーのタイプ別に遷移先を変える */
+			switch (npc->m_aiType)
+			{
+				/** ベーシックエネミーとボスエネミーはターゲットを追いかける */
+			case EnAIType::BasicEnemy:
+			case EnAIType::BossEnemy:
+				return enAIState_Chase;
+				/** 変形エネミーは逃げる */
+			case EnAIType::DeformEnemy:
+				return enAIState_Flee;
+			}
+		}
+
+
+
+
+		/********************************/
+
+
+		void EnemyController::EnterChase(EnemyController* npc)
+		{
+		}
+
+
+		void EnemyController::UpdateChase(EnemyController* npc)
+		{
+		}
+
+
+		void EnemyController::ExitChase(EnemyController* npc)
+		{
+		}
+
+
+		int EnemyController::CheckChase(EnemyController* npc)
 		{
 		}
 	}

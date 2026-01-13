@@ -10,7 +10,9 @@
   * ※ここに新しい思考パターンを追加すること
   */
 #define ENEMY_STATE_LIST(V) \
-	V(Idle) 
+	V(Idle)\
+	V(Chase)\
+	V(Flee)
 
 
 namespace app
