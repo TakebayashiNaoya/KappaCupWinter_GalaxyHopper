@@ -7,6 +7,7 @@
 #include "EnemyController.h"
 #include "Source/Actor/Character/Player/Player.h"
 #include "Source/Actor/Character/Enemy/Enemy.h"
+#include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemyStateMachine.h"
 
 
 namespace app
@@ -233,6 +234,13 @@ namespace app
 			if (CheckTargetLost(npc)) {
 				return;
 			}
+
+			/** ターゲットまでのベクトルを算出し、移動方向に設定 */
+			Vector3 targetPosition = npc->m_target->GetTransform().m_position;
+			Vector3 ownerPosition = npc->m_owner->GetTransform().m_position;
+			Vector3 targetDirection = targetPosition - ownerPosition;
+			targetDirection.Normalize();
+			npc->m_owner->GetStateMachine<CharacterStateMachine>()->SetMoveDirection(targetDirection);
 		}
 
 
