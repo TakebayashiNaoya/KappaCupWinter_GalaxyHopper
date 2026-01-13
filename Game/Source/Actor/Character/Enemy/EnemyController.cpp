@@ -173,7 +173,7 @@ namespace app
 			Vector3 ownerPosition = npc->m_owner->GetTransform().m_position;
 			Vector3 targetDistance = targetPosition - ownerPosition;
 			/** ターゲットとの距離が一定以下ならターゲット発見のフラグを立てる */
-			float searchRange = npc->m_target->GetStatus<EnemyStatus>()->GetSearchRange();
+			float searchRange = npc->m_owner->GetStatus<EnemyStatus>()->GetSearchRange();
 			if (targetDistance.Length() < searchRange) {
 				npc->m_isFoundTarget = true;
 			}
@@ -235,12 +235,39 @@ namespace app
 				return;
 			}
 
-			/** ターゲットまでのベクトルを算出し、移動方向に設定 */
+			/** ターゲットまでのベクトルを算出 */
 			Vector3 targetPosition = npc->m_target->GetTransform().m_position;
 			Vector3 ownerPosition = npc->m_owner->GetTransform().m_position;
-			Vector3 targetDirection = targetPosition - ownerPosition;
-			targetDirection.Normalize();
-			npc->m_owner->GetStateMachine<CharacterStateMachine>()->SetMoveDirection(targetDirection);
+			Vector3 distance = targetPosition - ownerPosition;
+			float currentDist = distance.Length();
+
+			/** ターゲットが一定距離以上離れたら見失う */
+			float searchRange = npc->m_owner->GetStatus<EnemyStatus>()->GetSearchRange();
+			switch (npc->m_aiType)
+			{
+				/** ベーシックエネミーは一定距離以上離れたら見失う */
+			case EnAIType::BasicEnemy:
+				if (currentDist > searchRange) {
+					npc->m_owner->GetStateMachine<CharacterStateMachine>()->SetMoveDirection(Vector3::Zero);
+					npc->m_isFoundTarget = false;
+					return;
+				}
+				break;
+				/** ボスエネミーは離れたら走って追いかける */
+			case EnAIType::BossEnemy:
+				if (currentDist > searchRange) {
+					npc->m_owner->GetStateMachine<CharacterStateMachine>()->SetIsDash(true);
+				}
+				else {
+					npc->m_owner->GetStateMachine<CharacterStateMachine>()->SetIsDash(false);
+				}
+				break;
+			}
+
+			/** 移動方向をセット */
+			Vector3 moveDirection = distance;
+			moveDirection.Normalize();
+			npc->m_owner->GetStateMachine<CharacterStateMachine>()->SetMoveDirection(moveDirection);
 		}
 
 
@@ -270,6 +297,28 @@ namespace app
 
 		void EnemyController::UpdateFlee(EnemyController* npc)
 		{
+			/** ターゲットが死んでいたらターゲット情報をリセット */
+			if (CheckTargetLost(npc)) {
+				return;
+			}
+
+			/** ターゲットまでのベクトルを算出 */
+			Vector3 targetPosition = npc->m_target->GetTransform().m_position;
+			Vector3 ownerPosition = npc->m_owner->GetTransform().m_position;
+			Vector3 distance = ownerPosition - targetPosition;
+
+			/** ターゲットが一定距離以上離れたら見失う */
+			float searchRange = npc->m_owner->GetStatus<EnemyStatus>()->GetSearchRange();
+			if (distance.Length() > searchRange) {
+				npc->m_owner->GetStateMachine<CharacterStateMachine>()->SetMoveDirection(Vector3::Zero);
+				npc->m_isFoundTarget = false;
+				return;
+			}
+
+			/** 移動方向に設定 */
+			Vector3 moveDirection = distance;
+			moveDirection.Normalize();
+			npc->m_owner->GetStateMachine<CharacterStateMachine>()->SetMoveDirection(moveDirection);
 		}
 
 
@@ -280,5 +329,9 @@ namespace app
 
 		int EnemyController::CheckFlee(EnemyController* npc)
 		{
+			/** ターゲットを見失ったらアイドル状態へ移行 */
+			if (npc->m_isFoundTarget == false) {
+				return enAIState_Idle;
+			}
 		}
 	}
