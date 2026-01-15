@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * BasicEnemyStateMachine.h
- * Šî–{ƒGƒlƒ~[‚Ìó‘Ô‘JˆÚ‚ğŠÇ—‚·‚éƒNƒ‰ƒXŒQ
+ * åŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ã®çŠ¶æ…‹é·ç§»ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ç¾¤
  */
 #pragma once
 #include "Source/Actor/Character/CharacterStateMachine.h"
@@ -11,28 +11,17 @@ namespace app
 	namespace actor
 	{
 		/**
-		 * Šî–{ƒGƒlƒ~[‚ÌƒXƒe[ƒgƒ}ƒVƒ“
+		 * åŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³
 		 */
 		class BasicEnemyStateMachine : public CharacterStateMachine
 		{
-		public:
-			/**
-			 * ƒN[ƒ‹ƒ_ƒEƒ“’†‚©‚ğæ“¾
-			 */
-			inline void SetIsCooldown(const bool isCooldown) { m_isCooldown = isCooldown; }
-			/**
-			 * ƒN[ƒ‹ƒ_ƒEƒ“’†‚©‚ğİ’è
-			 */
-			inline bool IsCooldown() const { return m_isCooldown; }
-
-
 		public:
 			BasicEnemyStateMachine(BasicEnemy* owner);
 			virtual ~BasicEnemyStateMachine();
 
 
 		private:
-			/** ƒXƒe[ƒg */
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆ */
 			enum EnBasicEnemyState : uint8_t
 			{
 				enBasicEnemyState_Idle,
@@ -42,13 +31,8 @@ namespace app
 				enBasicEnemyState_Num
 			};
 
-			/** •ÏX‚·‚éƒXƒe[ƒg‚ğæ“¾‚µ‚Ü‚·B */
+			/** å¤‰æ›´ã™ã‚‹ã‚¹ãƒ†ãƒ¼ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚ */
 			core::IState* GetChangeState() override final;
-
-
-		private:
-			/** ƒN[ƒ‹ƒ_ƒEƒ“’†‚© */
-			bool m_isCooldown = false;
 		};
 	}
 }

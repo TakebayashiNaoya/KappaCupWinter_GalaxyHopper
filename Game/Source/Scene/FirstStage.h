@@ -13,6 +13,12 @@ namespace app
 	{
 		class UIFirstStage;
 	}
+	namespace actor
+	{
+		class FirstPlanet;
+		class Treasure;
+		class Rocket;
+	}
 
 
 	namespace scene
@@ -37,11 +43,11 @@ namespace app
 			/** ファーストステージ用UI */
 			ui::UIFirstStage* m_uiFirstStage = nullptr;
 			/** ファーストステージ用オブジェクト */
-			FirstPlanet* m_firstStage = nullptr;
+			actor::FirstPlanet* m_firstStage = nullptr;
 			/** 宝箱リスト */
-			std::vector<Treasure*> m_treasures;
+			std::vector<actor::Treasure*> m_treasures;
 			/** ロケット */
-			Rocket* m_rocket = nullptr;
+			actor::Rocket* m_rocket = nullptr;
 		};
 	}
 }

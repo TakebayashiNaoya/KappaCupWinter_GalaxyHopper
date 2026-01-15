@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * PlayerController.h
- * ƒvƒŒƒCƒ„[‚ğ‘€ì‚·‚éu“ª”]vƒNƒ‰ƒX
+ * ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’æ“ä½œã™ã‚‹ã€Œé ­è„³ã€ã‚¯ãƒ©ã‚¹
  */
 #pragma once
 
@@ -15,7 +15,17 @@ namespace app
 		class PlayerController : public IGameObject
 		{
 		public:
-			PlayerController(Player* player);
+			/**
+			 * æ“ä½œå¯¾è±¡ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¨­å®š
+			 */
+			void SetOwnerPlayer(Player* player)
+			{
+				m_ownerPlayer = player;
+			}
+
+
+		public:
+			PlayerController();
 			~PlayerController();
 
 
@@ -25,11 +35,11 @@ namespace app
 
 
 		private:
-			/** ‘€ì‘ÎÛ‚ÌƒvƒŒƒCƒ„[i“÷‘Ìj */
-			Player* m_targetPlayer = nullptr;
-			/** ƒvƒŒƒCƒ„[‚ÌƒXƒe[ƒgƒ}ƒVƒ“ */
+			/** æ“ä½œå¯¾è±¡ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ï¼ˆè‚‰ä½“ï¼‰ */
+			Player* m_ownerPlayer = nullptr;
+			/** ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ */
 			PlayerStateMachine* m_stateMachine = nullptr;
-			/** ƒvƒŒƒCƒ„[‚ÌƒXƒe[ƒ^ƒX */
+			/** ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ */
 			PlayerStatus* m_playerStatus = nullptr;
 		};
 	}

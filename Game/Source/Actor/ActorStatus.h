@@ -30,6 +30,67 @@ namespace app
 
 
 		/**
+		 * オブジェクトステータス
+		 */
+		class ObjectStatus : public ActorStatus
+		{
+		public:
+			/** 接触する半径の取得*/
+			inline const float GetInteractRange() const { return m_interactRange; }
+
+
+		public:
+			ObjectStatus() {};
+			~ObjectStatus() {};
+
+			/** 初期設定 */
+			virtual void Setup() override {};
+
+
+		protected:
+			/** 接触する半径 */
+			float m_interactRange = 0.0f;
+		};
+
+
+
+
+		/**********************/
+
+
+		class RocketStatus : public ObjectStatus
+		{
+		public:
+			RocketStatus();
+			~RocketStatus();
+
+			/** 初期設定 */
+			virtual void Setup() override final;
+		};
+
+
+
+
+		/**********************/
+
+
+		class TreasureStatus : public ObjectStatus
+		{
+		public:
+			TreasureStatus();
+			~TreasureStatus();
+
+			/** 初期設定 */
+			virtual void Setup() override final;
+		};
+
+
+
+
+		/**********************/
+
+
+		/**
 		 * キャラクターステータス
 		 */
 		class CharacterStatus : public ActorStatus
@@ -105,7 +166,7 @@ namespace app
 			~PlayerStatus();
 
 			/** 初期化 */
-			virtual void Setup() override;
+			void Setup() override;
 
 
 		private:
@@ -133,6 +194,9 @@ namespace app
 		public:
 			/** ダメージを与える当たり判定の半径の取得*/
 			inline const float GetHitRadius() const { return m_hitRadius; }
+			/** ターゲットの索敵距離の取得 */
+			inline const float GetSearchRange() const { return m_searchRange; }
+
 
 
 		public:
@@ -145,6 +209,8 @@ namespace app
 		protected:
 			/** ダメージを与える当たり判定の半径 */
 			float m_hitRadius = 0.0f;
+			/** ターゲットの索敵距離 */
+			float m_searchRange = 0.0f;
 		};
 
 
@@ -163,7 +229,7 @@ namespace app
 			~BasicEnemyStatus();
 
 			/** 初期化 */
-			virtual void Setup() override;
+			void Setup() override;
 		};
 
 
@@ -185,7 +251,7 @@ namespace app
 			~DeformEnemyStatus();
 
 			/** 初期化 */
-			virtual void Setup() override;
+			void Setup() override;
 
 
 		private:
@@ -214,7 +280,7 @@ namespace app
 			~BossEnemyStatus();
 
 			/** 初期化 */
-			virtual void Setup() override;
+			void Setup() override;
 
 
 		private:

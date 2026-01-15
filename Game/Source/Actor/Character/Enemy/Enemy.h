@@ -27,6 +27,17 @@ namespace app
 			 */
 			inline void SetShouldDestroy(const bool shouldDestroy) { m_shouldDestroy = shouldDestroy; }
 
+			/**
+			 * クールダウン中かを取得
+			 * EnemyControllerがこれを見てクールダウンの待機処理に入る
+			 */
+			inline const bool IsCooldown() const { return m_isCooldown; }
+			/**
+			 * クールダウン中かを設定
+			 * CollisionManagerで攻撃がヒットしたらこれをtrueにする
+			 */
+			inline void SetIsCooldown(const bool isCooldown) { m_isCooldown = isCooldown; }
+
 
 		public:
 			Enemy();
@@ -42,6 +53,8 @@ namespace app
 		protected:
 			/** 削除すべきか */
 			bool m_shouldDestroy = false;
+			/** クールダウン中か */
+			bool m_isCooldown = false;
 		};
 	}
 }

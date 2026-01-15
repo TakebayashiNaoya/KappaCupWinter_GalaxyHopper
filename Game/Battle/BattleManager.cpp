@@ -8,6 +8,7 @@
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
 #include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 #include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
+#include "Source/Actor/Character/Enemy/EnemyController.h"
 #include "Source/Actor/Character/Player/Player.h"
 #include "Source/Actor/Object/Rocket.h"
 #include "Source/Actor/Object/Treasure.h"
@@ -23,30 +24,13 @@ namespace app
 	{
 		namespace
 		{
-			constexpr float ENEMY_SEARCH_RADIUS = 500.0f;	// プレイヤー検出半径
-			constexpr float ROCKET_SEARCH_RADIUS = 500.0f;	// ロケットのプレイヤー検出半径
-			constexpr float TREASURE_SEARCH_RADIUS = 200.0f;	// 宝箱のプレイヤー検出半径
-
-
-			/** プレイヤーのアドレスをエネミーに伝えるテンプレート関数 */
-			template <class T>
-			void SetTargetPlayerToEnemies(actor::Player* player, std::vector<T*>& enemys)
-			{
-				for (auto* enemy : enemys) {
-					if (enemy) {
-						enemy->SetTargetPlayer(player);
-					}
-				}
-			}
-
-			/// <summary>
-			/// 死亡しているエネミーをDeleteGOし、リストからも削除するテンプレート関数
-			/// </summary>
+			/** 死亡しているエネミーをDeleteGOし、リストからも削除するテンプレート関数 */
 			template <class T>
 			void UpdateAndRemoveDeadEnemies(std::vector<T*>& enemies)
 			{
 				auto it = enemies.begin();
-				while (it != enemies.end()) {
+				while (it != enemies.end())
+				{
 					auto* enemy = *it;
 					/** 死亡しているエネミーをDeleteGOし、リストからも削除 */
 					if (enemy && enemy->ShouldDestroy()) {
@@ -67,6 +51,12 @@ namespace app
 		BattleManager::EnBattleResult BattleManager::m_battleResult = EnBattleResult::Fighting;
 
 
+		bool BattleManager::Enter()
+		{
+			return false;
+		}
+
+
 		void BattleManager::Update()
 		{
 			/** シーン切り替えリクエストがある場合、バトル処理を全てスキップ */
@@ -74,21 +64,124 @@ namespace app
 				return;
 			}
 
+			/** エネミーの更新と削除 */
+			UpdateEnemies();
+			/** ギアの最大取得数を更新 */
+			int maxGearCount = static_cast<int>(m_treasures.size());
+			/** 宝箱やロケットなどのギミック処理 */
+			UpdateInteractions();
+			/** 各種UIの表示更新 */
+			UpdateUI();
+			/** 勝敗判定やリザルト移行判定 */
+			UpdateBattleState();
+		}
+
+
+		void BattleManager::CleanUp()
+		{
+			/** 雑魚エネミーの削除 */
+			DestroyManagedEnemies();
+			/** シーンが削除する物のポインタクリア */
+			ResetReferences();
+		}
+
+
+		void BattleManager::DestroyManagedEnemies()
+		{
+			/** 基本エネミーの削除 */
+			for (auto* enemy : m_basicEnemies) {
+				if (enemy) {
+					DeleteGO(enemy);
+				}
+			}
+			m_basicEnemies.clear();
+			/** 変形エネミーの削除 */
+			for (auto* enemy : m_deformEnemies) {
+				if (enemy) {
+					DeleteGO(enemy);
+				}
+			}
+			m_deformEnemies.clear();
+		}
+
+
+		void BattleManager::ResetReferences()
+		{
+			m_player = nullptr;
+			m_bossEnemy = nullptr;
+			m_rocket = nullptr;
+			m_treasures.clear();
+			m_uiBossHp = nullptr;
+			m_uiDamageFlash = nullptr;
+			m_uiPlayerHp = nullptr;
+			m_uiGear = nullptr;
+		}
+
+
+		void BattleManager::UpdateEnemies()
+		{
 			/** 死亡しているエネミーをDeleteGOし、リストから削除 */
 			UpdateAndRemoveDeadEnemies(m_basicEnemies);
 			UpdateAndRemoveDeadEnemies(m_deformEnemies);
 
-			/** ボスエネミーにプレイヤーのアドレスを伝える */
-			if (m_bossEnemy && m_player) {
-				m_bossEnemy->SetTargetPlayer(m_player);
+			/** エネミーコントローラーのターゲットにプレイヤーを設定 */
+			for (auto* controller : m_enemyControllers) {
+				if (controller && m_player) {
+					controller->SetTarget(m_player);
+				}
+			}
+		}
+
+
+		void BattleManager::UpdateInteractions()
+		{
+			/** プレイヤーが宝箱に近づいたら、宝箱を開ける */
+			if (m_player)
+			{
+				for (auto* treasure : m_treasures)
+				{
+					if (treasure == nullptr) {
+						continue;
+					}
+					else if (treasure->GetIsOpened()) {
+						continue;
+					}
+
+					Vector3 lengthVec = treasure->GetTransform().m_position - m_player->GetTransform().m_position;
+					float range = treasure->GetStatus<actor::TreasureStatus>()->GetInteractRange();
+					if (lengthVec.Length() < range) {
+						treasure->SetIsOpened(true);
+						m_gotGearCount++;
+					}
+				}
 			}
 
-			/** 基本エネミーにプレイヤーのアドレスを伝える */
-			SetTargetPlayerToEnemies<actor::BasicEnemy>(m_player, m_basicEnemies);
+			/** ギアを全て集めたらロケットがゴールとして機能するようにする */
+			if (m_maxGearCount > 0 && m_gotGearCount == m_maxGearCount)
+			{
+				/** プレイヤーがロケットに近づいたらゴールフラグを立てる */
+				if (m_rocket && m_player)
+				{
+					Vector3 lengthVec = m_rocket->GetTransform().m_position - m_player->GetTransform().m_position;
+					float range = m_rocket->GetStatus<actor::RocketStatus>()->GetInteractRange();
+					if (lengthVec.Length() < range)
+					{
+						if (m_rocket != nullptr) {
+							m_isGoalReached = true;
+							m_gotGearCount = 0;
+						}
+					}
+				}
+			}
+			else
+			{
+				m_isGoalReached = false;
+			}
+		}
 
-			/** 変形エネミーにプレイヤーのアドレスを伝える */
-			SetTargetPlayerToEnemies<actor::DeformEnemy>(m_player, m_deformEnemies);
 
+		void BattleManager::UpdateUI()
+		{
 			/** プレイヤーのHPUIにプレイヤーのHPを渡す */
 			if (m_uiPlayerHp && m_player) {
 				m_uiPlayerHp->SetPlayerHp(m_player->GetStatus<actor::PlayerStatus>()->GetHp());
@@ -106,53 +199,15 @@ namespace app
 				m_uiBossHp->UpdateHp(currentHp, maxHp);
 			}
 
-			/** プレイヤーが宝箱に近づいたら、宝箱を開ける */
-			if (m_player)
-			{
-				for (auto* treasure : m_treasures)
-				{
-					if (treasure == nullptr) {
-						continue;
-					}
-					else if (treasure->GetIsOpened()) {
-						continue;
-					}
-
-					Vector3 lengthVec = treasure->GetTransform().m_position - m_player->GetTransform().m_position;
-					if (lengthVec.Length() < TREASURE_SEARCH_RADIUS) {
-						treasure->SetIsOpened(true);
-						m_gotGearCount++;
-					}
-				}
-			}
-
 			/** ギアの取得数をUIに反映 */
 			if (m_uiGear) {
 				m_uiGear->SetCount(m_gotGearCount, m_maxGearCount);
 			}
+		}
 
-			/** ギアを全て集めたらロケットがゴールとして機能するようにする */
-			if (m_maxGearCount > 0 && m_gotGearCount == m_maxGearCount)
-			{
-				/** プレイヤーがロケットに近づいたらゴールフラグを立てる */
-				if (m_rocket && m_player)
-				{
-					Vector3 lengthVec = m_rocket->GetTransform().m_position - m_player->GetTransform().m_position;
-					if (lengthVec.Length() < ROCKET_SEARCH_RADIUS)
-					{
-						if (m_rocket != nullptr) {
-							m_isGoalReached = true;
-							m_maxGearCount = 0;
-							m_gotGearCount = 0;
-						}
-					}
-				}
-			}
-			else
-			{
-				m_isGoalReached = false;
-			}
 
+		void BattleManager::UpdateBattleState()
+		{
 			/** 戦闘終了判定 */
 			if (m_player && m_player->GetStatus<actor::PlayerStatus>()->GetHp() <= 0) {
 				m_battleResult = EnBattleResult::Lose;
@@ -172,140 +227,6 @@ namespace app
 					m_isResultSequence = true;
 				}
 			}
-		}
-
-
-		void BattleManager::DestroyAllEnemies()
-		{
-			// 基本エネミーの削除
-			for (auto* enemy : m_basicEnemies) {
-				if (enemy) {
-					DeleteGO(enemy);
-				}
-			}
-			m_basicEnemies.clear();
-
-			// 変形エネミーの削除
-			for (auto* enemy : m_deformEnemies) {
-				if (enemy) {
-					DeleteGO(enemy);
-				}
-			}
-			m_deformEnemies.clear();
-
-			// ※ボスなどはステージ個別の管理でよければそのままでもOKですが、
-			// ここでまとめて消す設計にしても構いません。
-		}
-
-
-		void BattleManager::Register(actor::Player* player)
-		{
-			m_player = player;
-		}
-
-		void BattleManager::Unregister(actor::Player* player)
-		{
-			m_player = nullptr;
-		}
-
-
-		void BattleManager::Register(actor::BossEnemy* boss)
-		{
-			m_bossEnemy = boss;
-		}
-
-		void BattleManager::Unregister(actor::BossEnemy* boss)
-		{
-			m_bossEnemy = nullptr;
-		}
-
-		void BattleManager::Register(actor::BasicEnemy* enemy)
-		{
-			m_basicEnemies.push_back(enemy);
-		}
-
-		void BattleManager::Unregister(actor::BasicEnemy* enemy)
-		{
-			auto it = std::remove(m_basicEnemies.begin(), m_basicEnemies.end(), enemy);
-			m_basicEnemies.erase(it, m_basicEnemies.end());
-		}
-
-
-		void BattleManager::Register(actor::DeformEnemy* enemy)
-		{
-			m_deformEnemies.push_back(enemy);
-		}
-
-		void BattleManager::Unregister(actor::DeformEnemy* enemy)
-		{
-			auto it = std::remove(m_deformEnemies.begin(), m_deformEnemies.end(), enemy);
-			m_deformEnemies.erase(it, m_deformEnemies.end());
-		}
-
-		void BattleManager::Register(ui::UIGear* uiGear)
-		{
-			m_uiGear = uiGear;
-		}
-
-		void BattleManager::Unregister(ui::UIGear* uiGear)
-		{
-			m_uiGear = nullptr;
-		}
-
-
-		void BattleManager::Register(ui::UIPlayerHp* uiPlayerLife)
-		{
-			m_uiPlayerHp = uiPlayerLife;
-		}
-
-		void BattleManager::Unregister(ui::UIPlayerHp* uiPlayerLife)
-		{
-			m_uiPlayerHp = nullptr;
-		}
-
-
-		void BattleManager::Register(ui::UIDamageFlash* uiDamageFlash)
-		{
-			m_uiDamageFlash = uiDamageFlash;
-		}
-
-		void BattleManager::Unregister(ui::UIDamageFlash* uiDamageFlash)
-		{
-			m_uiDamageFlash = nullptr;
-		}
-
-
-		void BattleManager::Register(ui::UIBossHp* uiBossLife)
-		{
-			m_uiBossHp = uiBossLife;
-		}
-
-		void BattleManager::Unregister(ui::UIBossHp* uiBossLife)
-		{
-			m_uiBossHp = nullptr;
-		}
-
-		void BattleManager::Register(actor::Rocket* rocket)
-		{
-			m_rocket = rocket;
-		}
-
-		void BattleManager::Unregister(actor::Rocket* rocket)
-		{
-			m_rocket = nullptr;
-		}
-
-
-		void BattleManager::Register(actor::Treasure* treasure)
-		{
-			m_treasures.push_back(treasure);
-			m_maxGearCount++;
-		}
-
-		void BattleManager::Unregister(actor::Treasure* treasure)
-		{
-			auto it = std::remove(m_treasures.begin(), m_treasures.end(), treasure);
-			m_treasures.erase(it, m_treasures.end());
 		}
 
 
@@ -329,6 +250,7 @@ namespace app
 
 		bool BattleManagerObject::Start()
 		{
+			m_battleManager->Enter();
 			return true;
 		}
 

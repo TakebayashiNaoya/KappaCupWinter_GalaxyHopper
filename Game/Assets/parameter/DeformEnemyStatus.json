@@ -7,6 +7,7 @@
     "modelScale": 30.0,
     "colliderOffset": 30.0,
     "hitRadius": 40.0,
+    "searchRange": 500.0,
     "slideSpeed": 15.0
   }
 ]

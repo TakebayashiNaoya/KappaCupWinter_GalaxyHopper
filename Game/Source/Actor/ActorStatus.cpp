@@ -11,6 +11,66 @@ namespace app
 {
 	namespace actor
 	{
+		RocketStatus::RocketStatus()
+		{
+			/** 外部ファイルを読み込み */
+			ParameterManager::Get().LoadParameter<MasterRocketStatusParameter>("Assets/parameter/RocketStatus.json", [](const nlohmann::json& j, MasterRocketStatusParameter& parameter)
+				{
+					parameter.interactRange = j["interactRange"].get<float>();
+				});
+		}
+
+
+		RocketStatus::~RocketStatus()
+		{
+			/** 使用が終わったので解放 */
+			ParameterManager::Get().UnloadParameter<MasterRocketStatusParameter>();
+		}
+
+
+		void RocketStatus::Setup()
+		{
+			/** 読み込んだパラメーター取得 */
+			const auto* parameter = ParameterManager::Get().GetParameter<MasterRocketStatusParameter>();
+			m_interactRange = parameter->interactRange;
+		}
+
+
+
+
+		/**************************************************/
+
+
+		TreasureStatus::TreasureStatus()
+		{
+			/** 外部ファイルを読み込み */
+			ParameterManager::Get().LoadParameter<MasterTreasureStatusParameter>("Assets/parameter/TreasureStatus.json", [](const nlohmann::json& j, MasterTreasureStatusParameter& parameter)
+				{
+					parameter.interactRange = j["interactRange"].get<float>();
+				});
+		}
+
+
+		TreasureStatus::~TreasureStatus()
+		{
+			/** 使用が終わったので解放 */
+			ParameterManager::Get().UnloadParameter<MasterTreasureStatusParameter>();
+		}
+
+
+		void TreasureStatus::Setup()
+		{
+			/** 読み込んだパラメーター取得 */
+			const auto* parameter = ParameterManager::Get().GetParameter<MasterTreasureStatusParameter>();
+			m_interactRange = parameter->interactRange;
+		}
+
+
+
+
+		/**************************************************/
+
+
 		PlayerStatus::PlayerStatus()
 		{
 			/** 外部ファイルを読み込み */
@@ -68,6 +128,7 @@ namespace app
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.colliderOffset = j["colliderOffset"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
+					parameter.searchRange = j["searchRange"].get<float>();
 				});
 		}
 
@@ -89,6 +150,7 @@ namespace app
 			m_modelScale = parameter->modelScale;
 			m_colliderOffset = parameter->colliderOffset;
 			m_hitRadius = parameter->hitRadius;
+			m_searchRange = parameter->searchRange;
 		}
 
 
@@ -108,6 +170,7 @@ namespace app
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.colliderOffset = j["colliderOffset"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
+					parameter.searchRange = j["searchRange"].get<float>();
 					parameter.slideSpeed = j["slideSpeed"].get<float>();
 				});
 		}
@@ -130,6 +193,7 @@ namespace app
 			m_modelScale = parameter->modelScale;
 			m_colliderOffset = parameter->colliderOffset;
 			m_hitRadius = parameter->hitRadius;
+			m_searchRange = parameter->searchRange;
 			m_slideSpeed = parameter->slideSpeed;
 		}
 
@@ -150,6 +214,7 @@ namespace app
 					parameter.modelScale = j["modelScale"].get<float>();
 					parameter.colliderOffset = j["colliderOffset"].get<float>();
 					parameter.hitRadius = j["hitRadius"].get<float>();
+					parameter.searchRange = j["searchRange"].get<float>();
 					parameter.dashSpeed = j["dashSpeed"].get<float>();
 				});
 		}
@@ -172,6 +237,7 @@ namespace app
 			m_modelScale = parameter->modelScale;
 			m_colliderOffset = parameter->colliderOffset;
 			m_hitRadius = parameter->hitRadius;
+			m_searchRange = parameter->searchRange;
 			m_dashSpeed = parameter->dashSpeed;
 		}
 	}

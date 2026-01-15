@@ -19,8 +19,28 @@
 public:\
  static constexpr uint32_t ID() { return Hash32(#name); }
 
+
   /** 全てのパラメータの親玉 */
 struct IMasterParameter {};
+
+
+/** ロケットのステータス */
+struct MasterRocketStatusParameter : public IMasterParameter
+{
+	appParameter(MasterRocketStatusParameter);
+	//
+	float interactRange;
+};
+
+
+/** 宝箱のステータス */
+struct MasterTreasureStatusParameter : public IMasterParameter
+{
+	appParameter(MasterTreasureStatusParameter);
+	//
+	float interactRange;
+};
+
 
 /** プレイヤーのステータス */
 struct MasterPlayerStatusParameter : public IMasterParameter
@@ -38,6 +58,8 @@ struct MasterPlayerStatusParameter : public IMasterParameter
 	float knockbackDuration;
 };
 
+
+/** 基本エネミーのステータス */
 struct MasterBasicEnemyStatusParameter : public IMasterParameter
 {
 	appParameter(MasterBasicEnemyStatusParameter);
@@ -48,8 +70,11 @@ struct MasterBasicEnemyStatusParameter : public IMasterParameter
 	float modelScale;
 	float colliderOffset;
 	float hitRadius;
+	float searchRange;
 };
 
+
+/** 変形エネミーのステータス */
 struct MasterDeformEnemyStatusParameter : public IMasterParameter
 {
 	appParameter(MasterDeformEnemyStatusParameter);
@@ -60,9 +85,12 @@ struct MasterDeformEnemyStatusParameter : public IMasterParameter
 	float modelScale;
 	float colliderOffset;
 	float hitRadius;
+	float searchRange;
 	float slideSpeed;
 };
 
+
+/** ボスエネミーのステータス */
 struct MasterBossEnemyStatusParameter : public IMasterParameter
 {
 	appParameter(MasterBossEnemyStatusParameter);
@@ -73,6 +101,7 @@ struct MasterBossEnemyStatusParameter : public IMasterParameter
 	float modelScale;
 	float colliderOffset;
 	float hitRadius;
+	float searchRange;
 	float dashSpeed;
 };
 
