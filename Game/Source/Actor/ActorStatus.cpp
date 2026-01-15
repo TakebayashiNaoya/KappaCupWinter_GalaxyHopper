@@ -11,6 +11,66 @@ namespace app
 {
 	namespace actor
 	{
+		RocketStatus::RocketStatus()
+		{
+			/** 外部ファイルを読み込み */
+			ParameterManager::Get().LoadParameter<MasterRocketStatusParameter>("Assets/parameter/RocketStatus.json", [](const nlohmann::json& j, MasterRocketStatusParameter& parameter)
+				{
+					parameter.interactRange = j["interactRange"].get<float>();
+				});
+		}
+
+
+		RocketStatus::~RocketStatus()
+		{
+			/** 使用が終わったので解放 */
+			ParameterManager::Get().UnloadParameter<MasterRocketStatusParameter>();
+		}
+
+
+		void RocketStatus::Setup()
+		{
+			/** 読み込んだパラメーター取得 */
+			const auto* parameter = ParameterManager::Get().GetParameter<MasterRocketStatusParameter>();
+			m_interactRange = parameter->interactRange;
+		}
+
+
+
+
+		/**************************************************/
+
+
+		TreasureStatus::TreasureStatus()
+		{
+			/** 外部ファイルを読み込み */
+			ParameterManager::Get().LoadParameter<MasterTreasureStatusParameter>("Assets/parameter/TreasureStatus.json", [](const nlohmann::json& j, MasterTreasureStatusParameter& parameter)
+				{
+					parameter.interactRange = j["interactRange"].get<float>();
+				});
+		}
+
+
+		TreasureStatus::~TreasureStatus()
+		{
+			/** 使用が終わったので解放 */
+			ParameterManager::Get().UnloadParameter<MasterTreasureStatusParameter>();
+		}
+
+
+		void TreasureStatus::Setup()
+		{
+			/** 読み込んだパラメーター取得 */
+			const auto* parameter = ParameterManager::Get().GetParameter<MasterTreasureStatusParameter>();
+			m_interactRange = parameter->interactRange;
+		}
+
+
+
+
+		/**************************************************/
+
+
 		PlayerStatus::PlayerStatus()
 		{
 			/** 外部ファイルを読み込み */

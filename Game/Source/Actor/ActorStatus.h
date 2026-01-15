@@ -30,6 +30,67 @@ namespace app
 
 
 		/**
+		 * オブジェクトステータス
+		 */
+		class ObjectStatus : public ActorStatus
+		{
+		public:
+			/** 接触する半径の取得*/
+			inline const float GetInteractRange() const { return m_interactRange; }
+
+
+		public:
+			ObjectStatus() {};
+			~ObjectStatus() {};
+
+			/** 初期設定 */
+			virtual void Setup() override {};
+
+
+		protected:
+			/** 接触する半径 */
+			float m_interactRange = 0.0f;
+		};
+
+
+
+
+		/**********************/
+
+
+		class RocketStatus : public ObjectStatus
+		{
+		public:
+			RocketStatus();
+			~RocketStatus();
+
+			/** 初期設定 */
+			virtual void Setup() override final;
+		};
+
+
+
+
+		/**********************/
+
+
+		class TreasureStatus : public ObjectStatus
+		{
+		public:
+			TreasureStatus();
+			~TreasureStatus();
+
+			/** 初期設定 */
+			virtual void Setup() override final;
+		};
+
+
+
+
+		/**********************/
+
+
+		/**
 		 * キャラクターステータス
 		 */
 		class CharacterStatus : public ActorStatus
@@ -105,7 +166,7 @@ namespace app
 			~PlayerStatus();
 
 			/** 初期化 */
-			virtual void Setup() override;
+			void Setup() override;
 
 
 		private:
@@ -168,7 +229,7 @@ namespace app
 			~BasicEnemyStatus();
 
 			/** 初期化 */
-			virtual void Setup() override;
+			void Setup() override;
 		};
 
 
@@ -190,7 +251,7 @@ namespace app
 			~DeformEnemyStatus();
 
 			/** 初期化 */
-			virtual void Setup() override;
+			void Setup() override;
 
 
 		private:
@@ -219,7 +280,7 @@ namespace app
 			~BossEnemyStatus();
 
 			/** 初期化 */
-			virtual void Setup() override;
+			void Setup() override;
 
 
 		private:
