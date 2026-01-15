@@ -8,6 +8,7 @@
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
 #include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 #include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
+#include "Source/Actor/Character/Enemy/EnemyController.h"
 #include "Source/Actor/Character/Player/Player.h"
 #include "Source/Actor/Object/Rocket.h"
 #include "Source/Actor/Object/Treasure.h"
@@ -23,30 +24,13 @@ namespace app
 	{
 		namespace
 		{
-			constexpr float ENEMY_SEARCH_RADIUS = 500.0f;	// プレイヤー検出半径
-			constexpr float ROCKET_SEARCH_RADIUS = 500.0f;	// ロケットのプレイヤー検出半径
-			constexpr float TREASURE_SEARCH_RADIUS = 200.0f;	// 宝箱のプレイヤー検出半径
-
-
-			/** プレイヤーのアドレスをエネミーに伝えるテンプレート関数 */
-			template <class T>
-			void SetTargetPlayerToEnemies(actor::Player* player, std::vector<T*>& enemys)
-			{
-				for (auto* enemy : enemys) {
-					if (enemy) {
-						enemy->SetTargetPlayer(player);
-					}
-				}
-			}
-
-			/// <summary>
-			/// 死亡しているエネミーをDeleteGOし、リストからも削除するテンプレート関数
-			/// </summary>
+			/** 死亡しているエネミーをDeleteGOし、リストからも削除するテンプレート関数 */
 			template <class T>
 			void UpdateAndRemoveDeadEnemies(std::vector<T*>& enemies)
 			{
 				auto it = enemies.begin();
-				while (it != enemies.end()) {
+				while (it != enemies.end())
+				{
 					auto* enemy = *it;
 					/** 死亡しているエネミーをDeleteGOし、リストからも削除 */
 					if (enemy && enemy->ShouldDestroy()) {
@@ -67,6 +51,12 @@ namespace app
 		BattleManager::EnBattleResult BattleManager::m_battleResult = EnBattleResult::Fighting;
 
 
+		bool BattleManager::Enter()
+		{
+			return false;
+		}
+
+
 		void BattleManager::Update()
 		{
 			/** シーン切り替えリクエストがある場合、バトル処理を全てスキップ */
@@ -78,16 +68,8 @@ namespace app
 			UpdateAndRemoveDeadEnemies(m_basicEnemies);
 			UpdateAndRemoveDeadEnemies(m_deformEnemies);
 
-			/** ボスエネミーにプレイヤーのアドレスを伝える */
-			if (m_bossEnemy && m_player) {
-				m_bossEnemy->SetTargetPlayer(m_player);
-			}
-
-			/** 基本エネミーにプレイヤーのアドレスを伝える */
-			SetTargetPlayerToEnemies<actor::BasicEnemy>(m_player, m_basicEnemies);
-
-			/** 変形エネミーにプレイヤーのアドレスを伝える */
-			SetTargetPlayerToEnemies<actor::DeformEnemy>(m_player, m_deformEnemies);
+			/** プレイヤーのアドレスをすべてのエネミーコントローラーに伝える */
+			SetTargetPlayerToEnemyControllers();
 
 			/** プレイヤーのHPUIにプレイヤーのHPを渡す */
 			if (m_uiPlayerHp && m_player) {
@@ -119,7 +101,8 @@ namespace app
 					}
 
 					Vector3 lengthVec = treasure->GetTransform().m_position - m_player->GetTransform().m_position;
-					if (lengthVec.Length() < TREASURE_SEARCH_RADIUS) {
+					float range = treasure->GetStatus<actor::TreasureStatus>()->GetInteractRange();
+					if (lengthVec.Length() < range) {
 						treasure->SetIsOpened(true);
 						m_gotGearCount++;
 					}
@@ -127,22 +110,23 @@ namespace app
 			}
 
 			/** ギアの取得数をUIに反映 */
+			int maxGearCount = static_cast<int>(m_treasures.size());
 			if (m_uiGear) {
-				m_uiGear->SetCount(m_gotGearCount, m_maxGearCount);
+				m_uiGear->SetCount(m_gotGearCount, maxGearCount);
 			}
 
 			/** ギアを全て集めたらロケットがゴールとして機能するようにする */
-			if (m_maxGearCount > 0 && m_gotGearCount == m_maxGearCount)
+			if (maxGearCount > 0 && m_gotGearCount == maxGearCount)
 			{
 				/** プレイヤーがロケットに近づいたらゴールフラグを立てる */
 				if (m_rocket && m_player)
 				{
 					Vector3 lengthVec = m_rocket->GetTransform().m_position - m_player->GetTransform().m_position;
-					if (lengthVec.Length() < ROCKET_SEARCH_RADIUS)
+					float range = m_rocket->GetStatus<actor::RocketStatus>()->GetInteractRange();
+					if (lengthVec.Length() < range)
 					{
 						if (m_rocket != nullptr) {
 							m_isGoalReached = true;
-							m_maxGearCount = 0;
 							m_gotGearCount = 0;
 						}
 					}
@@ -198,114 +182,13 @@ namespace app
 		}
 
 
-		void BattleManager::Register(actor::Player* player)
+		void BattleManager::SetTargetPlayerToEnemyControllers()
 		{
-			m_player = player;
-		}
-
-		void BattleManager::Unregister(actor::Player* player)
-		{
-			m_player = nullptr;
-		}
-
-
-		void BattleManager::Register(actor::BossEnemy* boss)
-		{
-			m_bossEnemy = boss;
-		}
-
-		void BattleManager::Unregister(actor::BossEnemy* boss)
-		{
-			m_bossEnemy = nullptr;
-		}
-
-		void BattleManager::Register(actor::BasicEnemy* enemy)
-		{
-			m_basicEnemies.push_back(enemy);
-		}
-
-		void BattleManager::Unregister(actor::BasicEnemy* enemy)
-		{
-			auto it = std::remove(m_basicEnemies.begin(), m_basicEnemies.end(), enemy);
-			m_basicEnemies.erase(it, m_basicEnemies.end());
-		}
-
-
-		void BattleManager::Register(actor::DeformEnemy* enemy)
-		{
-			m_deformEnemies.push_back(enemy);
-		}
-
-		void BattleManager::Unregister(actor::DeformEnemy* enemy)
-		{
-			auto it = std::remove(m_deformEnemies.begin(), m_deformEnemies.end(), enemy);
-			m_deformEnemies.erase(it, m_deformEnemies.end());
-		}
-
-		void BattleManager::Register(ui::UIGear* uiGear)
-		{
-			m_uiGear = uiGear;
-		}
-
-		void BattleManager::Unregister(ui::UIGear* uiGear)
-		{
-			m_uiGear = nullptr;
-		}
-
-
-		void BattleManager::Register(ui::UIPlayerHp* uiPlayerLife)
-		{
-			m_uiPlayerHp = uiPlayerLife;
-		}
-
-		void BattleManager::Unregister(ui::UIPlayerHp* uiPlayerLife)
-		{
-			m_uiPlayerHp = nullptr;
-		}
-
-
-		void BattleManager::Register(ui::UIDamageFlash* uiDamageFlash)
-		{
-			m_uiDamageFlash = uiDamageFlash;
-		}
-
-		void BattleManager::Unregister(ui::UIDamageFlash* uiDamageFlash)
-		{
-			m_uiDamageFlash = nullptr;
-		}
-
-
-		void BattleManager::Register(ui::UIBossHp* uiBossLife)
-		{
-			m_uiBossHp = uiBossLife;
-		}
-
-		void BattleManager::Unregister(ui::UIBossHp* uiBossLife)
-		{
-			m_uiBossHp = nullptr;
-		}
-
-		void BattleManager::Register(actor::Rocket* rocket)
-		{
-			m_rocket = rocket;
-		}
-
-		void BattleManager::Unregister(actor::Rocket* rocket)
-		{
-			m_rocket = nullptr;
-		}
-
-
-		void BattleManager::Register(actor::Treasure* treasure)
-		{
-			m_treasures.push_back(treasure);
-			m_maxGearCount++;
-		}
-
-		void BattleManager::Unregister(actor::Treasure* treasure)
-		{
-			auto it = std::remove(m_treasures.begin(), m_treasures.end(), treasure);
-			m_treasures.erase(it, m_treasures.end());
+			for (auto* controller : m_enemyControllers) {
+				if (controller && m_player) {
+					controller->SetTarget(m_player);
+				}
+			}
 		}
 
 
@@ -329,6 +212,7 @@ namespace app
 
 		bool BattleManagerObject::Start()
 		{
+			m_battleManager->Enter();
 			return true;
 		}
 

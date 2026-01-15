@@ -3,7 +3,7 @@
  * すべてのクラスの仲介を担うバトルマネージャー
  */
 #pragma once
-
+#include <algorithm>
 
 namespace app
 {
@@ -13,6 +13,7 @@ namespace app
 		class BossEnemy;
 		class BasicEnemy;
 		class DeformEnemy;
+		class EnemyController;
 		class Rocket;
 		class Treasure;
 	}
@@ -64,55 +65,54 @@ namespace app
 			static EnBattleResult m_battleResult;
 
 
-
-			/// <summary>
-			/// 登録・解除関数群
-			/// </summary>
+			/**
+			 * 登録・登録解除関数群の自動生成マクロ
+			 */
 		public:
-			// エネミー全削除用
+			/** 単体(actor名前空間用) */
+#define		REG_ACTOR_SINGLE(Type, Var) \
+			void Register(actor::Type* obj) { Var = obj; } \
+			void Unregister(actor::Type* obj) { if (Var == obj) Var = nullptr; }
+
+			/** リスト(actor名前空間用) */
+#define		REG_ACTOR_LIST(Type, List) \
+			void Register(actor::Type* obj) { List.push_back(obj); } \
+			void Unregister(actor::Type* obj) { \
+				auto it = std::remove(List.begin(), List.end(), obj); \
+				List.erase(it, List.end()); \
+			}
+
+			/** 単体(ui名前空間用) */
+#define		REG_UI_SINGLE(Type, Var) \
+			void Register(ui::Type* obj) { Var = obj; } \
+			void Unregister(ui::Type* obj) { if (Var == obj) Var = nullptr; }
+
+
+			/**
+			 * 登録・登録解除関数群の自動生成の実装
+			 */
+		public:
+			/** 単体系 */
+			REG_ACTOR_SINGLE(Player, m_player);
+			REG_ACTOR_SINGLE(BossEnemy, m_bossEnemy);
+			REG_ACTOR_SINGLE(Rocket, m_rocket);
+
+			/** リスト系 */
+			REG_ACTOR_LIST(BasicEnemy, m_basicEnemies);
+			REG_ACTOR_LIST(DeformEnemy, m_deformEnemies);
+			REG_ACTOR_LIST(EnemyController, m_enemyControllers);
+			REG_ACTOR_LIST(Treasure, m_treasures);
+
+			/** UI系 */
+			REG_UI_SINGLE(UIGear, m_uiGear);
+			REG_UI_SINGLE(UIPlayerHp, m_uiPlayerHp);
+			REG_UI_SINGLE(UIDamageFlash, m_uiDamageFlash);
+			REG_UI_SINGLE(UIBossHp, m_uiBossHp);
+
+			/** エネミー全削除用 */
 			void DestroyAllEnemies();
 
-			// プレイヤー用
-			void Register(actor::Player* player);
-			void Unregister(actor::Player* player);
-
-			// ボス用
-			void Register(actor::BossEnemy* boss);
-			void Unregister(actor::BossEnemy* boss);
-
-			// 基本エネミー用
-			void Register(actor::BasicEnemy* enemy);
-			void Unregister(actor::BasicEnemy* enemy);
-
-			// 変形エネミー用
-			void Register(actor::DeformEnemy* enemy);
-			void Unregister(actor::DeformEnemy* enemy);
-
-			// ギアUI用
-			void Register(ui::UIGear* uiGear);
-			void Unregister(ui::UIGear* uiGear);
-
-			// プレイヤーライフUI用
-			void Register(ui::UIPlayerHp* uiPlayerLife);
-			void Unregister(ui::UIPlayerHp* uiPlayerLife);
-
-			// ダメージフラッシュUI用
-			void Register(ui::UIDamageFlash* uiDamageFlash);
-			void Unregister(ui::UIDamageFlash* uiDamageFlash);
-
-			// ボスライフUI用
-			void Register(ui::UIBossHp* uiBossLife);
-			void Unregister(ui::UIBossHp* uiBossLife);
-
-			// ロケット用
-			void Register(actor::Rocket* rocket);
-			void Unregister(actor::Rocket* rocket);
-
-			// 宝箱用
-			void Register(actor::Treasure* treasure);
-			void Unregister(actor::Treasure* treasure);
-
-			// その他汎用
+			/** その他汎用 */
 			template<typename T>
 			void Register(T* object)
 			{
@@ -124,6 +124,15 @@ namespace app
 				K2_ASSERT(false, "処理追加忘れ");
 			}
 
+#undef REG_ACTOR_SINGLE
+#undef REG_UI_SINGLE
+#undef REG_ACTOR_LIST
+
+
+		private:
+			/** プレイヤーのアドレスをエネミーに伝えるテンプレート関数 */
+			void SetTargetPlayerToEnemyControllers();
+
 
 		private:
 			/** プレイヤーがゴールしたか */
@@ -133,8 +142,6 @@ namespace app
 
 			/** ギア取得数 */
 			int m_gotGearCount = 0;
-			/** 出現ギア数 */
-			int m_maxGearCount = 0;
 
 			/** プレイヤー */
 			actor::Player* m_player = nullptr;
@@ -144,13 +151,12 @@ namespace app
 			std::vector<actor::BasicEnemy*> m_basicEnemies;
 			/** 変形エネミーリスト */
 			std::vector<actor::DeformEnemy*> m_deformEnemies;
+			/** エネミーコントローラーリスト */
+			std::vector<actor::EnemyController*> m_enemyControllers;
 			/** ロケット */
 			actor::Rocket* m_rocket = nullptr;
 			/** 宝箱リスト */
 			std::vector<actor::Treasure*> m_treasures;
-			///** その他汎用オブジェクトリスト */
-			//std::vector<IGameObject*> m_objects;
-
 			/** ギアUI */
 			ui::UIGear* m_uiGear = nullptr;
 			/** プレイヤーHPUI */
@@ -167,6 +173,7 @@ namespace app
 
 
 		public:
+			bool Enter();
 			void Update();
 
 
@@ -201,9 +208,9 @@ namespace app
 		/********************************/
 
 
-		/// <summary>
-		/// 当たり判定管理クラスを更新したりするためのゲームオブジェクト。
-		/// </summary>
+		/**
+		 * 当たり判定管理クラスを更新したりするためのゲームオブジェクト
+		 */
 		class BattleManagerObject : public IGameObject
 		{
 		public:
