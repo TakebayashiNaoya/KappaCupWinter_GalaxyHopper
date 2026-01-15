@@ -4,14 +4,14 @@
  */
 #include "stdafx.h"
 #include "BattleStageBase.h"
-#include "Source/Actor/Character/Player/Player.h"
-#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
-#include "UI/UIGameOver.h"
-#include "UI/UIGameClear.h"
 #include "Camera/GameCamera.h"
-#include "UI/UIFirstStage.h"
 #include "Collision/CollisionManager.h"
 #include "LoadingScreen.h"
+#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
+#include "Source/Actor/Character/Player/Player.h"
+#include "UI/UIFirstStage.h"
+#include "UI/UIGameClear.h"
+#include "UI/UIGameOver.h"
 
 
 namespace app
@@ -32,9 +32,8 @@ namespace app
 		BattleStageBase::~BattleStageBase()
 		{
 			/** すべてのエネミーを破棄 */
-			battle::BattleManager::GetInstance()->DestroyAllEnemies();
-			/** プレイヤー登録解除・破棄 */
-			battle::BattleManager::GetInstance()->Unregister(m_player);
+			battle::BattleManager::GetInstance()->CleanUp();
+			/** プレイヤーの破棄 */
 			DeleteGO(m_player);
 			/** 空の破棄 */
 			DeleteGO(m_skyCube);

@@ -159,26 +159,44 @@ namespace app
 		}
 
 
-		void BattleManager::DestroyAllEnemies()
+		void BattleManager::CleanUp()
 		{
-			// 基本エネミーの削除
+			/** 雑魚エネミーの削除 */
+			DestroyManagedEnemies();
+			/** シーンが削除する物のポインタクリア */
+			ResetReferences();
+		}
+
+
+		void BattleManager::DestroyManagedEnemies()
+		{
+			/** 基本エネミーの削除 */
 			for (auto* enemy : m_basicEnemies) {
 				if (enemy) {
 					DeleteGO(enemy);
 				}
 			}
 			m_basicEnemies.clear();
-
-			// 変形エネミーの削除
+			/** 変形エネミーの削除 */
 			for (auto* enemy : m_deformEnemies) {
 				if (enemy) {
 					DeleteGO(enemy);
 				}
 			}
 			m_deformEnemies.clear();
+		}
 
-			// ※ボスなどはステージ個別の管理でよければそのままでもOKですが、
-			// ここでまとめて消す設計にしても構いません。
+
+		void BattleManager::ResetReferences()
+		{
+			m_player = nullptr;
+			m_bossEnemy = nullptr;
+			m_rocket = nullptr;
+			m_treasures.clear();
+			m_uiBossHp = nullptr;
+			m_uiDamageFlash = nullptr;
+			m_uiPlayerHp = nullptr;
+			m_uiGear = nullptr;
 		}
 
 

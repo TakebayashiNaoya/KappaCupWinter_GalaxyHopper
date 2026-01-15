@@ -109,9 +109,6 @@ namespace app
 			REG_UI_SINGLE(UIDamageFlash, m_uiDamageFlash);
 			REG_UI_SINGLE(UIBossHp, m_uiBossHp);
 
-			/** エネミー全削除用 */
-			void DestroyAllEnemies();
-
 			/** その他汎用 */
 			template<typename T>
 			void Register(T* object)
@@ -129,8 +126,23 @@ namespace app
 #undef REG_ACTOR_LIST
 
 
+		public:
+			/**
+			 * シーンのデストラクタで呼び出す
+			 * 雑魚エネミーの削除やシーンが削除する物のポインタクリアを行う
+			 */
+			void CleanUp();
+
+
 		private:
-			/** プレイヤーのアドレスをエネミーに伝えるテンプレート関数 */
+			/**
+			 * 雑魚エネミーを全てDeleteGOする関数
+			 * 雑魚エネミーはシーン中で増減するため、バトルマネージャーで削除を行う
+			 */
+			void DestroyManagedEnemies();
+			/** シーンが削除する物のポインタをクリアする */
+			void ResetReferences();
+			/** プレイヤーのアドレスをエネミーコントローラーに伝える */
 			void SetTargetPlayerToEnemyControllers();
 
 
