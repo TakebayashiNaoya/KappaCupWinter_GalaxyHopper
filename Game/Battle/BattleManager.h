@@ -146,10 +146,14 @@ namespace app
 			/**
 			 * 内部処理用関数群
 			 */
-			void UpdateEnemies();		// エネミーの削除やターゲット更新
-			void UpdateInteractions();	// 宝箱やロケットなどのギミック処理
-			void UpdateUI();			// 各種UIの表示更新
-			void UpdateBattleState();	// 勝敗判定やリザルト移行判定
+			 /** エネミーの削除やターゲット更新 */
+			void UpdateEnemies();
+			/** 宝箱やロケットなどのギミック処理 */
+			void UpdateInteractions();
+			/** 各種UIの表示更新 */
+			void UpdateUI();
+			/** 勝敗判定やリザルト移行判定 */
+			void UpdateBattleState();
 
 
 		private:
