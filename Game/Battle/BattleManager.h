@@ -35,10 +35,7 @@ namespace app
 			 * プレイヤーがゴールしたかを取得
 			 */
 			inline static bool IsGoalReached() { return m_isGoalReached; }
-			/**
-			 * プレイヤーがゴールしたフラグを設定
-			 */
-			inline static void SetIsGoalReached(const bool isReached) { m_isGoalReached = isReached; }
+
 			/**
 			 * リザルトのシーケンス中かを取得
 			 */
