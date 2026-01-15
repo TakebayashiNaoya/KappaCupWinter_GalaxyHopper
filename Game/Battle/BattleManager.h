@@ -132,8 +132,6 @@ namespace app
 			 * 雑魚エネミーの削除やシーンが削除する物のポインタクリアを行う
 			 */
 			void CleanUp();
-
-
 		private:
 			/**
 			 * 雑魚エネミーを全てDeleteGOする関数
@@ -142,8 +140,16 @@ namespace app
 			void DestroyManagedEnemies();
 			/** シーンが削除する物のポインタをクリアする */
 			void ResetReferences();
-			/** プレイヤーのアドレスをエネミーコントローラーに伝える */
-			void SetTargetPlayerToEnemyControllers();
+
+
+		private:
+			/**
+			 * 内部処理用関数群
+			 */
+			void UpdateEnemies();		// エネミーの削除やターゲット更新
+			void UpdateInteractions();	// 宝箱やロケットなどのギミック処理
+			void UpdateUI();			// 各種UIの表示更新
+			void UpdateBattleState();	// 勝敗判定やリザルト移行判定
 
 
 		private:
@@ -154,6 +160,8 @@ namespace app
 
 			/** ギア取得数 */
 			int m_gotGearCount = 0;
+			/** ギアの出現数 */
+			int m_maxGearCount = 0;
 
 			/** プレイヤー */
 			actor::Player* m_player = nullptr;

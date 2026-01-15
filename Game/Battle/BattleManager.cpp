@@ -64,98 +64,16 @@ namespace app
 				return;
 			}
 
-			/** 死亡しているエネミーをDeleteGOし、リストから削除 */
-			UpdateAndRemoveDeadEnemies(m_basicEnemies);
-			UpdateAndRemoveDeadEnemies(m_deformEnemies);
-
-			/** プレイヤーのアドレスをすべてのエネミーコントローラーに伝える */
-			SetTargetPlayerToEnemyControllers();
-
-			/** プレイヤーのHPUIにプレイヤーのHPを渡す */
-			if (m_uiPlayerHp && m_player) {
-				m_uiPlayerHp->SetPlayerHp(m_player->GetStatus<actor::PlayerStatus>()->GetHp());
-			}
-
-			/** ダメージフラッシュUIにプレイヤーのHPを渡す */
-			if (m_uiDamageFlash && m_player) {
-				m_uiDamageFlash->SetPlayerHp(m_player->GetStatus<actor::PlayerStatus>()->GetHp());
-			}
-
-			/** ボスのHPUIにボスのHPを渡す */
-			if (m_uiBossHp && m_bossEnemy) {
-				int currentHp = m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetHp();
-				int maxHp = m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetMaxHp();
-				m_uiBossHp->UpdateHp(currentHp, maxHp);
-			}
-
-			/** プレイヤーが宝箱に近づいたら、宝箱を開ける */
-			if (m_player)
-			{
-				for (auto* treasure : m_treasures)
-				{
-					if (treasure == nullptr) {
-						continue;
-					}
-					else if (treasure->GetIsOpened()) {
-						continue;
-					}
-
-					Vector3 lengthVec = treasure->GetTransform().m_position - m_player->GetTransform().m_position;
-					float range = treasure->GetStatus<actor::TreasureStatus>()->GetInteractRange();
-					if (lengthVec.Length() < range) {
-						treasure->SetIsOpened(true);
-						m_gotGearCount++;
-					}
-				}
-			}
-
-			/** ギアの取得数をUIに反映 */
+			/** エネミーの更新と削除 */
+			UpdateEnemies();
+			/** ギアの最大取得数を更新 */
 			int maxGearCount = static_cast<int>(m_treasures.size());
-			if (m_uiGear) {
-				m_uiGear->SetCount(m_gotGearCount, maxGearCount);
-			}
-
-			/** ギアを全て集めたらロケットがゴールとして機能するようにする */
-			if (maxGearCount > 0 && m_gotGearCount == maxGearCount)
-			{
-				/** プレイヤーがロケットに近づいたらゴールフラグを立てる */
-				if (m_rocket && m_player)
-				{
-					Vector3 lengthVec = m_rocket->GetTransform().m_position - m_player->GetTransform().m_position;
-					float range = m_rocket->GetStatus<actor::RocketStatus>()->GetInteractRange();
-					if (lengthVec.Length() < range)
-					{
-						if (m_rocket != nullptr) {
-							m_isGoalReached = true;
-							m_gotGearCount = 0;
-						}
-					}
-				}
-			}
-			else
-			{
-				m_isGoalReached = false;
-			}
-
-			/** 戦闘終了判定 */
-			if (m_player && m_player->GetStatus<actor::PlayerStatus>()->GetHp() <= 0) {
-				m_battleResult = EnBattleResult::Lose;
-			}
-			else if (m_bossEnemy && m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetHp() <= 0) {
-				m_battleResult = EnBattleResult::Win;
-			}
-
-			/** 戦闘終了後、敗者の死亡アニメーションが終わったらUIを非表示にする合図を出す */
-			if (m_battleResult == EnBattleResult::Lose) {
-				if (m_player && m_player->GetModelRender()->IsPlayingAnimation() == false) {
-					m_isResultSequence = true;
-				}
-			}
-			else if (m_battleResult == EnBattleResult::Win) {
-				if (m_bossEnemy && m_bossEnemy->GetModelRender()->IsPlayingAnimation() == false) {
-					m_isResultSequence = true;
-				}
-			}
+			/** 宝箱やロケットなどのギミック処理 */
+			UpdateInteractions();
+			/** 各種UIの表示更新 */
+			UpdateUI();
+			/** 勝敗判定やリザルト移行判定 */
+			UpdateBattleState();
 		}
 
 
@@ -200,11 +118,113 @@ namespace app
 		}
 
 
-		void BattleManager::SetTargetPlayerToEnemyControllers()
+		void BattleManager::UpdateEnemies()
 		{
+			/** 死亡しているエネミーをDeleteGOし、リストから削除 */
+			UpdateAndRemoveDeadEnemies(m_basicEnemies);
+			UpdateAndRemoveDeadEnemies(m_deformEnemies);
+
+			/** エネミーコントローラーのターゲットにプレイヤーを設定 */
 			for (auto* controller : m_enemyControllers) {
 				if (controller && m_player) {
 					controller->SetTarget(m_player);
+				}
+			}
+		}
+
+
+		void BattleManager::UpdateInteractions()
+		{
+			/** プレイヤーが宝箱に近づいたら、宝箱を開ける */
+			if (m_player)
+			{
+				for (auto* treasure : m_treasures)
+				{
+					if (treasure == nullptr) {
+						continue;
+					}
+					else if (treasure->GetIsOpened()) {
+						continue;
+					}
+
+					Vector3 lengthVec = treasure->GetTransform().m_position - m_player->GetTransform().m_position;
+					float range = treasure->GetStatus<actor::TreasureStatus>()->GetInteractRange();
+					if (lengthVec.Length() < range) {
+						treasure->SetIsOpened(true);
+						m_gotGearCount++;
+					}
+				}
+			}
+
+			/** ギアを全て集めたらロケットがゴールとして機能するようにする */
+			if (m_maxGearCount > 0 && m_gotGearCount == m_maxGearCount)
+			{
+				/** プレイヤーがロケットに近づいたらゴールフラグを立てる */
+				if (m_rocket && m_player)
+				{
+					Vector3 lengthVec = m_rocket->GetTransform().m_position - m_player->GetTransform().m_position;
+					float range = m_rocket->GetStatus<actor::RocketStatus>()->GetInteractRange();
+					if (lengthVec.Length() < range)
+					{
+						if (m_rocket != nullptr) {
+							m_isGoalReached = true;
+							m_gotGearCount = 0;
+						}
+					}
+				}
+			}
+			else
+			{
+				m_isGoalReached = false;
+			}
+		}
+
+
+		void BattleManager::UpdateUI()
+		{
+			/** プレイヤーのHPUIにプレイヤーのHPを渡す */
+			if (m_uiPlayerHp && m_player) {
+				m_uiPlayerHp->SetPlayerHp(m_player->GetStatus<actor::PlayerStatus>()->GetHp());
+			}
+
+			/** ダメージフラッシュUIにプレイヤーのHPを渡す */
+			if (m_uiDamageFlash && m_player) {
+				m_uiDamageFlash->SetPlayerHp(m_player->GetStatus<actor::PlayerStatus>()->GetHp());
+			}
+
+			/** ボスのHPUIにボスのHPを渡す */
+			if (m_uiBossHp && m_bossEnemy) {
+				int currentHp = m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetHp();
+				int maxHp = m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetMaxHp();
+				m_uiBossHp->UpdateHp(currentHp, maxHp);
+			}
+
+			/** ギアの取得数をUIに反映 */
+			if (m_uiGear) {
+				m_uiGear->SetCount(m_gotGearCount, m_maxGearCount);
+			}
+		}
+
+
+		void BattleManager::UpdateBattleState()
+		{
+			/** 戦闘終了判定 */
+			if (m_player && m_player->GetStatus<actor::PlayerStatus>()->GetHp() <= 0) {
+				m_battleResult = EnBattleResult::Lose;
+			}
+			else if (m_bossEnemy && m_bossEnemy->GetStatus<actor::BossEnemyStatus>()->GetHp() <= 0) {
+				m_battleResult = EnBattleResult::Win;
+			}
+
+			/** 戦闘終了後、敗者の死亡アニメーションが終わったらUIを非表示にする合図を出す */
+			if (m_battleResult == EnBattleResult::Lose) {
+				if (m_player && m_player->GetModelRender()->IsPlayingAnimation() == false) {
+					m_isResultSequence = true;
+				}
+			}
+			else if (m_battleResult == EnBattleResult::Win) {
+				if (m_bossEnemy && m_bossEnemy->GetModelRender()->IsPlayingAnimation() == false) {
+					m_isResultSequence = true;
 				}
 			}
 		}
