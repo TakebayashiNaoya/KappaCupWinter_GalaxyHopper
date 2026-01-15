@@ -12,7 +12,8 @@
 #define ENEMY_STATE_LIST(V) \
 	V(Idle)\
 	V(Chase)\
-	V(Flee)
+	V(Flee)\
+	V(Cooldown)\
 
 
 namespace app
