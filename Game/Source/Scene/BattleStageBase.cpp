@@ -22,8 +22,6 @@ namespace app
 		{
 			/** バトルマネージャーの戦闘終了フラグをfalseにしておく */
 			battle::BattleManager::SetIsResultSequence(false);
-			/** バトルマネージャーのゴールフラグをfalseにしておく */
-			battle::BattleManager::SetIsGoalReached(false);
 			/** ロードタスク登録 */
 			RegisterLoadingTasks();
 		}
