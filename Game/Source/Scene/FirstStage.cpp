@@ -1,7 +1,7 @@
-﻿#include "stdafx.h"
-#include "FirstStage.h"
-#include "Source/Actor/Planet/FirstPlanet.h"
+﻿#include "FirstStage.h"
 #include "Source/Actor/Character/Player/Player.h"
+#include "Source/Actor/Planet/FirstPlanet.h"
+#include "stdafx.h"
 //#include "Source/Actor/BasicEnemy.h"
 //#include "Source/Actor/DeformEnemy.h"
 //#include "Source/Actor/Rocket.h"
@@ -22,32 +22,32 @@ namespace app
 
 		FirstStage::~FirstStage()
 		{
-			//DeleteGO(m_firstStage);
+			DeleteGO(m_firstStage);
 
-			//BattleManager::GetInstance()->Unregister(m_uiGear);
-			//DeleteGO(m_uiGear);
+			BattleManager::GetInstance()->Unregister(m_uiGear);
+			DeleteGO(m_uiGear);
 
-			//BattleManager::GetInstance()->Unregister(m_rocket);
-			//DeleteGO(m_rocket);
+			BattleManager::GetInstance()->Unregister(m_rocket);
+			DeleteGO(m_rocket);
 
-			//for (auto treasure : m_treasures) {
-			//	if (treasure) {
-			//		BattleManager::GetInstance()->Unregister(treasure);
-			//		DeleteGO(treasure);
-			//	}
-			//}
+			for (auto treasure : m_treasures) {
+				if (treasure) {
+					BattleManager::GetInstance()->Unregister(treasure);
+					DeleteGO(treasure);
+				}
+			}
 		}
 
 
 		bool FirstStage::Start()
 		{
-			//SoundManager::Play(enSoundList_FirstStageBGM, true);
+			SoundManager::Play(enSoundList_FirstStageBGM, true);
 
-			//// ロード明けで音量が上がるため、一旦音量を0にしておく。
-			//SoundManager::SetVolume(enSoundList_FirstStageBGM, 0.0f);
+			// ロード明けで音量が上がるため、一旦音量を0にしておく。
+			SoundManager::SetVolume(enSoundList_FirstStageBGM, 0.0f);
 
-			//m_uiGear = NewGO<UIGear>(0, "UIGear");
-			//BattleManager::GetInstance()->Register(m_uiGear);
+			m_uiGear = NewGO<UIGear>(0, "UIGear");
+			BattleManager::GetInstance()->Register(m_uiGear);
 
 			return true;
 		}
