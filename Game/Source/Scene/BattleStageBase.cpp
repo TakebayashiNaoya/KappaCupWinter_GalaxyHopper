@@ -54,6 +54,11 @@ namespace app
 			/** 派生先の更新処理を呼び出す */
 			OnUpdate();
 
+			/** 戦闘が終わっている場合はBGMを止める */
+			if (battle::BattleManager::GetBattleResult() != battle::BattleManager::EnBattleResult::Fighting) {
+				sound::SoundManager::StopBGM(sound::enSoundList_FirstStageBGM, 0.0f);
+				return;
+			}
 
 			/**
 			 * 勝敗判定処理

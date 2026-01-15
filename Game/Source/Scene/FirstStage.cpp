@@ -11,6 +11,7 @@
 #include "Source/Actor/Object/Rocket.h"
 #include "Source/Actor/Object/Treasure.h"
 #include "Source/Actor/Planet/FirstPlanet.h"
+#include "Ui/UIFirstStage.h"
 
 
 namespace app
@@ -27,9 +28,6 @@ namespace app
 		{
 			DeleteGO(m_firstStage);
 
-			battle::BattleManager::GetInstance()->Unregister(m_uiGear);
-			DeleteGO(m_uiGear);
-
 			battle::BattleManager::GetInstance()->Unregister(m_rocket);
 			DeleteGO(m_rocket);
 
@@ -39,6 +37,8 @@ namespace app
 					DeleteGO(treasure);
 				}
 			}
+
+			DeleteGO(m_uiFirstStage);
 		}
 
 
@@ -50,25 +50,20 @@ namespace app
 			/** ロード明けで音量が上がるため、一旦音量を0にしておく */
 			sound::SoundManager::SetVolume(sound::enSoundList_FirstStageBGM, 0.0f);
 
-			m_uiGear = NewGO<UIGear>(0, "UIGear");
-			battle::BattleManager::GetInstance()->Register(m_uiGear);
+			/** UIを生成 */
+			m_uiFirstStage = NewGO<ui::UIFirstStage>(0, "UIFirstStage");
 
 			return true;
 		}
 
 		void FirstStage::OnUpdate()
 		{
-			if (battle::BattleManager::GetInstance()->GetBattleResult() == battle::BattleManager::GetInstance()->EnBattleResult::Lose) {
-				sound::SoundManager::StopBGM(sound::enSoundList_FirstStageBGM, 0.0f);
-				return;
-			}
-
 			if (m_rocket)
 			{
-				if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::Opened) {
+				if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::EnState::Opened) {
 					LoadingScreen::StartLoading();
 				}
-				if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::Loading) {
+				if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::EnState::Loading) {
 					SceneManager::GetInstance()->ChangeScene(SceneID::BossStage);
 				}
 			}
