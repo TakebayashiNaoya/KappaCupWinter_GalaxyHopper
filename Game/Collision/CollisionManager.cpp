@@ -194,7 +194,7 @@ namespace app
 				knockBackDir.Normalize();
 				player->GetStateMachine<actor::PlayerStateMachine>()->SetKnockBackDirection(knockBackDir);
 				/** エネミーをクールダウン状態にする */
-				basicEnemy->GetStateMachine<actor::BasicEnemyStateMachine>()->SetIsCooldown(true);
+				basicEnemy->SetIsCooldown(true);
 				sound::SoundManager::Play(sound::enSoundList_PlayerDamage);
 				return true;
 			}
