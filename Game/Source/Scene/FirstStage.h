@@ -1,14 +1,14 @@
-﻿#pragma once
+﻿/**
+ * FirstStage.h
+ * ファーストステージシーン
+ */
+#pragma once
 #include "Source/Scene/BattleStageBase.h"
-
-class FirstPlanet;
-class Treasure;
-class Rocket;
-class UIGear;
 
 
 namespace app
 {
+	/** 前方宣言 */
 	namespace ui
 	{
 		class UIFirstStage;
@@ -23,6 +23,9 @@ namespace app
 
 	namespace scene
 	{
+		/**
+		 * ファーストステージシーン
+		 */
 		class FirstStage :public BattleStageBase
 		{
 		public:
@@ -32,14 +35,15 @@ namespace app
 
 		private:
 			bool Start() override final;
-
+			/** 更新処理 */
 			void OnUpdate() override final;
-
+			/** レベルの初期化 */
 			void InitLevel()override final;
-			LevelRender m_levelRender;
 
 
 		private:
+			/** レベルレンダー */
+			LevelRender m_levelRender;
 			/** ファーストステージ用UI */
 			ui::UIFirstStage* m_uiFirstStage = nullptr;
 			/** ファーストステージ用オブジェクト */
