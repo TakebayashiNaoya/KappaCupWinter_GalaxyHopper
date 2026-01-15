@@ -38,9 +38,6 @@ namespace app
 			UIInGameBase();
 			virtual ~UIInGameBase();
 
-			/** プレイヤーのHPに応じてUIを更新する */
-			void SetPlayerHp(int hp);
-
 
 		protected:
 			/**
