@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "Core/StateMachineBase.h"
+#include "Core/Transform.h"
 #include "Source/Actor/Actor.h"
 
 
@@ -24,7 +25,7 @@ namespace app
 			/**
 			 * トランスフォームを取得
 			 */
-			inline Transform& GetTransform() { return m_transform; }
+			inline core::Transform& GetTransform() { return m_transform; }
 			/**
 			 * 座標を設定
 			 */
@@ -86,7 +87,7 @@ namespace app
 			/** 持ち主となるActor */
 			Actor* m_ownerActor = nullptr;
 			/** トランスフォーム */
-			Transform m_transform;
+			core::Transform m_transform;
 			/** 上方向ベクトル */
 			Vector3 m_upDirection = Vector3::Up;
 		};

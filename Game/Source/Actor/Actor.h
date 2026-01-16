@@ -4,6 +4,7 @@
  */
 #pragma once
 #include "actorStatus.h"
+#include "Core/Transform.h"
 
 
 namespace app
@@ -12,7 +13,6 @@ namespace app
 	{
 		/** 前方宣言 */
 		class ActorStateMachine;
-		class ActorStatus;
 
 
 		/**
@@ -29,7 +29,7 @@ namespace app
 			/**
 			 * トランスフォームを取得
 			 */
-			inline Transform& GetTransform() { return m_transform; }
+			inline core::Transform& GetTransform() { return m_transform; }
 
 			/**
 			 * トランスフォームを設定
@@ -117,7 +117,7 @@ namespace app
 			/** モデル描画 */
 			ModelRender m_modelRender;
 			/** トランスフォーム */
-			Transform m_transform;
+			core::Transform m_transform;
 			/** 上方向ベクトル */
 			Vector3 m_upDirection = Vector3::Up;
 			/** ステートマシン */

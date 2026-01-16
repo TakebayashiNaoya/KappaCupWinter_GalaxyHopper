@@ -5,15 +5,12 @@
 using namespace nsK2EngineLow;
 using namespace nsK2Engine;
 
-//#include "Types.h"
 #include "json/json.hpp"
 
-#include "Transform.h"
+#include "Core/Transform.h"
 #include "Sound/SoundManager.h"
 #include "Battle/BattleManager.h"
 #include "Source/Actor/ActorTypes.h"
-
-//#include "core/Fade.h"
 
 namespace app
 {

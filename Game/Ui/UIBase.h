@@ -3,7 +3,7 @@
  * UIの基本的な処理をするクラス群
  */
 #pragma once
-#include "HierarchicalTransform.h"
+#include "Core/HierarchicalTransform.h"
 
 
 namespace app
@@ -20,7 +20,7 @@ namespace app
 		{
 		public:
 			/** トランスフォーム */
-			HierarchicalTransform m_transform;
+			core::HierarchicalTransform m_transform;
 
 
 		protected:

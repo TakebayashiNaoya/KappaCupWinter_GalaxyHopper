@@ -7,6 +7,10 @@
 
 namespace app
 {
+	/** 前方宣言 */
+	namespace core { class Transform; }
+
+
 	namespace ui
 	{
 		/**
@@ -167,7 +171,7 @@ namespace app
 			/** ターゲットのオフセットのリスト */
 			std::vector<Vector3> m_targetOffsetList;
 			/** 所有しているTransform */
-			Transform* m_ownerTransform = nullptr;
+			core::Transform* m_ownerTransform = nullptr;
 
 
 		public:
