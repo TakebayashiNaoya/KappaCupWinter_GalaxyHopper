@@ -4,9 +4,7 @@
 #include<dxgidebug.h>
 #include<InitGUID.h>
 
-#include "Core/ParameterManager.h"
 #include "Game.h"
-
 
 
 void ReportLiveObjects()
@@ -34,9 +32,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// ここから初期化を行うコードを記述する。
 	//////////////////////////////////////
 
-	ParameterManager::CreateInstance();
 
-	NewGO<Game>(0, "GameObject");
+	auto* game = NewGO<Game>(0, "GameObject");
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -51,7 +48,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		K2Engine::GetInstance()->Execute();
 	}
 
-	ParameterManager::DeleteInstance();
+	DeleteGO(game);
 
 	K2Engine::DeleteInstance();
 
