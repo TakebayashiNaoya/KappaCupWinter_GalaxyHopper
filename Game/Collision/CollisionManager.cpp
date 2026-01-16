@@ -331,5 +331,34 @@ namespace app
 				collider->GetbtCollisionObject().setUserIndex(index);
 			}
 		}
+
+
+
+
+		/**************************************/
+
+
+		CollisionManagerObject::CollisionManagerObject()
+		{
+			CollisionHitManager::CreateInstance();
+		}
+
+
+		CollisionManagerObject::~CollisionManagerObject()
+		{
+			CollisionHitManager::Delete();
+		}
+
+
+		bool CollisionManagerObject::Start()
+		{
+			return true;
+		}
+
+
+		void CollisionManagerObject::Update()
+		{
+			CollisionHitManager::GetInstance()->Update();
+		}
 	}
 }
