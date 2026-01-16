@@ -210,7 +210,7 @@ namespace app
 
 			/** ギアの取得数をUIに反映 */
 			if (m_uiGear) {
-				m_uiGear->SetCount(m_gotGearCount, m_maxGearCount);
+				m_uiGear->UpdateCount(m_gotGearCount, m_maxGearCount);
 			}
 		}
 

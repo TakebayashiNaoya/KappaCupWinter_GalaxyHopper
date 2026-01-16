@@ -73,7 +73,13 @@ namespace app
 
 			/** リスト(actor名前空間用) */
 #define		REG_ACTOR_LIST(Type, List) \
-			void Register(actor::Type* obj) { List.push_back(obj); } \
+			void Register(actor::Type* obj) { \
+				/** 既に登録されているか検索し、なければ追加する */ \
+				auto it = std::find(List.begin(), List.end(), obj); \
+				if (it == List.end()) { \
+					List.push_back(obj); \
+				} \
+			} \
 			void Unregister(actor::Type* obj) { \
 				auto it = std::remove(List.begin(), List.end(), obj); \
 				List.erase(it, List.end()); \
