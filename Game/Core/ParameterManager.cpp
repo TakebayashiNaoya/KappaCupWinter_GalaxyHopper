@@ -1,27 +1,36 @@
-/**
+ï»¿/**
  * ParameterManager.cpp
- * ƒpƒ‰ƒ[ƒ^ŠÇ—ƒNƒ‰ƒX‚ÌÀ‘•
+ * ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ç®¡ç†ã‚¯ãƒ©ã‚¹ã®å®Ÿè£…
  */
 #include "stdafx.h"
 #include "ParameterManager.h"
 
- /** Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì‚ğ’è‹` */
-ParameterManager* ParameterManager::m_instance = nullptr;
 
-ParameterManager::ParameterManager()
+namespace app
 {
-	m_parameterMap.clear();
-}
+	namespace core
+	{
+		/** é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°ã®å®Ÿä½“ã‚’å®šç¾© */
+		ParameterManager* ParameterManager::m_instance = nullptr;
 
-ParameterManager::~ParameterManager()
-{
-	/** ƒƒ‚ƒŠ‚Ì‚¨•Ğ•t‚¯ */
-	for (auto& pair : m_parameterMap) {
-		auto& list = pair.second;
-		for (auto* param : list) {
-			delete param;
+
+		ParameterManager::ParameterManager()
+		{
+			m_parameterMap.clear();
 		}
-		list.clear();
+
+
+		ParameterManager::~ParameterManager()
+		{
+			/** ãƒ¡ãƒ¢ãƒªã®ãŠç‰‡ä»˜ã‘ */
+			for (auto& pair : m_parameterMap) {
+				auto& list = pair.second;
+				for (auto* param : list) {
+					delete param;
+				}
+				list.clear();
+			}
+			m_parameterMap.clear();
+		}
 	}
-	m_parameterMap.clear();
 }
