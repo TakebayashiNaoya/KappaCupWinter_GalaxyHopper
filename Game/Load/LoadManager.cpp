@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "LoadingScreen.h"
+#include "LoadManager.h"
 
 
 namespace app
@@ -38,10 +38,10 @@ namespace app
 	}
 
 
-	LoadingScreen* LoadingScreen::m_instance = nullptr;
+	LoadManager* LoadManager::m_instance = nullptr;
 
 
-	void LoadingScreen::StartLoading()
+	void LoadManager::StartLoading()
 	{
 		if (m_instance != nullptr) {
 			m_instance->m_state = EnState::Closing;
@@ -52,7 +52,7 @@ namespace app
 	}
 
 
-	void LoadingScreen::FinishLoading()
+	void LoadManager::FinishLoading()
 	{
 		if (m_instance != nullptr) {
 			m_instance->m_state = EnState::Opening;
@@ -63,7 +63,7 @@ namespace app
 	}
 
 
-	void LoadingScreen::SnapToLoading()
+	void LoadManager::SnapToLoading()
 	{
 		UpdateIrisTransform(0.0f);
 		sound::SoundManager::StopAllBGM(0.0f);
@@ -71,14 +71,14 @@ namespace app
 	}
 
 
-	void LoadingScreen::SnapToOpened()
+	void LoadManager::SnapToOpened()
 	{
 		UpdateIrisTransform(1.0f);
 		m_state = EnState::Opened;
 	}
 
 
-	void LoadingScreen::ChangeState(EnState state)
+	void LoadManager::ChangeState(EnState state)
 	{
 		if (m_instance == nullptr) {
 			return;
@@ -98,7 +98,7 @@ namespace app
 	}
 
 
-	const LoadingScreen::EnState LoadingScreen::GetState()
+	const LoadManager::EnState LoadManager::GetState()
 	{
 		if (m_instance != nullptr) {
 			return m_instance->m_state;
@@ -107,12 +107,12 @@ namespace app
 	}
 
 
-	LoadingScreen::LoadingScreen()
+	LoadManager::LoadManager()
 	{
 	}
 
 
-	LoadingScreen::~LoadingScreen()
+	LoadManager::~LoadManager()
 	{
 		if (m_displayImages != nullptr) {
 			delete[] m_displayImages;
@@ -121,7 +121,7 @@ namespace app
 	}
 
 
-	bool LoadingScreen::Start()
+	bool LoadManager::Start()
 	{
 		/** レイアウト初期化 */
 		InitLayout();
@@ -130,7 +130,7 @@ namespace app
 	}
 
 
-	void LoadingScreen::Update()
+	void LoadManager::Update()
 	{
 		switch (m_state)
 		{
@@ -154,7 +154,7 @@ namespace app
 	}
 
 
-	void LoadingScreen::Render(RenderContext& rc)
+	void LoadManager::Render(RenderContext& rc)
 	{
 		if (m_displayImages == nullptr) {
 			return;
@@ -175,7 +175,7 @@ namespace app
 	}
 
 
-	void LoadingScreen::InitLayout()
+	void LoadManager::InitLayout()
 	{
 		/** スプライトレンダー配列を生成 */
 		m_displayImages = new SpriteRender[enImageParts_Num];
@@ -213,7 +213,7 @@ namespace app
 	}
 
 
-	void LoadingScreen::UpdateIrisTransform(float ratio)
+	void LoadManager::UpdateIrisTransform(float ratio)
 	{
 		/** 中央画像のサイズを設定 */
 		m_displayImages[enImageParts_Center].SetScale({ ratio, ratio, 1.0f });
@@ -237,7 +237,7 @@ namespace app
 	}
 
 
-	void LoadingScreen::UpdateAnimation(float startRatio, float endRatio, float duration, EnState nextState)
+	void LoadManager::UpdateAnimation(float startRatio, float endRatio, float duration, EnState nextState)
 	{
 		m_timer += g_gameTime->GetFrameDeltaTime();
 
@@ -268,32 +268,32 @@ namespace app
 	/********************************/
 
 
-	LoadingScreenObject::LoadingScreenObject()
+	LoadManagerObject::LoadManagerObject()
 	{
-		LoadingScreen::CreateInstance();
+		LoadManager::CreateInstance();
 	}
 
 
-	LoadingScreenObject::~LoadingScreenObject()
+	LoadManagerObject::~LoadManagerObject()
 	{
-		LoadingScreen::Delete();
+		LoadManager::Delete();
 	}
 
 
-	bool LoadingScreenObject::Start()
+	bool LoadManagerObject::Start()
 	{
 		return true;
 	}
 
 
-	void LoadingScreenObject::Update()
+	void LoadManagerObject::Update()
 	{
-		LoadingScreen::GetInstance()->Update();
+		LoadManager::GetInstance()->Update();
 	}
 
 
-	void LoadingScreenObject::Render(RenderContext& rc)
+	void LoadManagerObject::Render(RenderContext& rc)
 	{
-		LoadingScreen::GetInstance()->Render(rc);
+		LoadManager::GetInstance()->Render(rc);
 	}
 }

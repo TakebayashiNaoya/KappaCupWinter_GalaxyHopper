@@ -2,7 +2,7 @@
 
 namespace app
 {
-	class LoadingScreen
+	class LoadManager
 	{
 	public:
 		/**
@@ -73,8 +73,8 @@ namespace app
 
 
 	private:
-		LoadingScreen();
-		~LoadingScreen();
+		LoadManager();
+		~LoadManager();
 
 
 	public:
@@ -106,17 +106,17 @@ namespace app
 		 * シングルトン関連
 		 */
 	private:
-		static LoadingScreen* m_instance;
+		static LoadManager* m_instance;
 
 	public:
-		static LoadingScreen* CreateInstance()
+		static LoadManager* CreateInstance()
 		{
 			if (m_instance == nullptr) {
-				m_instance = new LoadingScreen();
+				m_instance = new LoadManager();
 			}
 			return m_instance;
 		}
-		static LoadingScreen* GetInstance()
+		static LoadManager* GetInstance()
 		{
 			return m_instance;
 		}
@@ -139,11 +139,11 @@ namespace app
 	/********************************/
 
 
-	class LoadingScreenObject : public IGameObject
+	class LoadManagerObject : public IGameObject
 	{
 	public:
-		LoadingScreenObject();
-		~LoadingScreenObject();
+		LoadManagerObject();
+		~LoadManagerObject();
 
 
 	private:
