@@ -55,6 +55,9 @@
     <Filter Include="Source\Actor\Character\Enemy\BossEnemy">
       <UniqueIdentifier>{d0ab2268-08be-4b01-a6ee-abe3d2577ca4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Load">
+      <UniqueIdentifier>{7f4530ea-4b56-493a-9383-0415a50913d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -91,7 +94,6 @@
     <ClCompile Include="Source\Scene\Title.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Sound\SoundManager.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
@@ -216,6 +218,9 @@
     <ClCompile Include="Source\Actor\Character\Enemy\EnemyController.cpp">
       <Filter>Source\Actor\Character\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Load\LoadManager.cpp">
+      <Filter>Load</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -251,7 +256,6 @@
     <ClInclude Include="Source\Scene\Title.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="Sound\SoundManager.h">
       <Filter>Sound</Filter>
     </ClInclude>
@@ -375,6 +379,9 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\Character\Enemy\EnemyController.h">
       <Filter>Source\Actor\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Load\LoadManager.h">
+      <Filter>Load</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

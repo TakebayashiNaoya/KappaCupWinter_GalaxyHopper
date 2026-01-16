@@ -1,11 +1,10 @@
-/**
+ï»¿/**
  * Spawner.cpp
- * ƒGƒlƒ~[‚ðƒŠƒXƒ|[ƒ“‚³‚¹‚éƒXƒ|ƒi[‚ÌŽÀ‘•
+ * ã‚¨ãƒãƒŸãƒ¼ã‚’ãƒªã‚¹ãƒãƒ¼ãƒ³ã•ã›ã‚‹ã‚¹ãƒãƒŠãƒ¼ã®å®Ÿè£…
  */
 #include "stdafx.h"
+#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
 #include "Spawner.h"
-#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
-#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
 
 
 namespace app
@@ -39,15 +38,15 @@ namespace app
 				return;
 			}
 
-			/** ƒGƒlƒ~[‚ª‘¶Ý‚µ‚Ä‚¢‚é‚È‚çA‚»‚ÌƒGƒlƒ~[‚ªŽ€‚ñ‚Å‚¢‚é‚©Šm”F‚·‚é */
+			/** ã‚¨ãƒãƒŸãƒ¼ãŒå­˜åœ¨ã—ã¦ã„ã‚‹ãªã‚‰ã€ãã®ã‚¨ãƒãƒŸãƒ¼ãŒæ­»ã‚“ã§ã„ã‚‹ã‹ç¢ºèªã™ã‚‹ */
 			if (m_deformEnemy != nullptr)
 			{
-				/** Ž€‚ñ‚Å‚¢‚½‚çƒ|ƒCƒ“ƒ^‚ðŽè•ú‚·iíœ‚ÍBattleManager‚ªs‚¤j */
+				/** æ­»ã‚“ã§ã„ãŸã‚‰ãƒã‚¤ãƒ³ã‚¿ã‚’æ‰‹æ”¾ã™ï¼ˆå‰Šé™¤ã¯BattleManagerãŒè¡Œã†ï¼‰ */
 				if (m_deformEnemy->ShouldDestroy()) {
 					m_deformEnemy = nullptr;
 				}
 			}
-			/** ƒGƒlƒ~[‚ª‚¢‚È‚¢iŽ€‚ñ‚¾Œãj‚È‚çAƒŠƒXƒ|[ƒ“ƒ^ƒCƒ}[‚ð“®‚©‚· */
+			/** ã‚¨ãƒãƒŸãƒ¼ãŒã„ãªã„ï¼ˆæ­»ã‚“ã å¾Œï¼‰ãªã‚‰ã€ãƒªã‚¹ãƒãƒ¼ãƒ³ã‚¿ã‚¤ãƒžãƒ¼ã‚’å‹•ã‹ã™ */
 			else
 			{
 				m_respawnTimer += g_gameTime->GetFrameDeltaTime();

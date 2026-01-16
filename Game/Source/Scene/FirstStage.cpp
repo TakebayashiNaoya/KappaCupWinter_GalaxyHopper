@@ -4,7 +4,7 @@
  */
 #include "stdafx.h"
 #include "FirstStage.h"
-#include "LoadingScreen.h"
+#include "Load/LoadManager.h"
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
 #include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
 #include "Source/Actor/Character/Player/Player.h"
@@ -60,10 +60,10 @@ namespace app
 		{
 			if (m_rocket)
 			{
-				if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::EnState::Opened) {
-					LoadingScreen::StartLoading();
+				if (m_rocket->GetIsGooled() && load::LoadManager::GetState() == load::LoadManager::EnState::Opened) {
+					load::LoadManager::StartLoading();
 				}
-				if (m_rocket->GetIsGooled() && LoadingScreen::GetState() == LoadingScreen::EnState::Loading) {
+				if (m_rocket->GetIsGooled() && load::LoadManager::GetState() == load::LoadManager::EnState::Loading) {
 					SceneManager::GetInstance()->ChangeScene(SceneID::BossStage);
 				}
 			}

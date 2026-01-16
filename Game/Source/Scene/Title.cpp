@@ -3,12 +3,12 @@
  * タイトルシーンの実装
  */
 #include "stdafx.h"
-#include "Title.h"
-#include "LoadingScreen.h"
+#include "Camera/TitleCamera.h"
+#include "Load/LoadManager.h"
 #include "SceneManager.h"
 #include "Source/Actor/Character/Player/TitlePlayer.h"
 #include "Source/Actor/Planet/TitlePlanet.h"
-#include "Camera/TitleCamera.h"
+#include "Title.h"
 #include "UI/UITitle.h"
 
 
@@ -42,7 +42,7 @@ namespace app
 			InitSky();
 
 			/** ロード画面をアイリスインさせる */
-			LoadingScreen::FinishLoading();
+			load::LoadManager::FinishLoading();
 			/** タイトルBGM再生 */
 			sound::SoundManager::Play(sound::enSoundList_TitleBGM, true);
 
@@ -56,17 +56,17 @@ namespace app
 			if (g_pad[0]->IsTrigger(enButtonA)) {
 				sound::SoundManager::Play(sound::enSoundList_PushSE);
 				/** ロードオープン中にボタンを押したら、ロード完了へ */
-				if (LoadingScreen::GetState() == LoadingScreen::EnState::Opening) {
-					LoadingScreen::ChangeState(LoadingScreen::EnState::Opened);
+				if (load::LoadManager::GetState() == load::LoadManager::EnState::Opening) {
+					load::LoadManager::ChangeState(load::LoadManager::EnState::Opened);
 				}
 				/** ロード完了時にボタンを押したら、ロード開始へ */
-				else if (LoadingScreen::GetState() == LoadingScreen::EnState::Opened) {
-					LoadingScreen::StartLoading();
+				else if (load::LoadManager::GetState() == load::LoadManager::EnState::Opened) {
+					load::LoadManager::StartLoading();
 				}
 			}
 
 			/** Loading画面になったらシーン切り替えをリクエスト */
-			if (LoadingScreen::GetState() == LoadingScreen::EnState::Loading) {
+			if (load::LoadManager::GetState() == load::LoadManager::EnState::Loading) {
 				SceneManager::GetInstance()->ChangeScene(SceneID::FirstStage);
 			}
 		}

@@ -3,9 +3,9 @@
  * ゲームクリアUIの実装
  */
 #include "stdafx.h"
+#include "Load/LoadManager.h"
 #include "UIGameClear.h"
 #include <cmath> 
-#include "LoadingScreen.h"
 
 
 namespace app
@@ -169,7 +169,7 @@ namespace app
 				m_timer += dt;
 				if (m_timer >= WAIT_TIME) {
 					m_timer = 0.0f;
-					LoadingScreen::StartLoading();
+					load::LoadManager::StartLoading();
 					m_state = enState_Shrink;
 				}
 				break;
@@ -203,7 +203,7 @@ namespace app
 
 			case enState_LoadingWait:
 			{
-				if (LoadingScreen::GetState() == LoadingScreen::EnState::Loading) {
+				if (load::LoadManager::GetState() == load::LoadManager::EnState::Loading) {
 					m_state = enState_End;
 				}
 				break;
