@@ -19,18 +19,11 @@ namespace app
 /**
  * 全てこの中で生成する
  */
-class Game : public IGameObject
+class Game
 {
 public:
 	Game();
 	~Game();
-
-
-private:
-	/** これらは使用しない */
-	bool Start()override final { return true };
-	void Update()override final {};
-	void Render(RenderContext& rc)override final {};
 
 
 	/**

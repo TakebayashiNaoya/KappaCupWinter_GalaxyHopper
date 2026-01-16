@@ -28,6 +28,7 @@ Game::Game()
 	m_collisionManagerObject = NewGO<app::collision::CollisionManagerObject>(0, "CollisionManagerObject");
 }
 
+
 Game::~Game()
 {
 	/** 各種マネージャーオブジェクトの破棄 */

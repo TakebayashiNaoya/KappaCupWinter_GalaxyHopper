@@ -32,8 +32,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// ここから初期化を行うコードを記述する。
 	//////////////////////////////////////
 
-
-	auto* game = NewGO<Game>(0, "GameObject");
+	/**
+	 * ゲームオブジェクトの生成
+	 */
+	auto* game = new Game();
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -42,13 +44,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
-		if (g_pad[0]->IsTrigger(enButtonA)) {
-			g_pad[0]->SetVibration(/*durationSec=*/0.5f, /*normalizedPower=*/1.0f);
-		}
 		K2Engine::GetInstance()->Execute();
 	}
 
-	DeleteGO(game);
+	/**
+	 * ゲームオブジェクトの破棄
+	 */
+	delete game;
 
 	K2Engine::DeleteInstance();
 
