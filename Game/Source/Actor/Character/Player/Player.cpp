@@ -36,11 +36,20 @@ namespace app
 
 			/** ステータスを生成 */
 			m_status = CreateStatus<PlayerStatus>();
+
+			/** バトルマネージャーに登録 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Register(this);
+			}
 		}
 
 
 		Player::~Player()
 		{
+			/** バトルマネージャーから登録解除 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Unregister(this);
+			}
 		}
 
 

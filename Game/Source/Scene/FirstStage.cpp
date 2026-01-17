@@ -86,26 +86,22 @@ namespace app
 				}
 				if (objData.EqualObjectName(L"wolf")) {
 					actor::BasicEnemy* wolf = NewGO<actor::BasicEnemy>(0, "BasicEnemy");
-					battle::BattleManager::GetInstance()->Register(wolf);
 					wolf->SetTransform(objData.position, objData.rotation, objData.scale);
 					return true;
 				}
 				if (objData.EqualObjectName(L"spider")) {
 					actor::DeformEnemy* spider = NewGO <actor::DeformEnemy>(0, "DeformEnemy");
-					battle::BattleManager::GetInstance()->Register(spider);
 					spider->SetTransform(objData.position, objData.rotation, objData.scale);
 					return true;
 				}
 				if (objData.EqualObjectName(L"treasure")) {
 					actor::Treasure* treasure = NewGO <actor::Treasure>(0, "Treasure");
-					battle::BattleManager::GetInstance()->Register(treasure);
 					treasure->SetTransform(objData.position, objData.rotation, objData.scale);
 					m_treasures.push_back(treasure);
 					return true;
 				}
 				if (objData.EqualObjectName(L"rocket")) {
 					m_rocket = NewGO <actor::Rocket>(0, "Rocket");
-					battle::BattleManager::GetInstance()->Register(m_rocket);
 					m_rocket->SetTransform(objData.position, objData.rotation, objData.scale);
 					return true;
 				}

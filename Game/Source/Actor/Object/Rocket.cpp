@@ -1,6 +1,6 @@
-/**
+﻿/**
  * Rocket.cpp
- * ���P�b�g�N���X�̎���
+ * ロケットクラスの実装
  */
 #include "stdafx.h"
 #include "Rocket.h"
@@ -12,11 +12,19 @@ namespace app
 	{
 		Rocket::Rocket()
 		{
+			/** バトルマネージャーに登録 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Register(this);
+			}
 		}
 
 
 		Rocket::~Rocket()
 		{
+			/** バトルマネージャーから登録解除 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Unregister(this);
+			}
 		}
 
 

@@ -3,10 +3,10 @@
  * 変形エネミーの実装
  */
 #include "stdafx.h"
-#include "DeformEnemy.h"
 #include "Collision/CollisionManager.h"
-#include "Source/Actor/ActorStatus.h"
+#include "DeformEnemy.h"
 #include "DeformEnemyStateMachine.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app
@@ -47,11 +47,20 @@ namespace app
 
 			/** ステータス生成 */
 			m_status = std::move(status);
+
+			/** バトルマネージャーに登録 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Register(this);
+			}
 		}
 
 
 		DeformEnemy::~DeformEnemy()
 		{
+			/** バトルマネージャーから登録解除 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Unregister(this);
+			}
 		}
 
 

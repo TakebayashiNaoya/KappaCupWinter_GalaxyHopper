@@ -43,11 +43,20 @@ namespace app
 
 			/** ステータスをムーブして保持 */
 			m_status = CreateStatus<BasicEnemyStatus>();;
+
+			/** バトルマネージャーに登録 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Register(this);
+			}
 		}
 
 
 		BasicEnemy::~BasicEnemy()
 		{
+			/** バトルマネージャーから登録解除 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Unregister(this);
+			}
 		}
 
 
