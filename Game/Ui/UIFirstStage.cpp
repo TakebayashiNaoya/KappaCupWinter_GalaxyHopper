@@ -3,8 +3,8 @@
  * ファーストステージ用のUI管理クラスの実装
  */
 #include "stdafx.h"
+#include "Load/LoadManager.h"
 #include "UIFirstStage.h"
-#include "LoadingScreen.h"
 
 
 namespace app
@@ -57,8 +57,6 @@ namespace app
 
 			/** ギアUIを生成 */
 			m_uiGear = NewGO<UIGear>(0, "UIGear");
-			/** バトルマネージャーに登録 */
-			battle::BattleManager::GetInstance()->Register(m_uiGear);
 
 			return true;
 		}
@@ -74,11 +72,19 @@ namespace app
 		 */
 		UIGear::UIGear()
 		{
+			/** バトルマネージャーに登録 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Register(this);
+			}
 		}
 
 
 		UIGear::~UIGear()
 		{
+			/** バトルマネージャーから登録解除 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Unregister(this);
+			}
 		}
 
 
@@ -116,7 +122,7 @@ namespace app
 
 		void UIGear::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
+			if (load::LoadManager::GetState() != load::LoadManager::EnState::Opened) {
 				return;
 			}
 			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
@@ -127,7 +133,7 @@ namespace app
 		}
 
 
-		void UIGear::SetCount(int gotCount, int maxCount)
+		void UIGear::UpdateCount(int gotCount, int maxCount)
 		{
 			m_gotGearCountText->SetText(L"%d/%d", gotCount, maxCount);
 		}

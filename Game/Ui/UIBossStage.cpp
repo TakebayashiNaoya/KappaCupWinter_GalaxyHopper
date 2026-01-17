@@ -3,9 +3,9 @@
  * ボスステージ用のUI管理クラスの実装
  */
 #include "stdafx.h"
-#include "UIBossStage.h"
-#include "LoadingScreen.h"
 #include "Battle/BattleManager.h"
+#include "Load/LoadManager.h"
+#include "UIBossStage.h"
 
 
 namespace app
@@ -83,12 +83,6 @@ namespace app
 		}
 
 
-		void UIBossStage::SetBossHp(int currentHp, int maxHp)
-		{
-			m_uiBossHp->UpdateHp(currentHp, maxHp);
-		}
-
-
 
 
 		/********************************/
@@ -99,11 +93,19 @@ namespace app
 		 */
 		UIBossHp::UIBossHp()
 		{
+			/** バトルマネージャーに登録 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Register(this);
+			}
 		}
 
 
 		UIBossHp::~UIBossHp()
 		{
+			/** バトルマネージャーから登録解除 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Unregister(this);
+			}
 		}
 
 
@@ -156,7 +158,7 @@ namespace app
 
 		void UIBossHp::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
+			if (load::LoadManager::GetState() != load::LoadManager::EnState::Opened) {
 				return;
 			}
 			if (battle::BattleManager::GetInstance()->IsResultSequence()) {

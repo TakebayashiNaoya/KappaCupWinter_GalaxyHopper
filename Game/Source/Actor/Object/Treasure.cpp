@@ -1,6 +1,6 @@
-/**
+﻿/**
  * Treasure.cpp
- * �󔠃N���X�̎���
+ * 宝箱クラスの実装
  */
 #include "stdafx.h"
 #include "Treasure.h"
@@ -12,10 +12,18 @@ namespace app
 	{
 		Treasure::Treasure()
 		{
+			/** バトルマネージャーに登録 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Register(this);
+			}
 		}
 
 		Treasure::~Treasure()
 		{
+			/** バトルマネージャーから登録解除 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Unregister(this);
+			}
 		}
 
 		bool Treasure::Start()

@@ -3,8 +3,8 @@
  * タイトルのUIを管理するクラス
  */
 #include "stdafx.h"
+#include "Load/LoadManager.h"
 #include "UITitle.h"
-#include "LoadingScreen.h"
 
 
 namespace app
@@ -51,7 +51,7 @@ namespace app
 
 		void UITitle::Update()
 		{
-			if (LoadingScreen::GetState() == LoadingScreen::EnState::Loading) {
+			if (load::LoadManager::GetState() == load::LoadManager::EnState::Loading) {
 				DeleteGO(this);
 			}
 		}
@@ -99,7 +99,7 @@ namespace app
 		void UITitleLogo::Render(RenderContext& rc)
 		{
 			/** ロード画面が完全に開いている時だけ描画 */
-			if (LoadingScreen::GetState() == LoadingScreen::EnState::Opened) {
+			if (load::LoadManager::GetState() == load::LoadManager::EnState::Opened) {
 				m_canvas->Render(rc);
 			}
 		}

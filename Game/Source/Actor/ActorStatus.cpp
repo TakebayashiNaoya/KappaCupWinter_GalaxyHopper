@@ -14,7 +14,7 @@ namespace app
 		RocketStatus::RocketStatus()
 		{
 			/** 外部ファイルを読み込み */
-			ParameterManager::Get().LoadParameter<MasterRocketStatusParameter>("Assets/parameter/RocketStatus.json", [](const nlohmann::json& j, MasterRocketStatusParameter& parameter)
+			core::ParameterManager::Get().LoadParameter<core::MasterRocketStatusParameter>("Assets/parameter/RocketStatus.json", [](const nlohmann::json& j, core::MasterRocketStatusParameter& parameter)
 				{
 					parameter.interactRange = j["interactRange"].get<float>();
 				});
@@ -24,14 +24,14 @@ namespace app
 		RocketStatus::~RocketStatus()
 		{
 			/** 使用が終わったので解放 */
-			ParameterManager::Get().UnloadParameter<MasterRocketStatusParameter>();
+			core::ParameterManager::Get().UnloadParameter<core::MasterRocketStatusParameter>();
 		}
 
 
 		void RocketStatus::Setup()
 		{
 			/** 読み込んだパラメーター取得 */
-			const auto* parameter = ParameterManager::Get().GetParameter<MasterRocketStatusParameter>();
+			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterRocketStatusParameter>();
 			m_interactRange = parameter->interactRange;
 		}
 
@@ -44,7 +44,7 @@ namespace app
 		TreasureStatus::TreasureStatus()
 		{
 			/** 外部ファイルを読み込み */
-			ParameterManager::Get().LoadParameter<MasterTreasureStatusParameter>("Assets/parameter/TreasureStatus.json", [](const nlohmann::json& j, MasterTreasureStatusParameter& parameter)
+			core::ParameterManager::Get().LoadParameter<core::MasterTreasureStatusParameter>("Assets/parameter/TreasureStatus.json", [](const nlohmann::json& j, core::MasterTreasureStatusParameter& parameter)
 				{
 					parameter.interactRange = j["interactRange"].get<float>();
 				});
@@ -54,14 +54,14 @@ namespace app
 		TreasureStatus::~TreasureStatus()
 		{
 			/** 使用が終わったので解放 */
-			ParameterManager::Get().UnloadParameter<MasterTreasureStatusParameter>();
+			core::ParameterManager::Get().UnloadParameter<core::MasterTreasureStatusParameter>();
 		}
 
 
 		void TreasureStatus::Setup()
 		{
 			/** 読み込んだパラメーター取得 */
-			const auto* parameter = ParameterManager::Get().GetParameter<MasterTreasureStatusParameter>();
+			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterTreasureStatusParameter>();
 			m_interactRange = parameter->interactRange;
 		}
 
@@ -74,7 +74,7 @@ namespace app
 		PlayerStatus::PlayerStatus()
 		{
 			/** 外部ファイルを読み込み */
-			ParameterManager::Get().LoadParameter<MasterPlayerStatusParameter>("Assets/parameter/PlayerStatus.json", [](const nlohmann::json& j, MasterPlayerStatusParameter& parameter)
+			core::ParameterManager::Get().LoadParameter<core::MasterPlayerStatusParameter>("Assets/parameter/PlayerStatus.json", [](const nlohmann::json& j, core::MasterPlayerStatusParameter& parameter)
 				{
 					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
@@ -92,14 +92,14 @@ namespace app
 		PlayerStatus::~PlayerStatus()
 		{
 			/** 使用が終わったので解放 */
-			ParameterManager::Get().UnloadParameter<MasterPlayerStatusParameter>();
+			core::ParameterManager::Get().UnloadParameter<core::MasterPlayerStatusParameter>();
 		}
 
 
 		void PlayerStatus::Setup()
 		{
 			/** 読み込んだパラメーター取得 */
-			const auto* parameter = ParameterManager::Get().GetParameter<MasterPlayerStatusParameter>();
+			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterPlayerStatusParameter>();
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_hurtRadius = parameter->hurtRadius;
@@ -120,7 +120,7 @@ namespace app
 		BasicEnemyStatus::BasicEnemyStatus()
 		{
 			/** 外部ファイルを読み込み */
-			ParameterManager::Get().LoadParameter<MasterBasicEnemyStatusParameter>("Assets/parameter/BasicEnemyStatus.json", [](const nlohmann::json& j, MasterBasicEnemyStatusParameter& parameter)
+			core::ParameterManager::Get().LoadParameter<core::MasterBasicEnemyStatusParameter>("Assets/parameter/BasicEnemyStatus.json", [](const nlohmann::json& j, core::MasterBasicEnemyStatusParameter& parameter)
 				{
 					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
@@ -136,14 +136,14 @@ namespace app
 		BasicEnemyStatus::~BasicEnemyStatus()
 		{
 			/** 使用が終わったので解放 */
-			ParameterManager::Get().UnloadParameter<MasterBasicEnemyStatusParameter>();
+			core::ParameterManager::Get().UnloadParameter<core::MasterBasicEnemyStatusParameter>();
 		}
 
 
 		void BasicEnemyStatus::Setup()
 		{
 			/** 読み込んだパラメーター取得 */
-			const auto* parameter = ParameterManager::Get().GetParameter<MasterBasicEnemyStatusParameter>();
+			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterBasicEnemyStatusParameter>();
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_hurtRadius = parameter->hurtRadius;
@@ -162,7 +162,7 @@ namespace app
 		DeformEnemyStatus::DeformEnemyStatus()
 		{
 			/** 外部ファイルを読み込み */
-			ParameterManager::Get().LoadParameter<MasterDeformEnemyStatusParameter>("Assets/parameter/DeformEnemyStatus.json", [](const nlohmann::json& j, MasterDeformEnemyStatusParameter& parameter)
+			core::ParameterManager::Get().LoadParameter<core::MasterDeformEnemyStatusParameter>("Assets/parameter/DeformEnemyStatus.json", [](const nlohmann::json& j, core::MasterDeformEnemyStatusParameter& parameter)
 				{
 					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
@@ -179,14 +179,14 @@ namespace app
 		DeformEnemyStatus::~DeformEnemyStatus()
 		{
 			/** 使用が終わったので解放 */
-			ParameterManager::Get().UnloadParameter<MasterDeformEnemyStatusParameter>();
+			core::ParameterManager::Get().UnloadParameter<core::MasterDeformEnemyStatusParameter>();
 		}
 
 
 		void DeformEnemyStatus::Setup()
 		{
 			/** 読み込んだパラメーター取得 */
-			const auto* parameter = ParameterManager::Get().GetParameter<MasterDeformEnemyStatusParameter>();
+			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterDeformEnemyStatusParameter>();
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_hurtRadius = parameter->hurtRadius;
@@ -206,7 +206,7 @@ namespace app
 		BossEnemyStatus::BossEnemyStatus()
 		{
 			/** 外部ファイルを読み込み */
-			ParameterManager::Get().LoadParameter<MasterBossEnemyStatusParameter>("Assets/parameter/BossEnemyStatus.json", [](const nlohmann::json& j, MasterBossEnemyStatusParameter& parameter)
+			core::ParameterManager::Get().LoadParameter<core::MasterBossEnemyStatusParameter>("Assets/parameter/BossEnemyStatus.json", [](const nlohmann::json& j, core::MasterBossEnemyStatusParameter& parameter)
 				{
 					parameter.maxHp = j["maxHp"].get<int>();
 					parameter.walkSpeed = j["walkSpeed"].get<float>();
@@ -223,14 +223,14 @@ namespace app
 		BossEnemyStatus::~BossEnemyStatus()
 		{
 			/** 使用が終わったので解放 */
-			ParameterManager::Get().UnloadParameter<MasterBossEnemyStatusParameter>();
+			core::ParameterManager::Get().UnloadParameter<core::MasterBossEnemyStatusParameter>();
 		}
 
 
 		void BossEnemyStatus::Setup()
 		{
 			/** 読み込んだパラメーター取得 */
-			const auto* parameter = ParameterManager::Get().GetParameter<MasterBossEnemyStatusParameter>();
+			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterBossEnemyStatusParameter>();
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_hurtRadius = parameter->hurtRadius;

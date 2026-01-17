@@ -1,12 +1,10 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "system/system.h"
 
-#include<InitGUID.h>
 #include<dxgidebug.h>
+#include<InitGUID.h>
 
 #include "Game.h"
-#include "Core/ParameterManager.h"
-
 
 
 void ReportLiveObjects()
@@ -19,37 +17,40 @@ void ReportLiveObjects()
 
 	DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&pDxgiDebug);
 
-	// o—ÍB
+	// å‡ºåŠ›ã€‚
 	pDxgiDebug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_DETAIL);
 }
 
 ///////////////////////////////////////////////////////////////////
-// ƒEƒBƒ“ƒhƒEƒvƒƒOƒ‰ƒ€‚ÌƒƒCƒ“ŠÖ”B
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ãƒ¡ã‚¤ãƒ³é–¢æ•°ã€‚
 ///////////////////////////////////////////////////////////////////
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
-	//ƒQ[ƒ€‚Ì‰Šú‰»B
+	//ã‚²ãƒ¼ãƒ ã®åˆæœŸåŒ–ã€‚
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Game"));
 	//////////////////////////////////////
-	// ‚±‚±‚©‚ç‰Šú‰»‚ğs‚¤ƒR[ƒh‚ğ‹Lq‚·‚éB
+	// ã“ã“ã‹ã‚‰åˆæœŸåŒ–ã‚’è¡Œã†ã‚³ãƒ¼ãƒ‰ã‚’è¨˜è¿°ã™ã‚‹ã€‚
 	//////////////////////////////////////
 
-	ParameterManager::CreateInstance();
+	/**
+	 * ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç”Ÿæˆ
+	 */
+	auto* game = new Game();
 
 	//////////////////////////////////////
-	// ‰Šú‰»‚ğs‚¤ƒR[ƒh‚ğ‘‚­‚Ì‚Í‚±‚±‚Ü‚ÅIII
+	// åˆæœŸåŒ–ã‚’è¡Œã†ã‚³ãƒ¼ãƒ‰ã‚’æ›¸ãã®ã¯ã“ã“ã¾ã§ï¼ï¼ï¼
 	//////////////////////////////////////
 
-	// ‚±‚±‚©‚çƒQ[ƒ€ƒ‹[ƒvB
+	// ã“ã“ã‹ã‚‰ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã€‚
 	while (DispatchWindowMessage())
 	{
-		if (g_pad[0]->IsTrigger(enButtonA)) {
-			g_pad[0]->SetVibration(/*durationSec=*/0.5f, /*normalizedPower=*/1.0f);
-		}
 		K2Engine::GetInstance()->Execute();
 	}
 
-	ParameterManager::DeleteInstance();
+	/**
+	 * ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ç ´æ£„
+	 */
+	delete game;
 
 	K2Engine::DeleteInstance();
 

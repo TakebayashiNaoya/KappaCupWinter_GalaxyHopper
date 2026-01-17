@@ -1,33 +1,31 @@
-/**
+ï»¿/**
  * DeformEnemyStateMachine.cpp
- * •ÏŒ`ƒGƒlƒ~[‚ÌƒXƒe[ƒgƒ}ƒVƒ“‚ÌÀ‘•
+ * å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ã®å®Ÿè£…
  */
 #include "stdafx.h"
-#include "DeformEnemyStateMachine.h"
 #include "DeformEnemy.h"
-#include "Source/Actor/ActorStatus.h"
 #include "DeformEnemyIState.h"
+#include "DeformEnemyStateMachine.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		DeformEnemyStateMachine::DeformEnemyStateMachine(DeformEnemy* owner, DeformEnemyStatus* status)
-			: CharacterStateMachine(owner, status)
-			, m_deformEnemy(owner)
-			, m_deformEnemyStatus(status)
+		DeformEnemyStateMachine::DeformEnemyStateMachine(DeformEnemy* owner)
+			: CharacterStateMachine(owner)
 		{
-			/** ƒXƒe[ƒg‚Ì¶¬ */
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆã®ç”Ÿæˆ */
 			AddState<DeformEnemyIdleState>(enDeformEnemyState_Idle);
 			AddState<DeformEnemyWalkState>(enDeformEnemyState_Walk);
 			AddState<DeformEnemyFlippingState>(enDeformEnemyState_Flipping);
 			AddState<DeformEnemyFlippedState>(enDeformEnemyState_Flipped);
 			AddState<DeformEnemySlidingState>(enDeformEnemyState_Sliding);
 			AddState<DeformEnemyDieState>(enDeformEnemyState_Die);
-			K2_ASSERT(m_stateMap.size() == enDeformEnemyState_Num, "AddState‚ğŒÄ‚ñ‚Å‚­‚¾‚³‚¢");
+			K2_ASSERT(m_stateMap.size() == enDeformEnemyState_Num, "AddStateã‚’å‘¼ã‚“ã§ãã ã•ã„");
 
-			/** ‰ŠúƒXƒe[ƒg */
+			/** åˆæœŸã‚¹ãƒ†ãƒ¼ãƒˆ */
 			m_currentState = m_stateMap[enDeformEnemyState_Idle];
 		}
 

@@ -6,7 +6,7 @@
 #include "BattleStageBase.h"
 #include "Camera/GameCamera.h"
 #include "Collision/CollisionManager.h"
-#include "LoadingScreen.h"
+#include "Load/LoadManager.h"
 #include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 #include "Source/Actor/Character/Player/Player.h"
 #include "UI/UIFirstStage.h"
@@ -22,8 +22,6 @@ namespace app
 		{
 			/** バトルマネージャーの戦闘終了フラグをfalseにしておく */
 			battle::BattleManager::SetIsResultSequence(false);
-			/** バトルマネージャーのゴールフラグをfalseにしておく */
-			battle::BattleManager::SetIsGoalReached(false);
 			/** ロードタスク登録 */
 			RegisterLoadingTasks();
 		}
@@ -56,6 +54,11 @@ namespace app
 			/** 派生先の更新処理を呼び出す */
 			OnUpdate();
 
+			/** 戦闘が終わっている場合はBGMを止める */
+			if (battle::BattleManager::GetBattleResult() != battle::BattleManager::EnBattleResult::Fighting) {
+				sound::SoundManager::StopBGM(sound::enSoundList_FirstStageBGM, 0.0f);
+				return;
+			}
 
 			/**
 			 * 勝敗判定処理
@@ -110,11 +113,11 @@ namespace app
 			case enBattlePhase_WaitEnd:
 				if (m_uiResult->GetIsEnd()) {
 					// ロード画面へ移行。
-					if (LoadingScreen::GetState() != LoadingScreen::EnState::Loading) {
-						LoadingScreen::ChangeState(LoadingScreen::EnState::Loading);
+					if (load::LoadManager::GetState() != load::LoadManager::EnState::Loading) {
+						load::LoadManager::ChangeState(load::LoadManager::EnState::Loading);
 					}
 
-					if (LoadingScreen::GetState() == LoadingScreen::EnState::Loading) {
+					if (load::LoadManager::GetState() == load::LoadManager::EnState::Loading) {
 						// 黒画像が残ってしまっているので破棄する。
 						if (m_uiResult) {
 							DeleteGO(m_uiResult);
@@ -156,7 +159,7 @@ namespace app
 				});
 
 			m_loadingTasks.push_back([this]() {
-				LoadingScreen::FinishLoading();
+				load::LoadManager::FinishLoading();
 				});
 		}
 

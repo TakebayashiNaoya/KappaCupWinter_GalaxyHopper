@@ -227,11 +227,12 @@
     <ClCompile Include="Camera\GameCamera.cpp" />
     <ClCompile Include="Camera\TitleCamera.cpp" />
     <ClCompile Include="Collision\CollisionManager.cpp" />
+    <ClCompile Include="Core\HierarchicalTransform.cpp" />
     <ClCompile Include="Core\ParameterManager.cpp" />
     <ClCompile Include="Core\StateMachineBase.cpp" />
+    <ClCompile Include="Core\Transform.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="HierarchicalTransform.cpp" />
-    <ClCompile Include="LoadingScreen.cpp" />
+    <ClCompile Include="Load\LoadManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Sound\SoundManager.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp" />
@@ -274,7 +275,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
-    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Ui\SpriteAnimation.cpp" />
     <ClCompile Include="Ui\UIBase.cpp" />
     <ClCompile Include="Ui\UIBossStage.cpp" />
@@ -290,11 +290,12 @@
     <ClInclude Include="Camera\GameCamera.h" />
     <ClInclude Include="Camera\TitleCamera.h" />
     <ClInclude Include="Collision\CollisionManager.h" />
+    <ClInclude Include="Core\HierarchicalTransform.h" />
     <ClInclude Include="Core\ParameterManager.h" />
     <ClInclude Include="Core\StateMachineBase.h" />
+    <ClInclude Include="Core\Transform.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="HierarchicalTransform.h" />
-    <ClInclude Include="LoadingScreen.h" />
+    <ClInclude Include="Load\LoadManager.h" />
     <ClInclude Include="Sound\SoundManager.h" />
     <ClInclude Include="Source\Actor\Actor.h" />
     <ClInclude Include="Source\Actor\ActorStateMachine.h" />
@@ -332,7 +333,6 @@
     <ClInclude Include="Source\Scene\Title.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
-    <ClInclude Include="Transform.h" />
     <ClInclude Include="Ui\SpriteAnimation.h" />
     <ClInclude Include="Ui\UIBase.h" />
     <ClInclude Include="Ui\UIBossStage.h" />

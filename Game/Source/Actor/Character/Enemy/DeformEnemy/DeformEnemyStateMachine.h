@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * DeformEnemyStateMachine.h
- * •ÏŒ`ƒGƒlƒ~[‚Ìó‘Ô‘JˆÚ‚ğŠÇ—‚·‚éƒNƒ‰ƒXŒQ
+ * å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã®çŠ¶æ…‹é·ç§»ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ç¾¤
  */
 #pragma once
 #include "Source/Actor/Character/CharacterStateMachine.h"
@@ -10,23 +10,23 @@ namespace app
 {
 	namespace actor
 	{
-		/** ‘O•ûéŒ¾ */
+		/** å‰æ–¹å®£è¨€ */
 		class DeformEnemy;
 		class DeformEnemyStatus;
 
 
 		/**
-		 * •ÏŒ`ƒGƒlƒ~[‚ÌƒXƒe[ƒgƒ}ƒVƒ“
+		 * å¤‰å½¢ã‚¨ãƒãƒŸãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³
 		 */
 		class DeformEnemyStateMachine : public CharacterStateMachine
 		{
 		public:
-			DeformEnemyStateMachine(DeformEnemy* owner, DeformEnemyStatus* status);
+			DeformEnemyStateMachine(DeformEnemy* owner);
 			virtual ~DeformEnemyStateMachine();
 
 
 		private:
-			/** ƒXƒe[ƒg */
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆ */
 			enum EnDeformEnemyState : uint8_t
 			{
 				enDeformEnemyState_Idle,
@@ -38,23 +38,8 @@ namespace app
 				enDeformEnemyState_Num
 			};
 
-			/** •ÏX‚·‚éƒXƒe[ƒg‚ğæ“¾‚µ‚Ü‚·B */
+			/** å¤‰æ›´ã™ã‚‹ã‚¹ãƒ†ãƒ¼ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚ */
 			core::IState* GetChangeState() override final;
-
-
-		private:
-			/** ƒXƒe[ƒg‚ğ’Ç‰Á‚·‚éƒeƒ“ƒvƒŒ[ƒgŠÖ” */
-			template <typename TState>
-			void AddState(EnDeformEnemyState stateId)
-			{
-				StateMachineBase::AddState<TState>(stateId, this, m_deformEnemy, m_deformEnemyStatus);
-			}
-
-
-		private:
-			/** ƒLƒƒƒbƒVƒ…—pƒ|ƒCƒ“ƒ^ */
-			DeformEnemy* m_deformEnemy = nullptr;
-			DeformEnemyStatus* m_deformEnemyStatus = nullptr;
 		};
 	}
 }

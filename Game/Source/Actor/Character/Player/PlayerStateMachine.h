@@ -58,14 +58,14 @@ namespace app
 			/** ステートを識別するenum */
 			enum EnPlayerState : uint8_t
 			{
-				Idle,
-				Walk,
-				Dash,
-				Jump,
-				Damage,
-				Dying,
-				Dead,
-				Num,
+				enPlayerState_Idle,
+				enPlayerState_Walk,
+				enPlayerState_Dash,
+				enPlayerState_Jump,
+				enPlayerState_Damage,
+				enPlayerState_Dying,
+				enPlayerState_Dead,
+				enPlayerState_Num,
 			};
 
 			/** 変更するステートを取得します。 */

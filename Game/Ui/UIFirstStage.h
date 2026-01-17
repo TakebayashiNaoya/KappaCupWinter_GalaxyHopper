@@ -58,7 +58,7 @@ namespace app
 			~UIGear();
 
 			/** 表示する数字を更新 */
-			void SetCount(int gotCount, int maxCount);
+			void UpdateCount(int gotCount, int maxCount);
 
 
 		private:

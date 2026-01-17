@@ -55,6 +55,9 @@
     <Filter Include="Source\Actor\Character\Enemy\BossEnemy">
       <UniqueIdentifier>{d0ab2268-08be-4b01-a6ee-abe3d2577ca4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Load">
+      <UniqueIdentifier>{7f4530ea-4b56-493a-9383-0415a50913d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -66,7 +69,6 @@
     <ClCompile Include="Core\ParameterManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Source\Actor\Actor.cpp">
       <Filter>Source\Actor</Filter>
     </ClCompile>
@@ -91,7 +93,6 @@
     <ClCompile Include="Source\Scene\Title.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Sound\SoundManager.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
@@ -104,7 +105,6 @@
     <ClCompile Include="Ui\UIBase.cpp">
       <Filter>Ui</Filter>
     </ClCompile>
-    <ClCompile Include="HierarchicalTransform.cpp" />
     <ClCompile Include="Ui\UITitle.cpp">
       <Filter>Ui</Filter>
     </ClCompile>
@@ -216,6 +216,15 @@
     <ClCompile Include="Source\Actor\Character\Enemy\EnemyController.cpp">
       <Filter>Source\Actor\Character\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Load\LoadManager.cpp">
+      <Filter>Load</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\HierarchicalTransform.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Transform.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -226,7 +235,6 @@
     <ClInclude Include="Core\ParameterManager.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h" />
     <ClInclude Include="Source\Actor\Actor.h">
       <Filter>Source\Actor</Filter>
     </ClInclude>
@@ -251,7 +259,6 @@
     <ClInclude Include="Source\Scene\Title.h">
       <Filter>Source\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="Sound\SoundManager.h">
       <Filter>Sound</Filter>
     </ClInclude>
@@ -264,7 +271,6 @@
     <ClInclude Include="Ui\UIBase.h">
       <Filter>Ui</Filter>
     </ClInclude>
-    <ClInclude Include="HierarchicalTransform.h" />
     <ClInclude Include="Ui\UITitle.h">
       <Filter>Ui</Filter>
     </ClInclude>
@@ -375,6 +381,15 @@
     </ClInclude>
     <ClInclude Include="Source\Actor\Character\Enemy\EnemyController.h">
       <Filter>Source\Actor\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Load\LoadManager.h">
+      <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\HierarchicalTransform.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Transform.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

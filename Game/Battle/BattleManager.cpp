@@ -83,6 +83,15 @@ namespace app
 			DestroyManagedEnemies();
 			/** シーンが削除する物のポインタクリア */
 			ResetReferences();
+			/** ギア取得数リセット */
+			m_gotGearCount = 0;
+			m_maxGearCount = 0;
+			/** 戦闘結果リセット */
+			m_battleResult = EnBattleResult::Fighting;
+			/** ゴールフラグリセット */
+			m_isGoalReached = false;
+			/** リザルトシーケンスフラグリセット */
+			m_isResultSequence = false;
 		}
 
 
@@ -201,7 +210,7 @@ namespace app
 
 			/** ギアの取得数をUIに反映 */
 			if (m_uiGear) {
-				m_uiGear->SetCount(m_gotGearCount, m_maxGearCount);
+				m_uiGear->UpdateCount(m_gotGearCount, m_maxGearCount);
 			}
 		}
 

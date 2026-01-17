@@ -160,10 +160,6 @@ namespace app
 			}
 
 
-		private:
-			// ここに関数を追加していく。
-
-
 			/**
 			 * シングルトン関連
 			 */
@@ -194,6 +190,29 @@ namespace app
 					m_instance = nullptr;
 				}
 			}
+		};
+
+
+
+
+		/********************************/
+
+
+		/**
+		 * 当たり判定管理クラスを更新したりするためのゲームオブジェクト。
+		 */
+		class CollisionManagerObject : public IGameObject
+		{
+		public:
+			CollisionManagerObject();
+			~CollisionManagerObject();
+
+
+		private:
+			bool Start() override final;
+			void Update() override final;
+			/** 描画はしない */
+			void Render(RenderContext& renderContext) override final {}
 		};
 	}
 }

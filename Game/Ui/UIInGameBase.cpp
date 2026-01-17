@@ -3,9 +3,8 @@
  * インゲーム全体で共通して表示するUIを実装
  */
 #include "stdafx.h"
+#include "Load/LoadManager.h"
 #include "UIInGameBase.h"
-#include "Battle/BattleManager.h"
-#include "LoadingScreen.h"
 
 
 namespace app
@@ -76,35 +75,27 @@ namespace app
 
 		UIInGameBase::~UIInGameBase()
 		{
+			/** プレイヤーライフ削除 */
 			DeleteGO(m_uiPlayerHp);
+			/** ダメージフラッシュ削除 */
 			DeleteGO(m_uiDamageFlash);
+			/** 操作説明削除 */
 			DeleteGO(m_uiControls);
 		}
 
 
 		bool UIInGameBase::Start()
 		{
-			/** プレイヤーライフ生成 (NewGO) */
+			/** プレイヤーライフ生成・登録 */
 			m_uiPlayerHp = NewGO<UIPlayerHp>(0, "UIPlayerHp");
 
-			/** ダメージフラッシュ生成 */
+			/** ダメージフラッシュ生成・登録 */
 			m_uiDamageFlash = NewGO<UIDamageFlash>(0, "UIDamageFlash");
 
 			/** 操作説明生成 */
 			m_uiControls = NewGO<UIControls>(0, "UIControls");
 
 			return true;
-		}
-
-
-		void UIInGameBase::SetPlayerHp(int hp)
-		{
-			if (m_uiPlayerHp) {
-				m_uiPlayerHp->SetPlayerHp(hp);
-			}
-			if (m_uiDamageFlash) {
-				m_uiDamageFlash->SetPlayerHp(hp);
-			}
 		}
 
 
@@ -118,11 +109,19 @@ namespace app
 		 */
 		UIPlayerHp::UIPlayerHp()
 		{
+			/** バトルマネージャーに登録 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Register(this);
+			}
 		}
 
 
 		UIPlayerHp::~UIPlayerHp()
 		{
+			/** バトルマネージャーから登録解除 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Unregister(this);
+			}
 		}
 
 
@@ -153,7 +152,7 @@ namespace app
 
 		void UIPlayerHp::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
+			if (load::LoadManager::GetState() != load::LoadManager::EnState::Opened) {
 				return;
 			}
 			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
@@ -181,11 +180,19 @@ namespace app
 		 */
 		UIDamageFlash::UIDamageFlash()
 		{
+			/** バトルマネージャーに登録 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Register(this);
+			}
 		}
 
 
 		UIDamageFlash::~UIDamageFlash()
 		{
+			/** バトルマネージャーから登録解除 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Unregister(this);
+			}
 		}
 
 
@@ -213,7 +220,7 @@ namespace app
 
 		void UIDamageFlash::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
+			if (load::LoadManager::GetState() != load::LoadManager::EnState::Opened) {
 				return;
 			}
 			if (battle::BattleManager::GetInstance()->IsResultSequence()) {
@@ -292,7 +299,7 @@ namespace app
 
 		void UIControls::Render(RenderContext& rc)
 		{
-			if (LoadingScreen::GetState() != LoadingScreen::EnState::Opened) {
+			if (load::LoadManager::GetState() != load::LoadManager::EnState::Opened) {
 				return;
 			}
 			if (battle::BattleManager::GetInstance()->IsResultSequence()) {

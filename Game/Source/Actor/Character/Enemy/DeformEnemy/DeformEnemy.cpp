@@ -3,10 +3,10 @@
  * 変形エネミーの実装
  */
 #include "stdafx.h"
-#include "DeformEnemy.h"
 #include "Collision/CollisionManager.h"
-#include "Source/Actor/ActorStatus.h"
+#include "DeformEnemy.h"
 #include "DeformEnemyStateMachine.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app
@@ -39,19 +39,25 @@ namespace app
 			static_assert(ARRAYSIZE(TRANSFORM_ENEMY_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnDeformEnemyAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
-			/** DeformEnemyStatus型でステータスを生成 */
-			auto status = CreateStatus<DeformEnemyStatus>();
-
 			/** ステートマシン生成 */
-			m_stateMachine = std::make_unique<app::actor::DeformEnemyStateMachine>(this, status.get());
+			m_stateMachine = std::make_unique<app::actor::DeformEnemyStateMachine>(this);
 
 			/** ステータス生成 */
-			m_status = std::move(status);
+			m_status = CreateStatus<DeformEnemyStatus>();
+
+			/** バトルマネージャーに登録 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Register(this);
+			}
 		}
 
 
 		DeformEnemy::~DeformEnemy()
 		{
+			/** バトルマネージャーから登録解除 */
+			if (battle::BattleManager::GetInstance()) {
+				battle::BattleManager::GetInstance()->Unregister(this);
+			}
 		}
 
 
