@@ -39,14 +39,11 @@ namespace app
 			static_assert(ARRAYSIZE(TRANSFORM_ENEMY_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnDeformEnemyAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
-			/** DeformEnemyStatus型でステータスを生成 */
-			auto status = CreateStatus<DeformEnemyStatus>();
-
 			/** ステートマシン生成 */
-			m_stateMachine = std::make_unique<app::actor::DeformEnemyStateMachine>(this, status.get());
+			m_stateMachine = std::make_unique<app::actor::DeformEnemyStateMachine>(this);
 
 			/** ステータス生成 */
-			m_status = std::move(status);
+			m_status = CreateStatus<DeformEnemyStatus>();
 
 			/** バトルマネージャーに登録 */
 			if (battle::BattleManager::GetInstance()) {
