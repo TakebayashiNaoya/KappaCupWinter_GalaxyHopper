@@ -2,7 +2,6 @@
  * FirstStage.cpp
  * ファーストステージシーンの実装
  */
-#include "stdafx.h"
 #include "FirstStage.h"
 #include "Load/LoadManager.h"
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
@@ -11,6 +10,7 @@
 #include "Source/Actor/Object/Rocket.h"
 #include "Source/Actor/Object/Treasure.h"
 #include "Source/Actor/Planet/FirstPlanet.h"
+#include "stdafx.h"
 #include "Ui/UIFirstStage.h"
 
 
@@ -80,7 +80,6 @@ namespace app
 				}
 				if (objData.EqualObjectName(L"player")) {
 					m_player = NewGO<actor::Player>(0, "Player");
-					battle::BattleManager::GetInstance()->Register(m_player);
 					m_player->SetTransform(objData.position, objData.rotation, objData.scale);
 					return true;
 				}
