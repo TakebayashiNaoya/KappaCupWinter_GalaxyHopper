@@ -8,27 +8,15 @@
 
 namespace app
 {
-	namespace actor
-	{
+	/** 前方宣言 */
+	namespace actor {
 		class Player;
 		class BossEnemy;
 	}
-	namespace camera
-	{
-		class GameCamera;
-	}
-	namespace battle
-	{
-		class BattleManagerObject;
-	}
-	namespace collision
-	{
-		class CollisionManagerObject;
-	}
-	namespace ui
-	{
-		class UIResultBase;
-	}
+	namespace camera { class GameCamera; }
+	namespace battle { class BattleManagerObject; }
+	namespace collision { class CollisionManagerObject; }
+	namespace ui { class UIResultBase; }
 
 
 	namespace scene
@@ -50,6 +38,9 @@ namespace app
 			virtual void OnUpdate() {};
 			/** 派生シーンでレベルの初期化を行うための仮想関数 */
 			virtual void InitLevel() {};
+
+			/** レベルレンダー */
+			LevelRender m_levelRender;
 
 			/**
 			 * 勝敗判定に必要なため基底クラスに持たせている

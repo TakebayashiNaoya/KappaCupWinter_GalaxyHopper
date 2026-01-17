@@ -9,12 +9,8 @@
 namespace app
 {
 	/** 前方宣言 */
-	namespace ui
-	{
-		class UIFirstStage;
-	}
-	namespace actor
-	{
+	namespace ui { class UIFirstStage; }
+	namespace actor {
 		class FirstPlanet;
 		class Treasure;
 		class Rocket;
@@ -34,6 +30,7 @@ namespace app
 
 
 		private:
+			/** 開始処理 */
 			bool Start() override final;
 			/** 更新処理 */
 			void OnUpdate() override final;
@@ -42,8 +39,6 @@ namespace app
 
 
 		private:
-			/** レベルレンダー */
-			LevelRender m_levelRender;
 			/** ファーストステージ用UI */
 			ui::UIFirstStage* m_uiFirstStage = nullptr;
 			/** ファーストステージ用オブジェクト */

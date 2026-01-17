@@ -2,6 +2,7 @@
  * FirstStage.cpp
  * ファーストステージシーンの実装
  */
+#include "stdafx.h"
 #include "FirstStage.h"
 #include "Load/LoadManager.h"
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
@@ -10,7 +11,6 @@
 #include "Source/Actor/Object/Rocket.h"
 #include "Source/Actor/Object/Treasure.h"
 #include "Source/Actor/Planet/FirstPlanet.h"
-#include "stdafx.h"
 #include "Ui/UIFirstStage.h"
 
 
@@ -28,14 +28,10 @@ namespace app
 		{
 			DeleteGO(m_firstStage);
 
-			battle::BattleManager::GetInstance()->Unregister(m_rocket);
 			DeleteGO(m_rocket);
 
 			for (auto treasure : m_treasures) {
-				if (treasure) {
-					battle::BattleManager::GetInstance()->Unregister(treasure);
-					DeleteGO(treasure);
-				}
+				DeleteGO(treasure);
 			}
 
 			DeleteGO(m_uiFirstStage);

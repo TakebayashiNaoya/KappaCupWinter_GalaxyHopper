@@ -1,11 +1,14 @@
-﻿#include "stdafx.h"
+﻿/**
+ * BossStage.cpp
+ * ボスステージシーンの実装
+ */
+#include "stdafx.h"
 #include "BossStage.h"
-//#include "Source/Actor/Character/Player/Player.h"
-//#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
-//#include "Source/Actor/Planet/BossPlanet.h"
-//#include "Source/Actor/Object/Spawner/Spawner.h"
-//#include "Source/UI/UIBossHp.h"
-//#include "Source/Actor/Actor.h"
+#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
+#include "Source/Actor/Character/Player/Player.h"
+#include "Source/Actor/Object/Spawner.h"
+#include "Source/Actor/Planet/BossPlanet.h"
+#include "UI/UIBossStage.h"
 
 
 namespace app
@@ -19,72 +22,63 @@ namespace app
 
 		BossStage::~BossStage()
 		{
-			//DeleteGO(m_bossPlanet);
+			DeleteGO(m_bossPlanet);
 
-			//BattleManager::GetInstance()->Unregister(m_uiBossHp);
-			//DeleteGO(m_uiBossHp);
+			DeleteGO(m_bossEnemy);
 
-			//BattleManager::GetInstance()->Unregister(m_bossEnemy);
-			//DeleteGO(m_bossEnemy);
+			for (auto spawner : m_spawners) {
+				if (spawner) {
+					DeleteGO(spawner);
+				}
+			}
 
-			//for (auto spawner : m_spawners) {
-			//	if (spawner) {
-			//		DeleteGO(spawner);
-			//	}
-			//}
+			DeleteGO(m_uiBossStage);
 		}
 
 
 		bool BossStage::Start()
 		{
-			//SoundManager::Play(enSoundList_BossStageBGM, true);
-			//// ロード明けで音量が上がるため、一旦音量を0にしておく。
-			//SoundManager::SetVolume(enSoundList_BossStageBGM, 0.0f);
-
-			//m_uiBossHp = NewGO<UIBossHp>(0, "UIBossHp");
-			//BattleManager::GetInstance()->Register(m_uiBossHp);
+			/** BGMをループ再生 */
+			sound::SoundManager::Play(sound::enSoundList_BossStageBGM, true);
+			/** ロード明けで音量が上がるため、一旦音量を0にしておく */
+			sound::SoundManager::SetVolume(sound::enSoundList_BossStageBGM, 0.0f);
+			/** UIを生成 */
+			m_uiBossStage = NewGO<ui::UIBossStage>(0, "UiBossStage");
 
 			return true;
 		}
 
 		void BossStage::OnUpdate()
 		{
-			//if (BattleManager::IsWinnerDecided()) {
-			//	SoundManager::StopBGM(enSoundList_BossStageBGM, 0.0f);
-			//	return;
-			//}
 		}
 
 
 		void BossStage::InitLevel()
 		{
-			//m_levelRender.Init("Assets/modelData/stage/BossPlanet/BossPlanetLevel.tkl", [&](LevelObjectData& objData) {
-			//	if (objData.EqualObjectName(L"planet")) {
-			//		m_bossPlanet = NewGO<BossPlanet>(0, "BossPlanet");
-			//		m_bossPlanet->SetTRS(objData.position, objData.rotation, objData.scale);
-			//		return true;
-			//	}
-			//	if (objData.EqualObjectName(L"player")) {
-			//		m_player = NewGO<Player>(0, "Player");
-			//		BattleManager::GetInstance()->Register(m_player);
-			//		m_player->SetTRS(objData.position, objData.rotation, objData.scale);
-			//		return true;
-			//	}
-			//	if (objData.EqualObjectName(L"spiderSpawner")) {
-			//		Spawner* spider = NewGO <Spawner>(0, "Spawner");
-			//		spider->SetTRS(objData.position, objData.rotation, objData.scale);
-			//		m_spawners.push_back(spider);
-			//		return true;
-			//	}
-			//	if (objData.EqualObjectName(L"bear")) {
-			//		m_bossEnemy = NewGO <BossEnemy>(0, "BossEnemy");
-			//		BattleManager::GetInstance()->Register(m_bossEnemy);
-			//		m_bossEnemy->SetTRS(objData.position, objData.rotation, objData.scale);
-			//		return true;
-			//	}
-			//	return false;
-
-			//	});
+			m_levelRender.Init("Assets/modelData/stage/BossPlanet/BossPlanetLevel.tkl", [&](LevelObjectData& objData) {
+				if (objData.EqualObjectName(L"planet")) {
+					m_bossPlanet = NewGO<actor::BossPlanet>(0, "BossPlanet");
+					m_bossPlanet->SetTransform(objData.position, objData.rotation, objData.scale);
+					return true;
+				}
+				if (objData.EqualObjectName(L"player")) {
+					m_player = NewGO<actor::Player>(0, "Player");
+					m_player->SetTransform(objData.position, objData.rotation, objData.scale);
+					return true;
+				}
+				if (objData.EqualObjectName(L"spiderSpawner")) {
+					actor::Spawner* spawner = NewGO <actor::Spawner>(0, "Spawner");
+					spawner->SetTransform(objData.position, objData.rotation, objData.scale);
+					m_spawners.push_back(spawner);
+					return true;
+				}
+				if (objData.EqualObjectName(L"bear")) {
+					m_bossEnemy = NewGO <actor::BossEnemy>(0, "BossEnemy");
+					m_bossEnemy->SetTransform(objData.position, objData.rotation, objData.scale);
+					return true;
+				}
+				return false;
+				});
 		}
 	}
 }
