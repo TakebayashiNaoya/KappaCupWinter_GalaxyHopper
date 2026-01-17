@@ -10,20 +10,6 @@ namespace app
 {
 	namespace actor
 	{
-		/** ステートマシン、ボスエネミー、ステータスをキャッシュ */
-		BossEnemyStateBase::BossEnemyStateBase(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
-			: m_stateMachine(machine)
-			, m_bossEnemy(bossEnemy)
-			, m_status(status)
-		{
-		}
-
-
-
-
-		/********************************/
-
-
 		void BossEnemyIdleState::Enter()
 		{
 		}

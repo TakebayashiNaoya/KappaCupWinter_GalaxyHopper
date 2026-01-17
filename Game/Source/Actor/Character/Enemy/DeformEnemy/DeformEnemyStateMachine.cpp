@@ -13,6 +13,18 @@ namespace app
 {
 	namespace actor
 	{
+		DeformEnemy* DeformEnemyStateMachine::GetOwner() const
+		{
+			return static_cast<DeformEnemy*>(m_ownerActor);
+		}
+
+
+		DeformEnemyStatus* DeformEnemyStateMachine::GetStatus() const
+		{
+			return GetOwner()->GetStatus<DeformEnemyStatus>();
+		}
+
+
 		DeformEnemyStateMachine::DeformEnemyStateMachine(DeformEnemy* owner)
 			: CharacterStateMachine(owner)
 		{

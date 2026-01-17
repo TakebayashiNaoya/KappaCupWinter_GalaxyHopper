@@ -10,11 +10,30 @@ namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
+		class BasicEnemy;
+		class BasicEnemyStatus;
+
+
 		/**
 		 * 基本エネミーのステートマシン
 		 */
 		class BasicEnemyStateMachine : public CharacterStateMachine
 		{
+			/**
+			 * IState用の関数群
+			 */
+		public:
+			/**
+			 * オーナーを取得
+			 */
+			BasicEnemy* GetOwner() const override final;
+			/**
+			 * オーナーのステータスを取得
+			 */
+			BasicEnemyStatus* GetStatus() const override final;
+
+
 		public:
 			BasicEnemyStateMachine(BasicEnemy* owner);
 			virtual ~BasicEnemyStateMachine();

@@ -9,6 +9,18 @@ namespace app
 {
 	namespace actor
 	{
+		Player* PlayerStateMachine::GetOwner() const
+		{
+			return static_cast<Player*>(m_ownerActor);
+		}
+
+
+		PlayerStatus* PlayerStateMachine::GetStatus() const
+		{
+			return GetOwner()->GetStatus<PlayerStatus>();
+		}
+
+
 		/** 持ち主（Player）とステータス（PlayerStatus）をCharacterStateMachineに渡す */
 		PlayerStateMachine::PlayerStateMachine(Player* owner)
 			:CharacterStateMachine(owner)

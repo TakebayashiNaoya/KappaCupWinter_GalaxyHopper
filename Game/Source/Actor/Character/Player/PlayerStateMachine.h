@@ -11,6 +11,7 @@ namespace app
 	{
 		/** 前方宣言 */
 		class Player;
+		class PlayerStatus;
 
 
 		/**
@@ -37,16 +38,14 @@ namespace app
 			 * IState用の関数群
 			 */
 		public:
-			/** オーナーを取得 */
-			Player* GetOwner() const override final
-			{
-				return static_cast<Player*>(m_ownerActor);
-			}
-			/** オーナーのステータスを取得 */
-			PlayerStatus* GetStatus() const override final
-			{
-				return static_cast<PlayerStatus*>(GetOwner()->GetStatus<PlayerStatus>());
-			}
+			/**
+			 * オーナーを取得
+			 */
+			Player* GetOwner() const override final;
+			/**
+			 * オーナーのステータスを取得
+			 */
+			PlayerStatus* GetStatus() const override final;
 
 
 		public:

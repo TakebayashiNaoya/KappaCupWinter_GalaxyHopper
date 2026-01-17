@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * BasicEnemyStateMachine.cpp
- * Šî–{ƒGƒlƒ~[‚ÌƒXƒe[ƒgƒ}ƒVƒ“‚ÌÀ‘•
+ * åŸºæœ¬ã‚¨ãƒãƒŸãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ã®å®Ÿè£…
  */
 #include "stdafx.h"
 #include "BasicEnemy.h"
@@ -13,17 +13,29 @@ namespace app
 {
 	namespace actor
 	{
+		BasicEnemy* BasicEnemyStateMachine::GetOwner() const
+		{
+			return static_cast<BasicEnemy*>(m_ownerActor);
+		}
+
+
+		BasicEnemyStatus* BasicEnemyStateMachine::GetStatus() const
+		{
+			return GetOwner()->GetStatus<BasicEnemyStatus>();
+		}
+
+
 		BasicEnemyStateMachine::BasicEnemyStateMachine(BasicEnemy* owner)
 			: CharacterStateMachine(owner)
 		{
-			/** ƒXƒe[ƒg‚Ì¶¬ */
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆã®ç”Ÿæˆ */
 			AddState<BasicEnemyIdleState>(enBasicEnemyState_Idle);
 			AddState<BasicEnemyDashState>(enBasicEnemyState_Dash);
 			AddState<BasicEnemyCooldownState>(enBasicEnemyState_Cooldown);
 			AddState<BasicEnemyDieState>(enBasicEnemyState_Die);
-			K2_ASSERT(m_stateMap.size() == enBasicEnemyState_Num, "AddState‚ğŒÄ‚ñ‚Å‚­‚¾‚³‚¢");
+			K2_ASSERT(m_stateMap.size() == enBasicEnemyState_Num, "AddStateã‚’å‘¼ã‚“ã§ãã ã•ã„");
 
-			/** ‰ŠúƒXƒe[ƒg */
+			/** åˆæœŸã‚¹ãƒ†ãƒ¼ãƒˆ */
 			m_currentState = m_stateMap[enBasicEnemyState_Idle];
 		}
 

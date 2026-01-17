@@ -20,6 +20,20 @@ namespace app
 		 */
 		class DeformEnemyStateMachine : public CharacterStateMachine
 		{
+			/**
+			 * IState用の関数群
+			 */
+		public:
+			/**
+			 * オーナーを取得
+			 */
+			DeformEnemy* GetOwner() const override final;
+			/**
+			 * オーナーのステータスを取得
+			 */
+			DeformEnemyStatus* GetStatus() const override final;
+
+
 		public:
 			DeformEnemyStateMachine(DeformEnemy* owner);
 			virtual ~DeformEnemyStateMachine();

@@ -10,18 +10,14 @@ namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class BasicEnemyStateMachine;
-
-
 		/**
 		 * 待機
 		 */
 		class BasicEnemyIdleState : public core::IState
 		{
 		public:
-			BasicEnemyIdleState(BasicEnemyStateMachine* machine)
-				: IState(machine) {
+			BasicEnemyIdleState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BasicEnemyIdleState() {};
 
@@ -42,8 +38,8 @@ namespace app
 		class BasicEnemyDashState : public core::IState
 		{
 		public:
-			BasicEnemyDashState(BasicEnemyStateMachine* machine)
-				: IState(machine) {
+			BasicEnemyDashState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BasicEnemyDashState() {};
 
@@ -64,8 +60,8 @@ namespace app
 		class BasicEnemyCooldownState : public core::IState
 		{
 		public:
-			BasicEnemyCooldownState(BasicEnemyStateMachine* machine)
-				: IState(machine) {
+			BasicEnemyCooldownState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BasicEnemyCooldownState() {};
 
@@ -86,8 +82,8 @@ namespace app
 		class BasicEnemyDieState : public core::IState
 		{
 		public:
-			BasicEnemyDieState(BasicEnemyStateMachine* machine)
-				: IState(machine) {
+			BasicEnemyDieState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BasicEnemyDieState() {};
 

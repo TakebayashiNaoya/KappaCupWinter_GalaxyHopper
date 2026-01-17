@@ -9,9 +9,15 @@ namespace app
 {
 	namespace actor
 	{
+		/** 前方宣言 */
 		class Player;
+		class PlayerStateMachine;
+		class PlayerStatus;
 
 
+		/**
+		 * プレイヤーを操作する「頭脳」クラス
+		 */
 		class PlayerController : public IGameObject
 		{
 		public:
