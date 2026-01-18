@@ -3,8 +3,8 @@
  * タイトル用のプレイヤー実装
  */
 #include "stdafx.h"
-#include "TitlePlayer.h"
 #include "Source/Scene/SceneManager.h"
+#include "TitlePlayer.h"
 
 
 namespace app
@@ -12,7 +12,7 @@ namespace app
 	namespace actor
 	{
 		/** アニメーション設定 */
-		const Character::AnimationOption TitlePlayer::PLAYER_ANIMATION_OPTIONS[] =
+		const Character::AnimationOption TitlePlayer::TITLE_PLAYER_ANIMATION_OPTIONS[] =
 		{
 		  AnimationOption { std::string("Player/idle"),		bool(true)	},
 		  AnimationOption { std::string("Player/walk"),		bool(true)	},
