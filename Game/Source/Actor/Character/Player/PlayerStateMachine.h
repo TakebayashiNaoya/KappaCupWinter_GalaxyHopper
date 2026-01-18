@@ -33,6 +33,7 @@ namespace app
 
 			/**
 			 * IState用の関数群
+			 * NOTE: 共変戻り値のため、前方宣言ではなくインクルードが必要
 			 */
 		public:
 			/**
