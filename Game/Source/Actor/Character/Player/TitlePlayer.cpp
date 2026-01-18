@@ -36,6 +36,9 @@ namespace app
 
 		TitlePlayer::TitlePlayer()
 		{
+			/** アニメーション数チェック */
+			static_assert(ARRAYSIZE(TITLE_PLAYER_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnPlayerAnimClip::Num),
+				"アニメーションのファイル数とクリップ数が合っていません。");
 		}
 
 
