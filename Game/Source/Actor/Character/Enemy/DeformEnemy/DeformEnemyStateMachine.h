@@ -3,18 +3,15 @@
  * 変形エネミーの状態遷移を管理するクラス群
  */
 #pragma once
+#include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/CharacterStateMachine.h"
+#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class DeformEnemy;
-		class DeformEnemyStatus;
-
-
 		/**
 		 * 変形エネミーのステートマシン
 		 */

@@ -2,18 +2,15 @@
 /// プレイヤーのステートマシン。
 /// </summary>
 #pragma once
+#include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/CharacterStateMachine.h"
+#include "Source/Actor/Character/Player/Player.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class Player;
-		class PlayerStatus;
-
-
 		/**
 		 * プレイヤー用ステートマシン
 		 */

@@ -3,17 +3,15 @@
  * ボスエネミーの状態遷移を管理するクラス群
  */
 #pragma once
+#include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/CharacterStateMachine.h"
+#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class BossEnemy;
-
-
 		/**
 		 * ボスエネミーのステートマシン
 		 */

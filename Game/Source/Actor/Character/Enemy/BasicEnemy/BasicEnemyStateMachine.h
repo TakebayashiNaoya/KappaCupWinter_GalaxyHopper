@@ -3,18 +3,15 @@
  * 基本エネミーの状態遷移を管理するクラス群
  */
 #pragma once
+#include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/CharacterStateMachine.h"
+#include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class BasicEnemy;
-		class BasicEnemyStatus;
-
-
 		/**
 		 * 基本エネミーのステートマシン
 		 */
@@ -22,6 +19,7 @@ namespace app
 		{
 			/**
 			 * IState用の関数群
+			 * ※共変戻り値のため、前方宣言ではなくインクルードが必要
 			 */
 		public:
 			/**
