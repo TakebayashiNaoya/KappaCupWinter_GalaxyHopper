@@ -63,14 +63,14 @@ namespace app
 
 		void ScaleSpriteAnimation::Update()
 		{
-			if (!CanUpdate()) {
-				return;
-			}
-			UpdateCore<Vector2>(m_targetScaleList, [&](const float percent, const Vector2& startValue, const Vector2& endValue)
-				{
-					Vector2 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
-					m_render->SetScale(Vector3(value.x, value.y, 0.0f));
-				});
+			//if (!CanUpdate()) {
+			//	return;
+			//}
+			//UpdateCore<Vector2>(m_targetScaleList, [&](const float percent, const Vector2& startValue, const Vector2& endValue)
+			//	{
+			//		Vector2 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
+			//		m_render->SetScale(Vector3(value.x, value.y, 0.0f));
+			//	});
 		}
 
 
@@ -81,14 +81,14 @@ namespace app
 
 		void ColorSpriteAnimation::Update()
 		{
-			if (!CanUpdate()) {
-				return;
-			}
-			UpdateCore<Vector4>(m_targetColorList, [&](const float percent, const Vector4& startValue, const Vector4& endValue)
-				{
-					Vector4 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
-					m_render->SetMulColor(value);
-				});
+			//if (!CanUpdate()) {
+			//	return;
+			//}
+			//UpdateCore<Vector4>(m_targetColorList, [&](const float percent, const Vector4& startValue, const Vector4& endValue)
+			//	{
+			//		Vector4 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
+			//		m_render->SetMulColor(value);
+			//	});
 		}
 
 
@@ -99,14 +99,14 @@ namespace app
 
 		void TranslateSpriteAnimation::Update()
 		{
-			if (!CanUpdate()) {
-				return;
-			}
-			UpdateCore<Vector3>(m_targetTranslateList, [&](const float percent, const Vector3& startValue, const Vector3& endValue)
-				{
-					Vector3 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
-					m_render->SetPosition(value);
-				});
+			//if (!CanUpdate()) {
+			//	return;
+			//}
+			//UpdateCore<Vector3>(m_targetTranslateList, [&](const float percent, const Vector3& startValue, const Vector3& endValue)
+			//	{
+			//		Vector3 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
+			//		m_render->SetPosition(value);
+			//	});
 		}
 
 
@@ -117,15 +117,15 @@ namespace app
 
 		void TranslateOffsetSpriteAnimation::Update()
 		{
-			if (!CanUpdate()) {
-				return;
-			}
-			UpdateCore<Vector3>(m_targetOffsetList, [&](const float percent, const Vector3& startValue, const Vector3& endValue)
-				{
-					Vector3 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
-					Vector3 computePosition = m_ownerTransform->m_position + value; // オフセット位置を足す
-					m_render->SetPosition(computePosition);
-				});
+			//if (!CanUpdate()) {
+			//	return;
+			//}
+			//UpdateCore<Vector3>(m_targetOffsetList, [&](const float percent, const Vector3& startValue, const Vector3& endValue)
+			//	{
+			//		Vector3 value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
+			//		Vector3 computePosition = m_ownerTransform->m_position + value; // オフセット位置を足す
+			//		m_render->SetPosition(computePosition);
+			//	});
 		}
 
 
@@ -136,14 +136,14 @@ namespace app
 
 		void RotationSpriteAnimation::Update()
 		{
-			if (!CanUpdate()) {
-				return;
-			}
-			UpdateCore<Quaternion>(m_targetRotationList, [&](const float percent, const Quaternion& startValue, const Quaternion& endValue)
-				{
-					Quaternion value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
-					m_render->SetRotation(value);
-				});
+			//if (!CanUpdate()) {
+			//	return;
+			//}
+			//UpdateCore<Quaternion>(m_targetRotationList, [&](const float percent, const Quaternion& startValue, const Quaternion& endValue)
+			//	{
+			//		Quaternion value = nsK2EngineLow::Math::Lerp(percent, startValue, endValue);
+			//		m_render->SetRotation(value);
+			//	});
 		}
 	}
 }
