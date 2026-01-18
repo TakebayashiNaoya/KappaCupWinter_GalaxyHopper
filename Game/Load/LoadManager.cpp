@@ -284,6 +284,7 @@ namespace app
 
 		bool LoadManagerObject::Start()
 		{
+			LoadManager::GetInstance()->Start();
 			return true;
 		}
 
