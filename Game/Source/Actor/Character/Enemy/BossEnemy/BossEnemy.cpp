@@ -4,9 +4,9 @@
  */
 #include "stdafx.h"
 #include "BossEnemy.h"
+#include "BossEnemyStateMachine.h"
 #include "Collision/CollisionManager.h"
 #include "Source/Actor/ActorStatus.h"
-#include "BossEnemyStateMachine.h"
 
 
 namespace app
@@ -44,14 +44,11 @@ namespace app
 			static_assert(ARRAYSIZE(BOSS_ENEMY_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnBossEnemyAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");
 
-			/** BossEnemyStatus型でステータス生成 */
-			auto status = CreateStatus<BossEnemyStatus>();
-
 			/** ステートマシン生成 */
-			m_stateMachine = std::make_unique<BossEnemyStateMachine>(this, status.get());
+			m_stateMachine = std::make_unique<BossEnemyStateMachine>(this);
 
-			/** ステータスをムーブして保持 */
-			m_status = std::move(status);
+			/** ステータス生成 */
+			m_status = CreateStatus<BossEnemyStatus>();
 		}
 
 
