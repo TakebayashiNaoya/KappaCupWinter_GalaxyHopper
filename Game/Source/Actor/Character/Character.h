@@ -30,7 +30,7 @@ namespace app
 
 		protected:
 			/** アニメーションクリップのリスト */
-			std::vector<AnimationClip*> m_animationClipList;
+			AnimationClip* m_animationClipList;
 
 			/** やられ判定 */
 			CollisionObject* m_hurtCollider = nullptr;

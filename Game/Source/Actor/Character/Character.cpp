@@ -81,21 +81,19 @@ namespace app
 			const float scale
 		)
 		{
-			/** アニメーションクリップのリストを確保 */
-			m_animationClipList.resize(count);
+			/** ポインタに配列でnewすると、連続で確保される */
+			m_animationClipList = new AnimationClip[count];
 
-			/** アニメーションクリップの読み込み */
+			/** アニメーション読み込み */
 			for (size_t i = 0; i < count; i++) {
-				auto* animationClip = new AnimationClip();
 				std::string animFullPath = ANIM_FILE_PATH + option[i].fileName + ANIM_EXTENSION;
-				animationClip->Load(animFullPath.c_str());
-				animationClip->SetLoopFlag(option[i].is_loop);
-				m_animationClipList[i] = animationClip;
+				m_animationClipList[i].Load(animFullPath.c_str());
+				m_animationClipList[i].SetLoopFlag(option[i].is_loop);
 			}
 
 			/** モデルの初期化 */
 			std::string fullModelPath = MODEL_FILE_PATH + path + MODEL_EXTENSION;
-			m_modelRender.Init(fullModelPath.c_str(), *m_animationClipList.data(), count, enModelUpAxisY);
+			m_modelRender.Init(fullModelPath.c_str(), m_animationClipList, count, enModelUpAxisY);
 
 			/** モデルの初期化 */
 			m_transform.m_scale = Vector3(scale, scale, scale);
