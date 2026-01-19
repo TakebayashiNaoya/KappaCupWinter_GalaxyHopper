@@ -23,7 +23,7 @@ namespace app
 				switch (id)
 				{
 				case SceneID::Title:
-					return new scene::SceneTitle();
+					return new SceneTitle();
 					//case SceneID::FirstStage:
 					//	return new FirstStage();
 					//case SceneID::BossStage:
