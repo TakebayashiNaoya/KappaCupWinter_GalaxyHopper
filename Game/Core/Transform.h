@@ -13,11 +13,11 @@ namespace app
 		{
 		public:
 			/** 座標 */
-			Vector3 m_position;
+			Vector3 m_position = Vector3::Zero;
 			/** 回転 */
-			Quaternion m_rotation;
+			Quaternion m_rotation = Quaternion::Identity;
 			/** 拡大縮小 */
-			Vector3 m_scale;
+			Vector3 m_scale = Vector3::One;
 		};
 	}
 }
