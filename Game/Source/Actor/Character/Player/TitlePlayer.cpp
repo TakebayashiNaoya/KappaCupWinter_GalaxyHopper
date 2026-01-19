@@ -29,6 +29,8 @@ namespace app
 
 		TitlePlayer::TitlePlayer()
 		{
+			/** カメラがプレイヤーの座標を取得するため、コンストラクタで初期位置を設定しておく */
+			m_transform.m_position = SPAWN_POSITION;
 		}
 
 
@@ -48,7 +50,6 @@ namespace app
 			);
 
 			/** 星に埋もれないように初期位置を調整 */
-			m_transform.m_position = SPAWN_POSITION;
 			m_modelRender.SetPosition(m_transform.m_position);
 
 			/**
