@@ -1,8 +1,12 @@
-﻿#include "stdafx.h"
-#include "SceneManager.h"
-#include "Title.h"
-#include "FirstStage.h"
+﻿/**
+ * SceneManager.cpp
+ * シーン遷移の実装
+ */
+#include "stdafx.h"
 #include "BossStage.h"
+#include "FirstStage.h"
+#include "SceneManager.h"
+#include "SceneTitle.h"
 
 
 namespace app
@@ -19,7 +23,7 @@ namespace app
 				switch (id)
 				{
 				case SceneID::Title:
-					return new scene::Title();
+					return new scene::SceneTitle();
 					//case SceneID::FirstStage:
 					//	return new FirstStage();
 					//case SceneID::BossStage:

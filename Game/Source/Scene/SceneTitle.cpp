@@ -6,10 +6,10 @@
 #include "Camera/TitleCamera.h"
 #include "Load/LoadManager.h"
 #include "SceneManager.h"
+#include "SceneTitle.h"
 #include "Source/Actor/Character/Player/Player.h"
 #include "Source/Actor/Character/Player/TitlePlayer.h"
 #include "Source/Actor/Planet/TitlePlanet.h"
-#include "Title.h"
 #include "UI/UITitle.h"
 
 
@@ -17,12 +17,12 @@ namespace app
 {
 	namespace scene
 	{
-		Title::Title()
+		SceneTitle::SceneTitle()
 		{
 		}
 
 
-		Title::~Title()
+		SceneTitle::~SceneTitle()
 		{
 			sound::SoundManager::StopBGM(sound::enSoundList_TitleBGM, 1.0f);
 			DeleteGO(m_titlePlayer);
@@ -33,7 +33,7 @@ namespace app
 		}
 
 
-		bool Title::Start()
+		bool SceneTitle::Start()
 		{
 			/** 各種オブジェクト生成 */
 			m_titlePlayer = NewGO<actor::TitlePlayer>(0, "TitlePlayer");
@@ -52,7 +52,7 @@ namespace app
 		}
 
 
-		void Title::Update()
+		void SceneTitle::Update()
 		{
 			/** Aボタンが押されたらインゲームへ移行 */
 			if (g_pad[0]->IsTrigger(enButtonA)) {
@@ -74,7 +74,7 @@ namespace app
 		}
 
 
-		void Title::InitSky()
+		void SceneTitle::InitSky()
 		{
 			/** 現在の空を破棄 */
 			DeleteGO(m_skyCube);

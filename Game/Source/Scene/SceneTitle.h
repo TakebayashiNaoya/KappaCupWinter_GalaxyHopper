@@ -8,28 +8,25 @@
 
 namespace app
 {
-	namespace actor
-	{
+	/** 前方宣言 */
+	namespace actor {
 		class TitlePlayer;
 		class TitlePlanet;
 	}
-	namespace camera
-	{
-		class TitleCamera;
-	}
-	namespace ui
-	{
-		class UITitle;
-	}
+	namespace camera { class TitleCamera; }
+	namespace ui { class UITitle; }
 
 
 	namespace scene
 	{
-		class Title :public IScene
+		/**
+		 * タイトルシーン
+		 */
+		class SceneTitle :public IScene
 		{
 		public:
-			Title();
-			~Title();
+			SceneTitle();
+			~SceneTitle();
 
 
 		private:
