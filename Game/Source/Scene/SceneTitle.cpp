@@ -6,6 +6,7 @@
 #include "Camera/TitleCamera.h"
 #include "Load/LoadManager.h"
 #include "SceneManager.h"
+#include "Source/Actor/Character/Player/Player.h"
 #include "Source/Actor/Character/Player/TitlePlayer.h"
 #include "Source/Actor/Planet/TitlePlanet.h"
 #include "Title.h"
@@ -36,8 +37,9 @@ namespace app
 		{
 			/** 各種オブジェクト生成 */
 			m_titlePlayer = NewGO<actor::TitlePlayer>(0, "TitlePlayer");
-			m_titlePlanet = NewGO<actor::TitlePlanet>(0, "TitlePlanet");
 			m_titleCamera = NewGO<camera::TitleCamera>(0, "TitleCamera");
+			m_titleCamera->SetTargetPosition(m_titlePlayer->GetTransform().m_position);
+			m_titlePlanet = NewGO<actor::TitlePlanet>(0, "TitlePlanet");
 			m_uiTitle = NewGO<ui::UITitle>(0, "UITitle");
 			InitSky();
 
