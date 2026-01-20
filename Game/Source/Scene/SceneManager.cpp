@@ -24,8 +24,8 @@ namespace app
 				{
 				case SceneID::Title:
 					return new SceneTitle();
-					//case SceneID::FirstStage:
-					//	return new FirstStage();
+				case SceneID::FirstStage:
+					return new FirstStage();
 					//case SceneID::BossStage:
 					//	return new BossStage();
 				default:
