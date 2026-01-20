@@ -40,7 +40,7 @@ namespace app
 
 			m_modelRender.PlayAnimation(enAnimationClip_Idle);
 
-			float scale = GetStatus<RocketStatus>()->GetModelScale();
+			float scale = GetStatus<TreasureStatus>()->GetModelScale();
 			m_transform.m_scale = Vector3(scale, scale, scale);
 			m_modelRender.SetTRS(m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
 			m_modelRender.Update();
