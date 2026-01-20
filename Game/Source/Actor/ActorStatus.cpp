@@ -100,6 +100,7 @@ namespace app
 		{
 			/** 読み込んだパラメーター取得 */
 			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterPlayerStatusParameter>();
+			m_hp = parameter->maxHp;
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_hurtRadius = parameter->hurtRadius;
@@ -144,6 +145,7 @@ namespace app
 		{
 			/** 読み込んだパラメーター取得 */
 			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterBasicEnemyStatusParameter>();
+			m_hp = parameter->maxHp;
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_hurtRadius = parameter->hurtRadius;
@@ -187,6 +189,7 @@ namespace app
 		{
 			/** 読み込んだパラメーター取得 */
 			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterDeformEnemyStatusParameter>();
+			m_hp = parameter->maxHp;
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_hurtRadius = parameter->hurtRadius;
@@ -231,6 +234,7 @@ namespace app
 		{
 			/** 読み込んだパラメーター取得 */
 			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterBossEnemyStatusParameter>();
+			m_hp = parameter->maxHp;
 			m_maxHp = parameter->maxHp;
 			m_walkSpeed = parameter->walkSpeed;
 			m_hurtRadius = parameter->hurtRadius;
