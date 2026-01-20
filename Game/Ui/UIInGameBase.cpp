@@ -165,6 +165,12 @@ namespace app
 
 		void UIPlayerHp::SetPlayerHp(int hp)
 		{
+			if (hp < enPlayerCondition_Dead) {
+				hp = enPlayerCondition_Dead;
+			}
+			else if (hp > enPlayerCondition_Fine) {
+				hp = enPlayerCondition_Fine;
+			}
 			/** 画像を差し替え */
 			m_playerHpImage->GetSpriteRender()->Init(m_imagePaths[hp].c_str(), LIFE_SIZE_W, LIFE_SIZE_H);
 		}
