@@ -1,9 +1,11 @@
-/**
+ï»¿/**
  * GameCamera.cpp
- * ƒQ[ƒ€ƒJƒƒ‰À‘•
+ * ã‚²ãƒ¼ãƒ ã‚«ãƒ¡ãƒ©å®Ÿè£…
  */
 #include "stdafx.h"
 #include "GameCamera.h"
+#include "Source/Actor/Character/Player/Player.h"
+#include "Source/Actor/Character/Player/PlayerStateMachine.h"
 #include "Source/Scene/SceneManager.h"
 
 
@@ -36,14 +38,14 @@ namespace app
 
 		bool GameCamera::Start()
 		{
-			// ‰ŠúƒIƒtƒZƒbƒgİ’è
+			/** åˆæœŸã‚ªãƒ•ã‚»ãƒƒãƒˆè¨­å®š */
 			m_toCameraPos.Set(0.0f, 500.0f, -700.0f);
 
 			m_springCamera.Init(
-				*g_camera3D,		// ‚Î‚ËƒJƒƒ‰ˆ—‚ğs‚¤ƒJƒƒ‰
-				2000.0f,			// Å‘åˆÚ“®‘¬“x
-				true,				// ’nŒ`”»’è‚ğs‚¤‚©
-				5.0f				// ‹…‘ÌƒRƒŠƒWƒ‡ƒ“”¼Œa
+				*g_camera3D,		/** ã°ã­ã‚«ãƒ¡ãƒ©å‡¦ç†ã‚’è¡Œã†ã‚«ãƒ¡ãƒ©	*/
+				2000.0f,			/** æœ€å¤§ç§»å‹•é€Ÿåº¦				*/
+				true,				/** åœ°å½¢åˆ¤å®šã‚’è¡Œã†ã‹			*/
+				5.0f				/** çƒä½“ã‚³ãƒªã‚¸ãƒ§ãƒ³åŠå¾„			*/
 			);
 
 			g_camera3D->SetNear(1.0f);
@@ -54,40 +56,41 @@ namespace app
 
 		void GameCamera::Update()
 		{
-			// ƒV[ƒ“Ø‚è‘Ö‚¦’†‚âƒoƒgƒ‹I—¹‚ÍXV‚µ‚È‚¢
+			/** ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆä¸­ã‚„ãƒãƒˆãƒ«çµ‚äº†æ™‚ã¯æ›´æ–°ã—ãªã„ */
 			if (scene::SceneManager::GetInstance()->GetIsSceneChangeRequested()) {
 				return;
 			}
-			// ¦BattleManager‚Ì”»’è‚ª•K—v‚È‚çAGameCamera©‘Ì‚ğ~‚ß‚é‚©AŒÄ‚Ño‚µŒ³‚Å§Œä‚µ‚Ä‚­‚¾‚³‚¢
 
-			// ˆÀ‘SôFƒ^[ƒQƒbƒg‚Ìã•ûŒü‚ª•s³‚È‚çUp‚ğ“ü‚ê‚Ä‚¨‚­
-			if (m_targetUp.LengthSq() < 0.0001f) {
-				m_targetUp = Vector3::Up;
+			/** ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®ä¸Šæ–¹å‘ãŒä¸æ­£ãªã‚‰Upã‚’å…¥ã‚Œã¦ãŠã */
+			Vector3 targetUp = m_target->GetUpDirection();
+			if (targetUp.LengthSq() < 0.0001f) {
+				targetUp = Vector3::Up;
 			}
-			// ‰‰ñXV‚Ì‘Îôi‘O‰ñUp‚ªƒ[ƒ‚Ìê‡j
+			/** åˆå›æ›´æ–°æ™‚ã®å¯¾ç­–ï¼ˆå‰å›UpãŒã‚¼ãƒ­ã®å ´åˆï¼‰ */
 			if (m_prevTargetUp.LengthSq() < 0.0001f) {
-				m_prevTargetUp = m_targetUp;
+				m_prevTargetUp = targetUp;
 			}
 
 
 			// =================================================================
-			// 1. “V‘ÌˆÚ“®‚É”º‚¤ƒJƒƒ‰‚Ì©“®‰ñ“]•â³
+			// 1. å¤©ä½“ç§»å‹•ã«ä¼´ã†ã‚«ãƒ¡ãƒ©ã®è‡ªå‹•å›è»¢è£œæ­£
 			// =================================================================
 
-			// ˆÚ“®‚µ‚Ä‚¢‚éê‡‚Ì‚İ‰ñ“]•â³‚ğs‚¤
-			if (m_targetVelocity.LengthSq() > 0.01f)
+			// ç§»å‹•ã—ã¦ã„ã‚‹å ´åˆã®ã¿å›è»¢è£œæ­£ã‚’è¡Œã†
+			Vector3 moveDirection = m_target->GetStateMachine<actor::PlayerStateMachine>()->GetMoveDirection();
+			if (moveDirection.LengthSq() > 0.01f)
 			{
-				// A. ˆÚ“®•ûŒüiForwardj
-				Vector3 forward = m_targetVelocity;
+				// A. ç§»å‹•æ–¹å‘ï¼ˆForwardï¼‰
+				Vector3 forward = moveDirection;
 				forward.Normalize();
 
-				// B. ‰ñ“]²iRightj: is•ûŒü‚ÆUpƒxƒNƒgƒ‹‚ÌŠOÏ
+				// B. å›è»¢è»¸ï¼ˆRightï¼‰: é€²è¡Œæ–¹å‘ã¨Upãƒ™ã‚¯ãƒˆãƒ«ã®å¤–ç©
 				Vector3 rotateAxis;
-				rotateAxis.Cross(m_targetUp, forward);
+				rotateAxis.Cross(targetUp, forward);
 				rotateAxis.Normalize();
 
-				// C. ‰ñ“]Šp“x: ‘OƒtƒŒ[ƒ€‚ÌUp‚Æ¡‚ÌUp‚Ì‚È‚·Šp
-				float dot = m_prevTargetUp.Dot(m_targetUp);
+				// C. å›è»¢è§’åº¦: å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã®Upã¨ä»Šã®Upã®ãªã™è§’
+				float dot = m_prevTargetUp.Dot(targetUp);
 				if (dot > 1.0f) {
 					dot = 1.0f;
 				}
@@ -96,70 +99,70 @@ namespace app
 				}
 				float angle = acosf(dot);
 
-				// D. ‰ñ“]•ûŒü‚Ì”»’è
+				// D. å›è»¢æ–¹å‘ã®åˆ¤å®š
 				Vector3 crossCheck;
-				crossCheck.Cross(m_prevTargetUp, m_targetUp);
+				crossCheck.Cross(m_prevTargetUp, targetUp);
 				if (crossCheck.Dot(rotateAxis) < 0.0f) {
 					angle *= -1.0f;
 				}
 
-				// E. ƒJƒƒ‰ƒIƒtƒZƒbƒg‚É‰ñ“]‚ğ“K—p
+				// E. ã‚«ãƒ¡ãƒ©ã‚ªãƒ•ã‚»ãƒƒãƒˆã«å›è»¢ã‚’é©ç”¨
 				Quaternion planetRot;
 				planetRot.SetRotation(rotateAxis, angle);
 				planetRot.Apply(m_toCameraPos);
 			}
 
-			// Œ»İ‚ÌUp‚ğ•Û‘¶iŸƒtƒŒ[ƒ€—pj
-			m_prevTargetUp = m_targetUp;
+			// ç¾åœ¨ã®Upã‚’ä¿å­˜ï¼ˆæ¬¡ãƒ•ãƒ¬ãƒ¼ãƒ ç”¨ï¼‰
+			m_prevTargetUp = targetUp;
 
 
 			// =================================================================
-			// 2. ‰EƒXƒeƒBƒbƒN‚É‚æ‚é”CˆÓ‰ñ“]
+			// 2. å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã«ã‚ˆã‚‹ä»»æ„å›è»¢
 			// =================================================================
 			float x = g_pad[0]->GetRStickXF();
 			float y = g_pad[0]->GetRStickYF();
 
 			if (fabsf(x) > 0.01f || fabsf(y) > 0.01f)
 			{
-				// c‰ñ“]iX²‰ñ“]j—p‚ÉƒJƒƒ‰‚Ì‰¡•ûŒüƒxƒNƒgƒ‹‚ğŒvZ
+				// ç¸¦å›è»¢ï¼ˆXè»¸å›è»¢ï¼‰ç”¨ã«ã‚«ãƒ¡ãƒ©ã®æ¨ªæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
 				Vector3 cameraRight;
-				cameraRight.Cross(m_targetUp, m_toCameraPos);
+				cameraRight.Cross(targetUp, m_toCameraPos);
 				cameraRight.Normalize();
 
 				Quaternion rotY;
-				rotY.SetRotationDeg(m_targetUp, CAMERA_ROTATION_SPEED * x); // ‰¡‰ñ“]
+				rotY.SetRotationDeg(targetUp, CAMERA_ROTATION_SPEED * x); // æ¨ªå›è»¢
 
 				Quaternion rotX;
-				rotX.SetRotationDeg(cameraRight, CAMERA_ROTATION_SPEED * y); // c‰ñ“]
+				rotX.SetRotationDeg(cameraRight, CAMERA_ROTATION_SPEED * y); // ç¸¦å›è»¢
 
-				// ‰ñ“]‚ğ“K—p
+				// å›è»¢ã‚’é©ç”¨
 				rotY.Apply(m_toCameraPos);
 				rotX.Apply(m_toCameraPos);
 			}
 
 
 			// =================================================================
-			// 3. À•WŒvZE”½‰f
+			// 3. åº§æ¨™è¨ˆç®—ãƒ»åæ˜ 
 			// =================================================================
 
-			// ‘«Œ³ƒAƒ“ƒJ[•â³i•K—v‚È‚ç—LŒø‰»j
-			Vector3 anchorPos = m_targetPos;
+			// è¶³å…ƒã‚¢ãƒ³ã‚«ãƒ¼è£œæ­£ï¼ˆå¿…è¦ãªã‚‰æœ‰åŠ¹åŒ–ï¼‰
+			Vector3 anchorPos = m_target->GetTransform().m_position;
 			/*
-			Vector3 rayStart = m_targetPos + m_targetUp * 50.0f;
+			Vector3 rayStart = m_targetPos + targetUp * 50.0f;
 			Vector3 hitPos;
-			// ’nŒ`”»’è‚ğs‚¢A’n–Ê‚ª‚ ‚ê‚Î‚»‚±‚ğŠî€‚É‚·‚é‚È‚Ç‚Ìˆ—
+			// åœ°å½¢åˆ¤å®šã‚’è¡Œã„ã€åœ°é¢ãŒã‚ã‚Œã°ãã“ã‚’åŸºæº–ã«ã™ã‚‹ãªã©ã®å‡¦ç†
 			if (PhysicsWorld::GetInstance()->RayTest(rayStart, Vector3::Zero, hitPos)) {
 				// anchorPos = hitPos;
 			}
 			*/
 
 			Vector3 desiredCameraPos = anchorPos + m_toCameraPos;
-			Vector3 lookAtTarget = anchorPos + m_targetUp * 100.0f;
+			Vector3 lookAtTarget = anchorPos + targetUp * 100.0f;
 
 			m_cameraPos = desiredCameraPos;
 
-			// ƒJƒƒ‰‚Ö‚Ì“K—p
-			g_camera3D->SetUp(m_targetUp);
+			// ã‚«ãƒ¡ãƒ©ã¸ã®é©ç”¨
+			g_camera3D->SetUp(targetUp);
 			m_springCamera.SetPosition(m_cameraPos);
 			m_springCamera.SetTarget(lookAtTarget);
 			m_springCamera.Update();

@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * GameCamera.h
- * ƒQ[ƒ€“àƒJƒƒ‰‚Ìˆ—‚ğs‚¤ƒNƒ‰ƒX
+ * ã‚²ãƒ¼ãƒ å†…ã‚«ãƒ¡ãƒ©ã®å‡¦ç†ã‚’è¡Œã†ã‚¯ãƒ©ã‚¹
  */
 #pragma once
 #include "camera/SpringCamera.h"
@@ -8,41 +8,39 @@
 
 namespace app
 {
+	/** å‰æ–¹å®£è¨€ */
+	namespace actor { class Player; }
+
+
 	namespace camera
 	{
+		/**
+		 * ã‚¤ãƒ³ã‚²ãƒ¼ãƒ ã‚²ãƒ¼ãƒ ã®ã‚«ãƒ¡ãƒ©ã‚¯ãƒ©ã‚¹
+		 */
 		class GameCamera : public IGameObject
 		{
 		public:
 			/**
-			 * ƒJƒƒ‰‚Ì’Ç]‘ÎÛ‚Ìî•ñ‚ğİ’è‚·‚é
-			 * E’Ç]‘ÎÛ‚ÌÀ•WiVector3j
-			 * E’Ç]‘ÎÛ‚Ìã•ûŒüƒxƒNƒgƒ‹iVector3j
-			 * E’Ç]‘ÎÛ‚Ì‘¬“xƒxƒNƒgƒ‹iVector3j
+			 * è¿½å¾“å¯¾è±¡ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¨­å®š
 			 */
-			void SetTargetInfo(const Vector3& position, const Vector3& upDirection, const Vector3& velocity)
+			void SetTarget(actor::Player* target)
 			{
-				m_targetPos = position;
-				m_targetUp = upDirection;
-				m_targetVelocity = velocity;
+				m_target = target;
 			}
 
 
 		private:
-			/** ƒXƒvƒŠƒ“ƒOƒJƒƒ‰ */
+			/** ã‚¹ãƒ—ãƒªãƒ³ã‚°ã‚«ãƒ¡ãƒ© */
 			SpringCamera m_springCamera;
-			/** 1ƒtƒŒ[ƒ€‘O‚Ìã•ûŒü */
+			/** 1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®ä¸Šæ–¹å‘ */
 			Vector3 m_prevTargetUp = Vector3::Up;
-			/** ’‹“_‚©‚ç‹“_‚Ü‚Å‚ÌƒxƒNƒgƒ‹ */
+			/** æ³¨è¦–ç‚¹ã‹ã‚‰è¦–ç‚¹ã¾ã§ã®ãƒ™ã‚¯ãƒˆãƒ« */
 			Vector3 m_toCameraPos = Vector3::Zero;
-			/** ƒJƒƒ‰‚ÌÀ•W */
+			/** ã‚«ãƒ¡ãƒ©ã®åº§æ¨™ */
 			Vector3 m_cameraPos = Vector3::Zero;
 
-			/** ’Ç]‘ÎÛ‚ÌÀ•W */
-			Vector3 m_targetPos = Vector3::Zero;
-			/** ’Ç]‘ÎÛ‚Ìã•ûŒüƒxƒNƒgƒ‹ */
-			Vector3 m_targetUp = Vector3::Up;
-			/** ’Ç]‘ÎÛ‚Ì‘¬“xƒxƒNƒgƒ‹ */
-			Vector3 m_targetVelocity = Vector3::Zero;
+			/** è¿½å¾“å¯¾è±¡ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ */
+			actor::Player* m_target = nullptr;
 
 
 		public:
