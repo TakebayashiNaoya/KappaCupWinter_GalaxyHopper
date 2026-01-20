@@ -4,6 +4,7 @@
  */
 #include "stdafx.h"
 #include "Rocket.h"
+#include "Source/Actor/ActorStatus.h" 
 
 
 namespace app
@@ -16,6 +17,9 @@ namespace app
 			if (battle::BattleManager::GetInstance()) {
 				battle::BattleManager::GetInstance()->Register(this);
 			}
+
+			/** ステータスを生成 */
+			m_status = CreateStatus<RocketStatus>();
 		}
 
 

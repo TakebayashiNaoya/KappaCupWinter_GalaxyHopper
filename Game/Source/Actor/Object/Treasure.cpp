@@ -3,6 +3,7 @@
  * 宝箱クラスの実装
  */
 #include "stdafx.h"
+#include "Source/Actor/ActorStatus.h" 
 #include "Treasure.h"
 
 
@@ -16,6 +17,9 @@ namespace app
 			if (battle::BattleManager::GetInstance()) {
 				battle::BattleManager::GetInstance()->Register(this);
 			}
+
+			/** ステータスを生成 */
+			m_status = CreateStatus<TreasureStatus>();
 		}
 
 		Treasure::~Treasure()
