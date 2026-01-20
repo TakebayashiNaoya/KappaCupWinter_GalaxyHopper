@@ -24,7 +24,10 @@ namespace app
 
 		SceneTitle::~SceneTitle()
 		{
-			sound::SoundManager::StopBGM(sound::enSoundList_TitleBGM, 1.0f);
+			/** すべてのエネミーを破棄 */
+			battle::BattleManager::GetInstance()->CleanUp();
+
+			sound::SoundManager::StopBGM(sound::enSoundList_TitleBGM, 0.0f);
 			DeleteGO(m_titlePlayer);
 			DeleteGO(m_titleCamera);
 			DeleteGO(m_titlePlanet);

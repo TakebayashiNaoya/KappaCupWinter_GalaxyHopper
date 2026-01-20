@@ -101,7 +101,6 @@ namespace app
 					return true;
 				}
 				return false;
-
 				});
 		}
 	}
