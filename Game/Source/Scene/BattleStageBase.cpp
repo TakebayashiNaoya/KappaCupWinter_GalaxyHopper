@@ -159,6 +159,10 @@ namespace app
 				});
 
 			m_loadingTasks.push_back([this]() {
+				m_gameCamera->SetTarget(m_player);
+				});
+
+			m_loadingTasks.push_back([this]() {
 				load::LoadManager::FinishLoading();
 				});
 		}
