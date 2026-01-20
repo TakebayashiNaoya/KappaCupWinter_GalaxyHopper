@@ -59,6 +59,12 @@ namespace app
 
 		bool BossEnemy::Start()
 		{
+			/** ステートマシンに初期値を渡しておく */
+			if (m_stateMachine) {
+				m_stateMachine->SetPosition(m_transform.m_position);
+				m_stateMachine->SetRotation(m_transform.m_rotation);
+			}
+
 			/** BossEnemyStatusにキャストする */
 			auto status = GetStatus<BossEnemyStatus>();
 

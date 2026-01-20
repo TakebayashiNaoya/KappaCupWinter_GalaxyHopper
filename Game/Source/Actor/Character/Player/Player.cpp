@@ -55,6 +55,12 @@ namespace app
 
 		bool Player::Start()
 		{
+			/** ステートマシンに初期値を渡しておく */
+			if (m_stateMachine) {
+				m_stateMachine->SetPosition(m_transform.m_position);
+				m_stateMachine->SetRotation(m_transform.m_rotation);
+			}
+
 			/** PlayerStatusにキャストする */
 			auto status = GetStatus<PlayerStatus>();
 
