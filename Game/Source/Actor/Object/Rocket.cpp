@@ -35,7 +35,8 @@ namespace app
 		bool Rocket::Start()
 		{
 			m_modelRender.Init("Assets/modelData/Object/Rocket/rocket.tkm");
-			m_transform.m_scale = Vector3(200.0f, 200.0f, 200.0f);
+			float scale = GetStatus<RocketStatus>()->GetModelScale();
+			m_transform.m_scale = Vector3(scale, scale, scale);
 			m_modelRender.SetTRS(m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
 			m_modelRender.Update();
 			return true;

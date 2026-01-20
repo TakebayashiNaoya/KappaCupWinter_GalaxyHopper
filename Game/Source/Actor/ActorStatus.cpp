@@ -17,6 +17,7 @@ namespace app
 			core::ParameterManager::Get().LoadParameter<core::MasterRocketStatusParameter>("Assets/parameter/RocketStatus.json", [](const nlohmann::json& j, core::MasterRocketStatusParameter& parameter)
 				{
 					parameter.interactRange = j["interactRange"].get<float>();
+					parameter.modelScale = j["modelScale"].get<float>();
 				});
 		}
 
@@ -33,6 +34,7 @@ namespace app
 			/** 読み込んだパラメーター取得 */
 			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterRocketStatusParameter>();
 			m_interactRange = parameter->interactRange;
+			m_modelScale = parameter->modelScale;
 		}
 
 
@@ -47,6 +49,7 @@ namespace app
 			core::ParameterManager::Get().LoadParameter<core::MasterTreasureStatusParameter>("Assets/parameter/TreasureStatus.json", [](const nlohmann::json& j, core::MasterTreasureStatusParameter& parameter)
 				{
 					parameter.interactRange = j["interactRange"].get<float>();
+					parameter.modelScale = j["modelScale"].get<float>();
 				});
 		}
 
@@ -63,6 +66,7 @@ namespace app
 			/** 読み込んだパラメーター取得 */
 			const auto* parameter = core::ParameterManager::Get().GetParameter<core::MasterTreasureStatusParameter>();
 			m_interactRange = parameter->interactRange;
+			m_modelScale = parameter->modelScale;
 		}
 
 
