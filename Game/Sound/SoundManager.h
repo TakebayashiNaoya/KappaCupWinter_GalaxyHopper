@@ -3,10 +3,11 @@
  * サウンドマネージャー
  */
 #pragma once
-#include <map>
 #include <list>
-#include <vector>
+#include <map>
 #include <string>
+#include <vector>
+
 
  /** エンジンのクラスを前方宣言 */
 namespace nsK2EngineLow {
@@ -19,7 +20,7 @@ namespace app
 	namespace sound
 	{
 		/** サウンドリスト */
-		enum EnSoundList :uint8_t
+		enum EnSoundList : uint8_t
 		{
 			enSoundList_TitleBGM,
 			enSoundList_FirstStageBGM,
@@ -139,7 +140,7 @@ namespace app
 			static const SoundDef m_soundDefs[enSoundList_Num];				/** サウンド定義リスト	 */
 			std::map<EnSoundList, nsK2EngineLow::SoundSource*> m_bgmMap;	/** 再生中BGMリスト		 */
 			std::list<Pseudo3DState> m_pseudo3DList;						/** 疑似3Dサウンドリスト */
-			std::list<FadeState> m_fadeList;								/** フェードアウト待ち	 */
+			std::list<FadeState> m_fadeOutList;								/** フェードアウト待ち	 */
 			std::list<FadeInState> m_fadeInList;							/** フェードイン待ち	 */
 
 
@@ -184,26 +185,6 @@ namespace app
 					m_instance = nullptr;
 				}
 			}
-		};
-
-
-
-
-		/********************************/
-
-
-		/**
-		 * SoundSourceを継承した自作クラス
-		 * エンジン側のファイルを汚さずに、削除時の通知機能を追加する
-		 */
-		class GameSoundSource : public nsK2EngineLow::SoundSource
-		{
-		public:
-			/** 自分が消える時にマネージャーへ連絡する */
-			~GameSoundSource()
-			{
-				SoundManager::UnregisterPseudo3D(this);
-			};
 		};
 
 
