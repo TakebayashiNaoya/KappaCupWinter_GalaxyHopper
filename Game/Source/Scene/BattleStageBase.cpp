@@ -9,6 +9,7 @@
 #include "Load/LoadManager.h"
 #include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 #include "Source/Actor/Character/Player/Player.h"
+#include "Source/Actor/Character/Player/PlayerController.h"
 #include "UI/UIFirstStage.h"
 #include "UI/UIGameClear.h"
 #include "UI/UIGameOver.h"
@@ -31,12 +32,14 @@ namespace app
 		{
 			/** すべてのエネミーを破棄 */
 			battle::BattleManager::GetInstance()->CleanUp();
+			/** ゲームカメラの破棄 */
+			DeleteGO(m_gameCamera);
+			/** プレイヤーコントローラーの破棄 */
+			DeleteGO(m_playerController);
 			/** プレイヤーの破棄 */
 			DeleteGO(m_player);
 			/** 空の破棄 */
 			DeleteGO(m_skyCube);
-			/** ゲームカメラの破棄 */
-			DeleteGO(m_gameCamera);
 		}
 
 
@@ -156,10 +159,12 @@ namespace app
 
 			m_loadingTasks.push_back([this]() {
 				m_gameCamera = NewGO<camera::GameCamera>(0, "GameCamera");
+				m_gameCamera->SetTarget(m_player);
 				});
 
 			m_loadingTasks.push_back([this]() {
-				m_gameCamera->SetTarget(m_player);
+				m_playerController = NewGO<actor::PlayerController>(0, "PlayerController");
+				m_playerController->SetTarget(m_player);
 				});
 
 			m_loadingTasks.push_back([this]() {
