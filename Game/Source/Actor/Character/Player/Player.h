@@ -29,20 +29,14 @@ namespace app
 
 
 		public:
-			/// <summary>
-			/// 毎フレームのXZ軸回転角度を取得
-			/// </summary>
-			const Quaternion& GetAdditionalRot() const { return m_xzAdditionalRot; }
-
-			/// <summary>
-			/// 無敵中かどうかを取得・設定
-			/// </summary>
-			const bool GetIsInvincible() const { return m_isInvincible; }
-			void SetIsInvincible(const bool isInvincible) { m_isInvincible = isInvincible; }
-
-
-		protected:
-			Quaternion	m_xzAdditionalRot;	// 毎フレームのXZ軸回転角度
+			/**
+			 * 無敵かを取得
+			 */
+			inline const bool IsInvincible() const { return m_isInvincible; }
+			/**
+			 * 無敵かを設定
+			 */
+			inline void SetIsInvincible(const bool isInvincible) { m_isInvincible = isInvincible; }
 
 
 		public:
@@ -55,14 +49,19 @@ namespace app
 			void Update() override;
 			void Render(RenderContext& rc) override;
 
+			/** 無敵状態の更新処理 */
+			void UpdateInvincible();
+
 
 		private:
-			// ダメージ関連
-			bool	m_isBlinking = false;
-			bool	m_isInvincible = false;
-			float   m_invincibleTimer = 0.0f;
+			/** 無敵か */
+			bool m_isInvincible = false;
+			/** 無敵タイマー */
+			float m_invincibleTimer = 0.0f;
+			/** 描画するか（点滅演出用） */
+			bool m_isVisible = true;
 
-			// アニメーション設定
+			/** アニメーション設定 */
 			static const AnimationOption PLAYER_ANIMATION_OPTIONS[];
 		};
 	}

@@ -602,7 +602,7 @@ namespace app
 		}
 
 
-		void CharacterStateMachine::ProcessMovement()
+		void CharacterStateMachine::UpdateLocomotion()
 		{
 			/** 移動方向ベクトルを正規化 */
 			m_moveDirection.Normalize();

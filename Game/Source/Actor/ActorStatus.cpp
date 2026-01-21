@@ -89,6 +89,7 @@ namespace app
 					parameter.jumpPower = j["jumpPower"].get<float>();
 					parameter.knockbackPower = j["knockbackPower"].get<float>();
 					parameter.knockbackDuration = j["knockbackDuration"].get<float>();
+					parameter.invincibleDuration = j["invincibleDuration"].get<float>();
 				});
 		}
 
@@ -114,6 +115,7 @@ namespace app
 			m_jumpPower = parameter->jumpPower;
 			m_knockbackPower = parameter->knockbackPower;
 			m_knockbackDuration = parameter->knockbackDuration;
+			m_invincibleDuration = parameter->invincibleDuration;
 		}
 
 

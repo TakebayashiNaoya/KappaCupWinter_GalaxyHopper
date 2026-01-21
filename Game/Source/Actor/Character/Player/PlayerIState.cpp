@@ -20,16 +20,23 @@ namespace app
 		{
 			/** 待機アニメーション */
 			machine->PlayAnimation(Player::EnPlayerAnimClip::Idle);
+
+			/** 移動速度を0に設定 */
+			machine->SetMoveSpeed(0.0f);
 		}
 
 
 		void PlayerIdleState::Update()
 		{
+			/** 移動処理 */
+			/** NOTE: 足が浮かないとジャンプに移行できないため、ここにも移動処理が必要 */
+			machine->UpdateLocomotion();
 		}
 
 
 		void PlayerIdleState::Exit()
 		{
+
 		}
 
 
@@ -42,11 +49,17 @@ namespace app
 		{
 			/** 歩きアニメーション */
 			machine->PlayAnimation(Player::EnPlayerAnimClip::Walk);
+
+			/** 歩き速度を設定 */
+			float speed = machine->GetStatus()->GetWalkSpeed();
+			machine->SetMoveSpeed(speed);
 		}
 
 
 		void PlayerWalkState::Update()
 		{
+			/** 移動処理 */
+			machine->UpdateLocomotion();
 		}
 
 
@@ -64,11 +77,17 @@ namespace app
 		{
 			/** 走りアニメーション */
 			machine->PlayAnimation(Player::EnPlayerAnimClip::Dash);
+
+			/** 走り速度を設定 */
+			float speed = machine->GetStatus()->GetDashSpeed();
+			machine->SetMoveSpeed(speed);
 		}
 
 
 		void PlayerDashState::Update()
 		{
+			/** 移動処理 */
+			machine->UpdateLocomotion();
 		}
 
 
@@ -91,6 +110,8 @@ namespace app
 
 		void PlayerJumpState::Update()
 		{
+			/** 移動処理 */
+			machine->UpdateLocomotion();
 		}
 
 

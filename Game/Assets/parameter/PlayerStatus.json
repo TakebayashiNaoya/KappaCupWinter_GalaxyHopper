@@ -9,6 +9,7 @@
     "dashSpeed": 15.0,
     "jumpPower": 30.0,
     "knockbackPower": 15.0,
-    "knockbackDuration": 1.0
+    "knockbackDuration": 1.0,
+    "invincibleDuration": 5.0
   }
 ]

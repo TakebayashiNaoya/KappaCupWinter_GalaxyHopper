@@ -83,13 +83,44 @@ namespace app
 			/** キャラクター共通の更新処理を呼び出す */
 			Character::Update();
 
-			/** 無敵タイマー更新 */
-			//InvincibleTimer();
+			/** 無敵状態の更新 */
+			UpdateInvincible();
 		}
+
 
 		void Player::Render(RenderContext& rc)
 		{
-			m_modelRender.Draw(rc);
+			/** 点滅をフラグで描画する */
+			if (m_isVisible) {
+				m_modelRender.Draw(rc);
+			}
+		}
+
+
+		void Player::UpdateInvincible()
+		{
+			/** 無敵状態の更新 */
+			if (m_isInvincible)
+			{
+				/** タイマーを進める */
+				m_invincibleTimer += g_gameTime->GetFrameDeltaTime();
+
+				/** 無敵時間を超えたら無敵を解除 */
+				if (m_invincibleTimer >= GetStatus<PlayerStatus>()->GetInvincibleDuration()) {
+					m_invincibleTimer = 0.0f;
+					m_isInvincible = false;
+					m_isVisible = true;
+				}
+				else {
+					/** 0.1秒間隔で点滅(10を掛けてintにキャストし、偶数奇数で判定) */
+					int interval = static_cast<int>(m_invincibleTimer * 10.0f);
+					m_isVisible = (interval % 2 == 0);
+				}
+			}
+			else {
+				m_invincibleTimer = 0.0f;
+				m_isVisible = true;
+			}
 		}
 	}
 }

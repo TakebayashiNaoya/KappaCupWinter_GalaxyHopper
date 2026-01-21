@@ -163,6 +163,8 @@ namespace app
 			inline const float GetKnockbackPower() const { return m_knockbackPower; }
 			/** ノックバックの継続時間の取得*/
 			inline const float GetKnockbackDuration() const { return m_knockbackDuration; }
+			/** 無敵の継続時間の取得*/
+			inline const float GetInvincibleDuration() const { return m_invincibleDuration; }
 
 
 		public:
@@ -181,7 +183,9 @@ namespace app
 			/** ノックバックの衝撃力 */
 			float m_knockbackPower = 0.0f;
 			/** ノックバックの継続時間 */
-			float m_knockbackDuration = 1.0f;
+			float m_knockbackDuration = 0.0f;
+			/** 無敵の継続時間 */
+			float m_invincibleDuration = 0.0f;
 		};
 
 
