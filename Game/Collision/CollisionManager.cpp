@@ -14,24 +14,6 @@ namespace app
 {
 	namespace collision
 	{
-		namespace
-		{
-			//TODO: スタンプフラグは不要のため、この関数は消し、プレイヤーの無敵状態だけで判定するようにする。
-			// 
-			//// プレイヤーが無敵中か、プレイヤーの攻撃が先に当たっている場合、trueを返す。
-			//const bool IsAttackBlocked(Player* player, const bool isStomp)
-			//{
-			//	if (player->GetIsInvincible()) {
-			//		return true;
-			//	}
-			//	else if (isStomp) {
-			//		return true;
-			//	}
-			//	return false;
-			//}
-		}
-
-
 		CollisionHitManager* CollisionHitManager::m_instance = nullptr;
 
 
@@ -50,20 +32,6 @@ namespace app
 
 		void CollisionHitManager::Update()
 		{
-			///**
-			// * シーン切り替えがリクエストされている場合は、現在のフレームの衝突判定処理をスキップする
-			// * これにより、削除が始まったオブジェクトへの不正アクセスを防ぐ
-			// */
-			//if (SceneManager::GetInstance()->GetIsSceneChangeRequested()) {
-			//	m_collisionPairList.clear();
-			//	return;
-			//}
-			///** バトル終了後は衝突判定を行わない */
-			//if (BattleManager::GetIsStopCollisionManager()) {
-			//	m_collisionPairList.clear();
-			//	return;
-			//}
-
 			m_collisionPairList.clear();
 
 			// ヒットするオブジェクトのペアを作る
