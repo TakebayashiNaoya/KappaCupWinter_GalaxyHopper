@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "BossStage.h"
 #include "FirstStage.h"
+#include "SceneDebug.h"
 #include "SceneManager.h"
 #include "SceneTitle.h"
 
@@ -22,6 +23,8 @@ namespace app
 			{
 				switch (id)
 				{
+				case SceneID::Debug:
+					return new SceneDebug();
 				case SceneID::Title:
 					return new SceneTitle();
 				case SceneID::FirstStage:
