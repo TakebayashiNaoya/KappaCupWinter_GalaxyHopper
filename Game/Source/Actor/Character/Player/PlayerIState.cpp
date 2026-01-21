@@ -29,12 +29,14 @@ namespace app
 		void PlayerIdleState::Update()
 		{
 			/** 移動処理 */
-			machine->ProcessMovement();
+			/** NOTE: 足が浮かないとジャンプに移行できないため、ここにも移動処理が必要 */
+			machine->UpdateLocomotion();
 		}
 
 
 		void PlayerIdleState::Exit()
 		{
+
 		}
 
 
@@ -57,7 +59,7 @@ namespace app
 		void PlayerWalkState::Update()
 		{
 			/** 移動処理 */
-			machine->ProcessMovement();
+			machine->UpdateLocomotion();
 		}
 
 
@@ -85,7 +87,7 @@ namespace app
 		void PlayerDashState::Update()
 		{
 			/** 移動処理 */
-			machine->ProcessMovement();
+			machine->UpdateLocomotion();
 		}
 
 
@@ -109,7 +111,7 @@ namespace app
 		void PlayerJumpState::Update()
 		{
 			/** 移動処理 */
-			machine->ProcessMovement();
+			machine->UpdateLocomotion();
 		}
 
 

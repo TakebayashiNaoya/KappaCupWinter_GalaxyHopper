@@ -90,7 +90,7 @@ namespace app
 			bool IsOnGround();
 
 			/** 移動処理 */
-			void ProcessMovement();
+			void UpdateLocomotion();
 
 
 		public:
