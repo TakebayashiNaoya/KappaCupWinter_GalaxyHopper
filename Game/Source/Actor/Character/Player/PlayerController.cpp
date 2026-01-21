@@ -74,15 +74,15 @@ namespace app
 
 		bool PlayerController::Start()
 		{
-			m_stateMachine = m_ownerPlayer->GetStateMachine<PlayerStateMachine>();
-			m_playerStatus = m_ownerPlayer->GetStatus<PlayerStatus>();
+			m_stateMachine = m_target->GetStateMachine<PlayerStateMachine>();
+			m_playerStatus = m_target->GetStatus<PlayerStatus>();
 			return true;
 		}
 
 
 		void PlayerController::Update()
 		{
-			if (m_ownerPlayer == nullptr) {
+			if (m_target == nullptr) {
 				return;
 			}
 
