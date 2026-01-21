@@ -28,7 +28,7 @@ namespace app
 			constexpr float VERTICAL_RAY_START_HEIGHT = 30.0f;		/** 垂直移動チェック時の開始位置の高さ				*/
 			constexpr float VERTICAL_RAY_END_BUFFER = 5.0f;			/** 垂直レイの終端バッファ						    */
 			constexpr float GROUND_CHECK_START_OFFSET = 5.0f;		/** 接地判定レイの開始オフセット					*/
-			constexpr float GROUND_CONTACT_THRESHOLD = 2.0f;		/** 接地とみなす地面との距離						*/
+			constexpr float GROUND_CONTACT_THRESHOLD = 10.0f;		/** 接地とみなす地面との距離						*/
 
 			/** 計算・閾値に関する定数 */
 			constexpr float MIN_MOVE_EPSILON = 0.01f;				/** 移動とみなす最小の長さ	*/
@@ -585,6 +585,8 @@ namespace app
 			 * 移動処理でhitPositionをm_positionに代入しており、レイの判定が不安定になるため、
 			 * rayStartをm_positionより少し上にする。
 			 */
+			m_upDirection = m_transform.m_position - Vector3::Zero;
+			m_upDirection.Normalize();
 			Vector3 rayStart = m_transform.m_position + m_upDirection * GROUND_CHECK_START_OFFSET;
 			Vector3 rayEnd = Vector3::Zero;
 			Vector3 hitPosition = Vector3::Zero;
