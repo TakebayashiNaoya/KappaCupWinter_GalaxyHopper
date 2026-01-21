@@ -63,6 +63,7 @@ namespace app
 			float jumpPower;
 			float knockbackPower;
 			float knockbackDuration;
+			float invincibleDuration;
 		};
 
 
