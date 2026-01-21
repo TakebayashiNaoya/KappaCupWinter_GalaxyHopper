@@ -25,6 +25,8 @@ namespace app
 
 		void PlayerIdleState::Update()
 		{
+			/** 移動処理 */
+			machine->ProcessMovement();
 		}
 
 
@@ -47,6 +49,8 @@ namespace app
 
 		void PlayerWalkState::Update()
 		{
+			/** 移動処理 */
+			machine->ProcessMovement();
 		}
 
 
@@ -69,6 +73,8 @@ namespace app
 
 		void PlayerDashState::Update()
 		{
+			/** 移動処理 */
+			machine->ProcessMovement();
 		}
 
 
@@ -91,6 +97,8 @@ namespace app
 
 		void PlayerJumpState::Update()
 		{
+			/** 移動処理 */
+			machine->ProcessMovement();
 		}
 
 
