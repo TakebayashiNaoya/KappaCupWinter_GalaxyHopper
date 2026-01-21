@@ -37,7 +37,7 @@ namespace app
 				stickL.y = g_pad[0]->GetLStickYF();
 
 				/** 入力がなければゼロベクトルを返す */
-				if (stickL.x <= 0.01f && stickL.y <= 0.01f) {
+				if (stickL.LengthSq() < 0.01f) {
 					return Vector3::Zero;
 				}
 
