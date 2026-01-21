@@ -169,7 +169,8 @@ namespace app
 			if (player->GetAttackHitCollider()->IsHit(basicEnemy->GetHurtCollider()))
 			{
 				/** ジャンプの初速を設定 */
-				player->GetStateMachine<actor::PlayerStateMachine>()->SetInitialJumpSpeed(player->GetStatus<actor::PlayerStatus>()->GetJumpPower());
+				float jumpPower = player->GetStatus<actor::PlayerStatus>()->GetJumpPower();
+				player->GetStateMachine<actor::PlayerStateMachine>()->SetInitialJumpSpeed(jumpPower);
 				/** 落下タイマーをリセット */
 				player->GetStateMachine<actor::PlayerStateMachine>()->SetFallTimer(0.0f);
 				/** エネミーにダメージを与える */
@@ -180,7 +181,7 @@ namespace app
 			}
 
 			/** プレイヤーが無敵中の場合、エネミーの攻撃は無効にする */
-			if (player->GetIsInvincible()) {
+			if (player->IsInvincible()) {
 				return true;
 			}
 
