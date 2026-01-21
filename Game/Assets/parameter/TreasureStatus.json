@@ -1,6 +1,7 @@
 ﻿[
   {
     "comment": "宝箱のステータス",
-    "interactRange": 200
+    "interactRange": 200,
+    "modelScale": 200
   }
 ]

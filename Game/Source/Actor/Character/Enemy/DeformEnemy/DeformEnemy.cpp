@@ -35,6 +35,12 @@ namespace app
 
 		DeformEnemy::DeformEnemy()
 		{
+			/** ステートマシンに初期値を渡しておく */
+			if (m_stateMachine) {
+				m_stateMachine->SetPosition(m_transform.m_position);
+				m_stateMachine->SetRotation(m_transform.m_rotation);
+			}
+
 			/** アニメーション数チェック */
 			static_assert(ARRAYSIZE(TRANSFORM_ENEMY_ANIMATION_OPTIONS) == static_cast<uint8_t>(EnDeformEnemyAnimClip::Num),
 				"アニメーションのファイル数とクリップ数が合っていません。");

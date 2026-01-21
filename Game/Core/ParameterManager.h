@@ -35,6 +35,7 @@ namespace app
 			appParameter(MasterRocketStatusParameter);
 			//
 			float interactRange;
+			float modelScale;
 		};
 
 
@@ -44,6 +45,7 @@ namespace app
 			appParameter(MasterTreasureStatusParameter);
 			//
 			float interactRange;
+			float modelScale;
 		};
 
 

@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * TitlePlanet.h
- * ƒ^ƒCƒgƒ‹—p‚Ì˜f¯ƒNƒ‰ƒX
+ * ã‚¿ã‚¤ãƒˆãƒ«ç”¨ã®æƒ‘æ˜Ÿã‚¯ãƒ©ã‚¹
  */
 #pragma once
 #include "PlanetBase.h"

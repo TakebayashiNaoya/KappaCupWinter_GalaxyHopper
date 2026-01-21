@@ -80,28 +80,27 @@ namespace app
 					return true;
 				}
 				if (objData.EqualObjectName(L"wolf")) {
-					actor::BasicEnemy* wolf = NewGO<actor::BasicEnemy>(0, "BasicEnemy");
-					wolf->SetTransform(objData.position, objData.rotation, objData.scale);
+					//actor::BasicEnemy* wolf = NewGO<actor::BasicEnemy>(0, "BasicEnemy");
+					//wolf->SetTransform(objData.position, objData.rotation, objData.scale);
 					return true;
 				}
 				if (objData.EqualObjectName(L"spider")) {
-					actor::DeformEnemy* spider = NewGO <actor::DeformEnemy>(0, "DeformEnemy");
-					spider->SetTransform(objData.position, objData.rotation, objData.scale);
+					//actor::DeformEnemy* spider = NewGO <actor::DeformEnemy>(0, "DeformEnemy");
+					//spider->SetTransform(objData.position, objData.rotation, objData.scale);
 					return true;
 				}
 				if (objData.EqualObjectName(L"treasure")) {
-					actor::Treasure* treasure = NewGO <actor::Treasure>(0, "Treasure");
-					treasure->SetTransform(objData.position, objData.rotation, objData.scale);
-					m_treasures.push_back(treasure);
+					//actor::Treasure* treasure = NewGO <actor::Treasure>(0, "Treasure");
+					//treasure->SetTransform(objData.position, objData.rotation, objData.scale);
+					//m_treasures.push_back(treasure);
 					return true;
 				}
 				if (objData.EqualObjectName(L"rocket")) {
-					m_rocket = NewGO <actor::Rocket>(0, "Rocket");
-					m_rocket->SetTransform(objData.position, objData.rotation, objData.scale);
+					//m_rocket = NewGO <actor::Rocket>(0, "Rocket");
+					//m_rocket->SetTransform(objData.position, objData.rotation, objData.scale);
 					return true;
 				}
 				return false;
-
 				});
 		}
 	}

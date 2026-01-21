@@ -175,7 +175,7 @@ namespace app
 
 
 		public:
-			TranslateOffsetSpriteAnimation(SpriteRender* render, const bool isLoop, std::vector<float> targetTimeList, std::vector<Vector3> targetOffsetList, Transform* ownerTransform)
+			TranslateOffsetSpriteAnimation(SpriteRender* render, const bool isLoop, std::vector<float> targetTimeList, std::vector<Vector3> targetOffsetList, core::Transform* ownerTransform)
 				: SpriteAnimationBase(render, isLoop, targetTimeList)
 				, m_targetOffsetList(targetOffsetList)
 				, m_ownerTransform(ownerTransform)

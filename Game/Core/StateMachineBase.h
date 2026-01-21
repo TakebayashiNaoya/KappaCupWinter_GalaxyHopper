@@ -78,8 +78,9 @@ namespace app
 
 			/**
 			 * 更新処理（ステートの切り替え判定と実行）
+			 * 持ち主のUpdateで呼び出す必要あり
 			 */
-			virtual void Update();
+			void Update();
 
 			/** ステート変更 */
 			void ChangeState();

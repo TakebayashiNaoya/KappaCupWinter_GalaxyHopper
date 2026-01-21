@@ -18,12 +18,12 @@ namespace app
 			 */
 			enum class EnPlayerAnimClip : uint8_t
 			{
-				Idle,	/** 待機	 */
-				Walk,	/** 歩き	 */
-				Dash,	/** 走り	 */
-				Jump,	/** ジャンプ */
-				Damage,	/** 被弾	 */
-				Die,	/** 死亡	 */
+				Idle = 0,	/** 待機	 */
+				Walk,		/** 歩き	 */
+				Dash,		/** 走り	 */
+				Jump,		/** ジャンプ */
+				Damage,		/** 被弾	 */
+				Die,		/** 死亡	 */
 				Num,
 			};
 

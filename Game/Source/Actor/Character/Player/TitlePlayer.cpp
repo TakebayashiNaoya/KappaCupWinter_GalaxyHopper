@@ -3,8 +3,8 @@
  * タイトル用のプレイヤー実装
  */
 #include "stdafx.h"
-#include "TitlePlayer.h"
 #include "Source/Scene/SceneManager.h"
+#include "TitlePlayer.h"
 
 
 namespace app
@@ -12,14 +12,9 @@ namespace app
 	namespace actor
 	{
 		/** アニメーション設定 */
-		const Character::AnimationOption TitlePlayer::PLAYER_ANIMATION_OPTIONS[] =
+		const Character::AnimationOption TitlePlayer::TITLE_PLAYER_ANIMATION_OPTIONS[] =
 		{
-		  AnimationOption { std::string("Player/idle"),		bool(true)	},
-		  AnimationOption { std::string("Player/walk"),		bool(true)	},
-		  AnimationOption { std::string("Player/dash"),		bool(true)	},
-		  AnimationOption { std::string("Player/jump"),		bool(true)	},
-		  AnimationOption { std::string("Player/damage"),	bool(true)	},
-		  AnimationOption { std::string("Player/die"),		bool(false)	},
+			AnimationOption { std::string("Player/walk"),	bool(true)}
 		};
 
 
@@ -27,8 +22,6 @@ namespace app
 		{
 			/** モデルパス */
 			const std::string MODEL_PATH = "Player/rabbit";
-			/** モデルのスケール */
-			constexpr float MODEL_SCALE = 200.0f;
 			/** スポーン位置 */
 			const Vector3 SPAWN_POSITION = Vector3(0.0f, 1000.0f, 0.0f);
 		}
@@ -36,6 +29,8 @@ namespace app
 
 		TitlePlayer::TitlePlayer()
 		{
+			/** カメラがプレイヤーの座標を取得するため、コンストラクタで初期位置を設定しておく */
+			m_transform.m_position = SPAWN_POSITION;
 		}
 
 
@@ -47,10 +42,21 @@ namespace app
 		bool TitlePlayer::Start()
 		{
 			/** モデルとアニメーションを初期化 */
-			InitModel(static_cast<uint8_t>(EnPlayerAnimClip::Num), TITLE_PLAYER_ANIMATION_OPTIONS, MODEL_PATH, MODEL_SCALE);
+			InitModel(
+				static_cast<uint8_t>(ARRAYSIZE(TITLE_PLAYER_ANIMATION_OPTIONS)),
+				TITLE_PLAYER_ANIMATION_OPTIONS,
+				MODEL_PATH,
+				GetStatus<PlayerStatus>()->GetModelScale()
+			);
 
 			/** 星に埋もれないように初期位置を調整 */
-			m_transform.m_position = SPAWN_POSITION;
+			m_modelRender.SetPosition(m_transform.m_position);
+
+			/**
+			 * 歩きアニメーションを再生
+			 * 今回はアニメーションが1つしかないので0番を再生
+			 */
+			m_modelRender.PlayAnimation(0);
 
 			return true;
 		}
@@ -63,10 +69,7 @@ namespace app
 				return;
 			}
 
-			/** 歩きアニメーションを再生 */
-			m_modelRender.PlayAnimation(static_cast<uint8_t>(EnPlayerAnimClip::Walk));
 			/** モデルの更新 */
-			m_modelRender.SetPosition(m_transform.m_position);
 			m_modelRender.Update();
 		}
 

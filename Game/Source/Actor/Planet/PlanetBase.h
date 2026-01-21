@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * PlanetBase.h
- * ˜f¯‚ÌŠî’êƒNƒ‰ƒX
+ * æƒ‘æ˜Ÿã®åŸºåº•ã‚¯ãƒ©ã‚¹
  */
 #pragma once
 #include "Source/Actor/Actor.h" 
@@ -13,14 +13,14 @@ namespace app
 		class PlanetBase : public Actor
 		{
 		protected:
-			/** ƒ‚ƒfƒ‹‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·B */
+			/** ãƒ¢ãƒ‡ãƒ«ã®åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚ */
 			void InitModel(const std::string filePath);
-			/** ƒ‚ƒfƒ‹‚Ì“–‚½‚è”»’èB */
+			/** ãƒ¢ãƒ‡ãƒ«ã®å½“ãŸã‚Šåˆ¤å®šã€‚ */
 			PhysicsStaticObject physicsStaticObject;
 
 
 		protected:
-			/** Update‚Í”h¶æ‚Åoverride‚µ‚Äg—pB */
+			/** Updateã¯æ´¾ç”Ÿå…ˆã§overrideã—ã¦ä½¿ç”¨ã€‚ */
 			virtual void Update() override {};
 
 
@@ -30,9 +30,9 @@ namespace app
 
 
 		private:
-			/** Start‚Í”h¶æ‚Åg—p‚µ‚È‚¢‚½‚ßfinalB */
+			/** Startã¯æ´¾ç”Ÿå…ˆã§ä½¿ç”¨ã—ãªã„ãŸã‚finalã€‚ */
 			virtual bool Start() override final { return true; };
-			/** Render‚Í‹¤’Êˆ—‚Ì‚½‚ß”h¶æ‚Åoverride‚µ‚È‚¢B */
+			/** Renderã¯å…±é€šå‡¦ç†ã®ãŸã‚æ´¾ç”Ÿå…ˆã§overrideã—ãªã„ã€‚ */
 			virtual void Render(RenderContext& rc) override final;
 		};
 	}

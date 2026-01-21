@@ -10,17 +10,13 @@ namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class PlayerStateMachine;
-
-
 		/**
 		 * 止まってる
 		 */
 		class PlayerIdleState : public core::IState
 		{
 		public:
-			PlayerIdleState(PlayerStateMachine* owner)
+			PlayerIdleState(core::StateMachineBase* owner)
 				: core::IState(owner) {
 			};
 			~PlayerIdleState() {};
@@ -42,7 +38,7 @@ namespace app
 		class PlayerWalkState : public core::IState
 		{
 		public:
-			PlayerWalkState(PlayerStateMachine* owner)
+			PlayerWalkState(core::StateMachineBase* owner)
 				: core::IState(owner) {
 			};
 			~PlayerWalkState() {};
@@ -64,7 +60,7 @@ namespace app
 		class PlayerDashState : public core::IState
 		{
 		public:
-			PlayerDashState(PlayerStateMachine* owner)
+			PlayerDashState(core::StateMachineBase* owner)
 				: core::IState(owner) {
 			};
 			~PlayerDashState() {};
@@ -86,7 +82,7 @@ namespace app
 		class PlayerJumpState : public core::IState
 		{
 		public:
-			PlayerJumpState(PlayerStateMachine* owner)
+			PlayerJumpState(core::StateMachineBase* owner)
 				: core::IState(owner) {
 			};
 			~PlayerJumpState() {};
@@ -108,7 +104,7 @@ namespace app
 		class PlayerDamageState : public core::IState
 		{
 		public:
-			PlayerDamageState(PlayerStateMachine* owner)
+			PlayerDamageState(core::StateMachineBase* owner)
 				: core::IState(owner) {
 			};
 			~PlayerDamageState() {};
@@ -135,7 +131,7 @@ namespace app
 		class PlayerDyingState : public core::IState
 		{
 		public:
-			PlayerDyingState(PlayerStateMachine* owner)
+			PlayerDyingState(core::StateMachineBase* owner)
 				: core::IState(owner) {
 			};
 			~PlayerDyingState() {};
@@ -157,7 +153,7 @@ namespace app
 		class PlayerDeadState : public core::IState
 		{
 		public:
-			PlayerDeadState(PlayerStateMachine* owner)
+			PlayerDeadState(core::StateMachineBase* owner)
 				: core::IState(owner) {
 			};
 			~PlayerDeadState() {};

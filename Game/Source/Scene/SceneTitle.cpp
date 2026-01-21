@@ -6,9 +6,10 @@
 #include "Camera/TitleCamera.h"
 #include "Load/LoadManager.h"
 #include "SceneManager.h"
+#include "SceneTitle.h"
+#include "Source/Actor/Character/Player/Player.h"
 #include "Source/Actor/Character/Player/TitlePlayer.h"
 #include "Source/Actor/Planet/TitlePlanet.h"
-#include "Title.h"
 #include "UI/UITitle.h"
 
 
@@ -16,14 +17,17 @@ namespace app
 {
 	namespace scene
 	{
-		Title::Title()
+		SceneTitle::SceneTitle()
 		{
 		}
 
 
-		Title::~Title()
+		SceneTitle::~SceneTitle()
 		{
-			sound::SoundManager::StopBGM(sound::enSoundList_TitleBGM, 1.0f);
+			/** すべてのエネミーを破棄 */
+			battle::BattleManager::GetInstance()->CleanUp();
+
+			sound::SoundManager::StopBGM(sound::enSoundList_TitleBGM, 0.0f);
 			DeleteGO(m_titlePlayer);
 			DeleteGO(m_titleCamera);
 			DeleteGO(m_titlePlanet);
@@ -32,12 +36,13 @@ namespace app
 		}
 
 
-		bool Title::Start()
+		bool SceneTitle::Start()
 		{
 			/** 各種オブジェクト生成 */
 			m_titlePlayer = NewGO<actor::TitlePlayer>(0, "TitlePlayer");
-			m_titlePlanet = NewGO<actor::TitlePlanet>(0, "TitlePlanet");
 			m_titleCamera = NewGO<camera::TitleCamera>(0, "TitleCamera");
+			m_titleCamera->SetTargetPosition(m_titlePlayer->GetTransform().m_position);
+			m_titlePlanet = NewGO<actor::TitlePlanet>(0, "TitlePlanet");
 			m_uiTitle = NewGO<ui::UITitle>(0, "UITitle");
 			InitSky();
 
@@ -50,7 +55,7 @@ namespace app
 		}
 
 
-		void Title::Update()
+		void SceneTitle::Update()
 		{
 			/** Aボタンが押されたらインゲームへ移行 */
 			if (g_pad[0]->IsTrigger(enButtonA)) {
@@ -72,7 +77,7 @@ namespace app
 		}
 
 
-		void Title::InitSky()
+		void SceneTitle::InitSky()
 		{
 			/** 現在の空を破棄 */
 			DeleteGO(m_skyCube);

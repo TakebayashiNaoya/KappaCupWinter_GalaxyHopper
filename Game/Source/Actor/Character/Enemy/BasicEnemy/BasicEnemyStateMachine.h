@@ -3,7 +3,9 @@
  * 基本エネミーの状態遷移を管理するクラス群
  */
 #pragma once
+#include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/CharacterStateMachine.h"
+#include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
 
 
 namespace app
@@ -15,6 +17,21 @@ namespace app
 		 */
 		class BasicEnemyStateMachine : public CharacterStateMachine
 		{
+			/**
+			 * IState用の関数群
+			 * NOTE: 共変戻り値のため、前方宣言ではなくインクルードが必要
+			 */
+		public:
+			/**
+			 * オーナーを取得
+			 */
+			BasicEnemy* GetOwner() const override final;
+			/**
+			 * オーナーのステータスを取得
+			 */
+			BasicEnemyStatus* GetStatus() const override final;
+
+
 		public:
 			BasicEnemyStateMachine(BasicEnemy* owner);
 			virtual ~BasicEnemyStateMachine();

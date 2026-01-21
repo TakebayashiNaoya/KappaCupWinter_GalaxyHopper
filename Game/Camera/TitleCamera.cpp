@@ -1,10 +1,10 @@
-/**
+ï»¿/**
  * TitleCamera.cpp
- * ƒ^ƒCƒgƒ‹ƒJƒƒ‰À‘•
+ * ã‚¿ã‚¤ãƒˆãƒ«ã‚«ãƒ¡ãƒ©å®Ÿè£…
  */
 #include "stdafx.h"
-#include "TitleCamera.h"
 #include "Source/Scene/SceneManager.h"
+#include "TitleCamera.h"
 
 
 namespace app
@@ -19,8 +19,8 @@ namespace app
 
 		bool TitleCamera::Start()
 		{
-			// ’‹“_‚©‚ç‹“_‚Ü‚Å‚ÌƒxƒNƒgƒ‹‚ğİ’èB
-			// ¦Update“à‚ÅCAMERA_OFFSET’è”‚ªg‚í‚ê‚Ä‚¢‚é‚½‚ßA‚±‚Ì•Ï”‚ªÀÛ‚Ég‚í‚ê‚Ä‚¢‚é‚©Šm”F‚µ‚Ä‚­‚¾‚³‚¢
+			// æ³¨è¦–ç‚¹ã‹ã‚‰è¦–ç‚¹ã¾ã§ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨­å®šã€‚
+			// â€»Updateå†…ã§CAMERA_OFFSETå®šæ•°ãŒä½¿ã‚ã‚Œã¦ã„ã‚‹ãŸã‚ã€ã“ã®å¤‰æ•°ãŒå®Ÿéš›ã«ä½¿ã‚ã‚Œã¦ã„ã‚‹ã‹ç¢ºèªã—ã¦ãã ã•ã„
 			m_toCameraPos.Set(-300.0f, 500.0f, 300.0f);
 
 			g_camera3D->SetNear(1.0f);
@@ -31,12 +31,12 @@ namespace app
 
 		void TitleCamera::Update()
 		{
-			// ƒV[ƒ“Ø‚è‘Ö‚¦’†‚ÍXV‚µ‚È‚¢B
+			// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆä¸­ã¯æ›´æ–°ã—ãªã„ã€‚
 			if (scene::SceneManager::GetInstance()->GetIsSceneChangeRequested()) {
 				return;
 			}
 
-			// ƒZƒbƒ^[‚Åó‚¯æ‚Á‚½À•W‚ğg—p
+			// ã‚»ãƒƒã‚¿ãƒ¼ã§å—ã‘å–ã£ãŸåº§æ¨™ã‚’ä½¿ç”¨
 			Vector3 playerPos = m_targetPos;
 
 			m_cameraPos = playerPos + CAMERA_OFFSET;

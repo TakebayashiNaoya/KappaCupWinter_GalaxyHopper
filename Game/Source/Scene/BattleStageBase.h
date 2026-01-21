@@ -12,6 +12,7 @@ namespace app
 	namespace actor {
 		class Player;
 		class BossEnemy;
+		class PlayerController;
 	}
 	namespace camera { class GameCamera; }
 	namespace battle { class BattleManagerObject; }
@@ -94,12 +95,10 @@ namespace app
 			/** 現在実行中のタスク番号 */
 			uint8_t m_currentTaskIndex = 0;
 
-			/** バトルマネージャー */
-			battle::BattleManagerObject* m_battleManager = nullptr;
-			/** コリジョンマネージャー */
-			collision::CollisionManagerObject* m_collisionManager = nullptr;
 			/** ゲームカメラ */
 			camera::GameCamera* m_gameCamera = nullptr;
+			/** プレイヤーコントローラー */
+			actor::PlayerController* m_playerController = nullptr;
 			/** リザルトUI */
 			ui::UIResultBase* m_uiResult = nullptr;
 

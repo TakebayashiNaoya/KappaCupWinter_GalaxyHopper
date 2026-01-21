@@ -1,32 +1,44 @@
-/**
+ï»¿/**
  * BossEnemyStateMachine.h
- * ƒ{ƒXƒGƒlƒ~[‚Ìó‘Ô‘JˆÚ‚ğŠÇ—‚·‚éƒNƒ‰ƒXŒQ
+ * ãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼ã®çŠ¶æ…‹é·ç§»ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ç¾¤
  */
 #pragma once
+#include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/CharacterStateMachine.h"
+#include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		/** ‘O•ûéŒ¾ */
-		class BossEnemy;
-		class BossEnemyStatus;
-
-
 		/**
-		 * ƒ{ƒXƒGƒlƒ~[‚ÌƒXƒe[ƒgƒ}ƒVƒ“
+		 * ãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³
 		 */
 		class BossEnemyStateMachine : public CharacterStateMachine
 		{
+			/**
+			 * IStateç”¨ã®é–¢æ•°ç¾¤
+			 * NOTE: å…±å¤‰æˆ»ã‚Šå€¤ã®ãŸã‚ã€å‰æ–¹å®£è¨€ã§ã¯ãªãã‚¤ãƒ³ã‚¯ãƒ«ãƒ¼ãƒ‰ãŒå¿…è¦
+			 */
 		public:
-			BossEnemyStateMachine(BossEnemy* owner, BossEnemyStatus* status);
+			/**
+			 * ã‚ªãƒ¼ãƒŠãƒ¼ã‚’å–å¾—
+			 */
+			BossEnemy* GetOwner() const override final;
+			/**
+			 * ã‚ªãƒ¼ãƒŠãƒ¼ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã‚’å–å¾—
+			 */
+			BossEnemyStatus* GetStatus() const override final;
+
+
+		public:
+			BossEnemyStateMachine(BossEnemy* owner);
 			virtual ~BossEnemyStateMachine();
 
 
 		private:
-			/** ƒXƒe[ƒg */
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆ */
 			enum EnBossEnemyState : uint8_t
 			{
 				enBossEnemyState_Idle,
@@ -40,23 +52,8 @@ namespace app
 				enBossEnemyState_Num
 			};
 
-			/** •ÏX‚·‚éƒXƒe[ƒg‚ğæ“¾‚µ‚Ü‚·B */
+			/** å¤‰æ›´ã™ã‚‹ã‚¹ãƒ†ãƒ¼ãƒˆã‚’å–å¾—ã—ã¾ã™ã€‚ */
 			core::IState* GetChangeState() override final;
-
-
-		private:
-			/** ƒXƒe[ƒg‚ğ’Ç‰Á‚·‚éƒeƒ“ƒvƒŒ[ƒgŠÖ” */
-			template <typename TState>
-			void AddState(EnBossEnemyState stateId)
-			{
-				StateMachineBase::AddState<TState>(stateId, this, m_bossEnemy, m_bossEnemyStatus);
-			}
-
-
-		private:
-			/** ƒLƒƒƒbƒVƒ…—pƒ|ƒCƒ“ƒ^ */
-			BossEnemy* m_bossEnemy = nullptr;
-			BossEnemyStatus* m_bossEnemyStatus = nullptr;
 		};
 	}
 }

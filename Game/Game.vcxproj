@@ -268,7 +268,7 @@
     <ClCompile Include="Source\Scene\BossStage.cpp" />
     <ClCompile Include="Source\Scene\FirstStage.cpp" />
     <ClCompile Include="Source\Scene\SceneManager.cpp" />
-    <ClCompile Include="Source\Scene\Title.cpp" />
+    <ClCompile Include="Source\Scene\SceneTitle.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -330,7 +330,7 @@
     <ClInclude Include="Source\Scene\BossStage.h" />
     <ClInclude Include="Source\Scene\FirstStage.h" />
     <ClInclude Include="Source\Scene\SceneManager.h" />
-    <ClInclude Include="Source\Scene\Title.h" />
+    <ClInclude Include="Source\Scene\SceneTitle.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Ui\SpriteAnimation.h" />

@@ -3,6 +3,7 @@
  * 宝箱クラスの実装
  */
 #include "stdafx.h"
+#include "Source/Actor/ActorStatus.h" 
 #include "Treasure.h"
 
 
@@ -16,6 +17,9 @@ namespace app
 			if (battle::BattleManager::GetInstance()) {
 				battle::BattleManager::GetInstance()->Register(this);
 			}
+
+			/** ステータスを生成 */
+			m_status = CreateStatus<TreasureStatus>();
 		}
 
 		Treasure::~Treasure()
@@ -36,7 +40,8 @@ namespace app
 
 			m_modelRender.PlayAnimation(enAnimationClip_Idle);
 
-			m_transform.m_scale = Vector3(200.0f, 200.0f, 200.0f);
+			float scale = GetStatus<TreasureStatus>()->GetModelScale();
+			m_transform.m_scale = Vector3(scale, scale, scale);
 			m_modelRender.SetTRS(m_transform.m_position, m_transform.m_rotation, m_transform.m_scale);
 			m_modelRender.Update();
 			return true;

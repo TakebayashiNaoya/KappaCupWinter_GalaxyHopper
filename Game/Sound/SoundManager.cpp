@@ -40,6 +40,18 @@ namespace app
 		}
 
 
+		/** サウンドソースの派生クラス：自分が消える時にマネージャーへ連絡する */
+		class GameSoundSource : public nsK2EngineLow::SoundSource
+		{
+		public:
+			// デストラクタ：自分が消える時にマネージャーへ連絡する
+			~GameSoundSource()
+			{
+				SoundManager::UnregisterPseudo3D(this);
+			}
+		};
+
+
 		/** サウンド定義 */
 		const SoundManager::SoundDef SoundManager::m_soundDefs[enSoundList_Num] =
 		{
@@ -97,9 +109,7 @@ namespace app
 
 		void SoundManager::Update()
 		{
-			if (m_instance == nullptr) {
-				return;
-			}
+			if (m_instance == nullptr) 	return;
 
 			/** プレイヤー（リスナー）座標の取得 */
 			Vector3 listenerPos = Vector3::Zero;
@@ -135,8 +145,8 @@ namespace app
 			/**
 			 * フェードアウト処理
 			 */
-			auto itFade = m_instance->m_fadeList.begin();
-			while (itFade != m_instance->m_fadeList.end())
+			auto itFade = m_instance->m_fadeOutList.begin();
+			while (itFade != m_instance->m_fadeOutList.end())
 			{
 				/** フェードアウト状態取得 */
 				FadeState& state = *itFade;
@@ -149,7 +159,7 @@ namespace app
 					state.source->Stop();
 					DeleteGO(state.source);
 
-					itFade = m_instance->m_fadeList.erase(itFade);
+					itFade = m_instance->m_fadeOutList.erase(itFade);
 				}
 				else {
 					state.source->SetVolume(currentVol);
@@ -183,9 +193,7 @@ namespace app
 
 		SoundSource* SoundManager::Play(EnSoundList soundId, bool isLoop, bool is3D, const Vector3& position)
 		{
-			if (!GetIsAvailable()) {
-				return nullptr;
-			}
+			if (!GetIsAvailable()) 	return nullptr;
 
 			SoundManager* instance = GetInstance();
 
@@ -245,12 +253,11 @@ namespace app
 
 		void SoundManager::UnregisterPseudo3D(nsK2EngineLow::SoundSource* source)
 		{
-			if (!GetIsAvailable()) {
-				return;
-			}
+			if (!GetIsAvailable()) return;
 
 			SoundManager* instance = GetInstance();
 
+			/** 疑似3Dリストから削除 */
 			auto it = instance->m_pseudo3DList.begin();
 			while (it != instance->m_pseudo3DList.end())
 			{
@@ -259,6 +266,28 @@ namespace app
 					break;
 				}
 				++it;
+			}
+
+			/** フェードアウト待ちリストから削除 */
+			auto itOut = instance->m_fadeOutList.begin();
+			while (itOut != instance->m_fadeOutList.end()) {
+				if (itOut->source == source) {
+					itOut = instance->m_fadeOutList.erase(itOut);
+				}
+				else {
+					++itOut;
+				}
+			}
+
+			/** フェードイン待ちリストから削除 */
+			auto itIn = instance->m_fadeInList.begin();
+			while (itIn != instance->m_fadeInList.end()) {
+				if (itIn->source == source) {
+					itIn = instance->m_fadeInList.erase(itIn);
+				}
+				else {
+					++itIn;
+				}
 			}
 		}
 
@@ -282,7 +311,7 @@ namespace app
 					if (fadeTime > 0.0f) {
 						/** フェードリストへ移動 */
 						float currentVol = ss->GetVolume();
-						instance->m_fadeList.push_back({ ss, currentVol / fadeTime });
+						instance->m_fadeOutList.push_back({ ss, currentVol / fadeTime });
 					}
 					else {
 						/** 即停止 */
@@ -313,7 +342,7 @@ namespace app
 				{
 					if (fadeTime > 0.0f) {
 						float currentVol = ss->GetVolume();
-						instance->m_fadeList.push_back({ ss, currentVol / fadeTime });
+						instance->m_fadeOutList.push_back({ ss, currentVol / fadeTime });
 					}
 					else {
 						ss->Stop();
@@ -327,9 +356,7 @@ namespace app
 
 		void SoundManager::SetVolume(EnSoundList soundId, float volume)
 		{
-			if (!GetIsAvailable()) {
-				return;
-			}
+			if (!GetIsAvailable()) 	return;
 
 			SoundManager* instance = GetInstance();
 
@@ -345,22 +372,16 @@ namespace app
 
 		void SoundManager::FadeInAllBGM(float fadeTime)
 		{
-			if (!GetIsAvailable()) {
-				return;
-			}
+			if (!GetIsAvailable()) return;
 
 			SoundManager* instance = GetInstance();
 
-			if (fadeTime <= 0.0f) {
-				return;
-			}
+			if (fadeTime <= 0.0f) return;
 
 			for (auto& pair : instance->m_bgmMap)
 			{
 				SoundSource* ss = pair.second;
-				if (ss == nullptr) {
-					continue;
-				}
+				if (ss == nullptr) continue;
 
 				/** フェードインリストへ移動 */
 				float targetVol = instance->m_soundDefs[pair.first].volume;

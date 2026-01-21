@@ -1,4 +1,9 @@
-﻿#pragma once
+﻿/**
+ * SceneManager.h
+ * シーンを管理するクラス
+ */
+#pragma once
+
 
 namespace app
 {

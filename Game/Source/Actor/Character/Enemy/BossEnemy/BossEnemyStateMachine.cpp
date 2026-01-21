@@ -1,24 +1,34 @@
-/**
+ï»¿/**
  * BossEnemyStateMachine.cpp
- * ƒ{ƒXƒGƒlƒ~[‚ÌƒXƒe[ƒgƒ}ƒVƒ“‚ÌÀ‘•
+ * ãƒœã‚¹ã‚¨ãƒãƒŸãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒã‚·ãƒ³ã®å®Ÿè£…
  */
 #include "stdafx.h"
-#include "BossEnemyStateMachine.h"
 #include "BossEnemy.h"
-#include "Source/Actor/ActorStatus.h"
 #include "BossEnemyIState.h"
+#include "BossEnemyStateMachine.h"
+#include "Source/Actor/ActorStatus.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		BossEnemyStateMachine::BossEnemyStateMachine(BossEnemy* owner, BossEnemyStatus* status)
-			: CharacterStateMachine(owner, status)
-			, m_bossEnemy(owner)
-			, m_bossEnemyStatus(status)
+		BossEnemy* BossEnemyStateMachine::GetOwner() const
 		{
-			/** ƒXƒe[ƒg‚Ì¶¬ */
+			return static_cast<BossEnemy*>(m_ownerActor);
+		}
+
+
+		BossEnemyStatus* BossEnemyStateMachine::GetStatus() const
+		{
+			return GetOwner()->GetStatus<BossEnemyStatus>();
+		}
+
+
+		BossEnemyStateMachine::BossEnemyStateMachine(BossEnemy* owner)
+			: CharacterStateMachine(owner)
+		{
+			/** ã‚¹ãƒ†ãƒ¼ãƒˆã®ç”Ÿæˆ */
 			AddState<BossEnemyIdleState>(enBossEnemyState_Idle);
 			AddState<BossEnemyWalkState>(enBossEnemyState_Walk);
 			AddState<BossEnemyDashState>(enBossEnemyState_Dash);
@@ -27,9 +37,9 @@ namespace app
 			AddState<BossEnemyDamageState>(enBossEnemyState_Damage);
 			AddState<BossEnemyDyingState>(enBossEnemyState_Dying);
 			AddState<BossEnemyDeadState>(enBossEnemyState_Dead);
-			K2_ASSERT(m_stateMap.size() == enBossEnemyState_Num, "AddState‚ğŒÄ‚ñ‚Å‚­‚¾‚³‚¢");
+			K2_ASSERT(m_stateMap.size() == enBossEnemyState_Num, "AddStateã‚’å‘¼ã‚“ã§ãã ã•ã„");
 
-			/** ‰ŠúƒXƒe[ƒg */
+			/** åˆæœŸã‚¹ãƒ†ãƒ¼ãƒˆ */
 			m_currentState = m_stateMap[enBossEnemyState_Idle];
 		}
 

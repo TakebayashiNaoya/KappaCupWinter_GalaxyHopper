@@ -10,44 +10,14 @@ namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class BossEnemyStateMachine;
-		class BossEnemy;
-		class BossEnemyStatus;
-
-
-		/**
-		 * ボスエネミー専用のステート基底クラス
-		 */
-		class BossEnemyStateBase : public core::IState
-		{
-		protected:
-			/** キャッシュ用ポインタ */
-			BossEnemyStateMachine* m_stateMachine = nullptr;
-			BossEnemy* m_bossEnemy = nullptr;
-			BossEnemyStatus* m_status = nullptr;
-
-
-		public:
-			/** コンストラクタでステートマシン、ボスエネミー、ステータスを受け取る */
-			BossEnemyStateBase(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status);
-			virtual ~BossEnemyStateBase() {}
-		};
-
-
-
-
-		/********************************/
-
-
 		/**
 		 * 待機
 		 */
-		class BossEnemyIdleState : public BossEnemyStateBase
+		class BossEnemyIdleState : public core::IState
 		{
 		public:
-			BossEnemyIdleState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
-				: BossEnemyStateBase(machine, bossEnemy, status) {
+			BossEnemyIdleState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BossEnemyIdleState() {};
 
@@ -64,11 +34,11 @@ namespace app
 		/**
 		 * 歩く
 		 */
-		class BossEnemyWalkState : public BossEnemyStateBase
+		class BossEnemyWalkState : public core::IState
 		{
 		public:
-			BossEnemyWalkState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
-				: BossEnemyStateBase(machine, bossEnemy, status) {
+			BossEnemyWalkState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BossEnemyWalkState() {};
 
@@ -86,11 +56,11 @@ namespace app
 		/**
 		 * 走る
 		 */
-		class BossEnemyDashState : public BossEnemyStateBase
+		class BossEnemyDashState : public core::IState
 		{
 		public:
-			BossEnemyDashState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
-				: BossEnemyStateBase(machine, bossEnemy, status) {
+			BossEnemyDashState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BossEnemyDashState() {};
 
@@ -108,11 +78,11 @@ namespace app
 		/**
 		 * 攻撃
 		 */
-		class BossEnemyAttackState : public BossEnemyStateBase
+		class BossEnemyAttackState : public core::IState
 		{
 		public:
-			BossEnemyAttackState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
-				: BossEnemyStateBase(machine, bossEnemy, status) {
+			BossEnemyAttackState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BossEnemyAttackState() {};
 
@@ -130,11 +100,11 @@ namespace app
 		/**
 		 * クールダウン
 		 */
-		class BossEnemyCooldownState : public BossEnemyStateBase
+		class BossEnemyCooldownState : public core::IState
 		{
 		public:
-			BossEnemyCooldownState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
-				: BossEnemyStateBase(machine, bossEnemy, status) {
+			BossEnemyCooldownState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BossEnemyCooldownState() {};
 
@@ -152,11 +122,11 @@ namespace app
 		/**
 		 * ダメージを受ける
 		 */
-		class BossEnemyDamageState : public BossEnemyStateBase
+		class BossEnemyDamageState : public core::IState
 		{
 		public:
-			BossEnemyDamageState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
-				: BossEnemyStateBase(machine, bossEnemy, status) {
+			BossEnemyDamageState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BossEnemyDamageState() {};
 
@@ -174,11 +144,11 @@ namespace app
 		/**
 		 * 死んでいる最中
 		 */
-		class BossEnemyDyingState : public BossEnemyStateBase
+		class BossEnemyDyingState : public core::IState
 		{
 		public:
-			BossEnemyDyingState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
-				: BossEnemyStateBase(machine, bossEnemy, status) {
+			BossEnemyDyingState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BossEnemyDyingState() {};
 
@@ -196,11 +166,11 @@ namespace app
 		/**
 		 * 死亡
 		 */
-		class BossEnemyDeadState : public BossEnemyStateBase
+		class BossEnemyDeadState : public core::IState
 		{
 		public:
-			BossEnemyDeadState(BossEnemyStateMachine* machine, BossEnemy* bossEnemy, BossEnemyStatus* status)
-				: BossEnemyStateBase(machine, bossEnemy, status) {
+			BossEnemyDeadState(core::StateMachineBase* owner)
+				: core::IState(owner) {
 			};
 			~BossEnemyDeadState() {};
 

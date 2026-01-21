@@ -1,6 +1,7 @@
 ﻿[
   {
     "comment": "ロケットのステータス",
-    "interactRange": 500
+    "interactRange": 500,
+    "modelScale": 200
   }
 ]

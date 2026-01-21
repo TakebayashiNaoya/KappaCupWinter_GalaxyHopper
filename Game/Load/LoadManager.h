@@ -149,9 +149,9 @@ namespace app
 
 
 		private:
-			bool Start() override;
-			void Update() override;
-			void Render(RenderContext& rc) override;
+			bool Start() override final;
+			void Update() override final;
+			void Render(RenderContext& rc) override final;
 		};
 	}
 }

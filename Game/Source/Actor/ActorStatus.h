@@ -37,6 +37,8 @@ namespace app
 		public:
 			/** 接触する半径の取得*/
 			inline const float GetInteractRange() const { return m_interactRange; }
+			/** モデルの拡大率の取得*/
+			inline const float GetModelScale() const { return m_modelScale; }
 
 
 		public:
@@ -50,6 +52,8 @@ namespace app
 		protected:
 			/** 接触する半径 */
 			float m_interactRange = 0.0f;
+			/** モデルの拡大率 */
+			float m_modelScale = 0.0f;
 		};
 
 

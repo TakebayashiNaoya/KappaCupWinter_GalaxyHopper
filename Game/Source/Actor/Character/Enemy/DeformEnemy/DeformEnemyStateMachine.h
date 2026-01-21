@@ -3,23 +3,35 @@
  * 変形エネミーの状態遷移を管理するクラス群
  */
 #pragma once
+#include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/CharacterStateMachine.h"
+#include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class DeformEnemy;
-		class DeformEnemyStatus;
-
-
 		/**
 		 * 変形エネミーのステートマシン
 		 */
 		class DeformEnemyStateMachine : public CharacterStateMachine
 		{
+			/**
+			 * IState用の関数群
+			 * NOTE: 共変戻り値のため、前方宣言ではなくインクルードが必要
+			 */
+		public:
+			/**
+			 * オーナーを取得
+			 */
+			DeformEnemy* GetOwner() const override final;
+			/**
+			 * オーナーのステータスを取得
+			 */
+			DeformEnemyStatus* GetStatus() const override final;
+
+
 		public:
 			DeformEnemyStateMachine(DeformEnemy* owner);
 			virtual ~DeformEnemyStateMachine();

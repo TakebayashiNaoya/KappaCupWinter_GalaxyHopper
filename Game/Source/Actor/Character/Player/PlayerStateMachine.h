@@ -2,17 +2,15 @@
 /// プレイヤーのステートマシン。
 /// </summary>
 #pragma once
+#include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/CharacterStateMachine.h"
+#include "Source/Actor/Character/Player/Player.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		/** 前方宣言 */
-		class Player;
-
-
 		/**
 		 * プレイヤー用ステートマシン
 		 */
@@ -35,18 +33,17 @@ namespace app
 
 			/**
 			 * IState用の関数群
+			 * NOTE: 共変戻り値のため、前方宣言ではなくインクルードが必要
 			 */
 		public:
-			/** オーナーを取得 */
-			Player* GetOwner() const override final
-			{
-				return static_cast<Player*>(m_ownerActor);
-			}
-			/** オーナーのステータスを取得 */
-			PlayerStatus* GetStatus() const override final
-			{
-				return static_cast<PlayerStatus*>(GetOwner()->GetStatus<PlayerStatus>());
-			}
+			/**
+			 * オーナーを取得
+			 */
+			Player* GetOwner() const override final;
+			/**
+			 * オーナーのステータスを取得
+			 */
+			PlayerStatus* GetStatus() const override final;
 
 
 		public:

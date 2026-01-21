@@ -55,11 +55,17 @@ namespace app
 
 		bool Player::Start()
 		{
+			/** ステートマシンに初期値を渡しておく */
+			if (m_stateMachine) {
+				m_stateMachine->SetPosition(m_transform.m_position);
+				m_stateMachine->SetRotation(m_transform.m_rotation);
+			}
+
 			/** PlayerStatusにキャストする */
 			auto status = GetStatus<PlayerStatus>();
 
 			/** モデルとアニメーションの初期化 */
-			InitModel(static_cast<uint8_t>(EnPlayerAnimClip::Num), PLAYER_ANIMATION_OPTIONS, "Player/player", status->GetModelScale());
+			InitModel(static_cast<uint8_t>(EnPlayerAnimClip::Num), PLAYER_ANIMATION_OPTIONS, "Player/rabbit", status->GetModelScale());
 
 			/** やられ判定のコライダーを作成 */
 			m_hurtCollider = collision::CollisionHitManager::GetInstance()->CreateCollider(

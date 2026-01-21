@@ -45,6 +45,9 @@ namespace app
 
 			/** アニメーションイベント */
 			void OnAnimationEvent(const wchar_t* clipName, const wchar_t* eventName);
+
+			/** TODO:攻撃方向の実装 */
+			Vector3 m_attackDirection = Vector3::Zero;
 		};
 	}
 }
