@@ -20,6 +20,9 @@ namespace app
 		{
 			/** 待機アニメーション */
 			machine->PlayAnimation(Player::EnPlayerAnimClip::Idle);
+
+			/** 移動速度を0に設定 */
+			machine->SetMoveSpeed(0.0f);
 		}
 
 
@@ -44,6 +47,10 @@ namespace app
 		{
 			/** 歩きアニメーション */
 			machine->PlayAnimation(Player::EnPlayerAnimClip::Walk);
+
+			/** 歩き速度を設定 */
+			float speed = machine->GetStatus()->GetWalkSpeed();
+			machine->SetMoveSpeed(speed);
 		}
 
 
@@ -68,6 +75,10 @@ namespace app
 		{
 			/** 走りアニメーション */
 			machine->PlayAnimation(Player::EnPlayerAnimClip::Dash);
+
+			/** 走り速度を設定 */
+			float speed = machine->GetStatus()->GetDashSpeed();
+			machine->SetMoveSpeed(speed);
 		}
 
 
