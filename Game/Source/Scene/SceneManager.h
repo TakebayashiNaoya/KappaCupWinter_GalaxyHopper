@@ -29,7 +29,8 @@ namespace app
 		 */
 		enum class SceneID : uint8_t
 		{
-			Title = 0,
+			Debug = 0,
+			Title,
 			FirstStage,
 			BossStage,
 			None = 0xff	/** 0xで16進数。ffは10進数で255 */
@@ -46,9 +47,9 @@ namespace app
 			/** 現在のシーン */
 			IScene* m_currentScene = nullptr;
 			/** 現在のシーンID */
-			SceneID m_currentID = SceneID::Title;
+			SceneID m_currentID = SceneID::Debug;
 			/** シーン切り替えリクエストID */
-			SceneID m_requestID = SceneID::Title;
+			SceneID m_requestID = SceneID::Debug;
 
 
 		public:

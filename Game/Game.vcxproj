@@ -267,6 +267,7 @@
     <ClCompile Include="Source\Scene\BattleStageBase.cpp" />
     <ClCompile Include="Source\Scene\BossStage.cpp" />
     <ClCompile Include="Source\Scene\FirstStage.cpp" />
+    <ClCompile Include="Source\Scene\SceneDebug.cpp" />
     <ClCompile Include="Source\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\Scene\SceneTitle.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -329,6 +330,7 @@
     <ClInclude Include="Source\Scene\BattleStageBase.h" />
     <ClInclude Include="Source\Scene\BossStage.h" />
     <ClInclude Include="Source\Scene\FirstStage.h" />
+    <ClInclude Include="Source\Scene\SceneDebug.h" />
     <ClInclude Include="Source\Scene\SceneManager.h" />
     <ClInclude Include="Source\Scene\SceneTitle.h" />
     <ClInclude Include="stdafx.h" />
