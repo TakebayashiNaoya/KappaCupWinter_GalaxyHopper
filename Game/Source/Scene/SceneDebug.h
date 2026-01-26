@@ -19,6 +19,7 @@ namespace app
 
 		private:
 			bool Start() override final;
+			void InitLevel();
 		};
 
 

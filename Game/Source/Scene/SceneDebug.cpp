@@ -7,6 +7,7 @@
 #include "Source/Actor/Character/Player/Player.h"
 #include "Source/Actor/Character/Player/PlayerController.h"
 #include "Source/Actor/Character/Player/PlayerStateMachine.h"
+#include "Source/Actor/Environment/Tree.h"
 
 
 namespace app
@@ -28,14 +29,29 @@ namespace app
 			/** 当たり判定を可視化 */
 			PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
-			/** デバッグ用の地面を生成 */
-			NewGO<DebugPlanet>(0, "DebugPlanet");
-
-			/** プレイヤーを生成 */
-			m_player = NewGO<actor::Player>(0, "Player");
-			m_player->SetTransform(Vector3(0.0f, 2000.0f, 0.0f), Quaternion::Identity, Vector3::One);
-
 			return true;
+		}
+
+
+		void SceneDebug::InitLevel()
+		{
+			m_levelRender.Init("Assets/modelData/stage/DebugPlanet/debugPlanet.tkl", [&](LevelObjectData& objData) {
+				if (objData.EqualObjectName(L"debugPlanet")) {
+					NewGO<DebugPlanet>(0, "DebugPlanet");
+					return true;
+				}
+				if (objData.EqualObjectName(L"player")) {
+					m_player = NewGO<actor::Player>(0, "Player");
+					m_player->SetTransform(objData.position, objData.rotation, objData.scale);
+					return true;
+				}
+				if (objData.EqualObjectName(L"object")) {
+					auto tree = NewGO<actor::Tree>(0, "Tree");
+					tree->SetTransform(objData.position, objData.rotation, objData.scale);
+					return true;
+				}
+				return false;
+				});
 		}
 
 
