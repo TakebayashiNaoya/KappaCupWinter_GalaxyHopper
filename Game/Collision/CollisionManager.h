@@ -1,11 +1,14 @@
-﻿#pragma once
+﻿/**
+ * CollisionManager.h
+ * 当たり判定管理クラス
+ */
+#pragma once
+
 
 namespace app
 {
-	namespace actor
-	{
-		class Character;
-	}
+	/** 前方宣言 */
+	namespace actor { class Actor; }
 
 
 	namespace collision
@@ -20,6 +23,7 @@ namespace app
 			BasicEnemy,
 			DeformEnemy,
 			BossEnemy,
+			Environment,
 			//
 			Num,
 		};
@@ -64,32 +68,53 @@ namespace app
 			 * コライダーを生成し、コリジョンヒットマネージャーに登録する
 			 */
 		public:
-			/** 箱型 */
+			/**
+			 * ボックス型
+			 * ・コライダーの持ち主
+			 * ・当たり判定の種類
+			 * ・Vector3(幅,高さ,奥行)
+			 * ・コリジョン属性
+			 */
 			CollisionObject* CreateCollider(
-				app::actor::Character* ins,		/** コライダーの持ち主		*/
-				const EnCollisionType type,		/** 当たり判定の種類		*/
-				const Vector3 size,				/** Vector3(幅,高さ,奥行)	*/
-				const EnCollisionAttr index		/** コリジョン属性			*/
+				app::actor::Actor* ins,
+				const EnCollisionType type,
+				const Vector3 size,
+				const EnCollisionAttr index
 			);
-			/** 球型 */
+
+			/**
+			 * 球型
+			 * ・コライダーの持ち主
+			 * ・当たり判定の種類
+			 * ・半径
+			 * ・コリジョン属性
+			 */
 			CollisionObject* CreateCollider(
-				app::actor::Character* ins,		/** コライダーの持ち主		*/
-				const EnCollisionType type,		/** 当たり判定の種類		*/
-				const float radius,				/** 半径					*/
-				const EnCollisionAttr index		/** コリジョン属性			*/
+				app::actor::Actor* ins,
+				const EnCollisionType type,
+				const float radius,
+				const EnCollisionAttr index
 			);
-			/** カプセル型 */
+
+			/**
+			 * カプセル型
+			 * ・コライダーの持ち主
+			 * ・当たり判定の種類
+			 * ・半径
+			 * ・高さ
+			 * ・コリジョン属性
+			 */
 			CollisionObject* CreateCollider(
-				app::actor::Character* ins,		/** コライダーの持ち主		*/
-				const EnCollisionType type,		/** 当たり判定の種類		*/
-				const float radius,				/** 半径					*/
-				const float height,				/** 高さ					*/
-				const EnCollisionAttr index		/** コリジョン属性			*/
+				app::actor::Actor* ins,
+				const EnCollisionType type,
+				const float radius,
+				const float height,
+				const EnCollisionAttr index
 			);
 
 			/** コライダーの座標と回転を更新する */
 			void UpdateCollider(
-				app::actor::Character* ins,		/** コライダーの持ち主		*/
+				app::actor::Actor* ins,			/** コライダーの持ち主		*/
 				CollisionObject* collider,		/** 行進するコライダー		*/
 				const float offset = 0.0f		/** Up方向の補正値			*/
 			);

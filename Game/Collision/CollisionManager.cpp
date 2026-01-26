@@ -1,7 +1,10 @@
-﻿#include "stdafx.h"
+﻿/**
+ * CollisionManager.cpp
+ * 当たり判定がヒットした時の処理を実装
+ */
+#include "stdafx.h"
 #include "CollisionManager.h"
 #include "Source/Actor/ActorStatus.h"
-#include "Source/Actor/Character/Character.h"
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemyStateMachine.h"
 #include "Source/Actor/Character/Enemy/BossEnemy/BossEnemy.h"
@@ -197,7 +200,7 @@ namespace app
 
 
 		CollisionObject* CollisionHitManager::CreateCollider(
-			app::actor::Character* ins, const EnCollisionType type, const Vector3 size, const EnCollisionAttr index)
+			app::actor::Actor* ins, const EnCollisionType type, const Vector3 size, const EnCollisionAttr index)
 		{
 			/** コリジョンを作成 */
 			CollisionObject* collider = new CollisionObject();
@@ -218,7 +221,7 @@ namespace app
 
 
 		CollisionObject* CollisionHitManager::CreateCollider(
-			app::actor::Character* ins, const EnCollisionType type, const float radius, const EnCollisionAttr index)
+			app::actor::Actor* ins, const EnCollisionType type, const float radius, const EnCollisionAttr index)
 		{
 			/** コリジョンを作成 */
 			CollisionObject* collider = new CollisionObject();
@@ -239,7 +242,7 @@ namespace app
 
 
 		CollisionObject* CollisionHitManager::CreateCollider(
-			app::actor::Character* ins, const EnCollisionType type, const float radius, const float height, const EnCollisionAttr index)
+			app::actor::Actor* ins, const EnCollisionType type, const float radius, const float height, const EnCollisionAttr index)
 		{
 			/** コリジョンを作成 */
 			CollisionObject* collider = new CollisionObject();
@@ -261,7 +264,7 @@ namespace app
 
 
 		void CollisionHitManager::UpdateCollider(
-			app::actor::Character* ins, CollisionObject* collider, const float offset)
+			app::actor::Actor* ins, CollisionObject* collider, const float offset)
 		{
 			if (collider == nullptr) {
 				return;
