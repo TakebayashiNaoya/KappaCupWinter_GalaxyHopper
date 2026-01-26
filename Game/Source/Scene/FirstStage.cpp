@@ -8,6 +8,7 @@
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
 #include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
 #include "Source/Actor/Character/Player/Player.h"
+#include "Source/Actor/Environment/Tree.h"
 #include "Source/Actor/Object/Rocket.h"
 #include "Source/Actor/Object/Treasure.h"
 #include "Source/Actor/Planet/FirstPlanet.h"
@@ -68,10 +69,16 @@ namespace app
 
 		void FirstStage::InitLevel()
 		{
-			m_levelRender.Init("Assets/modelData/stage/FirstPlanet/FirstPlanetLevel.tkl", [&](LevelObjectData& objData) {
+			m_levelRender.Init("Assets/modelData/stage/FirstPlanet/FirstPlanetLevel_2.tkl", [&](LevelObjectData& objData) {
 				if (objData.EqualObjectName(L"Planet")) {
 					m_firstStage = NewGO<actor::FirstPlanet>(0, "FirstPlanet");
 					m_firstStage->SetTransform(objData.position, objData.rotation, objData.scale);
+					return true;
+				}
+				if (objData.EqualObjectName(L"tree")) {
+					auto tree = NewGO<actor::Tree>(0, "Tree");
+					tree->SetTransform(objData.position, objData.rotation, objData.scale);
+					m_trees.push_back(tree);
 					return true;
 				}
 				if (objData.EqualObjectName(L"player")) {

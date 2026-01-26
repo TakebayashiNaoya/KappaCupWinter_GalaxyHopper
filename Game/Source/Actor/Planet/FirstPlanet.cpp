@@ -1,6 +1,6 @@
-/**
+ï»¿/**
  * FirstPlanet.cpp
- * Å‰‚Ì˜f¯‚ÌƒNƒ‰ƒX
+ * æœ€åˆã®æƒ‘æ˜Ÿã®ã‚¯ãƒ©ã‚¹
  */
 #include "stdafx.h"
 #include "FirstPlanet.h"
@@ -12,7 +12,7 @@ namespace app
 	{
 		FirstPlanet::FirstPlanet()
 		{
-			InitModel("FirstPlanet/FirstPlanet");
+			InitModel("FirstPlanet/FirstPlanet_2");
 		}
 	}
 }

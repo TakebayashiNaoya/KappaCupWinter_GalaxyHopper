@@ -47,9 +47,9 @@ namespace app
 			/** 現在のシーン */
 			IScene* m_currentScene = nullptr;
 			/** 現在のシーンID */
-			SceneID m_currentID = SceneID::Debug;
+			SceneID m_currentID = SceneID::FirstStage;
 			/** シーン切り替えリクエストID */
-			SceneID m_requestID = SceneID::Debug;
+			SceneID m_requestID = SceneID::FirstStage;
 
 
 		public:
