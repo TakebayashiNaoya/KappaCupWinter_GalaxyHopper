@@ -3,15 +3,26 @@
  * 木のクラス
  */
 #pragma once
-#include "Source/Actor/Actor.h"
+#include "Environment.h"
 
 
 namespace app
 {
 	namespace actor
 	{
-		class Tree : public Actor
+		/**
+		 * 木のクラス
+		 */
+		class Tree : public Environment
 		{
+		public:
+			Tree() = default;
+			~Tree() override;
+
+
+		private:
+			bool Start() override final;
+			void Update() override {}
 		};
 	}
 }
