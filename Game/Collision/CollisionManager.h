@@ -1,12 +1,14 @@
-﻿#pragma once
+﻿/**
+ * CollisionManager.h
+ * 当たり判定管理クラス
+ */
+#pragma once
 
 
 namespace app
 {
-	namespace actor
-	{
-		class Actor;
-	}
+	/** 前方宣言 */
+	namespace actor { class Actor; }
 
 
 	namespace collision

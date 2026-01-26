@@ -1,4 +1,8 @@
-﻿#include "stdafx.h"
+﻿/**
+ * CollisionManager.cpp
+ * 当たり判定がヒットした時の処理を実装
+ */
+#include "stdafx.h"
 #include "CollisionManager.h"
 #include "Source/Actor/ActorStatus.h"
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
