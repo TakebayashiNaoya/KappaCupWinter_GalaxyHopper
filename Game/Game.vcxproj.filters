@@ -58,6 +58,9 @@
     <Filter Include="Load">
       <UniqueIdentifier>{7f4530ea-4b56-493a-9383-0415a50913d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Actor\Environment">
+      <UniqueIdentifier>{574f9e2b-9676-45d2-a515-baaca3f714e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -228,6 +231,12 @@
     <ClCompile Include="Source\Scene\SceneDebug.cpp">
       <Filter>Source\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\Environment\Tree.cpp">
+      <Filter>Source\Actor\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Actor\Environment\Environment.cpp">
+      <Filter>Source\Actor\Environment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -396,6 +405,12 @@
     </ClInclude>
     <ClInclude Include="Source\Scene\SceneDebug.h">
       <Filter>Source\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Environment\Tree.h">
+      <Filter>Source\Actor\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Environment\Environment.h">
+      <Filter>Source\Actor\Environment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
