@@ -71,6 +71,8 @@ namespace app
 			UIImage* m_playerHpImage = nullptr;
 			/** 画像パスの配列 */
 			std::array<std::string, enPlayerCondition_Num> m_imagePaths;
+			/** 現在の体力状態 */
+			int m_currentHp = 0;
 
 
 		public:
@@ -103,6 +105,8 @@ namespace app
 			std::unique_ptr<UICanvas> m_damageFlashCanvas;
 			/** ダメージフラッシュ画像 */
 			UIImage* m_damageFlashImage = nullptr;
+			/** 現在の体力状態 */
+			int m_currentHp = 0;
 
 
 		public:

@@ -70,7 +70,7 @@ namespace app
 		void FirstStage::InitLevel()
 		{
 			m_levelRender.Init("Assets/modelData/stage/FirstPlanet/FirstPlanetLevel_2.tkl", [&](LevelObjectData& objData) {
-				if (objData.EqualObjectName(L"Planet")) {
+				if (objData.EqualObjectName(L"FirstPlanet_2")) {
 					m_firstStage = NewGO<actor::FirstPlanet>(0, "FirstPlanet");
 					m_firstStage->SetTransform(objData.position, objData.rotation, objData.scale);
 					return true;
