@@ -32,6 +32,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// ここから初期化を行うコードを記述する。
 	//////////////////////////////////////
 
+
+	/** 当たり判定を可視化 */
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+
 	/**
 	 * ゲームオブジェクトの生成
 	 */

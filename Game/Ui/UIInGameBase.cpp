@@ -171,8 +171,12 @@ namespace app
 			else if (hp > enPlayerCondition_Fine) {
 				hp = enPlayerCondition_Fine;
 			}
-			/** 画像を差し替え */
-			m_playerHpImage->GetSpriteRender()->Init(m_imagePaths[hp].c_str(), LIFE_SIZE_W, LIFE_SIZE_H);
+
+			/** 体力が変わったら画像を更新 */
+			if (m_currentHp == hp) return;
+			m_currentHp = hp;
+
+			m_playerHpImage->GetSpriteRender()->Init(m_imagePaths[m_currentHp].c_str(), LIFE_SIZE_W, LIFE_SIZE_H);
 		}
 
 
@@ -241,10 +245,14 @@ namespace app
 		{
 			auto* render = m_damageFlashImage->GetSpriteRender();
 
-			if (hp == 1) {
+			/** 体力が変わったら画像を更新 */
+			if (m_currentHp == hp)  return;
+			m_currentHp = hp;
+
+			if (m_currentHp == 1) {
 				render->Init(PATH_FLASH_DANGER, FLASH_W, FLASH_H);
 			}
-			else if (hp == 2) {
+			else if (m_currentHp == 2) {
 				render->Init(PATH_FLASH_CAUTION, FLASH_W, FLASH_H);
 			}
 			else {

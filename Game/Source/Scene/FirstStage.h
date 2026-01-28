@@ -14,6 +14,7 @@ namespace app
 		class FirstPlanet;
 		class Treasure;
 		class Rocket;
+		class Tree;
 	}
 
 
@@ -47,6 +48,8 @@ namespace app
 			std::vector<actor::Treasure*> m_treasures;
 			/** ロケット */
 			actor::Rocket* m_rocket = nullptr;
+			/** 木のリスト */
+			std::vector<actor::Tree*> m_trees;
 		};
 	}
 }
