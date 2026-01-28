@@ -237,6 +237,9 @@
     <ClCompile Include="Source\Actor\Environment\Environment.cpp">
       <Filter>Source\Actor\Environment</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Actor\Environment\ElfHouse.cpp">
+      <Filter>Source\Actor\Environment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -410,6 +413,9 @@
       <Filter>Source\Actor\Environment</Filter>
     </ClInclude>
     <ClInclude Include="Source\Actor\Environment\Environment.h">
+      <Filter>Source\Actor\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Actor\Environment\ElfHouse.h">
       <Filter>Source\Actor\Environment</Filter>
     </ClInclude>
   </ItemGroup>
