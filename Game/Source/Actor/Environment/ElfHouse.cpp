@@ -14,12 +14,12 @@ namespace app
 	{
 		namespace
 		{
-			float RADIUS = 100.0f;
-			float HEIGHT = 500.0f;
+			float RADIUS = 300.0f;
+			float HEIGHT = 1000.0f;
 		}
 
 
-		bool Tree::Start()
+		bool ElfHouse::Start()
 		{
 			/** モデルの初期化 */
 			InitModel("ElfHouse/elfHouse");

@@ -8,6 +8,7 @@
 #include "Source/Actor/Character/Enemy/BasicEnemy/BasicEnemy.h"
 #include "Source/Actor/Character/Enemy/DeformEnemy/DeformEnemy.h"
 #include "Source/Actor/Character/Player/Player.h"
+#include "Source/Actor/Environment/ElfHouse.h"
 #include "Source/Actor/Environment/Tree.h"
 #include "Source/Actor/Object/Rocket.h"
 #include "Source/Actor/Object/Treasure.h"
@@ -79,6 +80,11 @@ namespace app
 					auto tree = NewGO<actor::Tree>(0, "Tree");
 					tree->SetTransform(objData.position, objData.rotation, objData.scale);
 					m_trees.push_back(tree);
+					return true;
+				}
+				if (objData.EqualObjectName(L"elfHouse")) {
+					m_elfHouse = NewGO<actor::ElfHouse>(0, "ElfHouse");
+					m_elfHouse->SetTransform(objData.position, objData.rotation, objData.scale);
 					return true;
 				}
 				if (objData.EqualObjectName(L"player")) {

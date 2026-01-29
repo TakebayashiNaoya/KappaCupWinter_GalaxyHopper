@@ -15,6 +15,7 @@ namespace app
 		class Treasure;
 		class Rocket;
 		class Tree;
+		class ElfHouse;
 	}
 
 
@@ -50,6 +51,8 @@ namespace app
 			actor::Rocket* m_rocket = nullptr;
 			/** 木のリスト */
 			std::vector<actor::Tree*> m_trees;
+			/** エルフの家 */
+			actor::ElfHouse* m_elfHouse = nullptr;
 		};
 	}
 }
