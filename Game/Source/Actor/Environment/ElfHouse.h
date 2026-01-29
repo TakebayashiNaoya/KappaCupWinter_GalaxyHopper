@@ -1,6 +1,6 @@
 ﻿/**
- * Tree.h
- * 木のクラス
+ * ElfHouse.h
+ * エルフの家のクラス
  */
 #pragma once
 #include "Environment.h"
@@ -11,13 +11,13 @@ namespace app
 	namespace actor
 	{
 		/**
-		 * 木のクラス
+		 * エルフの家のクラス
 		 */
-		class Tree : public Environment
+		class ElfHouse : public Environment
 		{
 		public:
-			Tree() = default;
-			~Tree() override;
+			ElfHouse() = default;
+			~ElfHouse() override = default;
 
 
 		private:

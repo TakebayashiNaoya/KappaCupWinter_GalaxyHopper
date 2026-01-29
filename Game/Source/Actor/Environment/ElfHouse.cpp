@@ -1,9 +1,10 @@
 ﻿/**
- * Tree.cpp
- * 木のクラスの実装
+ * ElfHouse.cpp
+ * エルフの家のクラスの実装
  */
 #include "stdafx.h"
 #include "Collision/CollisionManager.h"
+#include "ElfHouse.h"
 #include "Tree.h"
 
 
@@ -18,20 +19,13 @@ namespace app
 		}
 
 
-		Tree::~Tree()
-		{
-			delete m_collider;
-			m_collider = nullptr;
-		}
-
-
 		bool Tree::Start()
 		{
 			/** モデルの初期化 */
-			InitModel("Tree/tree");
+			InitModel("ElfHouse/elfHouse");
 
 			/** 当たり判定を作成 */
-			m_collider = new CollisionObject();
+			m_collider = std::make_unique<CollisionObject>();
 			m_collider->CreateCapsule(
 				m_transform.m_position,
 				m_transform.m_rotation,

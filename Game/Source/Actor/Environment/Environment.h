@@ -30,8 +30,7 @@ namespace app
 			void InitModel(std::string path);
 
 			/** 当たり判定 */
-			CollisionObject* m_collider;
-
+			std::unique_ptr<CollisionObject> m_collider;
 
 		private:
 			/** 描画は統一処理なのでprivateにしておく */

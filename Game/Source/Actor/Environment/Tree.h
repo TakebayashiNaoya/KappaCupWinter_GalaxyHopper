@@ -17,7 +17,7 @@ namespace app
 		{
 		public:
 			Tree() = default;
-			~Tree() override;
+			~Tree() override = default;
 
 
 		private:
